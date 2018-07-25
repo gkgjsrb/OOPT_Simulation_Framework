@@ -9,8 +9,31 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.JSplitPane;
 import javax.swing.tree.DefaultTreeModel;
 import java.awt.Component;
+<<<<<<< HEAD
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.event.TreeSelectionEvent;
+=======
+import javax.swing.JTabbedPane;
+import javax.swing.JInternalFrame;
+import javax.swing.JLabel;
+import javax.swing.JTextField;
+import javax.swing.Box;
+import javax.swing.JLayeredPane;
+import javax.swing.JDesktopPane;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import javax.swing.JTextPane;
+import com.jgoodies.forms.layout.FormLayout;
+import com.jgoodies.forms.layout.ColumnSpec;
+import com.jgoodies.forms.layout.RowSpec;
+import java.awt.GridLayout;
+import com.jgoodies.forms.layout.FormSpecs;
+import javax.swing.JTextArea;
+import java.awt.FlowLayout;
+>>>>>>> 516a98b2fce30469861d8bf67da6db6d66944ac2
 
 public class GUI {
 
@@ -23,7 +46,7 @@ public class GUI {
 
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 586, 411);
+		frame.setBounds(100, 100, 680, 437);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.X_AXIS));
 		
@@ -131,7 +154,91 @@ public class GUI {
 			}
 		));
 		splitPane.setLeftComponent(new JScrollPane(tree));
+<<<<<<< HEAD
 			
+=======
+		
+		JPanel panel = new JPanel();
+		splitPane.setRightComponent(panel);
+		panel.setLayout(new FormLayout(new ColumnSpec[] {
+				ColumnSpec.decode("200px"),
+				FormSpecs.RELATED_GAP_COLSPEC,
+				ColumnSpec.decode("230px:grow"),},
+			new RowSpec[] {
+				FormSpecs.LABEL_COMPONENT_GAP_ROWSPEC,
+				RowSpec.decode("37px:grow"),
+				RowSpec.decode("37px:grow"),
+				RowSpec.decode("37px:grow"),
+				RowSpec.decode("37px:grow"),
+				RowSpec.decode("37px:grow"),
+				RowSpec.decode("37px:grow"),
+				RowSpec.decode("37px:grow"),}));
+		
+		JLabel lblNewLabel = new JLabel("Motivation");
+		panel.add(lblNewLabel, "1, 2, center, center");
+		
+		JScrollPane scrollPane = new JScrollPane();
+		panel.add(scrollPane, "3, 2, fill, fill");
+		
+		JTextPane textPane = new JTextPane();
+		scrollPane.setViewportView(textPane);
+		
+		JLabel lblNewLabel_1 = new JLabel("Project Objective");
+		panel.add(lblNewLabel_1, "1, 3, center, center");
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		panel.add(scrollPane_1, "3, 3, fill, fill");
+		
+		JTextPane textPane_1 = new JTextPane();
+		scrollPane_1.setViewportView(textPane_1);
+		
+		JLabel lblNewLabel_2 = new JLabel("Scope");
+		panel.add(lblNewLabel_2, "1, 4, center, center");
+		
+		JScrollPane scrollPane_2 = new JScrollPane();
+		panel.add(scrollPane_2, "3, 4, fill, fill");
+
+		JTextPane textPane_2 = new JTextPane();
+		scrollPane_2.setViewportView(textPane_2);
+		
+		JLabel lblNewLabel_3 = new JLabel("Draft Functional Requirement");
+		panel.add(lblNewLabel_3, "1, 5, center, center");
+		
+		JScrollPane scrollPane_3 = new JScrollPane();
+		panel.add(scrollPane_3, "3, 5, fill, fill");
+
+		JTextPane textPane_3 = new JTextPane();
+		scrollPane_3.setViewportView(textPane_3);
+		
+		JLabel lblNewLabel_4 = new JLabel("Non-Functional Requirement");
+		panel.add(lblNewLabel_4, "1, 6, center, center");
+		
+		JScrollPane scrollPane_4 = new JScrollPane();
+		panel.add(scrollPane_4, "3, 6, fill, fill");
+
+		JTextPane textPane_4 = new JTextPane();
+		scrollPane_4.setViewportView(textPane_4);
+		
+		JLabel lblNewLabel_5 = new JLabel("Resource Estimation");
+		panel.add(lblNewLabel_5, "1, 7, center, center");
+		
+		JScrollPane scrollPane_5 = new JScrollPane();
+		panel.add(scrollPane_5, "3, 7, fill, fill");
+
+		JTextPane txtpnHumanEffortsHuman = new JTextPane();
+		txtpnHumanEffortsHuman.setText("Human Efforts : \nHuman Resource : \nProject Duration : \nCost : ");
+		scrollPane_5.setViewportView(txtpnHumanEffortsHuman);
+		
+		JLabel lblNewLabel_6 = new JLabel("Other Information");
+		panel.add(lblNewLabel_6, "1, 8, center, center");
+		
+		JScrollPane scrollPane_6 = new JScrollPane();
+		panel.add(scrollPane_6, "3, 8, fill, fill");
+
+		JTextPane textPane_6 = new JTextPane();
+		scrollPane_6.setViewportView(textPane_6);
+		
+>>>>>>> 516a98b2fce30469861d8bf67da6db6d66944ac2
 		JMenuBar menuBar_1 = new JMenuBar();
 		frame.setJMenuBar(menuBar_1);
 		
