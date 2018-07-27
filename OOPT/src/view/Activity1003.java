@@ -10,7 +10,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 
-import Model.requirement;
+import Model.Requirement;
 
 import javax.swing.JPopupMenu;
 import java.awt.Component;
@@ -27,10 +27,10 @@ import java.awt.event.KeyEvent;
 
 public class Activity1003 extends JTabbedPane {
 
-	public Activity1003(requirement req) {
+	public Activity1003(Requirement req) {
 		String Category[] = {"EVIDENT","HIDEEN"};
 		DefaultTableModel model;
-		//Ç¥ ¸ðµ¨ »ý¼º
+		//Ç¥ ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
 		String[] colName= {"Ref","Name","Category"};
 		Object[][] rowData= {{req.getRef(0),req.getName(0),req.getCategory(0)}};
 		model=new DefaultTableModel(rowData,colName);
@@ -39,7 +39,7 @@ public class Activity1003 extends JTabbedPane {
 			model.addRow(add);
 		}
 		JTable table = new JTable(model);
-		//CELL ¼³Á¤
+		//CELL ï¿½ï¿½ï¿½ï¿½
 		JComboBox<String> comboBox = new JComboBox<String>(Category);
 		JTextField tf = new JTextField();
 		TableCellEditor Comboeditor = new DefaultCellEditor(comboBox);
@@ -71,7 +71,7 @@ public class Activity1003 extends JTabbedPane {
 		});
 
 		JScrollPane panel = new JScrollPane(table);
-		//ÆË¾÷ ¸Þ´º ¼³Á¤
+		//ï¿½Ë¾ï¿½ ï¿½Þ´ï¿½ ï¿½ï¿½ï¿½ï¿½
 		JPopupMenu popupMenu = new JPopupMenu();
 		addPopup(table, popupMenu);
 		

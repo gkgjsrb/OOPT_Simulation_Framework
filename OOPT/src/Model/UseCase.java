@@ -9,7 +9,7 @@ public class UseCase {
 	Category Category;
 	int Num;
 	base Base;
-	requirement related_requirement;
+	Requirement related_requirement;
 	
 	public UseCase(String Name) {
 		super();

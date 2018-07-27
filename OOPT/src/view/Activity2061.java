@@ -6,13 +6,19 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.DefaultCellEditor;
+import javax.swing.JCheckBox;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextPane;
+import javax.swing.border.TitledBorder;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
 
 
 public class Activity2061 extends JTabbedPane {
@@ -27,15 +33,25 @@ public class Activity2061 extends JTabbedPane {
 		JTextPane textPane = new JTextPane();
 		scrollPane.setViewportView(textPane);
 		
-		String []header = {"Test Case Number", "Method Name/Description", "Input", "Output", "Result"};
-		String [][]contents = {
-				{null, null, null, null, null},
-				{null, null, null, null, null},
+		Object []header = {"Test Case Number", "Method Name/Description", "Input", "Output", "Result"};
+		Object [][]contents = {
 				{null, null, null, null, null}
 		};
 		DefaultTableModel model = new DefaultTableModel(contents, header);
 		
 		JTable table = new JTable(model);
+		table.setRowHeight(70);
+
+
+	    table.getColumn("Method Name/Description").setCellRenderer(new TextAreaRenderer());
+	    table.getColumn("Method Name/Description").setCellEditor(new TextAreaEditor());
+	    
+	    table.getColumn("Input").setCellRenderer(new TextAreaRenderer());
+	    table.getColumn("Input").setCellEditor(new TextAreaEditor());
+	  
+	    table.getColumn("Output").setCellRenderer(new TextAreaRenderer());
+	    table.getColumn("Output").setCellEditor(new TextAreaEditor());
+	  
 		JScrollPane scrollPane_1 = new JScrollPane(table);
 
 		this.addTab("Unit Test Result", null,scrollPane_1, null);
@@ -80,4 +96,6 @@ public class Activity2061 extends JTabbedPane {
 			}
 		});
 	}
+	
+
 }

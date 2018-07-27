@@ -32,13 +32,12 @@ import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 
-import Model.requirement;
+import Model.Requirement;
 
 import java.awt.GridLayout;
 import com.jgoodies.forms.layout.FormSpecs;
 import javax.swing.JTextArea;
 import java.awt.FlowLayout;
-
 public class GUI {
 
 	private JFrame frame;
@@ -51,14 +50,14 @@ public class GUI {
 	/**
 	 * Create the application.
 	 */
-	public GUI(requirement req) {
+	public GUI(Requirement req) {
 		initialize(req);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize(requirement req) {
+	private void initialize(Requirement req) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 928, 617);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -333,7 +332,7 @@ public class GUI {
 	}
 	
 	//testing code
-
+	
 
 	
 }

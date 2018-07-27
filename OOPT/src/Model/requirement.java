@@ -2,7 +2,7 @@ package Model;
 
 import java.util.ArrayList;
 
-public class requirement {
+public class Requirement {
 	enum Category {EVIDENT, HIDDEN};
 	ArrayList<String> Ref = new ArrayList<String>();
 	ArrayList<String> Name = new ArrayList<String>();
@@ -16,7 +16,7 @@ public class requirement {
 	ArrayList<String> Alternative = new ArrayList<String>();
 	ArrayList<String> Exceptional = new ArrayList<String>();
 	
-	public requirement() {
+	public Requirement() {
 		Ref.add("test");
 		Name.add("test");
 		Category.add("test");

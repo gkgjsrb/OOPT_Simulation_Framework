@@ -26,17 +26,26 @@ public class Activity2062 extends JTabbedPane {
 		JTextPane textPane = new JTextPane();
 		scrollPane.setViewportView(textPane);
 		
-		String []header = {"Test Case Number", "Description", "Input", "Output", "Result"};
-		String [][]contents = {
-				{null, null, null, null, null},
-				{null, null, null, null, null},
+		Object []header = {"Test Case Number", "Description", "Input", "Output", "Result"};
+		Object [][]contents = {
 				{null, null, null, null, null}
 		};
 		DefaultTableModel model = new DefaultTableModel(contents, header);
 		
 		JTable table = new JTable(model);
-		JScrollPane scrollPane_1 = new JScrollPane(table);
+		table.setRowHeight(70);
 
+		table.getColumn("Description").setCellRenderer(new TextAreaRenderer());
+	    table.getColumn("Description").setCellEditor(new TextAreaEditor());
+	    
+	    table.getColumn("Input").setCellRenderer(new TextAreaRenderer());
+	    table.getColumn("Input").setCellEditor(new TextAreaEditor());
+	  
+	    table.getColumn("Output").setCellRenderer(new TextAreaRenderer());
+	    table.getColumn("Output").setCellEditor(new TextAreaEditor());
+		JScrollPane scrollPane_1 = new JScrollPane(table);
+		
+	    
 		this.addTab("Integration Test Result", null,scrollPane_1, null);
 
 		JPopupMenu popupMenu = new JPopupMenu();

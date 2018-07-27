@@ -29,15 +29,21 @@ public class Activity2063 extends JTabbedPane {
 		
 		String []header = {"Test Case Number", "Test Name","Description", "Use Case", "System Function", "Result"};
 		String [][]contents = {
-				{null, null, null, null, null, null},
-				{null, null, null, null, null, null},
 				{null, null, null, null, null, null}
 		};
 		DefaultTableModel model = new DefaultTableModel(contents, header);
 		
 		JTable table = new JTable(model);
-		JScrollPane scrollPane_1 = new JScrollPane(table);
+		table.setRowHeight(70);
 
+		table.getColumn("Test Name").setCellRenderer(new TextAreaRenderer());
+	    table.getColumn("Test Name").setCellEditor(new TextAreaEditor());
+	    
+		table.getColumn("Description").setCellRenderer(new TextAreaRenderer());
+	    table.getColumn("Description").setCellEditor(new TextAreaEditor());
+	 		
+		JScrollPane scrollPane_1 = new JScrollPane(table);
+	    
 		this.addTab("System Test Result", null,scrollPane_1, null);
 
 		JPopupMenu popupMenu = new JPopupMenu();
