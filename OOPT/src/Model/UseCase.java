@@ -65,11 +65,11 @@ public class UseCase {
 		Base = base;
 	}
 
-	public requirement getRelated_requirement() {
+	public Requirement getRelated_requirement() {
 		return related_requirement;
 	}
 
-	public void setRelated_requirement(requirement related_requirement) {
+	public void setRelated_requirement(Requirement related_requirement) {
 		this.related_requirement = related_requirement;
 	}
 	

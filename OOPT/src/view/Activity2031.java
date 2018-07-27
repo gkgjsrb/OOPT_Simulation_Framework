@@ -9,7 +9,7 @@ import javax.swing.JPopupMenu;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-//use case를 trace해서 표의 개수가 늘어나게
+//use case瑜� trace�빐�꽌 �몴�쓽 媛쒖닔媛� �뒛�뼱�굹寃�
 public class Activity2031 extends JTabbedPane {
 	private JTable table_1;
 
@@ -45,11 +45,6 @@ public class Activity2031 extends JTabbedPane {
 		});
 		table_1.getColumnModel().getColumn(0).setResizable(false);
 		scrollPane.setViewportView(table_1);
-		
-		JButton button = new JButton("New button");
-		scrollPane.setColumnHeaderView(button);
-		
-
 		
 	}
 

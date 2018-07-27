@@ -14,15 +14,15 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 public class Activity1004 extends JTabbedPane {
-
+	//glossray saved in file
 	public Activity1004() {
 		DefaultTableModel model;	
 		String[] colName= {"Term","Description","Remarks"};
-		Object[][] rowData= {{null,null,null}};
+		Object[][] rowData= {{"","",""}};
 		model=new DefaultTableModel(rowData,colName);
 		
 		JTable table = new JTable(model);
-
+		
 		JScrollPane panel = new JScrollPane(table);
 		
 		JPopupMenu popupMenu = new JPopupMenu();

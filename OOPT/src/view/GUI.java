@@ -33,6 +33,7 @@ import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
 
 import Model.Requirement;
+import Model.Risk;
 
 import java.awt.GridLayout;
 import com.jgoodies.forms.layout.FormSpecs;
@@ -50,14 +51,14 @@ public class GUI {
 	/**
 	 * Create the application.
 	 */
-	public GUI(Requirement req) {
-		initialize(req);
+	public GUI(Requirement req, Risk risk) {
+		initialize(req,risk);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize(Requirement req) {
+	private void initialize(Requirement req, Risk risk) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 928, 617);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -80,14 +81,15 @@ public class GUI {
 		Stage2060 s2060 = new Stage2060();
 		//activity
 		Activity1001 a1001 = new Activity1001();
-		Activity1002 a1002 = new Activity1002();
+		Activity1002 a1002 = new Activity1002(risk);
 		Activity1003 a1003 = new Activity1003(req);
 		Activity1004 a1004 = new Activity1004();
 		Activity1005 a1005 = new Activity1005();
 		Activity1006 a1006 = new Activity1006();
 		Activity1007 a1007 = new Activity1007();
 		Activity1008 a1008 = new Activity1008();
-		Activity1009 a1009 = new Activity1009();
+		Activity1009 a1009 = new Activity1009(req);
+		Activity1010 a1010 = new Activity1010(req);
 		Activity2031 a2031 = new Activity2031();
 		Activity2032 a2032 = new Activity2032();
 		Activity2033 a2033 = new Activity2033();
@@ -223,7 +225,8 @@ public class GUI {
 	        		 splitPane.setRightComponent(a1002);
 	        	 }
 	        	 else if(s.equals("Activity 1003")) {
-	        		 splitPane.setRightComponent(a1003);
+	        		 a1003.syncRequirement(req);
+	        		 splitPane.setRightComponent(a1003);	 
 	        	 }
 	        	 else if(s.equals("Activity 1004")) {
 	        		 splitPane.setRightComponent(a1004);
@@ -241,7 +244,12 @@ public class GUI {
 	        		 splitPane.setRightComponent(a1008);
 	        	 }
 	        	 else if(s.equals("Activity 1009")) {
+	        		 a1009.syncComboBox(req.getAllName());
 	        		 splitPane.setRightComponent(a1009);
+	        	 }
+	        	 else if(s.equals("Activity 1010")) {
+	 				 a1010.syncRequirement(req);
+	        		 splitPane.setRightComponent(a1010);
 	        	 }
 	        	 else if(s.equals("Activity 2031")) {
 	        		 splitPane.setRightComponent(a2031);

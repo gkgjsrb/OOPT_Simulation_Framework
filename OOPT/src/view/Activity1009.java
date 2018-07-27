@@ -5,32 +5,47 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
+import javax.swing.DefaultCellEditor;
+import javax.swing.JComboBox;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
+
+import Model.Requirement;
 
 public class Activity1009 extends JTabbedPane {
-
-	public Activity1009() {
+	JComboBox<String> comboBox = new JComboBox<String>();
+	
+	public Activity1009(Requirement req) {
 		DefaultTableModel model;
 		DefaultTableModel model2;
-
+		
 		String[] colName= {"Ref","Function","Test Case"};
 		String[] colName2= {"Category","Test Case"};
-	
-		Object[][] rowData= {{null,null,null}};
-		Object[][] rowData2= {{null,null}};
+		
+		Object[][] rowData= {{"","",""}};
+		Object[][] rowData2= {{"",""}};
 	
 		model=new DefaultTableModel(rowData,colName);
 		model2=new DefaultTableModel(rowData2,colName2);
 		
 		JTable table = new JTable(model);
 		JTable table2 = new JTable(model2);
+	
+		for(int i=0;i<req.get_length();i++) {
+			comboBox.addItem(req.getName(i));
+		}
 		
+		TableCellEditor Comboeditor = new DefaultCellEditor(comboBox);
+		table.getColumnModel().getColumn(1).setCellEditor(Comboeditor);
+		
+		table.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(comboBox));
 		JScrollPane panel = new JScrollPane(table);
 		JScrollPane panel2 = new JScrollPane(table2);	
 		
@@ -81,9 +96,8 @@ public class Activity1009 extends JTabbedPane {
 		
 		this.addTab("Functional Requirement Test Case", null, panel, null);
 		this.addTab("Non Functional Requirement Test Case", null, panel2, null);
+		
 
-		
-		
 	}
 	private static void addPopup(Component component, final JPopupMenu popup) {
 		component.addMouseListener(new MouseAdapter() {
@@ -102,5 +116,18 @@ public class Activity1009 extends JTabbedPane {
 			}
 		});
 	}
-
+	public void syncComboBox(ArrayList array) {
+		comboBox.removeAllItems();
+		for(int i=0; i<array.size(); i++) {
+			comboBox.addItem((String) array.get(i));
+		}
+	}
+/*
+	public void addComboItem(String add) {
+		comboBox.addItem(add);
+	}
+	public void removeComboItem(String remove) {
+		comboBox.removeItem(remove);
+	}
+*/
 }

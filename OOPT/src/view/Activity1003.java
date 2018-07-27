@@ -22,31 +22,27 @@ import javax.swing.JComboBox;
 import javax.swing.JMenuItem;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyAdapter;
-import java.awt.event.KeyEvent;
 
 public class Activity1003 extends JTabbedPane {
-
+	DefaultTableModel model;
+	
 	public Activity1003(Requirement req) {
 		String Category[] = {"EVIDENT","HIDEEN"};
-		DefaultTableModel model;
-		//ǥ �� ����
 		String[] colName= {"Ref","Name","Category"};
-		Object[][] rowData= {{req.getRef(0),req.getName(0),req.getCategory(0)}};
+		Object[][] rowData= {{null,null,null}};
 		model=new DefaultTableModel(rowData,colName);
-		for(int i=1;i<req.get_length();i++) {
-			Object[] add= {req.getRef(i),req.getName(i),req.getCategory(i)};
-			model.addRow(add);
-		}
+
 		JTable table = new JTable(model);
-		//CELL ����
-		JComboBox<String> comboBox = new JComboBox<String>(Category);
+
+		//CELL 
+		JComboBox<String> comboBox = new JComboBox<>(Category);
 		JTextField tf = new JTextField();
 		TableCellEditor Comboeditor = new DefaultCellEditor(comboBox);
 		TableCellEditor editor = new DefaultCellEditor(tf);
 		table.getColumnModel().getColumn(2).setCellEditor(Comboeditor);
 		table.getColumnModel().getColumn(0).setCellEditor(editor);
 		table.getColumnModel().getColumn(1).setCellEditor(editor);
+
 		editor.addCellEditorListener(new CellEditorListener() {
 
 			@Override
@@ -57,21 +53,16 @@ public class Activity1003 extends JTabbedPane {
 			@Override
 			public void editingStopped(ChangeEvent arg0) {
 				// TODO Auto-generated method stub
-				table.setValueAt(table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()), table.getSelectedRow(), table.getSelectedColumn());
 				for(int i=0; i<req.get_length();i++) {
 					req.setRef((String)table.getValueAt(i, 0), i);
 					req.setName((String)table.getValueAt(i, 1), i);
 					req.setCategory((String)table.getValueAt(i, 2), i);
-					System.out.println(req.getName(i));
 				}
-
-				System.out.println(req.get_length());	
-			}
-			
+			}	
 		});
 
 		JScrollPane panel = new JScrollPane(table);
-		//�˾� �޴� ����
+
 		JPopupMenu popupMenu = new JPopupMenu();
 		addPopup(table, popupMenu);
 		
@@ -123,5 +114,14 @@ public class Activity1003 extends JTabbedPane {
 				popup.show(e.getComponent(), e.getX(), e.getY());
 			}
 		});
+	}
+	public void syncRequirement(Requirement req) {
+		for(int i=0; i<=model.getRowCount();i++) {
+			model.removeRow(0);
+		}
+		for(int i=0; i<req.get_length();i++) {
+			Object[] add= {req.getRef(i),req.getName(i),req.getCategory(i)}; 
+			model.addRow(add);
+		}
 	}
 }

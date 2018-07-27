@@ -11,7 +11,7 @@ public class Activity2036 extends JTabbedPane {
 	public Activity2036() {
 		
 		JScrollPane scrollPane = new JScrollPane();
-		addTab("New tab", null, scrollPane, null);
+		addTab("Define Operation Constracts", null, scrollPane, null);
 		
 		table = new JTable();
 		table.setModel(new DefaultTableModel(

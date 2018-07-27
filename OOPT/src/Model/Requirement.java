@@ -28,7 +28,6 @@ public class Requirement {
 		Typical.add(null);
 		Alternative.add(null);
 		Exceptional.add(null);	
-
 	}
 	public void add_row() {
 		Ref.add(null);
@@ -64,6 +63,9 @@ public class Requirement {
 	}
 	public void setRef(String ref, int index) {
 		Ref.set(index, ref);
+	}
+	public ArrayList getAllName() {
+		return this.Name;
 	}
 	public String getName(int index) {
 		return Name.get(index);
