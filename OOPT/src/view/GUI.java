@@ -31,6 +31,9 @@ import javax.swing.JTextPane;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
 import com.jgoodies.forms.layout.RowSpec;
+
+import Model.requirement;
+
 import java.awt.GridLayout;
 import com.jgoodies.forms.layout.FormSpecs;
 import javax.swing.JTextArea;
@@ -48,14 +51,14 @@ public class GUI {
 	/**
 	 * Create the application.
 	 */
-	public GUI() {
-		initialize();
+	public GUI(requirement req) {
+		initialize(req);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize() {
+	private void initialize(requirement req) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 928, 617);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -79,7 +82,7 @@ public class GUI {
 		//activity
 		Activity1001 a1001 = new Activity1001();
 		Activity1002 a1002 = new Activity1002();
-		Activity1003 a1003 = new Activity1003();
+		Activity1003 a1003 = new Activity1003(req);
 		Activity1004 a1004 = new Activity1004();
 		Activity1005 a1005 = new Activity1005();
 		Activity1006 a1006 = new Activity1006();
@@ -330,10 +333,7 @@ public class GUI {
 	}
 	
 	//testing code
-	public static void main(String [] args) {
-		GUI gui = new GUI();
-		
-	}
+
 
 	
 }

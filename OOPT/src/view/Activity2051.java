@@ -17,7 +17,7 @@ public class Activity2051 extends JTabbedPane {
 	public Activity2051() {
 		
 		JScrollPane scrollPane = new JScrollPane();
-		addTab("Define Essential Use Cases", null, scrollPane, null);
+		addTab("Implement Class & Method Definitions", null, scrollPane, null);
 		
 		table_1 = new JTable();
 		table_1.setModel(new DefaultTableModel(
