@@ -48,9 +48,7 @@ public class Activity2041 extends JTabbedPane {
 		scrollPane.setViewportView(table_1);
 		
 		JButton button = new JButton("New button");
-		scrollPane.setColumnHeaderView(button);
-		
-
+		scrollPane.setColumnHeaderView(button);		
 		
 	}
 

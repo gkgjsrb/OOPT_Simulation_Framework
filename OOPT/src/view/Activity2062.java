@@ -49,6 +49,7 @@ public class Activity2062 extends JTabbedPane {
 		this.addTab("Integration Test Result", null,scrollPane_1, null);
 
 		JPopupMenu popupMenu = new JPopupMenu();
+		addPopup(scrollPane_1, popupMenu);
 		addPopup(table, popupMenu);
 		
 		JMenuItem mntmNewMenuItem = new JMenuItem("add row");

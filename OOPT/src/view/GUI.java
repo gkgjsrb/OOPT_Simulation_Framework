@@ -52,7 +52,7 @@ public class GUI {
 	 * Create the application.
 	 */
 	public GUI(Requirement req, Risk risk) {
-		initialize(req,risk);
+		initialize(req, risk);
 	}
 
 	/**
@@ -74,7 +74,9 @@ public class GUI {
 		//tree 
 		JTree tree = new JTree();
 		//stage
+		Oopt oopt = new Oopt();
 		Stage1000 s1000 = new Stage1000();
+		Stage2000 s2000 = new Stage2000();
 		Stage2030 s2030 = new Stage2030();
 		Stage2040 s2040 = new Stage2040();
 		Stage2050 s2050 = new Stage2050();
@@ -203,8 +205,14 @@ public class GUI {
 	        		 return;
 	        	 }
 	        	 String s=(String) node.getUserObject();
-	        	 if(s.equals("Stage1000")) {
+	        	 if(s.equals("OOPT")) {
+	        		 splitPane.setRightComponent(oopt);
+	        	 }
+	        	 else if(s.equals("Stage1000")) {
 	        		 splitPane.setRightComponent(s1000);
+	        	 }
+	        	 else if(s.equals("Stage2000")) {
+	        		 splitPane.setRightComponent(s2000);
 	        	 }
 	        	 else if(s.equals("Stage2030")) {
 	        		 splitPane.setRightComponent(s2030);
@@ -226,7 +234,7 @@ public class GUI {
 	        	 }
 	        	 else if(s.equals("Activity 1003")) {
 	        		 a1003.syncRequirement(req);
-	        		 splitPane.setRightComponent(a1003);	 
+	        		 splitPane.setRightComponent(a1003);
 	        	 }
 	        	 else if(s.equals("Activity 1004")) {
 	        		 splitPane.setRightComponent(a1004);
@@ -248,7 +256,7 @@ public class GUI {
 	        		 splitPane.setRightComponent(a1009);
 	        	 }
 	        	 else if(s.equals("Activity 1010")) {
-	 				 a1010.syncRequirement(req);
+	        		 a1010.syncRequirement(req);
 	        		 splitPane.setRightComponent(a1010);
 	        	 }
 	        	 else if(s.equals("Activity 2031")) {

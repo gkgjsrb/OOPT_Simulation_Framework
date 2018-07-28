@@ -21,14 +21,13 @@ import Model.Requirement;
 
 public class Activity1009 extends JTabbedPane {
 	JComboBox<String> comboBox = new JComboBox<String>();
-	
 	public Activity1009(Requirement req) {
 		DefaultTableModel model;
 		DefaultTableModel model2;
-		
+
 		String[] colName= {"Ref","Function","Test Case"};
 		String[] colName2= {"Category","Test Case"};
-		
+	
 		Object[][] rowData= {{"","",""}};
 		Object[][] rowData2= {{"",""}};
 	
@@ -37,7 +36,7 @@ public class Activity1009 extends JTabbedPane {
 		
 		JTable table = new JTable(model);
 		JTable table2 = new JTable(model2);
-	
+		
 		for(int i=0;i<req.get_length();i++) {
 			comboBox.addItem(req.getName(i));
 		}
@@ -46,6 +45,7 @@ public class Activity1009 extends JTabbedPane {
 		table.getColumnModel().getColumn(1).setCellEditor(Comboeditor);
 		
 		table.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(comboBox));
+		
 		JScrollPane panel = new JScrollPane(table);
 		JScrollPane panel2 = new JScrollPane(table2);	
 		
@@ -53,7 +53,9 @@ public class Activity1009 extends JTabbedPane {
 		JPopupMenu popupMenu2 = new JPopupMenu();
 		addPopup(table, popupMenu);
 		addPopup(table2,popupMenu2);
-		
+		addPopup(panel, popupMenu);
+		addPopup(panel2, popupMenu2);
+
 		JMenuItem mntmNewMenuItem = new JMenuItem("add row");
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -96,8 +98,9 @@ public class Activity1009 extends JTabbedPane {
 		
 		this.addTab("Functional Requirement Test Case", null, panel, null);
 		this.addTab("Non Functional Requirement Test Case", null, panel2, null);
-		
 
+		
+		
 	}
 	private static void addPopup(Component component, final JPopupMenu popup) {
 		component.addMouseListener(new MouseAdapter() {
@@ -116,6 +119,7 @@ public class Activity1009 extends JTabbedPane {
 			}
 		});
 	}
+
 	public void syncComboBox(ArrayList array) {
 		comboBox.removeAllItems();
 		for(int i=0; i<array.size(); i++) {

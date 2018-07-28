@@ -27,22 +27,22 @@ public class Activity1003 extends JTabbedPane {
 	DefaultTableModel model;
 	
 	public Activity1003(Requirement req) {
-		String Category[] = {"EVIDENT","HIDEEN"};
+		String Category[] = {"EVIDENT","HIDEEN"};		
 		String[] colName= {"Ref","Name","Category"};
 		Object[][] rowData= {{null,null,null}};
+		
 		model=new DefaultTableModel(rowData,colName);
-
+		
 		JTable table = new JTable(model);
-
+		
 		//CELL 
-		JComboBox<String> comboBox = new JComboBox<>(Category);
+		JComboBox<String> comboBox = new JComboBox<String>(Category);
 		JTextField tf = new JTextField();
 		TableCellEditor Comboeditor = new DefaultCellEditor(comboBox);
 		TableCellEditor editor = new DefaultCellEditor(tf);
 		table.getColumnModel().getColumn(2).setCellEditor(Comboeditor);
 		table.getColumnModel().getColumn(0).setCellEditor(editor);
 		table.getColumnModel().getColumn(1).setCellEditor(editor);
-
 		editor.addCellEditorListener(new CellEditorListener() {
 
 			@Override
@@ -58,14 +58,16 @@ public class Activity1003 extends JTabbedPane {
 					req.setName((String)table.getValueAt(i, 1), i);
 					req.setCategory((String)table.getValueAt(i, 2), i);
 				}
-			}	
+			}
+			
 		});
 
 		JScrollPane panel = new JScrollPane(table);
 
 		JPopupMenu popupMenu = new JPopupMenu();
+		addPopup(panel, popupMenu);
 		addPopup(table, popupMenu);
-		
+
 		JMenuItem mntmNewMenuItem = new JMenuItem("add row");
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -116,12 +118,12 @@ public class Activity1003 extends JTabbedPane {
 		});
 	}
 	public void syncRequirement(Requirement req) {
-		for(int i=0; i<=model.getRowCount();i++) {
+		for(int i = 0; i <= model.getRowCount();i++) {
 			model.removeRow(0);
 		}
-		for(int i=0; i<req.get_length();i++) {
-			Object[] add= {req.getRef(i),req.getName(i),req.getCategory(i)}; 
+		for(int i = 0; i < req.get_length();i++) {
+			Object[] add = {req.getRef(i), req.getName(i), req.getCategory(i)};
 			model.addRow(add);
 		}
 	}
-}
+ }

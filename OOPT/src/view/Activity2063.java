@@ -42,11 +42,15 @@ public class Activity2063 extends JTabbedPane {
 		table.getColumn("Description").setCellRenderer(new TextAreaRenderer());
 	    table.getColumn("Description").setCellEditor(new TextAreaEditor());
 	 		
+		table.getColumn("Use Case").setCellRenderer(new TextAreaRenderer());
+	    table.getColumn("Use Case").setCellEditor(new TextAreaEditor());
+	    
 		JScrollPane scrollPane_1 = new JScrollPane(table);
 	    
 		this.addTab("System Test Result", null,scrollPane_1, null);
 
 		JPopupMenu popupMenu = new JPopupMenu();
+		addPopup(scrollPane_1, popupMenu);
 		addPopup(table, popupMenu);
 		
 		JMenuItem mntmNewMenuItem = new JMenuItem("add row");

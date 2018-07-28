@@ -14,7 +14,8 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 public class Activity1004 extends JTabbedPane {
-	//glossray saved in file
+
+	//glossray save in file
 	public Activity1004() {
 		DefaultTableModel model;	
 		String[] colName= {"Term","Description","Remarks"};
@@ -22,12 +23,13 @@ public class Activity1004 extends JTabbedPane {
 		model=new DefaultTableModel(rowData,colName);
 		
 		JTable table = new JTable(model);
-		
+
 		JScrollPane panel = new JScrollPane(table);
 		
 		JPopupMenu popupMenu = new JPopupMenu();
 		addPopup(table, popupMenu);
-		
+		addPopup(panel, popupMenu);
+
 		JMenuItem mntmNewMenuItem = new JMenuItem("add row");
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {

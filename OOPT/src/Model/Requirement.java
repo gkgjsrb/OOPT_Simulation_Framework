@@ -28,6 +28,7 @@ public class Requirement {
 		Typical.add(null);
 		Alternative.add(null);
 		Exceptional.add(null);	
+
 	}
 	public void add_row() {
 		Ref.add(null);

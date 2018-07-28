@@ -42,7 +42,6 @@ public class Activity2061 extends JTabbedPane {
 		JTable table = new JTable(model);
 		table.setRowHeight(70);
 
-
 	    table.getColumn("Method Name/Description").setCellRenderer(new TextAreaRenderer());
 	    table.getColumn("Method Name/Description").setCellEditor(new TextAreaEditor());
 	    
@@ -57,6 +56,7 @@ public class Activity2061 extends JTabbedPane {
 		this.addTab("Unit Test Result", null,scrollPane_1, null);
 		
 		JPopupMenu popupMenu = new JPopupMenu();
+		addPopup(scrollPane_1, popupMenu);
 		addPopup(table, popupMenu);
 		
 		JMenuItem mntmNewMenuItem = new JMenuItem("add row");
