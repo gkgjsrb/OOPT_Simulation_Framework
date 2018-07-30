@@ -122,12 +122,4 @@ public class Activity1009 extends JTabbedPane {
 			comboBox.addItem((String) array.get(i));
 		}
 	}
-/*
-	public void addComboItem(String add) {
-		comboBox.addItem(add);
-	}
-	public void removeComboItem(String remove) {
-		comboBox.removeItem(remove);
-	}
-*/
 }

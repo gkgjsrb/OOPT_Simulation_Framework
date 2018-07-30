@@ -20,6 +20,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 
 import Model.Risk;
+import javax.swing.JLabel;
 
 public class Activity1002 extends JTabbedPane {
 
@@ -162,21 +163,59 @@ public class Activity1002 extends JTabbedPane {
 		});
 		popupMenu.add(mntmNewMenuItem_1);
 
-		JTextPane textPane = new JTextPane();
-		this.addTab("Alternative Solution", null, textPane, null);
+		JScrollPane ScrollPane = new JScrollPane();
+		this.addTab("Alternative Solution", null, ScrollPane, null);
 		
-		JTextPane textPane_1 = new JTextPane();
-		this.addTab("Project Justification", null, textPane_1, null);
+		JTextPane textPane_4 = new JTextPane();
+		ScrollPane.setViewportView(textPane_4);
+		
+		JLabel lblNewLabel = new JLabel("<html>example(Library Management System)<br>"
+	            + "- Purchasing such a library managing software, if available<br>"
+	            + "- Outsourcing<br>"
+	            + "- Other Options<br>"
+	            + "</html>");
+		ScrollPane.setColumnHeaderView(lblNewLabel);
+		
+		JScrollPane ScrollPane_1 = new JScrollPane();
+		this.addTab("Project Justification", null, ScrollPane_1, null);
+		
+		JTextPane textPane_5 = new JTextPane();
+		ScrollPane_1.setViewportView(textPane_5);
+		
+		JLabel lblNewLabel_1 = new JLabel("<html>example(Library Management System)<br>"
+	            + "- Cost<br>"
+	            + "- Duration<br>"
+	            + "- Risk<br>"
+	            + "- Effect<br>"
+	            + "</html>");
+		ScrollPane_1.setColumnHeaderView(lblNewLabel_1);
+		
+		JScrollPane ScrollPane_3 = new JScrollPane();
+		this.addTab("Managerial Issues", null, ScrollPane_3, null);
+		
+		JTextPane textPane_6 = new JTextPane();
+		ScrollPane_3.setViewportView(textPane_6);
+		
+		JLabel lblNewLabel_2 = new JLabel("<html>example(Library Management System)<br>"
+	            + "- The project should be compeleted by June, 2008(Plan to participate in a SW exhibition<br>"
+	            + "</html>");
+		ScrollPane_3.setColumnHeaderView(lblNewLabel_2);
 
 		this.addTab("Risk Management", null, panel, null);
 
 		this.addTab("Risk Reduction Plan", null, panel2, null);
 		
-		JTextPane textPane_2 = new JTextPane();
-		this.addTab("Analyze business Plan", null, textPane_2, null);
+		JScrollPane ScrollPane_2 = new JScrollPane();
+		this.addTab("Analyze business Plan", null, ScrollPane_2, null);
 		
-		JTextPane textPane_3 = new JTextPane();
-		this.addTab("Managerial Issues", null, textPane_3, null);
+		JTextPane textPane_7 = new JTextPane();
+		ScrollPane_2.setViewportView(textPane_7);
+		
+		JLabel lblNewLabel_3 = new JLabel("<html>example(Library Management System)<br>"
+	            + "- A few generic packages are available, however too expensive<br>"
+	            + "- May be able to market the software to other similar-scaled libraries<br>"
+	            + "</html>");
+		ScrollPane_2.setColumnHeaderView(lblNewLabel_3);
 		
 
 	}

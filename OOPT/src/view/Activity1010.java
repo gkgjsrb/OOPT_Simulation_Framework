@@ -26,6 +26,7 @@ import javax.swing.table.TableCellRenderer;
 
 import Model.Requirement;
 import java.awt.Color;
+import javax.swing.JLabel;
 
 public class Activity1010 extends JTabbedPane {
 	DefaultTableModel model;
@@ -39,11 +40,11 @@ public class Activity1010 extends JTabbedPane {
 		model=new DefaultTableModel(rowData,colName);
 		JTable table = new JTable(model);
 
-//		JComboBox<String> comboBox = new JComboBox<>(Category);
+		JComboBox<String> comboBox = new JComboBox<>(Category);
 		JTextField tf = new JTextField();
-//		TableCellEditor Comboeditor = new DefaultCellEditor(comboBox);
+		TableCellEditor Comboeditor = new DefaultCellEditor(comboBox);
 		TableCellEditor editor = new DefaultCellEditor(tf);
-//		table.getColumnModel().getColumn(2).setCellEditor(Comboeditor);
+		table.getColumnModel().getColumn(2).setCellEditor(Comboeditor);
 		table.getColumnModel().getColumn(0).setCellEditor(editor);
 		table.getColumnModel().getColumn(1).setCellEditor(editor);
 		editor.addCellEditorListener(new CellEditorListener() {
@@ -90,28 +91,74 @@ public class Activity1010 extends JTabbedPane {
 		});
 		popupMenu.add(mntmNewMenuItem_1);
 		
+		JScrollPane ScrollPane = new JScrollPane();
+		addTab("Project Scope", null, ScrollPane, null);
+		
 		JTextPane textPane = new JTextPane();
-		addTab("Project Scope", null, textPane, null);
+		ScrollPane.setViewportView(textPane);
+		
+		JLabel lblNewLabel = new JLabel();
+		ScrollPane.setColumnHeaderView(lblNewLabel);
+		
+		JScrollPane ScrollPane_1 = new JScrollPane();
+		addTab("Project Objective", null, ScrollPane_1, null);
 		
 		JTextPane textPane_1 = new JTextPane();
-		addTab("Project Objective", null, textPane_1, null);
+		ScrollPane_1.setViewportView(textPane_1);
+		
+		JLabel lblNewLabel_1 = new JLabel();
+		ScrollPane_1.setColumnHeaderView(lblNewLabel_1);
 		
 		this.addTab("Functional Requirements", null, panel, null);
 		
+		JScrollPane ScrollPane_2 = new JScrollPane();
+		addTab("Performance Requirement", null, ScrollPane_2, null);
+		
 		JTextPane textPane_2 = new JTextPane();
-		addTab("Performance Requirement", null, textPane_2, null);
+		ScrollPane_2.setViewportView(textPane_2);
+		
+		JLabel lblNewLabel_2 = new JLabel("<html>example(Library Management System)<br>"
+	            + "- When making reservations, the information of reservation will appear within 5 seconds<br>"
+	            + "- When lending items, the content of lending item will appear within 5 seconds<br>"
+	            + "- When returning items, the content of returning item will appear within 5 seconds.<br>"
+	            + "</html>");
+		ScrollPane_2.setColumnHeaderView(lblNewLabel_2);
+		
+		JScrollPane ScrollPane_3 = new JScrollPane();
+		addTab("Operation Environment", null, ScrollPane_3, null);
 		
 		JTextPane textPane_3 = new JTextPane();
-		addTab("Operation Environment", null, textPane_3, null);
+		ScrollPane_3.setViewportView(textPane_3);
+		
+		JLabel lblNewLabel_3 = new JLabel("New label");
+		ScrollPane_3.setColumnHeaderView(lblNewLabel_3);
+		
+		JScrollPane ScrollPane_4 = new JScrollPane();
+		addTab("User Interface Requriement", null, ScrollPane_4, null);
 		
 		JTextPane textPane_4 = new JTextPane();
-		addTab("User Interface Requriement", null, textPane_4, null);
+		ScrollPane_4.setViewportView(textPane_4);
+		
+		JLabel lblNewLabel_4 = new JLabel("New label");
+		ScrollPane_4.setColumnHeaderView(lblNewLabel_4);
+		
+		JScrollPane ScrollPane_5 = new JScrollPane();
+		addTab("Other Requriement", null, ScrollPane_5, null);
 		
 		JTextPane textPane_5 = new JTextPane();
-		addTab("Other Requriement", null, textPane_5, null);
+		ScrollPane_5.setViewportView(textPane_5);
+		
+		JLabel lblNewLabel_5 = new JLabel("New label");
+		ScrollPane_5.setColumnHeaderView(lblNewLabel_5);
+		
+		JScrollPane ScrollPane_6 = new JScrollPane();
+		addTab("Resources", null, ScrollPane_6, null);
 		
 		JTextPane textPane_6 = new JTextPane();
-		addTab("Resources", null, textPane_6, null);
+		ScrollPane_6.setViewportView(textPane_6);
+		
+		JLabel lblNewLabel_6 = new JLabel("New label");
+		ScrollPane_6.setColumnHeaderView(lblNewLabel_6);
 		
 		table_1 = new JTable();
 		table_1.setModel(model2=new DefaultTableModel(
@@ -168,9 +215,9 @@ public class Activity1010 extends JTabbedPane {
 			}
 		});
 
-		JScrollPane ScrollPane = new JScrollPane();
-		ScrollPane.setViewportView(table_1);
-		addTab("Scheduling",null,ScrollPane,null);
+		JScrollPane ScrollPane_7 = new JScrollPane();
+		ScrollPane_7.setViewportView(table_1);
+		addTab("Scheduling",null,ScrollPane_7,null);
 
 	}
 	private static void addPopup(Component component, final JPopupMenu popup) {
