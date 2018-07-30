@@ -73,9 +73,6 @@ public class Activity1010 extends JTabbedPane {
 		table.getColumn("Name").setCellRenderer(new TextAreaRenderer());
 	    table.getColumn("Name").setCellEditor(new TextAreaEditor());
 
-//		table.getColumn("Category").setCellRenderer(new TextAreaRenderer());
-//	    table.getColumn("Category").setCellEditor(new TextAreaEditor());
-
 		JScrollPane panel = new JScrollPane(table);
 
 		JPopupMenu popupMenu = new JPopupMenu();
@@ -120,7 +117,7 @@ public class Activity1010 extends JTabbedPane {
 		
 		JLabel lblNewLabel_1 = new JLabel("1");
 		ScrollPane_1.setColumnHeaderView(lblNewLabel_1);
-	
+		
 		this.addTab("Functional Requirements", null, panel, null);
 		
 		JScrollPane ScrollPane_2 = new JScrollPane();

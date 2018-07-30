@@ -42,7 +42,7 @@ public class Activity1003 extends JTabbedPane {
 		TableCellEditor Comboeditor = new DefaultCellEditor(comboBox);
 		TableCellEditor editor = new DefaultCellEditor(tf);
 		table.getColumnModel().getColumn(2).setCellEditor(Comboeditor);
-		table.getColumnModel().getColumn(0).setCellEditor(editor);
+		/*table.getColumnModel().getColumn(0).setCellEditor(editor);
 		table.getColumnModel().getColumn(1).setCellEditor(editor);
 		editor.addCellEditorListener(new CellEditorListener() {
 
@@ -62,13 +62,14 @@ public class Activity1003 extends JTabbedPane {
 			}
 			
 		});
+		*/
 		table.setRowHeight(70);
 
 		table.getColumn("Ref").setCellRenderer(new TextAreaRenderer());
-	    table.getColumn("Ref").setCellEditor(new TextAreaEditor(req,table));
+	    table.getColumn("Ref").setCellEditor(new TextAreaEditor(req, table));
 
 	    table.getColumn("Name").setCellRenderer(new TextAreaRenderer());
-	    table.getColumn("Name").setCellEditor(new TextAreaEditor(req,table));
+	    table.getColumn("Name").setCellEditor(new TextAreaEditor(req, table));
 	    
 		JScrollPane panel = new JScrollPane(table);
 

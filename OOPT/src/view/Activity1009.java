@@ -43,8 +43,6 @@ public class Activity1009 extends JTabbedPane {
 		table.getColumn("Ref").setCellRenderer(new TextAreaRenderer());
 	    table.getColumn("Ref").setCellEditor(new TextAreaEditor());
 
-		table.getColumn("Function").setCellRenderer(new TextAreaRenderer());
-	    table.getColumn("Function").setCellEditor(new TextAreaEditor());
 
 		table.getColumn("Test Case").setCellRenderer(new TextAreaRenderer());
 	    table.getColumn("Test Case").setCellEditor(new TextAreaEditor());

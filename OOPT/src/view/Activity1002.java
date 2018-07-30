@@ -208,7 +208,7 @@ public class Activity1002 extends JTabbedPane {
 		this.addTab("Analyze business Plan", null, scrollPane_2, null);
 		
 		JTextPane textPane_2 = new JTextPane();
-		scrollPane.setViewportView(textPane_2);
+		scrollPane_2.setViewportView(textPane_2);
 		
 		JLabel lblNewLabel_2 = new JLabel("<html>example(Library Management System)<br>"
 				+ "- A few generic packages are available, however too expensive<br>"

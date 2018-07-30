@@ -18,7 +18,6 @@ public class TextAreaEditor extends DefaultCellEditor {
 	protected JScrollPane scrollpane;
 	protected JTextArea textarea;
 	
-	
 	public TextAreaEditor() {
 		super(new JCheckBox());
 		scrollpane = new JScrollPane();
@@ -34,7 +33,7 @@ public class TextAreaEditor extends DefaultCellEditor {
 		textarea.setLineWrap(true);;
 		textarea.setWrapStyleWord(true);
 	    scrollpane.getViewport().add(textarea);
-		this.addCellEditorListener(new CellEditorListener() {
+	    this.addCellEditorListener(new CellEditorListener() {
 
 			@Override
 			public void editingCanceled(ChangeEvent arg0) {
@@ -133,9 +132,7 @@ public class TextAreaEditor extends DefaultCellEditor {
 				}
 			}
 		});	
-	
 	}
-	
 	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
 		textarea.setText((String) value);
 		
@@ -145,4 +142,5 @@ public class TextAreaEditor extends DefaultCellEditor {
 	public Object getCellEditorValue() {
 		return textarea.getText();
 	}
+	
 }
