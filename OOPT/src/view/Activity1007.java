@@ -33,6 +33,11 @@ public class Activity1007 extends JTabbedPane {
 		for(int i=0; i<colmodel.getColumnCount(); i++) {
 			colmodel.getColumn(i).setCellRenderer(CellRenderer);
 		}
+		table.setRowHeight(70);
+
+		table.getColumn("Concepts").setCellRenderer(new TextAreaRenderer());
+	    table.getColumn("Concepts").setCellEditor(new TextAreaEditor());
+
 		JScrollPane panel = new JScrollPane(table);
 		
 		JPopupMenu popupMenu = new JPopupMenu();

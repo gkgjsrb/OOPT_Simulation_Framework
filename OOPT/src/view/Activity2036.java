@@ -27,7 +27,7 @@ public class Activity2036 extends JTabbedPane {
 				{"Post-conditions", null},
 			},
 			new String[] {
-				"New column", "New column"
+				"", " "
 			}
 		) {
 			boolean[] columnEditables = new boolean[] {
@@ -37,7 +37,12 @@ public class Activity2036 extends JTabbedPane {
 				return columnEditables[column];
 			}
 		});
-		scrollPane.setColumnHeaderView(table);
+		table.setRowHeight(70);
+
+		table.getColumn(" ").setCellRenderer(new TextAreaRenderer());
+	    table.getColumn(" ").setCellEditor(new TextAreaEditor());
+	    
+		scrollPane.setViewportView(table);
 
 	}
 

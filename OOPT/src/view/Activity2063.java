@@ -36,6 +36,9 @@ public class Activity2063 extends JTabbedPane {
 		JTable table = new JTable(model);
 		table.setRowHeight(70);
 
+	    table.getColumn("Test Case Number").setCellRenderer(new TextAreaRenderer());
+	    table.getColumn("Test Case Number").setCellEditor(new TextAreaEditor());
+	    
 		table.getColumn("Test Name").setCellRenderer(new TextAreaRenderer());
 	    table.getColumn("Test Name").setCellEditor(new TextAreaEditor());
 	    
@@ -44,6 +47,12 @@ public class Activity2063 extends JTabbedPane {
 	 		
 		table.getColumn("Use Case").setCellRenderer(new TextAreaRenderer());
 	    table.getColumn("Use Case").setCellEditor(new TextAreaEditor());
+	    
+	    table.getColumn("System Function").setCellRenderer(new TextAreaRenderer());
+	    table.getColumn("System Function").setCellEditor(new TextAreaEditor());
+
+	    table.getColumn("Result").setCellRenderer(new TextAreaRenderer());
+	    table.getColumn("Result").setCellEditor(new TextAreaEditor());
 	    
 		JScrollPane scrollPane_1 = new JScrollPane(table);
 	    

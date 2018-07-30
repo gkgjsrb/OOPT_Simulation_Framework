@@ -37,6 +37,24 @@ public class Activity1009 extends JTabbedPane {
 		JTable table = new JTable(model);
 		JTable table2 = new JTable(model2);
 		
+		table.setRowHeight(70);
+		table2.setRowHeight(70);
+
+		table.getColumn("Ref").setCellRenderer(new TextAreaRenderer());
+	    table.getColumn("Ref").setCellEditor(new TextAreaEditor());
+
+		table.getColumn("Function").setCellRenderer(new TextAreaRenderer());
+	    table.getColumn("Function").setCellEditor(new TextAreaEditor());
+
+		table.getColumn("Test Case").setCellRenderer(new TextAreaRenderer());
+	    table.getColumn("Test Case").setCellEditor(new TextAreaEditor());
+
+		table2.getColumn("Category").setCellRenderer(new TextAreaRenderer());
+	    table2.getColumn("Category").setCellEditor(new TextAreaEditor());
+
+	    table2.getColumn("Test Case").setCellRenderer(new TextAreaRenderer());
+	    table2.getColumn("Test Case").setCellEditor(new TextAreaEditor());
+	    
 		for(int i=0;i<req.get_length();i++) {
 			comboBox.addItem(req.getName(i));
 		}

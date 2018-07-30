@@ -12,15 +12,15 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 public class Activity2041 extends JTabbedPane {
-	private JTable table_1;
+	private JTable table;
 
 	public Activity2041() {
 		
 		JScrollPane scrollPane = new JScrollPane();
 		addTab("Design Real Use Cases", null, scrollPane, null);
 		
-		table_1 = new JTable();
-		table_1.setModel(new DefaultTableModel(
+		table = new JTable();
+		table.setModel(new DefaultTableModel(
 			new Object[][] {
 				{"Use Case", null},
 				{"Actor", null},
@@ -34,7 +34,7 @@ public class Activity2041 extends JTabbedPane {
 				{"Exceptional Courses of Events", null},
 			},
 			new String[] {
-				"New column", "New column"
+				"", " "
 			}
 		) {
 			boolean[] columnEditables = new boolean[] {
@@ -44,12 +44,14 @@ public class Activity2041 extends JTabbedPane {
 				return columnEditables[column];
 			}
 		});
-		table_1.getColumnModel().getColumn(0).setResizable(false);
-		scrollPane.setViewportView(table_1);
+		table.getColumnModel().getColumn(0).setResizable(false);
+		scrollPane.setViewportView(table);		
 		
-		JButton button = new JButton("New button");
-		scrollPane.setColumnHeaderView(button);		
-		
+		table.setRowHeight(45);
+
+		table.getColumn(" ").setCellRenderer(new TextAreaRenderer());
+	    table.getColumn(" ").setCellEditor(new TextAreaEditor());
+	    
 	}
 
 	private static void addPopup(Component component, final JPopupMenu popup) {

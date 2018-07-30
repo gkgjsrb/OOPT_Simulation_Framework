@@ -17,9 +17,9 @@ public class Requirement {
 	ArrayList<String> Exceptional = new ArrayList<String>();
 	
 	public Requirement() {
-		Ref.add("test");
-		Name.add("test");
-		Category.add("test");
+		Ref.add(null);
+		Name.add(null);
+		Category.add(null);
 		Purpose.add(null);
 		Overview.add(null);
 		Type.add(null);

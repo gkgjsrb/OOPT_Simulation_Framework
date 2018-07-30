@@ -23,6 +23,16 @@ public class Activity1004 extends JTabbedPane {
 		model=new DefaultTableModel(rowData,colName);
 		
 		JTable table = new JTable(model);
+		table.setRowHeight(70);
+
+		table.getColumn("Term").setCellRenderer(new TextAreaRenderer());
+	    table.getColumn("Term").setCellEditor(new TextAreaEditor());
+
+		table.getColumn("Description").setCellRenderer(new TextAreaRenderer());
+	    table.getColumn("Description").setCellEditor(new TextAreaEditor());
+
+		table.getColumn("Remarks").setCellRenderer(new TextAreaRenderer());
+	    table.getColumn("Remarks").setCellEditor(new TextAreaEditor());
 
 		JScrollPane panel = new JScrollPane(table);
 		

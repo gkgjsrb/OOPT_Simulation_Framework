@@ -10,7 +10,7 @@ public class Main {
 		// TODO Auto-generated method stub
 		Requirement req = new Requirement();
 		Risk risk = new Risk();
-		//ArrayList <Requirement> a = new ArrayList<>();
+		ArrayList <Requirement> a = new ArrayList<>();
 		//a.add(req);
 		GUI gui = new GUI(req, risk);
 	}

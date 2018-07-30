@@ -11,15 +11,15 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 //use case를 trace해서 표의 개수가 늘어나게
 public class Activity2031 extends JTabbedPane {
-	private JTable table_1;
+	private JTable table;
 
 	public Activity2031() {
 		
 		JScrollPane scrollPane = new JScrollPane();
 		addTab("Define Essential Use Cases", null, scrollPane, null);
 		
-		table_1 = new JTable();
-		table_1.setModel(new DefaultTableModel(
+		table = new JTable();
+		table.setModel(new DefaultTableModel(
 			new Object[][] {
 				{"Use Case", null},
 				{"Actor", null},
@@ -33,7 +33,7 @@ public class Activity2031 extends JTabbedPane {
 				{"Exceptional Courses of Events", null},
 			},
 			new String[] {
-				"New column", "New column"
+				"", " "
 			}
 		) {
 			boolean[] columnEditables = new boolean[] {
@@ -43,8 +43,13 @@ public class Activity2031 extends JTabbedPane {
 				return columnEditables[column];
 			}
 		});
-		table_1.getColumnModel().getColumn(0).setResizable(false);
-		scrollPane.setViewportView(table_1);
+		table.getColumnModel().getColumn(0).setResizable(false);
+		scrollPane.setViewportView(table);
+		table.setRowHeight(70);
+		
+		table.getColumn(" ").setCellRenderer(new TextAreaRenderer());
+	    table.getColumn(" ").setCellEditor(new TextAreaEditor());
+	    
 	}
 
 	private static void addPopup(Component component, final JPopupMenu popup) {

@@ -19,6 +19,7 @@ import java.awt.event.MouseEvent;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
@@ -61,6 +62,16 @@ public class Activity1003 extends JTabbedPane {
 			}
 			
 		});
+		table.setRowHeight(70);
+
+		table.getColumn("Ref").setCellRenderer(new TextAreaRenderer());
+	    table.getColumn("Ref").setCellEditor(new TextAreaEditor());
+
+	    table.getColumn("Name").setCellRenderer(new TextAreaRenderer());
+	    table.getColumn("Name").setCellEditor(new TextAreaEditor());
+	    
+	    table.getColumn("Category").setCellRenderer(new TextAreaRenderer());
+	    table.getColumn("Category").setCellEditor(new TextAreaEditor());
 
 		JScrollPane panel = new JScrollPane(table);
 
@@ -91,14 +102,53 @@ public class Activity1003 extends JTabbedPane {
 		popupMenu.add(mntmNewMenuItem_1);
 		this.addTab("Requirements", null, panel, null);
 		
+		JScrollPane ScrollPane = new JScrollPane();
+		this.addTab("Operating Environment", null, ScrollPane, null);
+		
 		JTextPane textPane = new JTextPane();
-		this.addTab("Operating Environment", null, textPane, null);
+		ScrollPane.setViewportView(textPane);
+		
+		JLabel lblNewLabel = new JLabel("<html>example(Library Management System)<br>"
+	            + "- Microsoft Windows 7 and 10<br>"
+	            + "</html>");
+		ScrollPane.setColumnHeaderView(lblNewLabel);
+				
+		JScrollPane ScrollPane_1 = new JScrollPane();
+		this.addTab("Develop Environment", null, ScrollPane_1, null);
 		
 		JTextPane textPane_1 = new JTextPane();
-		this.addTab("Develop Environment", null, textPane_1, null);
+		ScrollPane_1.setViewportView(textPane_1);
+		
+		JLabel lblNewLabel_1 = new JLabel("<html>example(Library Management System)<br>"
+	            + "- CPU : Intel<br>"
+	            + "- IDE : Eclipse<br>"
+	            + "- Language : Java<br>"
+	            + "- UML : StarUML<br>"
+	            + "</html>");
+		ScrollPane_1.setColumnHeaderView(lblNewLabel_1);
+		
+		JScrollPane ScrollPane_2 = new JScrollPane();
+		this.addTab("Interface Requirements", null, ScrollPane_2, null);
 		
 		JTextPane textPane_2 = new JTextPane();
-		this.addTab("Interface Requirements", null, textPane_2, null);
+		ScrollPane_2.setViewportView(textPane_2);
+		
+		JLabel lblNewLabel_2 = new JLabel("<html>example(Library Management System)<br>"
+	            + "- The current version may incorporate a menu-driven approach<br>"
+	            + "- Next version incorporates windows metaphor<br>"
+	            + "</html>");
+		ScrollPane_2.setColumnHeaderView(lblNewLabel_2);
+		
+		JScrollPane ScrollPane_3 = new JScrollPane();
+		this.addTab("Other Requirements", null, ScrollPane_3, null);
+		
+		JTextPane textPane_3 = new JTextPane();
+		ScrollPane_2.setViewportView(textPane_3);
+		
+		JLabel lblNewLabel_3 = new JLabel("<html>example(Library Management System)<br>"
+	            + "- The System must control the system access<br>"
+	            + "</html>");
+		ScrollPane_3.setColumnHeaderView(lblNewLabel_3);
 	}
 	private static void addPopup(Component component, final JPopupMenu popup) {
 		component.addMouseListener(new MouseAdapter() {

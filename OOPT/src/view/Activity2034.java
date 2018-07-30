@@ -25,7 +25,18 @@ public class Activity2034 extends JTabbedPane {
 		model=new DefaultTableModel(rowData,colName);
 		
 		JTable table = new JTable(model);
+		
+		table.setRowHeight(70);
+		
+		table.getColumn("Term").setCellRenderer(new TextAreaRenderer());
+	    table.getColumn("Term").setCellEditor(new TextAreaEditor());
 
+		table.getColumn("Category").setCellRenderer(new TextAreaRenderer());
+	    table.getColumn("Category").setCellEditor(new TextAreaEditor());
+
+		table.getColumn("Remarks").setCellRenderer(new TextAreaRenderer());
+	    table.getColumn("Remarks").setCellEditor(new TextAreaEditor());
+	    
 		JScrollPane panel = new JScrollPane(table);
 		
 		JPopupMenu popupMenu = new JPopupMenu();
