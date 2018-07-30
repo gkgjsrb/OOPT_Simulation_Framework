@@ -135,13 +135,13 @@ public class Activity1002 extends JTabbedPane {
 		table2.setRowHeight(70);
 	    
 	    table.getColumn("Name").setCellRenderer(new TextAreaRenderer());
-	    table.getColumn("Name").setCellEditor(new TextAreaEditor());
+	    table.getColumn("Name").setCellEditor(new TextAreaEditor(risk, table, model, model2));
 
 	    table2.getColumn("Name").setCellRenderer(new TextAreaRenderer());
-	    table2.getColumn("Name").setCellEditor(new TextAreaEditor());
+	    table2.getColumn("Name").setCellEditor(new TextAreaEditor(table2, risk, model, model2));
 	    
 	    table2.getColumn("Plan").setCellRenderer(new TextAreaRenderer());
-	    table2.getColumn("Plan").setCellEditor(new TextAreaEditor());
+	    table2.getColumn("Plan").setCellEditor(new TextAreaEditor(table2, risk, model, model2));
 	  
 		JScrollPane panel = new JScrollPane(table);
 		JScrollPane panel2 = new JScrollPane(table2);
@@ -191,7 +191,7 @@ public class Activity1002 extends JTabbedPane {
 		this.addTab("Project Justification", null, scrollPane_1, null);
 		
 		JTextPane textPane_1 = new JTextPane();
-		scrollPane.setViewportView(textPane_1);
+		scrollPane_1.setViewportView(textPane_1);
 		
 		JLabel lblNewLabel_1 = new JLabel("<html>example(Library Management System)<br>"
 	            + "- Cost<br>"
@@ -220,7 +220,7 @@ public class Activity1002 extends JTabbedPane {
 		this.addTab("Managerial Issues", null, scrollPane_3, null);
 		
 		JTextPane textPane_3 = new JTextPane();
-		scrollPane.setViewportView(textPane_3);
+		scrollPane_3.setViewportView(textPane_3);
 		
 		JLabel lblNewLabel_3 = new JLabel("<html>example(Library Management System)<br>"
 	            + "- The project should be compeleted by June, 2008(Plan to participate in a SW exhibition<br>"

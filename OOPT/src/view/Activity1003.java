@@ -28,7 +28,7 @@ public class Activity1003 extends JTabbedPane {
 	DefaultTableModel model;
 	
 	public Activity1003(Requirement req) {
-		String Category[] = {"EVIDENT","HIDEEN"};		
+		String Category[] = {"EVIDENT","HIDDEN"};		
 		String[] colName= {"Ref","Name","Category"};
 		Object[][] rowData= {{null,null,null}};
 		
@@ -65,14 +65,11 @@ public class Activity1003 extends JTabbedPane {
 		table.setRowHeight(70);
 
 		table.getColumn("Ref").setCellRenderer(new TextAreaRenderer());
-	    table.getColumn("Ref").setCellEditor(new TextAreaEditor());
+	    table.getColumn("Ref").setCellEditor(new TextAreaEditor(req,table));
 
 	    table.getColumn("Name").setCellRenderer(new TextAreaRenderer());
-	    table.getColumn("Name").setCellEditor(new TextAreaEditor());
+	    table.getColumn("Name").setCellEditor(new TextAreaEditor(req,table));
 	    
-	    table.getColumn("Category").setCellRenderer(new TextAreaRenderer());
-	    table.getColumn("Category").setCellEditor(new TextAreaEditor());
-
 		JScrollPane panel = new JScrollPane(table);
 
 		JPopupMenu popupMenu = new JPopupMenu();
@@ -143,7 +140,7 @@ public class Activity1003 extends JTabbedPane {
 		this.addTab("Other Requirements", null, ScrollPane_3, null);
 		
 		JTextPane textPane_3 = new JTextPane();
-		ScrollPane_2.setViewportView(textPane_3);
+		ScrollPane_3.setViewportView(textPane_3);
 		
 		JLabel lblNewLabel_3 = new JLabel("<html>example(Library Management System)<br>"
 	            + "- The System must control the system access<br>"
