@@ -27,6 +27,8 @@ import javax.swing.event.TreeSelectionListener;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.util.ArrayList;
+
 import javax.swing.JTextPane;
 import com.jgoodies.forms.layout.FormLayout;
 import com.jgoodies.forms.layout.ColumnSpec;
@@ -51,14 +53,14 @@ public class GUI {
 	/**
 	 * Create the application.
 	 */
-	public GUI(Requirement req, Risk risk) {
-		initialize(req, risk);
+	public GUI(Requirement req, Risk risk, ArrayList uc) {
+		initialize(req, risk, uc);
 	}
 
 	/**
 	 * Initialize the contents of the frame.
 	 */
-	private void initialize(Requirement req, Risk risk) {
+	private void initialize(Requirement req, Risk risk, ArrayList uc) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 928, 617);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -92,14 +94,14 @@ public class GUI {
 		Activity1008 a1008 = new Activity1008();
 		Activity1009 a1009 = new Activity1009(req);
 		Activity1010 a1010 = new Activity1010(req);
-		Activity2031 a2031 = new Activity2031();
+		Activity2031 a2031 = new Activity2031(req, uc);
 		Activity2032 a2032 = new Activity2032();
 		Activity2033 a2033 = new Activity2033();
 		Activity2034 a2034 = new Activity2034();
 		Activity2035 a2035 = new Activity2035();
 		Activity2036 a2036 = new Activity2036();
 		Activity2037 a2037 = new Activity2037();
-		Activity2038 a2038 = new Activity2038();
+		Activity2038 a2038 = new Activity2038(req, uc);
 		Activity2039 a2039 = new Activity2039();
 		Activity2041 a2041 = new Activity2041();	
 		Activity2042 a2042 = new Activity2042();
@@ -137,8 +139,6 @@ public class GUI {
 						node_1.add(new DefaultMutableTreeNode("Activity 1010"));
 					add(node_1);
 					node_1 = new DefaultMutableTreeNode("Stage2000");
-						node_1.add(new DefaultMutableTreeNode("Stage2010"));
-						node_1.add(new DefaultMutableTreeNode("Stage2020"));
 						node_2 = new DefaultMutableTreeNode("Stage2030");
 							node_2.add(new DefaultMutableTreeNode("Activity 2031"));
 							node_2.add(new DefaultMutableTreeNode("Activity 2032"));
@@ -281,6 +281,7 @@ public class GUI {
 	        		 splitPane.setRightComponent(a2037);
 	        	 }
 	        	 else if(s.equals("Activity 2038")) {
+	        		 a2038.syncComboBox(req.getAllName());
 	        		 splitPane.setRightComponent(a2038);
 	        	 }
 	        	 else if(s.equals("Activity 2039")) {

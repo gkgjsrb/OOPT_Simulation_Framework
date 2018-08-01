@@ -11,8 +11,9 @@ public class Main {
 		Requirement req = new Requirement();
 		Risk risk = new Risk();
 		ArrayList <Requirement> a = new ArrayList<>();
+		ArrayList <UseCase> uc = new ArrayList<>();
 		//a.add(req);
-		GUI gui = new GUI(req, risk);
+		GUI gui = new GUI(req, risk, uc);
 	}
 
 }

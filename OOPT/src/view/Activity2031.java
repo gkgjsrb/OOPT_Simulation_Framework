@@ -4,19 +4,26 @@ import javax.swing.JTabbedPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+
+import Model.Requirement;
+
 import javax.swing.JButton;
 import javax.swing.JPopupMenu;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-//use case를 trace해서 표의 개수가 늘어나게
+import java.util.ArrayList;
+//use case瑜� trace�빐�꽌 �몴�쓽 媛쒖닔媛� �뒛�뼱�굹寃�
 public class Activity2031 extends JTabbedPane {
 	private JTable table;
 
-	public Activity2031() {
+	public Activity2031(Requirement req, ArrayList uc) {
+		
+		JTabbedPane panel = new JTabbedPane();
+		addTab("Define Essential Use Cases", null, panel, null);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		addTab("Define Essential Use Cases", null, scrollPane, null);
+		panel.addTab("Use Case1", null, scrollPane, null);
 		
 		table = new JTable();
 		table.setModel(new DefaultTableModel(
@@ -45,10 +52,10 @@ public class Activity2031 extends JTabbedPane {
 		});
 		table.getColumnModel().getColumn(0).setResizable(false);
 		scrollPane.setViewportView(table);
-		table.setRowHeight(70);
+		table.setRowHeight(45);
 		
 		table.getColumn(" ").setCellRenderer(new TextAreaRenderer());
-	    table.getColumn(" ").setCellEditor(new TextAreaEditor());
+	    table.getColumn(" ").setCellEditor(new TextAreaEditor(req, table, uc, panel));
 	    
 	}
 

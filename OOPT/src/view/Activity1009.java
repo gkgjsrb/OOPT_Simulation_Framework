@@ -60,8 +60,6 @@ public class Activity1009 extends JTabbedPane {
 		TableCellEditor Comboeditor = new DefaultCellEditor(comboBox);
 		table.getColumnModel().getColumn(1).setCellEditor(Comboeditor);
 		
-		table.getColumnModel().getColumn(1).setCellEditor(new DefaultCellEditor(comboBox));
-		
 		JScrollPane panel = new JScrollPane(table);
 		JScrollPane panel2 = new JScrollPane(table2);	
 		

@@ -8,16 +8,14 @@ import javax.swing.SwingConstants;
 
 
 public class Activity1001 extends JTabbedPane {
-
-	/**
-	 * Create the this..
-	 */
+	JTextPane MotivationPane;
+	
 	public Activity1001() {
 		
 		JScrollPane scrollPane = new JScrollPane();
 		this.addTab("Motivation", null, scrollPane, null);
 		
-		JTextPane MotivationPane = new JTextPane();
+		MotivationPane = new JTextPane();
 		scrollPane.setViewportView(MotivationPane);
 		
 		JLabel MotivationEx = new JLabel("<html>example(Library Management System)<br>"
@@ -107,6 +105,11 @@ public class Activity1001 extends JTabbedPane {
 	            + "&ensp;Add Web Interface<br>"
 	            + "</html>");
 		scrollPane_6.setColumnHeaderView(OtherInfoEx);
+	}
+	
+	public String getMotivationString() {
+		return MotivationPane.getText();
+		
 	}
 
 }

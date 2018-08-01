@@ -5,17 +5,24 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
+import javax.swing.DefaultCellEditor;
+import javax.swing.JComboBox;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
+
+import Model.Requirement;
+import Model.UseCase;
 
 public class Activity2038 extends JTabbedPane {
-
-	public Activity2038() {
+	JComboBox<String> comboBox = new JComboBox<String>();
+	public Activity2038(Requirement req, ArrayList<UseCase> uc) {
 		DefaultTableModel model;
 		DefaultTableModel model2;
 
@@ -36,9 +43,16 @@ public class Activity2038 extends JTabbedPane {
 		table.getColumn("Test#").setCellRenderer(new TextAreaRenderer());
 	    table.getColumn("Test#").setCellEditor(new TextAreaEditor());
 	    
-	    table.getColumn("Function").setCellRenderer(new TextAreaRenderer());
-	    table.getColumn("Function").setCellEditor(new TextAreaEditor());
+//	    table.getColumn("Function").setCellRenderer(new TextAreaRenderer());
+//	    table.getColumn("Function").setCellEditor(new TextAreaEditor());
 	    
+		for(int i=0;i<req.get_length();i++) {
+			comboBox.addItem(req.getName(i));
+		}
+	    
+		TableCellEditor Comboeditor = new DefaultCellEditor(comboBox);
+		table.getColumnModel().getColumn(1).setCellEditor(Comboeditor);	    
+	     
 	    table.getColumn("Description").setCellRenderer(new TextAreaRenderer());
 	    table.getColumn("Description").setCellEditor(new TextAreaEditor());
 	    
@@ -127,5 +141,13 @@ public class Activity2038 extends JTabbedPane {
 			}
 		});
 	}
+	
+	public void syncComboBox(ArrayList array) {
+		comboBox.removeAllItems();
+		for(int i=0; i<array.size(); i++) {
+			comboBox.addItem((String) array.get(i));
+		}
+	}
+
 
 }

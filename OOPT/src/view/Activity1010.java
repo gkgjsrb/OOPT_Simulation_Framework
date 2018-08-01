@@ -32,6 +32,7 @@ public class Activity1010 extends JTabbedPane {
 	DefaultTableModel model;
 	DefaultTableModel model2;
 	private JTable table_1;
+	JLabel lblNewLabel;
 	
 	public Activity1010(Requirement req) {
 		String Category[] = {"EVIDENT","HIDEEN"};
@@ -106,16 +107,25 @@ public class Activity1010 extends JTabbedPane {
 		JTextPane textPane = new JTextPane();
 		ScrollPane.setViewportView(textPane);
 		
-		JLabel lblNewLabel = new JLabel("1");
+		lblNewLabel = new JLabel("<html>example(Library Management System)<br>"
+	            + "- The library management software automates typical library  <br>"
+	            + "&ensp;operations; reservation, lending item, adding, removing, and <br>"
+	            + "&ensp;updating the information of title, item, and borrower.<br>"
+	            + "</html>");
 		ScrollPane.setColumnHeaderView(lblNewLabel);
-		
+
 		JScrollPane ScrollPane_1 = new JScrollPane();
 		addTab("Project Objective", null, ScrollPane_1, null);
 		
 		JTextPane textPane_1 = new JTextPane();
 		ScrollPane_1.setViewportView(textPane_1);
 		
-		JLabel lblNewLabel_1 = new JLabel("1");
+		JLabel lblNewLabel_1 = new JLabel("<html>example(Library Management System)<br>"
+	            + "- To develop a computerized library management software, that<br>"
+	            + "&ensp;provides typical library operations such as:<br>"
+	            + "&ensp;Lend and return books, Reserve books, Maintaining Borrow information, and Purchasing new books<br>"
+	            + "- The new software should be easy to learn and use, and efficient<br>"
+	            + "</html>");
 		ScrollPane_1.setColumnHeaderView(lblNewLabel_1);
 		
 		this.addTab("Functional Requirements", null, panel, null);
@@ -139,7 +149,13 @@ public class Activity1010 extends JTabbedPane {
 		JTextPane textPane_3 = new JTextPane();
 		ScrollPane_3.setViewportView(textPane_3);
 		
-		JLabel lblNewLabel_3 = new JLabel("New label");
+		JLabel lblNewLabel_3 = new JLabel("<html>example(Library Management System)<br>"
+	            + "- Microsoft Windows 7 and 10<br>"
+	            + "- CPU : Intel<br>"
+	            + "- IDE : Eclipse<br>"
+	            + "- Language : Java<br>"
+	            + "- UML : StarUML<br>"
+	            + "</html>");
 		ScrollPane_3.setColumnHeaderView(lblNewLabel_3);
 		
 		JScrollPane ScrollPane_4 = new JScrollPane();
@@ -148,7 +164,10 @@ public class Activity1010 extends JTabbedPane {
 		JTextPane textPane_4 = new JTextPane();
 		ScrollPane_4.setViewportView(textPane_4);
 		
-		JLabel lblNewLabel_4 = new JLabel("New label");
+		JLabel lblNewLabel_4 = new JLabel("<html>example(Library Management System)<br>"
+	            + "- Menu-driven approach<br>"
+	            + "- Should be desgined to upgrading to 'Windows-based' version<br>"
+	            + "</html>");
 		ScrollPane_4.setColumnHeaderView(lblNewLabel_4);
 		
 		JScrollPane ScrollPane_5 = new JScrollPane();
@@ -157,7 +176,10 @@ public class Activity1010 extends JTabbedPane {
 		JTextPane textPane_5 = new JTextPane();
 		ScrollPane_5.setViewportView(textPane_5);
 		
-		JLabel lblNewLabel_5 = new JLabel("New label");
+		JLabel lblNewLabel_5 = new JLabel("<html>example(Library Management System)<br>"
+	            + "- The Content of database shoudl be maintained reliably<br>"
+	            + "- System should control the system access<br>"
+	            + "</html>");
 		ScrollPane_5.setColumnHeaderView(lblNewLabel_5);
 		
 		JScrollPane ScrollPane_6 = new JScrollPane();
@@ -166,7 +188,12 @@ public class Activity1010 extends JTabbedPane {
 		JTextPane textPane_6 = new JTextPane();
 		ScrollPane_6.setViewportView(textPane_6);
 		
-		JLabel lblNewLabel_6 = new JLabel("New label");
+		JLabel lblNewLabel_6 = new JLabel("<html>example(Library Management System)<br>"
+	            + "Man Month : 6 Persons(A Team Leader, A Document Manager, 3~4 Engineers)<br>"
+	            + "Period : 5 Days(Around 40 Hours)<br>"
+	            + "Hardware : Intel PC<br>"
+	            + "Software : Windows 7/10, Java, StarUML<br>"
+	            + "</html>");
 		ScrollPane_6.setColumnHeaderView(lblNewLabel_6);
 		
 		table_1 = new JTable();

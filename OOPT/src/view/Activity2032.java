@@ -5,7 +5,7 @@ import javax.swing.JTabbedPane;
 public class Activity2032 extends JTabbedPane {
 
 	public Activity2032() {
-
+		
 	}
 
 }
