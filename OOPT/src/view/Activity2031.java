@@ -1,24 +1,22 @@
 package view;
 
-import javax.swing.JTabbedPane;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
-
-import Model.Requirement;
-
-import javax.swing.JButton;
-import javax.swing.JPopupMenu;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-//use case瑜� trace�빐�꽌 �몴�쓽 媛쒖닔媛� �뒛�뼱�굹寃�
+
+import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
+
+import Model.Requirement;
+//use case를 trace해서 표의 개수가 늘어나게
 public class Activity2031 extends JTabbedPane {
 	private JTable table;
 
 	public Activity2031(Requirement req, ArrayList uc) {
-		
 		JTabbedPane panel = new JTabbedPane();
 		addTab("Define Essential Use Cases", null, panel, null);
 		

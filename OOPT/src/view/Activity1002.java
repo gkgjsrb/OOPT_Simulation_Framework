@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -185,6 +186,9 @@ public class Activity1002 extends JTabbedPane {
 	            + "- Outsourcing<br>"
 	            + "- Other Options<br>"
 	            + "</html>");
+		lblNewLabel.setOpaque(true);
+		lblNewLabel.setBackground(Color.LIGHT_GRAY);
+		
 		scrollPane.setColumnHeaderView(lblNewLabel);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
@@ -199,6 +203,9 @@ public class Activity1002 extends JTabbedPane {
 	            + "- Risk<br>"
 	            + "- Effect<br>"
 	            + "</html>");
+		lblNewLabel_1.setOpaque(true);
+		lblNewLabel_1.setBackground(Color.LIGHT_GRAY);
+		
 		scrollPane_1.setColumnHeaderView(lblNewLabel_1);
 		
 		this.addTab("Risk Management", null, panel, null);
@@ -214,6 +221,9 @@ public class Activity1002 extends JTabbedPane {
 				+ "- A few generic packages are available, however too expensive<br>"
 				+ "- May be able to market the software to other similar-scaled libraries<br>"
 				+ "</html>");
+		lblNewLabel_2.setOpaque(true);
+		lblNewLabel_2.setBackground(Color.LIGHT_GRAY);
+		
 		scrollPane_2.setColumnHeaderView(lblNewLabel_2);
 				
 		JScrollPane scrollPane_3 = new JScrollPane();
@@ -225,6 +235,9 @@ public class Activity1002 extends JTabbedPane {
 		JLabel lblNewLabel_3 = new JLabel("<html>example(Library Management System)<br>"
 	            + "- The project should be compeleted by June, 2008(Plan to participate in a SW exhibition<br>"
 	            + "</html>");
+		lblNewLabel_3.setOpaque(true);
+		lblNewLabel_3.setBackground(Color.LIGHT_GRAY);
+		
 		scrollPane_3.setColumnHeaderView(lblNewLabel_3);
 		
 	}

@@ -1,46 +1,22 @@
 package view;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
-import javax.swing.JScrollPane;
-import javax.swing.JTree;
-import javax.swing.BoxLayout;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.JSplitPane;
-import javax.swing.tree.DefaultTreeModel;
 import java.awt.Component;
-import javax.swing.JTabbedPane;
-import javax.swing.JInternalFrame;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.Box;
-import javax.swing.JLayeredPane;
-import javax.swing.JDesktopPane;
-import javax.swing.JPanel;
-import javax.swing.SwingConstants;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
-
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
 import java.util.ArrayList;
 
-import javax.swing.JTextPane;
-import com.jgoodies.forms.layout.FormLayout;
-import com.jgoodies.forms.layout.ColumnSpec;
-import com.jgoodies.forms.layout.RowSpec;
+import javax.swing.BoxLayout;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.JTree;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 import Model.Requirement;
 import Model.Risk;
-
-import java.awt.GridLayout;
-import com.jgoodies.forms.layout.FormSpecs;
-import javax.swing.JTextArea;
-import java.awt.FlowLayout;
 public class GUI {
 
 	private JFrame frame;
@@ -139,6 +115,8 @@ public class GUI {
 						node_1.add(new DefaultMutableTreeNode("Activity 1010"));
 					add(node_1);
 					node_1 = new DefaultMutableTreeNode("Stage2000");
+						//node_1.add(new DefaultMutableTreeNode("Stage2010"));
+						//node_1.add(new DefaultMutableTreeNode("Stage2020"));
 						node_2 = new DefaultMutableTreeNode("Stage2030");
 							node_2.add(new DefaultMutableTreeNode("Activity 2031"));
 							node_2.add(new DefaultMutableTreeNode("Activity 2032"));

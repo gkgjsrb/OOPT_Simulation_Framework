@@ -43,14 +43,13 @@ public class Activity2038 extends JTabbedPane {
 		table.getColumn("Test#").setCellRenderer(new TextAreaRenderer());
 	    table.getColumn("Test#").setCellEditor(new TextAreaEditor());
 	    
-//	    table.getColumn("Function").setCellRenderer(new TextAreaRenderer());
-//	    table.getColumn("Function").setCellEditor(new TextAreaEditor());
-	    
-		for(int i=0;i<req.get_length();i++) {
+	    //table.getColumn("Function").setCellRenderer(new TextAreaRenderer());
+	    //table.getColumn("Function").setCellEditor(new TextAreaEditor());
+	    for(int i=0;i<req.get_length();i++) {
 			comboBox.addItem(req.getName(i));
 		}
 	    
-		TableCellEditor Comboeditor = new DefaultCellEditor(comboBox);
+	    TableCellEditor Comboeditor = new DefaultCellEditor(comboBox);
 		table.getColumnModel().getColumn(1).setCellEditor(Comboeditor);	    
 	     
 	    table.getColumn("Description").setCellRenderer(new TextAreaRenderer());
@@ -141,13 +140,10 @@ public class Activity2038 extends JTabbedPane {
 			}
 		});
 	}
-	
 	public void syncComboBox(ArrayList array) {
 		comboBox.removeAllItems();
 		for(int i=0; i<array.size(); i++) {
 			comboBox.addItem((String) array.get(i));
 		}
 	}
-
-
 }

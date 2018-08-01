@@ -32,7 +32,6 @@ public class Activity1010 extends JTabbedPane {
 	DefaultTableModel model;
 	DefaultTableModel model2;
 	private JTable table_1;
-	JLabel lblNewLabel;
 	
 	public Activity1010(Requirement req) {
 		String Category[] = {"EVIDENT","HIDEEN"};
@@ -107,13 +106,13 @@ public class Activity1010 extends JTabbedPane {
 		JTextPane textPane = new JTextPane();
 		ScrollPane.setViewportView(textPane);
 		
-		lblNewLabel = new JLabel("<html>example(Library Management System)<br>"
+		JLabel lblNewLabel = new JLabel("<html>example(Library Management System)<br>"
 	            + "- The library management software automates typical library  <br>"
 	            + "&ensp;operations; reservation, lending item, adding, removing, and <br>"
 	            + "&ensp;updating the information of title, item, and borrower.<br>"
 	            + "</html>");
 		ScrollPane.setColumnHeaderView(lblNewLabel);
-
+		
 		JScrollPane ScrollPane_1 = new JScrollPane();
 		addTab("Project Objective", null, ScrollPane_1, null);
 		
@@ -141,6 +140,9 @@ public class Activity1010 extends JTabbedPane {
 	            + "- When lending items, the content of lending item will appear within 5 seconds<br>"
 	            + "- When returning items, the content of returning item will appear within 5 seconds.<br>"
 	            + "</html>");
+		lblNewLabel_2.setOpaque(true);
+		lblNewLabel_2.setBackground(Color.LIGHT_GRAY);
+		
 		ScrollPane_2.setColumnHeaderView(lblNewLabel_2);
 		
 		JScrollPane ScrollPane_3 = new JScrollPane();

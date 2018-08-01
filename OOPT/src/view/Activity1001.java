@@ -1,5 +1,7 @@
 package view;
 
+import java.awt.Color;
+
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -8,6 +10,7 @@ import javax.swing.SwingConstants;
 
 
 public class Activity1001 extends JTabbedPane {
+
 	JTextPane MotivationPane;
 	
 	public Activity1001() {
@@ -25,6 +28,9 @@ public class Activity1001 extends JTabbedPane {
 				+ "- Among the various library operations, they want to automate the<br>" 
 				+ "&ensp;most commonly used operations such as loan, reservation, purchase,<br>" 
 				+ "&ensp;discarding old books, and simple statistics  </html>");
+		MotivationEx.setOpaque(true);
+		MotivationEx.setBackground(Color.LIGHT_GRAY);
+		
 		scrollPane.setColumnHeaderView(MotivationEx);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
@@ -39,6 +45,9 @@ public class Activity1001 extends JTabbedPane {
 				+ "&ensp;Lend and return books, Reserve books, Maintaining Borrow inforamtion, and Purchasing new books<br>"
 				+ "- The new software should be easy to learn and use, and efficient.<br>"
 				+ "</html>");
+		ProjectObjectiveEx.setOpaque(true);
+		ProjectObjectiveEx.setBackground(Color.LIGHT_GRAY);
+		
 		scrollPane_1.setColumnHeaderView(ProjectObjectiveEx);
 				
 		JScrollPane scrollPane_2 = new JScrollPane();
@@ -49,6 +58,9 @@ public class Activity1001 extends JTabbedPane {
 		
 		JLabel ScopeEx = new JLabel("<html>example(Library Management System)<br>"
 				+ "</html>");
+		ScopeEx.setOpaque(true);
+		ScopeEx.setBackground(Color.LIGHT_GRAY);
+		
 		scrollPane_2.setColumnHeaderView(ScopeEx);
 		
 		JScrollPane scrollPane_3 = new JScrollPane();
@@ -65,6 +77,9 @@ public class Activity1001 extends JTabbedPane {
 				+ "- Discard old titles<br>"
 				+ "- Maintain borrower information.<br>"
 				+ "</html>");
+		FuncReqEx.setOpaque(true);
+		FuncReqEx.setBackground(Color.LIGHT_GRAY);
+		
 		scrollPane_3.setColumnHeaderView(FuncReqEx);
 		
 		JScrollPane scrollPane_4 = new JScrollPane();
@@ -77,6 +92,9 @@ public class Activity1001 extends JTabbedPane {
 	            + "- The average response time for front desk operations should be less than 5 seconds<br>"
 	            + "- The system should be desgined to expandable and maintainable<br>"
 	            + "</html>");
+		NonFuncReqEx.setOpaque(true);
+		NonFuncReqEx.setBackground(Color.LIGHT_GRAY);
+		
 		scrollPane_4.setColumnHeaderView(NonFuncReqEx);
 		
 		JScrollPane scrollPane_5 = new JScrollPane();
@@ -91,6 +109,9 @@ public class Activity1001 extends JTabbedPane {
 	            + "- Project Duration<br>"
 	            + "- Cost<br>"
 	            + "</html>");
+		ResourceEstEx.setOpaque(true);
+		ResourceEstEx.setBackground(Color.LIGHT_GRAY);
+		
 		scrollPane_5.setColumnHeaderView(ResourceEstEx);
 		
 		JScrollPane scrollPane_6 = new JScrollPane();
@@ -104,9 +125,12 @@ public class Activity1001 extends JTabbedPane {
 	            + "&ensp;Adopt 3-Tier Client/Server Architecture<br>"
 	            + "&ensp;Add Web Interface<br>"
 	            + "</html>");
+		OtherInfoEx.setOpaque(true);
+		OtherInfoEx.setBackground(Color.LIGHT_GRAY);
+		
 		scrollPane_6.setColumnHeaderView(OtherInfoEx);
+		
 	}
-	
 	public String getMotivationString() {
 		return MotivationPane.getText();
 		

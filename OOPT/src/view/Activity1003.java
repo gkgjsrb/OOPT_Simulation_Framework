@@ -13,6 +13,8 @@ import javax.swing.table.TableCellEditor;
 import Model.Requirement;
 
 import javax.swing.JPopupMenu;
+
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -38,31 +40,9 @@ public class Activity1003 extends JTabbedPane {
 		
 		//CELL 
 		JComboBox<String> comboBox = new JComboBox<String>(Category);
-		JTextField tf = new JTextField();
 		TableCellEditor Comboeditor = new DefaultCellEditor(comboBox);
-		TableCellEditor editor = new DefaultCellEditor(tf);
 		table.getColumnModel().getColumn(2).setCellEditor(Comboeditor);
-		/*table.getColumnModel().getColumn(0).setCellEditor(editor);
-		table.getColumnModel().getColumn(1).setCellEditor(editor);
-		editor.addCellEditorListener(new CellEditorListener() {
-
-			@Override
-			public void editingCanceled(ChangeEvent arg0) {
-				// TODO Auto-generated method stub
-			}
-
-			@Override
-			public void editingStopped(ChangeEvent arg0) {
-				// TODO Auto-generated method stub
-				for(int i=0; i<req.get_length();i++) {
-					req.setRef((String)table.getValueAt(i, 0), i);
-					req.setName((String)table.getValueAt(i, 1), i);
-					req.setCategory((String)table.getValueAt(i, 2), i);
-				}
-			}
-			
-		});
-		*/
+		
 		table.setRowHeight(70);
 
 		table.getColumn("Ref").setCellRenderer(new TextAreaRenderer());
@@ -109,6 +89,9 @@ public class Activity1003 extends JTabbedPane {
 		JLabel lblNewLabel = new JLabel("<html>example(Library Management System)<br>"
 	            + "- Microsoft Windows 7 and 10<br>"
 	            + "</html>");
+		lblNewLabel.setOpaque(true);
+		lblNewLabel.setBackground(Color.LIGHT_GRAY);
+		
 		ScrollPane.setColumnHeaderView(lblNewLabel);
 				
 		JScrollPane ScrollPane_1 = new JScrollPane();
@@ -123,6 +106,9 @@ public class Activity1003 extends JTabbedPane {
 	            + "- Language : Java<br>"
 	            + "- UML : StarUML<br>"
 	            + "</html>");
+		lblNewLabel_1.setOpaque(true);
+		lblNewLabel_1.setBackground(Color.LIGHT_GRAY);
+		
 		ScrollPane_1.setColumnHeaderView(lblNewLabel_1);
 		
 		JScrollPane ScrollPane_2 = new JScrollPane();
@@ -135,6 +121,9 @@ public class Activity1003 extends JTabbedPane {
 	            + "- The current version may incorporate a menu-driven approach<br>"
 	            + "- Next version incorporates windows metaphor<br>"
 	            + "</html>");
+		lblNewLabel_2.setOpaque(true);
+		lblNewLabel_2.setBackground(Color.LIGHT_GRAY);
+		
 		ScrollPane_2.setColumnHeaderView(lblNewLabel_2);
 		
 		JScrollPane ScrollPane_3 = new JScrollPane();
