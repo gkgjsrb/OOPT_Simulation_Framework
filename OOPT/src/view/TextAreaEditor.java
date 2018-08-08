@@ -46,12 +46,18 @@ public class TextAreaEditor extends DefaultCellEditor {
 			@Override
 			public void editingStopped(ChangeEvent arg0) {
 				// TODO Auto-generated method stub
-				for(int i=0; i<req.get_length();i++) {
-					req.setRef((String)table.getValueAt(i, 0), i);
-					req.setName((String)table.getValueAt(i, 1), i);
-					req.setCategory((String)table.getValueAt(i, 2), i);
+
+				if(table.getSelectedColumn()==0) {
+					req.setRef((String)table.getValueAt(table.getSelectedRow(), 0), table.getSelectedRow());
+				}
+				else if(table.getSelectedColumn()==1) {
+					req.setName((String)table.getValueAt(table.getSelectedRow(), 1), table.getSelectedRow());
+				}
+				else if(table.getSelectedColumn()==2) {
+					req.setCategory((String)table.getValueAt(table.getSelectedRow(), 2), table.getSelectedRow());
 				}
 			}
+			
 			
 		});
 	}
@@ -84,10 +90,8 @@ public class TextAreaEditor extends DefaultCellEditor {
 					risk.setSig(Integer.parseInt((String) table.getValueAt(table.getSelectedRow(), 2)),table.getSelectedRow());
 					risk.setWeight((Integer)risk.getPro(table.getSelectedRow()), (Integer)risk.getSig(table.getSelectedRow()), table.getSelectedRow());
 				}
-				for(int i=0; i<risk.get_length(); i++) {
-					model.removeRow(0);
-					model2.removeRow(0);
-				}
+				model.setRowCount(0);
+				model2.setRowCount(0);
 				for(int i=0; i<risk.get_length(); i++) {
 					Object[] add= {risk.getName(i),risk.getPro(i),risk.getSig(i),risk.getWeight(i)};
 					Object[] add2= {risk.getName(i),risk.getPlan(i)};
@@ -123,10 +127,8 @@ public class TextAreaEditor extends DefaultCellEditor {
 					risk.setPlan((String)table2.getValueAt(table2.getSelectedRow(), 1), table2.getSelectedRow());
 				}
 				
-				for(int i=0; i<risk.get_length() ;i++) {
-					model.removeRow(0);
-					model2.removeRow(0);
-				}
+				model.setRowCount(0);
+				model2.setRowCount(0);
 				for(int i=0; i<risk.get_length();i++) {
 					Object[] add= {risk.getName(i),risk.getPro(i),risk.getSig(i),risk.getWeight(i)};
 					Object[] add2= {risk.getName(i),risk.getPlan(i)};

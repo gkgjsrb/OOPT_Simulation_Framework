@@ -73,7 +73,7 @@ public class Activity1009 extends JTabbedPane {
 		JMenuItem mntmNewMenuItem = new JMenuItem("add row");
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Object[] add= {null,null,null};
+				Object[] add= {" "," "," "};
 				model.addRow(add);
 			}
 		});
@@ -85,6 +85,7 @@ public class Activity1009 extends JTabbedPane {
 				int row = table.getSelectedRow();
 				if(row!=-1) {
 					model.removeRow(row);
+					table.editingCanceled(changeEvent);
 				}
 			}
 		});
@@ -105,6 +106,7 @@ public class Activity1009 extends JTabbedPane {
 				int row2 = table2.getSelectedRow();
 				if(row2!=-1) {
 					model2.removeRow(row2);
+					table.editingCanceled(changeEvent);
 				}
 			}
 		});

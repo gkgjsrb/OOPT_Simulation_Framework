@@ -170,6 +170,7 @@ public class Activity1002 extends JTabbedPane {
 					risk.del_row(row);
 					model.removeRow(row);
 					model2.removeRow(row);
+					table.editingCanceled(changeEvent);
 				}
 			}
 		});

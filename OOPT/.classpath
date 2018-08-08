@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
+		<attributes>
+			<attribute name="module" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="lib" path="jgoodies-forms-1.8.0.jar" sourcepath="jgoodies-forms-1.8.0-sources.jar"/>
-	<classpathentry kind="lib" path="/Users/KimJaeHyun/Documents/sqlite-jdbc-3.23.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/하헌규/Desktop/문서/졸업작품/modelio_sources_3.7.0.zip"/>
+	<classpathentry kind="lib" path="C:/Users/하헌규/modelio/Modelio Open Source 3.7/plugins/org.modelio.api_3.7.1.201802131409.jar"/>
+	<classpathentry kind="lib" path="C:/Users/하헌규/modelio/Modelio Open Source 3.7/lib/tools.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
