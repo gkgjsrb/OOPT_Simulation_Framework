@@ -11,15 +11,19 @@ import javax.swing.JPanel;
 
 public class Oopt extends JPanel{
 	Image img = null;
+	Image img2 = null;
+
 	public Oopt() {
 		try{
 			File sourceimage = new File("./oopt.png");
 			img = ImageIO.read(sourceimage);
+			img2 = img.getScaledInstance(500, 400, Image.SCALE_SMOOTH);
+
 		}
 		catch(IOException e){
 			System.out.println("Do not exist image file ");
 		}
-		JLabel lblNewLabel = new JLabel(new ImageIcon(img));
+		JLabel lblNewLabel = new JLabel(new ImageIcon(img2));
 		add(lblNewLabel);
 	}
 }

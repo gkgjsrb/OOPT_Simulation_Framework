@@ -1,15 +1,11 @@
 package view;
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
 import javax.swing.BoxLayout;
-import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -20,19 +16,33 @@ import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.plaf.metal.MetalIconFactory;
-import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
 import Model.Requirement;
 import Model.Risk;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
 public class GUI {
 
 	private JFrame frame;
 
-	public GUI(Requirement req, Risk risk, ArrayList uc)  {
+	/**
+	 * Launch the application.
+	 */
+	
+
+	/**
+	 * Create the application.
+	 */
+	public GUI(Requirement req, Risk risk, ArrayList uc) {
 		initialize(req, risk, uc);
 	}
-	
+
+	/**
+	 * Initialize the contents of the frame.
+	 */
 	private Hashtable makeIcons() {
 	    Hashtable icons = new Hashtable();
 	    icons.put("floppyDrive", MetalIconFactory.getTreeFloppyDriveIcon());
@@ -42,8 +52,7 @@ public class GUI {
 	    icons.put("java", TextIcons.getIcon("java"));
 	    icons.put("html", TextIcons.getIcon("html"));
 	    return icons;
-	  }
-	
+	}
 	private void initialize(Requirement req, Risk risk, ArrayList uc) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 928, 617);
@@ -58,49 +67,49 @@ public class GUI {
 		frame.getContentPane().add(splitPane);
 		
 		 String[] strs = { "OOPT", // 0
-			        "Stage1000", // 1
-			        "Activity 1001", //2
-			        "Activity 1002", //3
-			        "Activity 1003", //4
-			        "Activity 1004", //5
-			        "Activity 1005", //6
-			        "Activity 1006", //7
-			        "Activity 1007", //8
-			        "Activity 1008", //9
-			        "Activity 1009", //10
-			        "Activity 1010", //11
-			        "Stage2000", // 12
-			        "Stage2030", // 13
-			        "Activity 2031", //14
-			        "Activity 2032", //15
-			        "Activity 2033", //16
-			        "Activity 2034", //17
-			        "Activity 2035", //18
-			        "Activity 2036", //19
-			        "Activity 2037", //20
-			        "Activity 2038", //21
-			        "Activity 2039", //22
-			        "Stage2040", // 23
-			        "Activity 2041", //24
-			        "Activity 2042", //25
-			        "Activity 2043", //26
-			        "Activity 2044", //27
-			        "Activity 2045", //28
-			        "Activity 2046", //29
-			        "Stage2050", // 30
-			        "Activity 2051", //31
-			        "Activity 2052", //32
-			        "Activity 2053", //33
-			        "Activity 2054", //34
-			        "Activity 2055", //35
-			        "Stage2060", // 36
-			        "Activity 2061", //37
-			        "Activity 2062", //38
-			        "Activity 2063", //39
-			        "Activity 2064", //40
-			        "Activity 2065", //41
-			        "Activity 2066", //42
-			        "Activity 2067", //43
+			        "Stage1000 - Plan and Elaboration", // 1
+			        "Activity 1001 - Define Draft Plan", //2
+			        "Activity 1002 - Create Preliminary Investigation Report", //3
+			        "Activity 1003 - Define Requirements", //4
+			        "Activity 1004 - Record Terms in Glossary", //5
+			        "Activity 1005 - Implement Prototype", //6
+			        "Activity 1006 - Define Business Use Case", //7
+			        "Activity 1007 - Define Business Concept Model", //8
+			        "Activity 1008 - Define Draft System Architecture", //9
+			        "Activity 1009 - Define System Test Case", //10
+			        "Activity 1010 - Refine Plan", //11
+			        "Stage2000 - Build", // 12
+			        "Stage2030 - Analyze", // 13
+			        "Activity 2031 - Define Essential Use Cases", //14
+			        "Activity 2032 - Refine Use Case Diagrams", //15
+			        "Activity 2033 - Define Domain Model", //16
+			        "Activity 2034 - Refine Glossary", //17
+			        "Activity 2035 - Define System Sequence Diagrams", //18
+			        "Activity 2036 - Define Operation Contracts", //19
+			        "Activity 2037 - Define State Diagrams", //20
+			        "Activity 2038 - Refine System Test Case", //21
+			        "Activity 2039 - 2030 Phase Traceability Analysis", //22
+			        "Stage2040 - Design", // 23
+			        "Activity 2041 - Design Real Use Cases", //24
+			        "Activity 2042 - Define Reports, UI and Storyboards", //25
+			        "Activity 2043 - Refine System Architecture", //26
+			        "Activity 2044 - Define Interaction Diagrams", //27
+			        "Activity 2045 - Define Design Class Diagrams", //28
+			        "Activity 2046 - Design Traceability Analysis", //29
+			        "Stage2050 - Construct", // 30
+			        "Activity 2051 - Implement Class & Methods Definitions", //31
+			        "Activity 2052 - Implement Windows", //32
+			        "Activity 2053 - Implement Reports", //33
+			        "Activity 2054 - Implement DB Schema", //34
+			        "Activity 2055 - Write Unit Test Code", //35
+			        "Stage2060 - Test", // 36
+			        "Activity 2061 - Unit Testing", //37
+			        "Activity 2062 - Integration Testing", //38
+			        "Activity 2063 - System Testing", //39
+			        "Activity 2064 - Performance Testing", //40
+			        "Activity 2065 - Acceptance Testing", //41
+			        "Activity 2066 - Documentation Testing", //42
+			        "Activity 2067 - Testing Traceability Analysis", //43
 			        }; 
 		IconNode[] nodes = new IconNode[strs.length];
 		for(int i=0; i<strs.length; i++) {
@@ -137,10 +146,10 @@ public class GUI {
 			}
 		}
 		//tree 
-		JTree tree = new JTree(nodes[0]);  
+		JTree tree = new JTree(nodes[0]);
 		tree.putClientProperty("JTree.icons", makeIcons());
 		tree.setCellRenderer(new IconNodeRenderer());
-		
+		//stage
 		Oopt oopt = new Oopt();
 		Stage1000 s1000 = new Stage1000();
 		Stage2000 s2000 = new Stage2000();
@@ -149,16 +158,16 @@ public class GUI {
 		Stage2050 s2050 = new Stage2050();
 		Stage2060 s2060 = new Stage2060();
 		//activity
-		Activity1001 a1001 = new Activity1001();
-		Activity1002 a1002 = new Activity1002(risk);
-		Activity1003 a1003 = new Activity1003(req);
-		Activity1004 a1004 = new Activity1004();
-		Activity1005 a1005 = new Activity1005();
-		Activity1006 a1006 = new Activity1006();
-		Activity1007 a1007 = new Activity1007();
-		Activity1008 a1008 = new Activity1008();
-		Activity1009 a1009 = new Activity1009(req);
-		Activity1010 a1010 = new Activity1010(req);
+		Activity1001 a1001 = new Activity1001(tree);
+		Activity1002 a1002 = new Activity1002(tree, risk);
+		Activity1003 a1003 = new Activity1003(tree, req);
+		Activity1004 a1004 = new Activity1004(tree);
+		Activity1005 a1005 = new Activity1005(tree);
+		Activity1006 a1006 = new Activity1006(tree);
+		Activity1007 a1007 = new Activity1007(tree);
+		Activity1008 a1008 = new Activity1008(tree);
+		Activity1009 a1009 = new Activity1009(tree, req);
+		Activity1010 a1010 = new Activity1010(tree, req);
 		Activity2031 a2031 = new Activity2031(req, uc);
 		Activity2032 a2032 = new Activity2032();
 		Activity2033 a2033 = new Activity2033();
@@ -186,70 +195,9 @@ public class GUI {
 		Activity2065 a2065 = new Activity2065();
 		Activity2066 a2066 = new Activity2066();
 		Activity2067 a2067 = new Activity2067();
-		/*
-		tree.setModel(new DefaultTreeModel(
-			new IconNode("OOPT") {
-				{
-					IconNode node_1;
-					IconNode node_2;
-					node_1 = new IconNode("Stage1000");
-						node_1.add(new IconNode("Activity 1001"));
-						node_1.add(new IconNode("Activity 1002"));
-						node_1.add(new IconNode("Activity 1003"));
-						node_1.add(new IconNode("Activity 1004"));
-						node_1.add(new IconNode("Activity 1005"));
-						node_1.add(new IconNode("Activity 1006"));
-						node_1.add(new IconNode("Activity 1007"));
-						node_1.add(new IconNode("Activity 1008"));
-						node_1.add(new IconNode("Activity 1009"));
-						node_1.add(new IconNode("Activity 1010"));
-					add(node_1);
-					node_1 = new IconNode("Stage2000");
-						//node_1.add(new IconNode("Stage2010"));
-						//node_1.add(new IconNode("Stage2020"));
-						node_2 = new IconNode("Stage2030");
-							node_2.add(new IconNode("Activity 2031"));
-							node_2.add(new IconNode("Activity 2032"));
-							node_2.add(new IconNode("Activity 2033"));
-							node_2.add(new IconNode("Activity 2034"));
-							node_2.add(new IconNode("Activity 2035"));
-							node_2.add(new IconNode("Activity 2036"));
-							node_2.add(new IconNode("Activity 2037"));
-							node_2.add(new IconNode("Activity 2038"));
-							node_2.add(new IconNode("Activity 2039"));
-						node_1.add(node_2);
-						node_2 = new IconNode("Stage2040");
-							node_2.add(new IconNode("Activity 2041"));
-							node_2.add(new IconNode("Activity 2042"));
-							node_2.add(new IconNode("Activity 2043"));
-							node_2.add(new IconNode("Activity 2044"));
-							node_2.add(new IconNode("Activity 2045"));
-							node_2.add(new IconNode("Activity 2046"));
-							node_2.add(new IconNode("Activity 2047"));
-						node_1.add(node_2);
-						node_2 = new IconNode("Stage2050");
-							node_2.add(new IconNode("Activity 2051"));
-							node_2.add(new IconNode("Activity 2052"));
-							node_2.add(new IconNode("Activity 2053"));
-							node_2.add(new IconNode("Activity 2054"));
-							node_2.add(new IconNode("Activity 2055"));
-						node_1.add(node_2);
-						node_2 = new IconNode("Stage2060");
-							node_2.add(new IconNode("Activity 2061"));
-							node_2.add(new IconNode("Activity 2062"));
-							node_2.add(new IconNode("Activity 2063"));
-							node_2.add(new IconNode("Activity 2064"));
-							node_2.add(new IconNode("Activity 2065"));
-							node_2.add(new IconNode("Activity 2066"));
-							node_2.add(new IconNode("Activity 2067"));
-						node_1.add(node_2);
-					add(node_1);
-				}
-			}
-		));
-		*/
-		splitPane.setLeftComponent(new JScrollPane(tree));
 		
+		splitPane.setLeftComponent(new JScrollPane(tree));
+				
 		JMenuBar menuBar_1 = new JMenuBar();
 		frame.setJMenuBar(menuBar_1);
 		
@@ -264,280 +212,282 @@ public class GUI {
 		
 		JMenuItem mntmSave = new JMenuItem("Save");
 		File.add(mntmSave);
+		
 	    mntmSave.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					// TODO Auto-generated method stub
-					IconNode node = (IconNode)tree.getLastSelectedPathComponent();
-					String s = (String)node.getUserObject();
-					if(s.equals("Activity 1001")) {
-						nodes[2].setIconName("floppyDrive");	
-					}
-					else if(s.equals("Activity 1002")) {
-		        		 nodes[3].setIconName("floppyDrive");
-		        	 }
-		        	 else if(s.equals("Activity 1003")) {
-		        		 nodes[4].setIconName("floppyDrive");
-		        	 }
-		        	 else if(s.equals("Activity 1004")) {
-		        		 nodes[5].setIconName("floppyDrive");
-		        	 }
-		        	 else if(s.equals("Activity 1005")) {
-		        		 nodes[6].setIconName("floppyDrive");
-		        	 }
-		        	 else if(s.equals("Activity 1006")) {
-		        		 nodes[7].setIconName("floppyDrive");
-		        	 }
-		        	 else if(s.equals("Activity 1007")) {
-		        		 nodes[8].setIconName("floppyDrive");
-		        	 }
-		        	 else if(s.equals("Activity 1008")) {
-		        		 nodes[9].setIconName("floppyDrive");
-		        	 }
-		        	 else if(s.equals("Activity 1009")) {
-		        		 nodes[10].setIconName("floppyDrive");
-		        	 }
-		        	 else if(s.equals("Activity 1010")) {
-		        		 nodes[1].setIconName("floppyDrive");
-		        	 }
-		        	 else if(s.equals("Activity 2031")) {
-		        		 nodes[14].setIconName("floppyDrive");
-		        	 }
-		        	 else if(s.equals("Activity 2032")) {
-		        		 nodes[15].setIconName("floppyDrive");
-		        	 }
-		        	 else if(s.equals("Activity 2033")) {
-		        		 nodes[16].setIconName("floppyDrive");
-		        	 }
-		        	 else if(s.equals("Activity 2034")) {
-		        		 nodes[17].setIconName("floppyDrive");
-		        	 }
-		        	 else if(s.equals("Activity 2035")) {
-		        		 nodes[18].setIconName("floppyDrive");
-		        	 }
-		        	 else if(s.equals("Activity 2036")) {
-		        		 nodes[19].setIconName("floppyDrive");
-		        	 }
-		        	 else if(s.equals("Activity 2037")) {
-		        		 nodes[20].setIconName("floppyDrive");
-		        	 }
-		        	 else if(s.equals("Activity 2038")) {
-		        		 nodes[21].setIconName("floppyDrive");
-		        	 }
-		        	 else if(s.equals("Activity 2039")) {
-		        		 nodes[22].setIconName("floppyDrive");
-		        	 }
-		        	 else if(s.equals("Activity 2041")) {
-		        		 nodes[24].setIconName("floppyDrive");
-		        	 }
-		        	 else if(s.equals("Activity 2042")) {
-		        		 nodes[25].setIconName("floppyDrive");
-		        	 }
-		        	 else if(s.equals("Activity 2043")) {
-		        		 nodes[26].setIconName("floppyDrive");
-		        	 }
-		        	 else if(s.equals("Activity 2044")) {
-		        		 nodes[27].setIconName("floppyDrive");
-		        	 }
-		        	 else if(s.equals("Activity 2045")) {
-		        		 nodes[28].setIconName("floppyDrive");
-		        	 }
-		        	 else if(s.equals("Activity 2046")) {
-		        		 nodes[29].setIconName("floppyDrive");
-		        	 }
-		        	 else if(s.equals("Activity 2051")) {
-		        		 nodes[31].setIconName("floppyDrive");
-		        	 }
-		        	 else if(s.equals("Activity 2052")) {
-		        		 nodes[32].setIconName("floppyDrive");
-		        	 }
-		        	 else if(s.equals("Activity 2053")) {
-		        		 nodes[33].setIconName("floppyDrive");
-		        	 }
-		        	 else if(s.equals("Activity 2054")) {
-		        		 nodes[34].setIconName("floppyDrive");
-		        	 }
-		        	 else if(s.equals("Activity 2055")) {
-		        		 nodes[35].setIconName("floppyDrive");
-		        	 }
-		        	 else if(s.equals("Activity 2061")) {
-		        		 nodes[37].setIconName("floppyDrive");
-		        	 }
-		        	 else if(s.equals("Activity 2062")) {
-		        		 nodes[38].setIconName("floppyDrive");
-		        	 }
-		        	 else  if(s.equals("Activity 2063")) {
-		        		 nodes[39].setIconName("floppyDrive");
-		        	 }
-		        	 else if(s.equals("Activity 2064")) {
-		        		 nodes[40].setIconName("floppyDrive");
-		        	 }
-		        	 else if(s.equals("Activity 2065")) {
-		        		 nodes[41].setIconName("floppyDrive");
-		        	 }
-		        	 else if(s.equals("Activity 2066")) {
-		        		 nodes[42].setIconName("floppyDrive");
-		        	 }
-		        	 else if(s.equals("Activity 2067")) {
-		        		 nodes[43].setIconName("floppyDrive");
-		        	 }
-					tree.putClientProperty("JTree.icons", makeIcons());
-					
-				}
-		 });
-	
-		JMenu mnNewMenu_1 = new JMenu("New menu");
-		menuBar_1.add(mnNewMenu_1);
-		tree.addTreeSelectionListener(new TreeSelectionListener() {
-	         public void valueChanged(TreeSelectionEvent arg0) {
-	        	 IconNode node=(IconNode)tree.getLastSelectedPathComponent();
+	    	@Override
+	    	public void actionPerformed(ActionEvent arg0) {
+	        	IconNode node=(IconNode)tree.getLastSelectedPathComponent();
+	        	int index;
 	        	 if(node==null) {
 	        		 return;
 	        	 }
-	        	 String s=(String) node.getUserObject();
-	        	 if(s.equals("OOPT")) {
+	        	 //1000
+	        	 else if(node.getParent().equals(node.getRoot().getChildAt(0))){
+		        	index = node.getParent().getIndex(node);
+		        	 switch(index) {
+		        	 	case 0 :nodes[2].setIconName("floppyDrive");
+		        	 			break;
+		        	 	case 1 :nodes[3].setIconName("floppyDrive");
+	    	 					break;
+		        	 	case 2 :nodes[4].setIconName("floppyDrive");
+	    	 					break;
+		        	 	case 3 :nodes[5].setIconName("floppyDrive");
+	    	 					break;
+		        	 	case 4 :nodes[6].setIconName("floppyDrive");
+	    	 					break;
+		        	 	case 5 :nodes[7].setIconName("floppyDrive");
+	    	 					break;
+		        	 	case 6 :nodes[8].setIconName("floppyDrive");
+	    	 					break;
+		        	 	case 7 :nodes[9].setIconName("floppyDrive");
+	    	 					break;
+		        	 	case 8 :nodes[10].setIconName("floppyDrive");
+	    	 					break;
+		        	 	case 9 :nodes[11].setIconName("floppyDrive");
+	    	 					break;		 
+		        	 	default : break;
+		        	 }
+	        	 }
+	        	 //2030
+	        	 else if(node.getParent().equals(node.getRoot().getChildAt(1).getChildAt(0))){
+		        	 index = node.getParent().getIndex(node);
+		        	 switch(index) {
+		        	 	case 0 :nodes[14].setIconName("floppyDrive");
+		        	 			break;
+		        	 	case 1 :nodes[15].setIconName("floppyDrive");
+	    	 					break;
+		        	 	case 2 :nodes[16].setIconName("floppyDrive");
+	    	 					break;
+		        	 	case 3 :nodes[17].setIconName("floppyDrive");
+	    	 					break;
+		        	 	case 4 :nodes[18].setIconName("floppyDrive");
+	    	 					break;
+		        	 	case 5 :nodes[19].setIconName("floppyDrive");
+	    	 					break;
+		        	 	case 6 :nodes[20].setIconName("floppyDrive");
+	    	 					break;
+		        	 	case 7 :nodes[21].setIconName("floppyDrive");
+	    	 					break;
+		        	 	case 8 :nodes[22].setIconName("floppyDrive");
+	    	 					break;		 
+		        	 	default : break;
+		        	 }
+	        	 }
+	        	 //2040
+	        	 else if(node.getParent().equals(node.getRoot().getChildAt(1).getChildAt(1))){
+		        	 index = node.getParent().getIndex(node);
+		        	 switch(index) {
+		        	 	case 0 :nodes[24].setIconName("floppyDrive");
+		        	 			break;
+		        	 	case 1 :nodes[25].setIconName("floppyDrive");
+	    	 					break;
+		        	 	case 2 :nodes[26].setIconName("floppyDrive");
+	    	 					break;
+		        	 	case 3 :nodes[27].setIconName("floppyDrive");
+	    	 					break;
+		        	 	case 4 :nodes[28].setIconName("floppyDrive");
+	    	 					break;
+		        	 	case 5 :nodes[29].setIconName("floppyDrive");
+	    	 					break;
+		        	 	//case 6 :splitPane.setRightComponent(a2047);
+	    	 			//		break;		 
+		        	 	default : break;
+		        	 }
+	        	 }
+	        	 //2050
+	        	 else if(node.getParent().equals(node.getRoot().getChildAt(1).getChildAt(2))){
+		        	 index = node.getParent().getIndex(node);
+		        	 switch(index) {
+		        	 	case 0 :nodes[31].setIconName("floppyDrive");
+		        	 			break;
+		        	 	case 1 :nodes[32].setIconName("floppyDrive");
+	    	 					break;
+		        	 	case 2 :nodes[33].setIconName("floppyDrive");
+	    	 					break;
+		        	 	case 3 :nodes[34].setIconName("floppyDrive");
+	    	 					break;
+		        	 	case 4 :nodes[35].setIconName("floppyDrive");
+	    	 					break;		 
+		        	 	default : break;
+		        	 }
+	        	 }
+	        	 //2060
+	        	 else if(node.getParent().equals(node.getRoot().getChildAt(1).getChildAt(3))){
+		        	 index = node.getParent().getIndex(node);
+		        	 switch(index) {
+		        	 	case 0 :nodes[37].setIconName("floppyDrive");
+		        	 			break;
+		        	 	case 1 :nodes[38].setIconName("floppyDrive");
+	    	 					break;
+		        	 	case 2 :nodes[39].setIconName("floppyDrive");
+	    	 					break;
+		        	 	case 3 :nodes[40].setIconName("floppyDrive");
+	    	 					break;
+		        	 	case 4 :nodes[41].setIconName("floppyDrive");
+	    	 					break;
+		        	 	case 5 :nodes[42].setIconName("floppyDrive");
+	    	 					break;
+		        	 	case 6 :nodes[43].setIconName("floppyDrive");
+	    	 					break;		 
+		        	 	default : break;
+		        	}
+	        	}
+	        	 tree.putClientProperty("JTree.icons", makeIcons());
+	    	}
+	    });
+		JMenu mnNewMenu_1 = new JMenu("Edit");
+		menuBar_1.add(mnNewMenu_1);
+		
+		tree.addTreeSelectionListener(new TreeSelectionListener() {
+	         public void valueChanged(TreeSelectionEvent arg0) {
+	        	 IconNode node=(IconNode)tree.getLastSelectedPathComponent();
+	        	 int index;
+	        	 if(node==null) {
+	        		 return;
+	        	 }
+	        	 //stage
+	        	 if(node.equals(node.getRoot())) {
 	        		 splitPane.setRightComponent(oopt);
 	        	 }
-	        	 else if(s.equals("Stage1000")) {
-	        		 splitPane.setRightComponent(s1000);
+	        	 else if(node.getParent().equals(node.getRoot())) {
+		        	 index = node.getParent().getIndex(node);
+		        	 switch(index) {
+		        	 	case 0 :splitPane.setRightComponent(s1000);
+		        	 			break;
+		        	 	case 1 :splitPane.setRightComponent(s2000);
+	    	 					break;		 
+		        	 	default : break;
+		        	 }
 	        	 }
-	        	 else if(s.equals("Stage2000")) {
-	        		 splitPane.setRightComponent(s2000);
+	        	 else if(node.getParent().equals(node.getRoot().getChildAt(0))){
+		        	 index = node.getParent().getIndex(node);
+		        	 switch(index) {
+		        	 	case 0 :splitPane.setRightComponent(a1001);
+		        	 			break;
+		        	 	case 1 :splitPane.setRightComponent(a1002);
+	    	 					break;
+		        	 	case 2 :a1003.syncRequirement(req);
+		        	 			splitPane.setRightComponent(a1003);
+	    	 					break;
+		        	 	case 3 :splitPane.setRightComponent(a1004);
+	    	 					break;
+		        	 	case 4 :splitPane.setRightComponent(a1005);
+	    	 					break;
+		        	 	case 5 :splitPane.setRightComponent(a1006);
+	    	 					break;
+		        	 	case 6 :splitPane.setRightComponent(a1007);
+	    	 					break;
+		        	 	case 7 :splitPane.setRightComponent(a1008);
+	    	 					break;
+		        	 	case 8 :a1009.syncComboBox(req.getAllName());
+		        	 			splitPane.setRightComponent(a1009);
+	    	 					break;
+		        	 	case 9 :a1010.syncRequirement(req);
+		        	 			splitPane.setRightComponent(a1010);
+	    	 					break;		 
+		        	 	default : break;
+		        	 }
 	        	 }
-	        	 else if(s.equals("Stage2030")) {
-	        		 splitPane.setRightComponent(s2030);
+	        	 else if(node.getParent().equals(node.getRoot().getChildAt(1))) {
+		        	 index = node.getParent().getIndex(node);
+		        	 switch(index) {
+		        	 	case 0 :splitPane.setRightComponent(s2030);
+		        	 			break;
+		        	 	case 1 :splitPane.setRightComponent(s2040);
+	    	 					break;
+		        	 	case 2 :splitPane.setRightComponent(s2050);
+	    	 					break;
+		        	 	case 3 :splitPane.setRightComponent(s2060);
+	    	 					break;
+		        	 	default : break;
+		        	 }
 	        	 }
-	        	 else if(s.equals("Stage2040")) {
-	        		 splitPane.setRightComponent(s2040);
+	        	 else if(node.getParent().equals(node.getRoot().getChildAt(1).getChildAt(0))){
+		        	 index = node.getParent().getIndex(node);
+		        	 switch(index) {
+		        	 	case 0 :splitPane.setRightComponent(a2031);
+		        	 			break;
+		        	 	case 1 :splitPane.setRightComponent(a2032);
+	    	 					break;
+		        	 	case 2 :splitPane.setRightComponent(a2033);
+	    	 					break;
+		        	 	case 3 :splitPane.setRightComponent(a2034);
+	    	 					break;
+		        	 	case 4 :splitPane.setRightComponent(a2035);
+	    	 					break;
+		        	 	case 5 :splitPane.setRightComponent(a2036);
+	    	 					break;
+		        	 	case 6 :splitPane.setRightComponent(a2037);
+	    	 					break;
+		        	 	case 7 :a2038.syncComboBox(req.getAllName());
+		        	 			splitPane.setRightComponent(a2038);
+	    	 					break;
+		        	 	case 8 :splitPane.setRightComponent(a2039);
+	    	 					break;		 
+		        	 	default : break;
+		        	 }
 	        	 }
-	        	 else if(s.equals("Stage2050")) {
-	        		 splitPane.setRightComponent(s2050);
+	        	 else if(node.getParent().equals(node.getRoot().getChildAt(1).getChildAt(1))){
+		        	 index = node.getParent().getIndex(node);
+		        	 switch(index) {
+		        	 	case 0 :splitPane.setRightComponent(a2041);
+		        	 			break;
+		        	 	case 1 :splitPane.setRightComponent(a2042);
+	    	 					break;
+		        	 	case 2 :splitPane.setRightComponent(a2043);
+	    	 					break;
+		        	 	case 3 :splitPane.setRightComponent(a2044);
+	    	 					break;
+		        	 	case 4 :splitPane.setRightComponent(a2045);
+	    	 					break;
+		        	 	case 5 :splitPane.setRightComponent(a2046);
+	    	 					break;
+		        	 	//case 6 :splitPane.setRightComponent(a2047);
+	    	 			//		break;		 
+		        	 	default : break;
+		        	 }
 	        	 }
-	        	 else if(s.equals("Stage2060")) {
-	        		 splitPane.setRightComponent(s2060);
+	        	 else if(node.getParent().equals(node.getRoot().getChildAt(1).getChildAt(2))){
+		        	 index = node.getParent().getIndex(node);
+		        	 switch(index) {
+		        	 	case 0 :splitPane.setRightComponent(a2051);
+		        	 			break;
+		        	 	case 1 :splitPane.setRightComponent(a2052);
+	    	 					break;
+		        	 	case 2 :splitPane.setRightComponent(a2053);
+	    	 					break;
+		        	 	case 3 :splitPane.setRightComponent(a2054);
+	    	 					break;
+		        	 	case 4 :splitPane.setRightComponent(a2055);
+	    	 					break;		 
+		        	 	default : break;
+		        	 }
 	        	 }
-	        	 else if(s.equals("Activity 1001")) {
-	        		 splitPane.setRightComponent(a1001);
-	        	 }
-	        	 else if(s.equals("Activity 1002")) {
-	        		 splitPane.setRightComponent(a1002);
-	        	 }
-	        	 else if(s.equals("Activity 1003")) {
-	        		 a1003.syncRequirement(req);
-	        		 splitPane.setRightComponent(a1003);
-	        	 }
-	        	 else if(s.equals("Activity 1004")) {
-	        		 splitPane.setRightComponent(a1004);
-	        	 }
-	        	 else if(s.equals("Activity 1005")) {
-	        		 splitPane.setRightComponent(a1005);
-	        	 }
-	        	 else if(s.equals("Activity 1006")) {
-	        		 splitPane.setRightComponent(a1006);
-	        	 }
-	        	 else if(s.equals("Activity 1007")) {
-	        		 splitPane.setRightComponent(a1007);
-	        	 }
-	        	 else if(s.equals("Activity 1008")) {
-	        		 splitPane.setRightComponent(a1008);
-	        	 }
-	        	 else if(s.equals("Activity 1009")) {
-	        		 a1009.syncComboBox(req.getAllName());
-	        		 splitPane.setRightComponent(a1009);
-	        	 }
-	        	 else if(s.equals("Activity 1010")) {
-	        		 a1010.syncRequirement(req);
-	        		 splitPane.setRightComponent(a1010);
-	        	 }
-	        	 else if(s.equals("Activity 2031")) {
-	        		 splitPane.setRightComponent(a2031);
-	        	 }
-	        	 else if(s.equals("Activity 2032")) {
-	        		 splitPane.setRightComponent(a2032);
-	        	 }
-	        	 else if(s.equals("Activity 2033")) {
-	        		 splitPane.setRightComponent(a2033);
-	        	 }
-	        	 else if(s.equals("Activity 2034")) {
-	        		 splitPane.setRightComponent(a2034);
-	        	 }
-	        	 else if(s.equals("Activity 2035")) {
-	        		 splitPane.setRightComponent(a2035);
-	        	 }
-	        	 else if(s.equals("Activity 2036")) {
-	        		 splitPane.setRightComponent(a2036);
-	        	 }
-	        	 else if(s.equals("Activity 2037")) {
-	        		 splitPane.setRightComponent(a2037);
-	        	 }
-	        	 else if(s.equals("Activity 2038")) {
-	        		 a2038.syncComboBox(req.getAllName());
-	        		 splitPane.setRightComponent(a2038);
-	        	 }
-	        	 else if(s.equals("Activity 2039")) {
-	        		 splitPane.setRightComponent(a2039);
-	        	 }
-	        	 else if(s.equals("Activity 2041")) {
-	        		 splitPane.setRightComponent(a2041);
-	        	 }
-	        	 else if(s.equals("Activity 2042")) {
-	        		 splitPane.setRightComponent(a2042);
-	        	 }
-	        	 else if(s.equals("Activity 2043")) {
-	        		 splitPane.setRightComponent(a2043);
-	        	 }
-	        	 else if(s.equals("Activity 2044")) {
-	        		 splitPane.setRightComponent(a2044);
-	        	 }
-	        	 else if(s.equals("Activity 2045")) {
-	        		 splitPane.setRightComponent(a2045);
-	        	 }
-	        	 else if(s.equals("Activity 2046")) {
-	        		 splitPane.setRightComponent(a2046);
-	        	 }
-	        	 else if(s.equals("Activity 2051")) {
-	        		 splitPane.setRightComponent(a2051);
-	        	 }
-	        	 else if(s.equals("Activity 2052")) {
-	        		 splitPane.setRightComponent(a2052);
-	        	 }
-	        	 else if(s.equals("Activity 2053")) {
-	        		 splitPane.setRightComponent(a2053);
-	        	 }
-	        	 else if(s.equals("Activity 2054")) {
-	        		 splitPane.setRightComponent(a2054);
-	        	 }
-	        	 else if(s.equals("Activity 2055")) {
-	        		 splitPane.setRightComponent(a2055);
-	        	 }
-	        	 else if(s.equals("Activity 2061")) {
-	        		 splitPane.setRightComponent(a2061);
-	        	 }
-	        	 else if(s.equals("Activity 2062")) {
-	        		 splitPane.setRightComponent(a2062);
-	        	 }
-	        	 else  if(s.equals("Activity 2063")) {
-	        		 splitPane.setRightComponent(a2063);
-	        	 }
-	        	 else if(s.equals("Activity 2064")) {
-	        		 splitPane.setRightComponent(a2064);
-	        	 }
-	        	 else if(s.equals("Activity 2065")) {
-	        		 splitPane.setRightComponent(a2065);
-	        	 }
-	        	 else if(s.equals("Activity 2066")) {
-	        		 splitPane.setRightComponent(a2066);
-	        	 }
-	        	 else if(s.equals("Activity 2067")) {
-	        		 splitPane.setRightComponent(a2067);
-	        	 }
-	        	
+	        	 else if(node.getParent().equals(node.getRoot().getChildAt(1).getChildAt(3))){
+		        	 index = node.getParent().getIndex(node);
+		        	 switch(index) {
+		        	 	case 0 :splitPane.setRightComponent(a2061);
+		        	 			break;
+		        	 	case 1 :splitPane.setRightComponent(a2062);
+	    	 					break;
+		        	 	case 2 :splitPane.setRightComponent(a2063);
+	    	 					break;
+		        	 	case 3 :splitPane.setRightComponent(a2064);
+	    	 					break;
+		        	 	case 4 :splitPane.setRightComponent(a2065);
+	    	 					break;
+		        	 	case 5 :splitPane.setRightComponent(a2066);
+	    	 					break;
+		        	 	case 6 :splitPane.setRightComponent(a2067);
+	    	 					break;		 
+		        	 	default : break;
+		        	 }
+	        	 }	        	 
 	         }
 	      });
-		//testing code
-		frame.setVisible(true);
 		
+		
+		frame.setVisible(true);
 	}
 	
 	//testing code

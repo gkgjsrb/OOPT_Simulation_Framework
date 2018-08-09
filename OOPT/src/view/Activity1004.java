@@ -1,22 +1,29 @@
 package view;
 
 import java.awt.Component;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.JTree;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.tree.DefaultTreeModel;
 
 public class Activity1004 extends JTabbedPane {
 
 	//glossray save in file
-	public Activity1004() {
+	public Activity1004(JTree tree) {
 		DefaultTableModel model;	
 		String[] colName= {"Term","Description","Remarks"};
 		Object[][] rowData= {{"","",""}};
@@ -34,7 +41,21 @@ public class Activity1004 extends JTabbedPane {
 		table.getColumn("Remarks").setCellRenderer(new TextAreaRenderer());
 	    table.getColumn("Remarks").setCellEditor(new TextAreaEditor());
 
+		JSplitPane splitPane = new JSplitPane();
 		JScrollPane panel = new JScrollPane(table);
+		JPanel jpanel = new JPanel(new FlowLayout(FlowLayout.TRAILING));
+		JButton button = new JButton("+");
+		JButton button_1 = new JButton("-");
+		JButton button_2 = new JButton("Commit");
+		
+		jpanel.add(button);
+		jpanel.add(button_1);
+		jpanel.add(button_2);
+		jpanel.setBorder(BorderFactory.createEmptyBorder(0 , 0, 5, 5));
+		
+		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		splitPane.setBottomComponent(panel);
+		splitPane.setTopComponent(jpanel);
 		
 		JPopupMenu popupMenu = new JPopupMenu();
 		addPopup(table, popupMenu);
@@ -55,12 +76,41 @@ public class Activity1004 extends JTabbedPane {
 				int row = table.getSelectedRow();
 				if(row!=-1) {
 					model.removeRow(row);
+					table.editingCanceled(changeEvent);
 				}
 			}
 		});
 		popupMenu.add(mntmNewMenuItem_1);
-		this.addTab("Record Terms in Glossary", null, panel, null);
+		this.addTab("Record Terms in Glossary", null, splitPane, null);
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Object[] add= {"","", ""};
+				model.addRow(add);
+			}
+		});
 		
+		button_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int row = table.getSelectedRow();
+				if(row!=-1) {
+					model.removeRow(row);
+					table.editingCanceled(changeEvent);
+				}
+			}
+		});
+		
+		button_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				IconNode node=(IconNode)tree.getLastSelectedPathComponent();
+				if(node.getParent().equals(node.getRoot().getChildAt(0))){
+		        	int index = node.getParent().getIndex(node);
+		        	 if(index == 3) {
+		        	 	node.setIconName("floppyDrive");
+		        	 }
+				}
+				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+			}
+		});
 	}
 	private static void addPopup(Component component, final JPopupMenu popup) {
 		component.addMouseListener(new MouseAdapter() {

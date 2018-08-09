@@ -19,7 +19,7 @@ class IconNodeRenderer extends DefaultTreeCellRenderer {
 	    Icon icon = ((IconNode) value).getIcon();
 	    
 	    if (icon == null) {
-	      Hashtable icons = (Hashtable) tree.getClientProperty("JTree.icons");
+	      Hashtable icons = (Hashtable)tree.getClientProperty("JTree.icons");
 	      String name = ((IconNode) value).getIconName();
 	      if ((icons != null) && (name != null)) {
 	        icon = (Icon) icons.get(name);

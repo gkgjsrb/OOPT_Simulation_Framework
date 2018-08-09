@@ -17,32 +17,31 @@ public class Requirement {
 	ArrayList<String> Exceptional = new ArrayList<String>();
 	
 	public Requirement() {
-		Ref.add("");
-		Name.add("");
-		Category.add("");
-		Purpose.add("");
-		Overview.add("");
-		Type.add("");
-		CrossReference.add("");
-		PreRequistes.add("");
-		Typical.add("");
-		Alternative.add("");
-		Exceptional.add("");	
-
+		Ref.add(null);
+		Name.add(null);
+		Category.add(null);
+		Purpose.add(null);
+		Overview.add(null);
+		Type.add(null);
+		CrossReference.add(null);
+		PreRequistes.add(null);
+		Typical.add(null);
+		Alternative.add(null);
+		Exceptional.add(null);	
 
 	}
 	public void add_row() {
-		Ref.add("");
-		Name.add("");
-		Category.add("");
-		Purpose.add("");
-		Overview.add("");
-		Type.add("");
-		CrossReference.add("");
-		PreRequistes.add("");
-		Typical.add("");
-		Alternative.add("");
-		Exceptional.add("");	
+		Ref.add(null);
+		Name.add(null);
+		Category.add(null);
+		Purpose.add(null);
+		Overview.add(null);
+		Type.add(null);
+		CrossReference.add(null);
+		PreRequistes.add(null);
+		Typical.add(null);
+		Alternative.add(null);
+		Exceptional.add(null);
 	}
 	public void del_row(int row) {
 		Ref.remove(row);

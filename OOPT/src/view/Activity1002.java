@@ -2,30 +2,39 @@ package view;
 
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.JTree;
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
+import javax.swing.tree.DefaultTreeModel;
 
 import Model.Risk;
 
 public class Activity1002 extends JTabbedPane {
 
-	public Activity1002(Risk risk) {
+	public Activity1002(JTree tree, Risk risk) {
 		DefaultTableModel model;
 		DefaultTableModel model2;
 		
@@ -144,12 +153,26 @@ public class Activity1002 extends JTabbedPane {
 	    table2.getColumn("Plan").setCellRenderer(new TextAreaRenderer());
 	    table2.getColumn("Plan").setCellEditor(new TextAreaEditor(table2, risk, model, model2));
 	  
+	    JSplitPane splitPane_2 = new JSplitPane();
 		JScrollPane panel = new JScrollPane(table);
 		JScrollPane panel2 = new JScrollPane(table2);
 		JPopupMenu popupMenu = new JPopupMenu();
 		addPopup(table, popupMenu);
 		addPopup(panel, popupMenu);
 
+		JPanel jpanel_2 = new JPanel(new FlowLayout(FlowLayout.TRAILING));
+		JButton button_2 = new JButton("+");
+		JButton button_3 = new JButton("-");
+		JButton button_4 = new JButton("Commit");
+		jpanel_2.add(button_2);
+		jpanel_2.add(button_3);
+		jpanel_2.add(button_4);
+		jpanel_2.setBorder(BorderFactory.createEmptyBorder(0 , 0, 5, 5));
+		
+		splitPane_2.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		splitPane_2.setBottomComponent(panel);
+		splitPane_2.setTopComponent(jpanel_2);
+		
 		JMenuItem mntmNewMenuItem = new JMenuItem("add row");
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -171,17 +194,89 @@ public class Activity1002 extends JTabbedPane {
 					model.removeRow(row);
 					model2.removeRow(row);
 					table.editingCanceled(changeEvent);
+					table2.editingCanceled(changeEvent);
+
 				}
 			}
 		});
 		popupMenu.add(mntmNewMenuItem_1);
-
+		
+		button_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Object[] add= {"",1, 1, 1};
+				Object[] add2= {"",""};
+				risk.add_row();
+				model.addRow(add);
+				model2.addRow(add2);
+			}
+		});
+		
+		button_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int row = table.getSelectedRow();
+				if(row!=-1) {
+					risk.del_row(row);
+					model.removeRow(row);
+					model2.removeRow(row);
+					table.editingCanceled(changeEvent);
+					table2.editingCanceled(changeEvent);
+				}
+			}
+		});
+		
+		button_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				IconNode node=(IconNode)tree.getLastSelectedPathComponent();
+				if(node.getParent().equals(node.getRoot().getChildAt(0))){
+		        	int index = node.getParent().getIndex(node);
+		        	 if(index == 1) {
+		        	 	node.setIconName("floppyDrive");
+		        	 }
+				}
+				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+			}
+		});
+		JSplitPane splitPane = new JSplitPane();
+		JPanel jpanel = new JPanel(new FlowLayout(FlowLayout.TRAILING));
+		JButton button = new JButton("Commit");
+		jpanel.add(button);
+		jpanel.setBorder(BorderFactory.createEmptyBorder(0 , 0, 5, 5));
+		
 		JScrollPane scrollPane = new JScrollPane();
-		this.addTab("Alternative Solution", null, scrollPane, null);
+		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		splitPane.setBottomComponent(scrollPane);
+		splitPane.setTopComponent(jpanel);
+		this.addTab("Alternative Solution", null, splitPane, null);
+		
 		
 		JTextPane textPane = new JTextPane();
 		scrollPane.setViewportView(textPane);
-		
+		textPane.addKeyListener(new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				IconNode node=(IconNode)tree.getLastSelectedPathComponent();
+				if(node.getParent().equals(node.getRoot().getChildAt(0))){
+		        	int index = node.getParent().getIndex(node);
+		        	 if(index == 1) {
+		        	 	node.setIconName("computer");
+		        	 }
+		        	 ((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+				}
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		JLabel lblNewLabel = new JLabel("<html>example(Library Management System)<br>"
 	            + "- Purchasing such a library managing software, if available<br>"
 	            + "- Outsourcing<br>"
@@ -192,12 +287,46 @@ public class Activity1002 extends JTabbedPane {
 		
 		scrollPane.setColumnHeaderView(lblNewLabel);
 		
+		JSplitPane splitPane_1 = new JSplitPane();
+		JPanel jpanel_1 = new JPanel(new FlowLayout(FlowLayout.TRAILING));
+		JButton button_1 = new JButton("Commit");
+		jpanel_1.add(button_1);
+		jpanel_1.setBorder(BorderFactory.createEmptyBorder(0 , 0, 5, 5));
+		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		this.addTab("Project Justification", null, scrollPane_1, null);
+		splitPane_1.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		splitPane_1.setBottomComponent(scrollPane_1);
+		splitPane_1.setTopComponent(jpanel_1);
+		this.addTab("Project Justification", null, splitPane_1, null);
 		
 		JTextPane textPane_1 = new JTextPane();
 		scrollPane_1.setViewportView(textPane_1);
-		
+		textPane_1.addKeyListener(new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				IconNode node=(IconNode)tree.getLastSelectedPathComponent();
+				if(node.getParent().equals(node.getRoot().getChildAt(0))){
+		        	int index = node.getParent().getIndex(node);
+		        	 if(index == 1) {
+		        	 	node.setIconName("computer");
+		        	 }
+		        	 ((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+				}
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		JLabel lblNewLabel_1 = new JLabel("<html>example(Library Management System)<br>"
 	            + "- Cost<br>"
 	            + "- Duration<br>"
@@ -209,15 +338,59 @@ public class Activity1002 extends JTabbedPane {
 		
 		scrollPane_1.setColumnHeaderView(lblNewLabel_1);
 		
-		this.addTab("Risk Management", null, panel, null);
-		this.addTab("Risk Reduction Plan", null, panel2, null);
+		this.addTab("Risk Management", null, splitPane_2, null);
+		
+		JSplitPane splitPane_3 = new JSplitPane();
+		JPanel jpanel_3 = new JPanel(new FlowLayout(FlowLayout.TRAILING));
+		JButton button_5 = new JButton("Commit");
+		jpanel_3.add(button_5);
+		jpanel_3.setBorder(BorderFactory.createEmptyBorder(0 , 0, 5, 5));
+		
+		splitPane_3.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		splitPane_3.setBottomComponent(panel2);
+		splitPane_3.setTopComponent(jpanel_3);
+		this.addTab("Risk Reduction Plan", null, splitPane_3, null);
+		
+		JSplitPane splitPane_4 = new JSplitPane();
+		JPanel jpanel_4 = new JPanel(new FlowLayout(FlowLayout.TRAILING));
+		JButton button_6 = new JButton("Commit");
+		jpanel_4.add(button_6);
+		jpanel_4.setBorder(BorderFactory.createEmptyBorder(0 , 0, 5, 5));
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
-		this.addTab("Analyze business Plan", null, scrollPane_2, null);
+		splitPane_4.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		splitPane_4.setBottomComponent(scrollPane_2);
+		splitPane_4.setTopComponent(jpanel_4);
+		this.addTab("Analyze business Plan", null, splitPane_4, null);
 		
 		JTextPane textPane_2 = new JTextPane();
 		scrollPane_2.setViewportView(textPane_2);
-		
+		textPane_2.addKeyListener(new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				IconNode node=(IconNode)tree.getLastSelectedPathComponent();
+				if(node.getParent().equals(node.getRoot().getChildAt(0))){
+		        	int index = node.getParent().getIndex(node);
+		        	 if(index == 1) {
+		        	 	node.setIconName("computer");
+		        	 }
+		        	 ((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+				}
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		JLabel lblNewLabel_2 = new JLabel("<html>example(Library Management System)<br>"
 				+ "- A few generic packages are available, however too expensive<br>"
 				+ "- May be able to market the software to other similar-scaled libraries<br>"
@@ -227,12 +400,46 @@ public class Activity1002 extends JTabbedPane {
 		
 		scrollPane_2.setColumnHeaderView(lblNewLabel_2);
 				
+		JSplitPane splitPane_5 = new JSplitPane();
+		JPanel jpanel_5 = new JPanel(new FlowLayout(FlowLayout.TRAILING));
+		JButton button_7 = new JButton("Commit");
+		jpanel_5.add(button_7);
+		jpanel_5.setBorder(BorderFactory.createEmptyBorder(0 , 0, 5, 5));
+		
 		JScrollPane scrollPane_3 = new JScrollPane();
-		this.addTab("Managerial Issues", null, scrollPane_3, null);
+		splitPane_5.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		splitPane_5.setBottomComponent(scrollPane_3);
+		splitPane_5.setTopComponent(jpanel_5);
+		this.addTab("Managerial Issues", null, splitPane_5, null);
 		
 		JTextPane textPane_3 = new JTextPane();
 		scrollPane_3.setViewportView(textPane_3);
-		
+		textPane_3.addKeyListener(new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				IconNode node=(IconNode)tree.getLastSelectedPathComponent();
+				if(node.getParent().equals(node.getRoot().getChildAt(0))){
+		        	int index = node.getParent().getIndex(node);
+		        	 if(index == 1) {
+		        	 	node.setIconName("computer");
+		        	 }
+		        	 ((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+				}
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		JLabel lblNewLabel_3 = new JLabel("<html>example(Library Management System)<br>"
 	            + "- The project should be compeleted by June, 2008(Plan to participate in a SW exhibition<br>"
 	            + "</html>");
@@ -241,6 +448,66 @@ public class Activity1002 extends JTabbedPane {
 		
 		scrollPane_3.setColumnHeaderView(lblNewLabel_3);
 		
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				IconNode node=(IconNode)tree.getLastSelectedPathComponent();
+				if(node.getParent().equals(node.getRoot().getChildAt(0))){
+		        	int index = node.getParent().getIndex(node);
+		        	 if(index == 1) {
+		        	 	node.setIconName("floppyDrive");
+		        	 }
+				}
+				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+			}
+		});
+		button_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				IconNode node=(IconNode)tree.getLastSelectedPathComponent();
+				if(node.getParent().equals(node.getRoot().getChildAt(0))){
+		        	int index = node.getParent().getIndex(node);
+		        	 if(index == 1) {
+		        	 	node.setIconName("floppyDrive");
+		        	 }
+				}
+				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+			}
+		});
+		button_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				IconNode node=(IconNode)tree.getLastSelectedPathComponent();
+				if(node.getParent().equals(node.getRoot().getChildAt(0))){
+		        	int index = node.getParent().getIndex(node);
+		        	 if(index == 1) {
+		        	 	node.setIconName("floppyDrive");
+		        	 }
+				}
+				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+			}
+		});
+		button_6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				IconNode node=(IconNode)tree.getLastSelectedPathComponent();
+				if(node.getParent().equals(node.getRoot().getChildAt(0))){
+		        	int index = node.getParent().getIndex(node);
+		        	 if(index == 1) {
+		        	 	node.setIconName("floppyDrive");
+		        	 }
+				}
+				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+			}
+		});
+		button_7.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				IconNode node=(IconNode)tree.getLastSelectedPathComponent();
+				if(node.getParent().equals(node.getRoot().getChildAt(0))){
+		        	int index = node.getParent().getIndex(node);
+		        	 if(index == 1) {
+		        	 	node.setIconName("floppyDrive");
+		        	 }
+				}
+				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+			}
+		});
 	}
 	private static void addPopup(Component component, final JPopupMenu popup) {
 		component.addMouseListener(new MouseAdapter() {

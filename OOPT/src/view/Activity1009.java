@@ -1,27 +1,36 @@
 package view;
 
 import java.awt.Component;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.JTree;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
+import javax.swing.tree.DefaultTreeModel;
 
 import Model.Requirement;
 
 public class Activity1009 extends JTabbedPane {
+	
 	JComboBox<String> comboBox = new JComboBox<String>();
-	public Activity1009(Requirement req) {
+	
+	public Activity1009(JTree tree, Requirement req) {
 		DefaultTableModel model;
 		DefaultTableModel model2;
 
@@ -62,6 +71,35 @@ public class Activity1009 extends JTabbedPane {
 				
 		JScrollPane panel = new JScrollPane(table);
 		JScrollPane panel2 = new JScrollPane(table2);	
+		JSplitPane splitPane = new JSplitPane();
+		JSplitPane splitPane_1 = new JSplitPane();
+		JPanel jpanel = new JPanel(new FlowLayout(FlowLayout.TRAILING));
+		JPanel jpanel_1 = new JPanel(new FlowLayout(FlowLayout.TRAILING));
+		JButton button = new JButton("+");
+		JButton button_1 = new JButton("-");
+		JButton button_2 = new JButton("Commit");
+		
+		JButton button_3 = new JButton("+");
+		JButton button_4 = new JButton("-");
+		JButton button_5 = new JButton("Commit");
+		
+		jpanel.add(button);
+		jpanel.add(button_1);
+		jpanel.add(button_2);
+		jpanel.setBorder(BorderFactory.createEmptyBorder(0 , 0, 5, 5));
+		
+		jpanel_1.add(button_3);
+		jpanel_1.add(button_4);
+		jpanel_1.add(button_5);
+		jpanel_1.setBorder(BorderFactory.createEmptyBorder(0 , 0, 5, 5));
+		
+		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		splitPane.setBottomComponent(panel);
+		splitPane.setTopComponent(jpanel);
+
+		splitPane_1.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		splitPane_1.setBottomComponent(panel2);
+		splitPane_1.setTopComponent(jpanel_1);
 		
 		JPopupMenu popupMenu = new JPopupMenu();		
 		JPopupMenu popupMenu2 = new JPopupMenu();
@@ -106,16 +144,77 @@ public class Activity1009 extends JTabbedPane {
 				int row2 = table2.getSelectedRow();
 				if(row2!=-1) {
 					model2.removeRow(row2);
-					table.editingCanceled(changeEvent);
+					table2.editingCanceled(changeEvent);
 				}
 			}
 		});
 		popupMenu2.add(mntmNewMenuItem_3);
 		
-		this.addTab("Functional Requirement Test Case", null, panel, null);
-		this.addTab("Non Functional Requirement Test Case", null, panel2, null);
+		this.addTab("Functional Requirement Test Case", null, splitPane, null);
+		this.addTab("Non Functional Requirement Test Case", null, splitPane_1, null);
 
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Object[] add= {"","", ""};
+				req.add_row();
+				model.addRow(add);
+			}
+		});
 		
+		button_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int row = table.getSelectedRow();
+				if(row!=-1) {
+					req.del_row(row);
+					model.removeRow(row);
+					table.editingCanceled(changeEvent);
+				}
+			}
+		});
+		
+		button_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				IconNode node=(IconNode)tree.getLastSelectedPathComponent();
+				if(node.getParent().equals(node.getRoot().getChildAt(0))){
+		        	int index = node.getParent().getIndex(node);
+		        	 if(index == 8) {
+		        	 	node.setIconName("floppyDrive");
+		        	 }
+				}
+				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+			}
+		});
+		button_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Object[] add= {"",""};
+				req.add_row();
+				model2.addRow(add);
+			}
+		});
+		
+		button_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int row = table.getSelectedRow();
+				if(row!=-1) {
+					req.del_row(row);
+					model2.removeRow(row);
+					table2.editingCanceled(changeEvent);
+				}
+			}
+		});
+		
+		button_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				IconNode node=(IconNode)tree.getLastSelectedPathComponent();
+				if(node.getParent().equals(node.getRoot().getChildAt(0))){
+		        	int index = node.getParent().getIndex(node);
+		        	 if(index == 8) {
+		        	 	node.setIconName("floppyDrive");
+		        	 }
+				}
+				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+			}
+		});
 		
 	}
 	private static void addPopup(Component component, final JPopupMenu popup) {

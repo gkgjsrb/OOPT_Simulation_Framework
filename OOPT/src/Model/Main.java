@@ -1,12 +1,12 @@
 package Model;
 
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 
 import view.GUI;
+
 public class Main {
 
-	public static void main(String[] args) throws MalformedURLException {
+	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		Requirement req = new Requirement();
 		Risk risk = new Risk();

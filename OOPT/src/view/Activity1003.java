@@ -1,48 +1,44 @@
 package view;
 
-import javax.swing.JScrollPane;
-import javax.swing.JSplitPane;
-import javax.swing.JTabbedPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.JTextPane;
-import javax.swing.event.CellEditorListener;
-import javax.swing.event.ChangeEvent;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellEditor;
-
-import Model.Requirement;
-
-import javax.swing.JPopupMenu;
-
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
+import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
+import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+import javax.swing.JTextPane;
+import javax.swing.JTree;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
+import javax.swing.tree.DefaultTreeModel;
 
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
+import Model.Requirement;
 
 public class Activity1003 extends JTabbedPane {
-	public DefaultTableModel model;
+	DefaultTableModel model;
 	
-	public Activity1003(Requirement req) {
-		//DefaultTableModel model;
+	public Activity1003(JTree tree, Requirement req) {
 		String Category[] = {"EVIDENT","HIDDEN"};		
 		String[] colName= {"Ref","Name","Category"};
-		Object[][] rowData= {{req.getRef(0),req.getName(0),req.getCategory(0)}};
+		Object[][] rowData= {{null,null,null}};
 		
-		model=new DefaultTableModel(null,colName);
-		
-
-		JSplitPane splitPane = new JSplitPane();
+		model=new DefaultTableModel(rowData,colName);
 		
 		JTable table = new JTable(model);
 		
@@ -58,41 +54,24 @@ public class Activity1003 extends JTabbedPane {
 
 	    table.getColumn("Name").setCellRenderer(new TextAreaRenderer());
 	    table.getColumn("Name").setCellEditor(new TextAreaEditor(req, table));
-	    
-	    JPanel jpanel = new JPanel();
-	    JScrollPane panel = new JScrollPane(table);
-
-	    JButton add_btn = new JButton();
-	    JButton del_btn = new JButton();
-	    jpanel.add(add_btn);
-	    jpanel.add(del_btn);
-	    splitPane.setTopComponent(panel);
-	    splitPane.setBottomComponent(jpanel);
-	    add_btn.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				req.add_row();
-				Object[] add= {" "," "," "};
-				model.addRow(add);	
-			}
-	    	
-	    });
-	    del_btn.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
-				int row = table.getSelectedRow();
-				System.out.println(row);
-				model.removeRow(row);
-				req.del_row(row);
-				table.editingCanceled(changeEvent);
-				
-			}
-	    });
-/*		JPopupMenu popupMenu = new JPopupMenu();
+	   
+		JSplitPane splitPane = new JSplitPane();
+		JScrollPane panel = new JScrollPane(table);
+		JPanel jpanel = new JPanel(new FlowLayout(FlowLayout.TRAILING));
+		JButton button = new JButton("+");
+		JButton button_1 = new JButton("-");
+		JButton button_2 = new JButton("Commit");
+		
+		jpanel.add(button);
+		jpanel.add(button_1);
+		jpanel.add(button_2);
+		jpanel.setBorder(BorderFactory.createEmptyBorder(0 , 0, 5, 5));
+		
+		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		splitPane.setBottomComponent(panel);
+		splitPane.setTopComponent(jpanel);
+		
+		JPopupMenu popupMenu = new JPopupMenu();
 		addPopup(panel, popupMenu);
 		addPopup(table, popupMenu);
 
@@ -100,7 +79,7 @@ public class Activity1003 extends JTabbedPane {
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				req.add_row();
-				Object[] add= {" "," "," "};
+				Object[] add= {"","",""};
 				model.addRow(add);				
 			}
 		});
@@ -113,19 +92,53 @@ public class Activity1003 extends JTabbedPane {
 				if(row!=-1) {
 					req.del_row(row);
 					model.removeRow(row);
+					table.editingCanceled(changeEvent);
 				}
 			}
 		});
 		popupMenu.add(mntmNewMenuItem_1);
-		*/
-		this.addTab("Requirements", null, splitPane, null);
+		this.addTab("Requirements", null,splitPane, null);
+		
+		JSplitPane splitPane_1 = new JSplitPane();
+		JPanel jpanel_1 = new JPanel(new FlowLayout(FlowLayout.TRAILING));
+		JButton button_3 = new JButton("Commit");
+		jpanel_1.add(button_3);
+		jpanel_1.setBorder(BorderFactory.createEmptyBorder(0 , 0, 5, 5));
 		
 		JScrollPane ScrollPane = new JScrollPane();
-		this.addTab("Operating Environment", null, ScrollPane, null);
+		splitPane_1.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		splitPane_1.setBottomComponent(ScrollPane);
+		splitPane_1.setTopComponent(jpanel_1);
+		this.addTab("Operating Environment", null, splitPane_1, null);
 		
 		JTextPane textPane = new JTextPane();
 		ScrollPane.setViewportView(textPane);
-		
+		textPane.addKeyListener(new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				IconNode node=(IconNode)tree.getLastSelectedPathComponent();
+				if(node.getParent().equals(node.getRoot().getChildAt(0))){
+		        	int index = node.getParent().getIndex(node);
+		        	 if(index == 2) {
+		        	 	node.setIconName("computer");
+		        	 }
+		        	 ((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+				}
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		JLabel lblNewLabel = new JLabel("<html>example(Library Management System)<br>"
 	            + "- Microsoft Windows 7 and 10<br>"
 	            + "</html>");
@@ -134,12 +147,46 @@ public class Activity1003 extends JTabbedPane {
 		
 		ScrollPane.setColumnHeaderView(lblNewLabel);
 				
+		JSplitPane splitPane_2 = new JSplitPane();
+		JPanel jpanel_2 = new JPanel(new FlowLayout(FlowLayout.TRAILING));
+		JButton button_4 = new JButton("Commit");
+		jpanel_2.add(button_4);
+		jpanel_2.setBorder(BorderFactory.createEmptyBorder(0 , 0, 5, 5));
+		
 		JScrollPane ScrollPane_1 = new JScrollPane();
-		this.addTab("Develop Environment", null, ScrollPane_1, null);
+		splitPane_2.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		splitPane_2.setBottomComponent(ScrollPane_1);
+		splitPane_2.setTopComponent(jpanel_2);
+		this.addTab("Develop Environment", null, splitPane_2, null);
 		
 		JTextPane textPane_1 = new JTextPane();
 		ScrollPane_1.setViewportView(textPane_1);
-		
+		textPane_1.addKeyListener(new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				IconNode node=(IconNode)tree.getLastSelectedPathComponent();
+				if(node.getParent().equals(node.getRoot().getChildAt(0))){
+		        	int index = node.getParent().getIndex(node);
+		        	 if(index == 2) {
+		        	 	node.setIconName("computer");
+		        	 }
+		        	 ((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+				}
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		JLabel lblNewLabel_1 = new JLabel("<html>example(Library Management System)<br>"
 	            + "- CPU : Intel<br>"
 	            + "- IDE : Eclipse<br>"
@@ -151,12 +198,46 @@ public class Activity1003 extends JTabbedPane {
 		
 		ScrollPane_1.setColumnHeaderView(lblNewLabel_1);
 		
+		JSplitPane splitPane_3 = new JSplitPane();
+		JPanel jpanel_3 = new JPanel(new FlowLayout(FlowLayout.TRAILING));
+		JButton button_5 = new JButton("Commit");
+		jpanel_3.add(button_5);
+		jpanel_3.setBorder(BorderFactory.createEmptyBorder(0 , 0, 5, 5));
+		
 		JScrollPane ScrollPane_2 = new JScrollPane();
-		this.addTab("Interface Requirements", null, ScrollPane_2, null);
+		splitPane_3.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		splitPane_3.setBottomComponent(ScrollPane_2);
+		splitPane_3.setTopComponent(jpanel_3);
+		this.addTab("Interface Requirements", null, splitPane_3, null);
 		
 		JTextPane textPane_2 = new JTextPane();
 		ScrollPane_2.setViewportView(textPane_2);
-		
+		textPane_2.addKeyListener(new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				IconNode node=(IconNode)tree.getLastSelectedPathComponent();
+				if(node.getParent().equals(node.getRoot().getChildAt(0))){
+		        	int index = node.getParent().getIndex(node);
+		        	 if(index == 2) {
+		        	 	node.setIconName("computer");
+		        	 }
+		        	 ((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+				}
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		JLabel lblNewLabel_2 = new JLabel("<html>example(Library Management System)<br>"
 	            + "- The current version may incorporate a menu-driven approach<br>"
 	            + "- Next version incorporates windows metaphor<br>"
@@ -166,18 +247,133 @@ public class Activity1003 extends JTabbedPane {
 		
 		ScrollPane_2.setColumnHeaderView(lblNewLabel_2);
 		
+		JSplitPane splitPane_4 = new JSplitPane();
+		JPanel jpanel_4 = new JPanel(new FlowLayout(FlowLayout.TRAILING));
+		JButton button_6 = new JButton("Commit");
+		jpanel_4.add(button_6);
+		jpanel_4.setBorder(BorderFactory.createEmptyBorder(0 , 0, 5, 5));
+		
 		JScrollPane ScrollPane_3 = new JScrollPane();
-		this.addTab("Other Requirements", null, ScrollPane_3, null);
+		splitPane_4.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		splitPane_4.setBottomComponent(ScrollPane_3);
+		splitPane_4.setTopComponent(jpanel_4);
+		this.addTab("Other Requirements", null, splitPane_4, null);
 		
 		JTextPane textPane_3 = new JTextPane();
 		ScrollPane_3.setViewportView(textPane_3);
-		
+		textPane_3.addKeyListener(new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				IconNode node=(IconNode)tree.getLastSelectedPathComponent();
+				if(node.getParent().equals(node.getRoot().getChildAt(0))){
+		        	int index = node.getParent().getIndex(node);
+		        	 if(index == 2) {
+		        	 	node.setIconName("computer");
+		        	 }
+		        	 ((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+				}
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		JLabel lblNewLabel_3 = new JLabel("<html>example(Library Management System)<br>"
 	            + "- The System must control the system access<br>"
 	            + "</html>");
+		lblNewLabel_3.setOpaque(true);
+		lblNewLabel_3.setBackground(Color.LIGHT_GRAY);
+		
 		ScrollPane_3.setColumnHeaderView(lblNewLabel_3);
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Object[] add= {"","", ""};
+				req.add_row();
+				model.addRow(add);
+			}
+		});
+		
+		button_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int row = table.getSelectedRow();
+				if(row!=-1) {
+					req.del_row(row);
+					model.removeRow(row);
+					table.editingCanceled(changeEvent);
+				}
+			}
+		});
+		
+		button_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				IconNode node=(IconNode)tree.getLastSelectedPathComponent();
+				if(node.getParent().equals(node.getRoot().getChildAt(0))){
+		        	int index = node.getParent().getIndex(node);
+		        	 if(index == 2) {
+		        	 	node.setIconName("floppyDrive");
+		        	 }
+				}
+				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+			}
+		});
+		button_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				IconNode node=(IconNode)tree.getLastSelectedPathComponent();
+				if(node.getParent().equals(node.getRoot().getChildAt(0))){
+		        	int index = node.getParent().getIndex(node);
+		        	 if(index == 2) {
+		        	 	node.setIconName("floppyDrive");
+		        	 }
+				}
+				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+			}
+		});
+		button_4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				IconNode node=(IconNode)tree.getLastSelectedPathComponent();
+				if(node.getParent().equals(node.getRoot().getChildAt(0))){
+		        	int index = node.getParent().getIndex(node);
+		        	 if(index == 2) {
+		        	 	node.setIconName("floppyDrive");
+		        	 }
+				}
+				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+			}
+		});
+		button_5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				IconNode node=(IconNode)tree.getLastSelectedPathComponent();
+				if(node.getParent().equals(node.getRoot().getChildAt(0))){
+		        	int index = node.getParent().getIndex(node);
+		        	 if(index == 2) {
+		        	 	node.setIconName("floppyDrive");
+		        	 }
+				}
+				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+			}
+		});
+		button_6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				IconNode node=(IconNode)tree.getLastSelectedPathComponent();
+				if(node.getParent().equals(node.getRoot().getChildAt(0))){
+		        	int index = node.getParent().getIndex(node);
+		        	 if(index == 2) {
+		        	 	node.setIconName("floppyDrive");
+		        	 }
+				}
+				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+			}
+		});
 	}
-	/*
 	private static void addPopup(Component component, final JPopupMenu popup) {
 		component.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
@@ -195,9 +391,10 @@ public class Activity1003 extends JTabbedPane {
 			}
 		});
 	}
-	*/
 	public void syncRequirement(Requirement req) {
-		model.setRowCount(0);
+		for(int i = 0; i <= model.getRowCount();i++) {
+			model.removeRow(0);
+		}
 		for(int i = 0; i < req.get_length();i++) {
 			Object[] add = {req.getRef(i), req.getName(i), req.getCategory(i)};
 			model.addRow(add);
