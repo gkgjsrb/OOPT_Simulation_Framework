@@ -2,6 +2,7 @@ package view;
 import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
@@ -16,14 +17,11 @@ import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.plaf.metal.MetalIconFactory;
-import javax.swing.tree.DefaultTreeModel;
 
 import Model.Requirement;
 import Model.Risk;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JSeparator;
-import javax.swing.SwingConstants;
+import Model.UMLEditorApplication;
+
 public class GUI {
 
 	private JFrame frame;
@@ -35,9 +33,10 @@ public class GUI {
 
 	/**
 	 * Create the application.
+	 * @throws IOException 
 	 */
-	public GUI(Requirement req, Risk risk, ArrayList uc) {
-		initialize(req, risk, uc);
+	public GUI(Requirement req, Risk risk, ArrayList uc, String[] args) throws IOException {
+		initialize(req, risk, uc, args);
 	}
 
 	/**
@@ -53,7 +52,8 @@ public class GUI {
 	    icons.put("html", TextIcons.getIcon("html"));
 	    return icons;
 	}
-	private void initialize(Requirement req, Risk risk, ArrayList uc) {
+	private void initialize(Requirement req, Risk risk, ArrayList uc, String[] args) throws IOException {
+		
 		frame = new JFrame();
 		frame.setBounds(100, 100, 928, 617);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -163,7 +163,7 @@ public class GUI {
 		Activity1003 a1003 = new Activity1003(tree, req);
 		Activity1004 a1004 = new Activity1004(tree);
 		Activity1005 a1005 = new Activity1005(tree);
-		Activity1006 a1006 = new Activity1006(tree);
+		Activity1006 a1006 = new Activity1006(tree, args);
 		Activity1007 a1007 = new Activity1007(tree);
 		Activity1008 a1008 = new Activity1008(tree);
 		Activity1009 a1009 = new Activity1009(tree, req);
