@@ -1,7 +1,9 @@
 package view;
 import java.awt.Component;
+import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.geom.Ellipse2D;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -17,11 +19,16 @@ import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.plaf.metal.MetalIconFactory;
+import javax.swing.tree.DefaultTreeModel;
 
 import Model.Requirement;
 import Model.Risk;
 import Model.UMLEditorApplication;
 
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JSeparator;
+import javax.swing.SwingConstants;
 public class GUI {
 
 	private JFrame frame;
@@ -33,9 +40,9 @@ public class GUI {
 
 	/**
 	 * Create the application.
-	 * @throws IOException 
+	 * @throws ClassNotFoundException 
 	 */
-	public GUI(Requirement req, Risk risk, ArrayList uc, String[] args) throws IOException {
+	public GUI(Requirement req, Risk risk, ArrayList uc, String[] args) {
 		initialize(req, risk, uc, args);
 	}
 
@@ -52,8 +59,7 @@ public class GUI {
 	    icons.put("html", TextIcons.getIcon("html"));
 	    return icons;
 	}
-	private void initialize(Requirement req, Risk risk, ArrayList uc, String[] args) throws IOException {
-		
+	private void initialize(Requirement req, Risk risk, ArrayList uc, String[] args) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 928, 617);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -145,6 +151,7 @@ public class GUI {
 				nodes[i].setIconName("computer");
 			}
 		}
+		
 		//tree 
 		JTree tree = new JTree(nodes[0]);
 		tree.putClientProperty("JTree.icons", makeIcons());
@@ -158,12 +165,13 @@ public class GUI {
 		Stage2050 s2050 = new Stage2050();
 		Stage2060 s2060 = new Stage2060();
 		//activity
+		UMLEditorApplication u = new UMLEditorApplication();
 		Activity1001 a1001 = new Activity1001(tree);
 		Activity1002 a1002 = new Activity1002(tree, risk);
 		Activity1003 a1003 = new Activity1003(tree, req);
 		Activity1004 a1004 = new Activity1004(tree);
 		Activity1005 a1005 = new Activity1005(tree);
-		Activity1006 a1006 = new Activity1006(tree, args);
+		Activity1006 a1006 = new Activity1006(tree, uc, args);
 		Activity1007 a1007 = new Activity1007(tree);
 		Activity1008 a1008 = new Activity1008(tree);
 		Activity1009 a1009 = new Activity1009(tree, req);

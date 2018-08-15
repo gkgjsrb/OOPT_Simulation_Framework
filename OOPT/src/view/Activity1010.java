@@ -10,6 +10,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
@@ -28,8 +29,11 @@ import javax.swing.JTextPane;
 import javax.swing.JTree;
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
+import javax.swing.event.TableModelEvent;
+import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 
 import Model.Requirement;
@@ -78,7 +82,20 @@ public class Activity1010 extends JTabbedPane {
 
 		table.getColumn("Name").setCellRenderer(new TextAreaRenderer());
 	    table.getColumn("Name").setCellEditor(new TextAreaEditor());
-
+	    
+	    table.getModel().addTableModelListener(new TableModelListener() {
+	    	public void tableChanged(TableModelEvent e) {
+	    		IconNode node=(IconNode)tree.getLastSelectedPathComponent();
+	    		if(node.getParent().equals(node.getRoot().getChildAt(0))){
+	    	       	int index = node.getParent().getIndex(node);
+	    	       	 if(index == 9) {
+	    	      	 	node.setIconName("computer");
+	    	       	 }
+	    	       	 ((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+	    		}
+	    	}
+	    });
+	    
 	    JSplitPane splitPane_2 = new JSplitPane();
 		JScrollPane scrollPane_2 = new JScrollPane(table);
 		JPanel jpanel_2 = new JPanel(new FlowLayout(FlowLayout.TRAILING));
@@ -477,58 +494,109 @@ public class Activity1010 extends JTabbedPane {
 		table_1 = new JTable();
 		table_1.setModel(model2=new DefaultTableModel(
 			new Object[][] {
-				{"1001", "0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
-				{"1002", "0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
-				{"1003", "0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
-				{"1004", "0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
-				{"1005", "0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
-				{"1006", "0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
-				{"1007", "0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
-				{"1008", "0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
-				{"1009", "0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
-				{"1010", "0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
-				{"2010", "0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
-				{"2020", "0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
-				{"2031", "0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
-				{"2032", "0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
-				{"2033", "0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
-				{"2034", "0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
-				{"2035", "0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
-				{"2036", "0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
-				{"2037", "0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
-				{"2038", "0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
-				{"2039", "0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
-				{"2041", "0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
-				{"1042", "0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
-				{"2043", "0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
-				{"2044", "0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
-				{"2045", "0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
-				{"2046", "0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
-				{"2051", "0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
-				{"2052", "0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
-				{"2053", "0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},		
-				{"2054", "0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
-				{"2055", "0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
-				{"2061", "0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
-				{"2062", "0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
-				{"2063", "0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},		
-				{"2064", "0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
-				{"2065", "0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
-				{"2066", "0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
-				{"2067", "0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0","0"},
+				{"1001", "","","","","","","","","","","","","","","","","","","","","",""},
+				{"1002", "","","","","","","","","","","","","","","","","","","","","",""},
+				{"1003", "","","","","","","","","","","","","","","","","","","","","",""},
+				{"1004", "","","","","","","","","","","","","","","","","","","","","",""},
+				{"1005", "","","","","","","","","","","","","","","","","","","","","",""},
+				{"1006", "","","","","","","","","","","","","","","","","","","","","",""},
+				{"1007", "","","","","","","","","","","","","","","","","","","","","",""},
+				{"1008", "","","","","","","","","","","","","","","","","","","","","",""},
+				{"1009", "","","","","","","","","","","","","","","","","","","","","",""},
+				{"1010", "","","","","","","","","","","","","","","","","","","","","",""},
+				{"2010", "","","","","","","","","","","","","","","","","","","","","",""},
+				{"2020", "","","","","","","","","","","","","","","","","","","","","",""},
+				{"2031", "","","","","","","","","","","","","","","","","","","","","",""},
+				{"2032", "","","","","","","","","","","","","","","","","","","","","",""},
+				{"2033", "","","","","","","","","","","","","","","","","","","","","",""},
+				{"2034", "","","","","","","","","","","","","","","","","","","","","",""},
+				{"2035", "","","","","","","","","","","","","","","","","","","","","",""},
+				{"2036", "","","","","","","","","","","","","","","","","","","","","",""},
+				{"2037", "","","","","","","","","","","","","","","","","","","","","",""},
+				{"2038", "","","","","","","","","","","","","","","","","","","","","",""},
+				{"2039", "","","","","","","","","","","","","","","","","","","","","",""},
+				{"2041", "","","","","","","","","","","","","","","","","","","","","",""},
+				{"1042", "","","","","","","","","","","","","","","","","","","","","",""},
+				{"2043", "","","","","","","","","","","","","","","","","","","","","",""},
+				{"2044", "","","","","","","","","","","","","","","","","","","","","",""},
+				{"2045", "","","","","","","","","","","","","","","","","","","","","",""},
+				{"2046", "","","","","","","","","","","","","","","","","","","","","",""},
+				{"2051", "","","","","","","","","","","","","","","","","","","","","",""},
+				{"2052", "","","","","","","","","","","","","","","","","","","","","",""},
+				{"2053", "","","","","","","","","","","","","","","","","","","","","",""},		
+				{"2054", "","","","","","","","","","","","","","","","","","","","","",""},
+				{"2055", "","","","","","","","","","","","","","","","","","","","","",""},
+				{"2061", "","","","","","","","","","","","","","","","","","","","","",""},
+				{"2062", "","","","","","","","","","","","","","","","","","","","","",""},
+				{"2063", "","","","","","","","","","","","","","","","","","","","","",""},		
+				{"2064", "","","","","","","","","","","","","","","","","","","","","",""},
+				{"2065", "","","","","","","","","","","","","","","","","","","","","",""},
+				{"2066", "","","","","","","","","","","","","","","","","","","","","",""},
+				{"2067", "","","","","","","","","","","","","","","","","","","","","",""},
 			},
 			new String[] {
 				"Phase", "W1-1", "W1-2", "W2-1", "W2-2", "W3-1", "W3-2", "W4-1", "W4-2", "W5-1", "W5-2" ,"W6-1", "W6-2", "W7-1", "W7-2", "W8-1", "W8-2", "W9-1", "W9-2", "W10-1", "W10-2"
 			}
 		) {
 			boolean[] columnEditables = new boolean[] {
-				false,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true,true
+				false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false
 			};
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
 			}
 		});
+		TableCellRenderer renderer = new MyTableCellRenderer();
+		table_1.setDefaultRenderer(Object.class, renderer);
+		table_1.setCellSelectionEnabled(false);
+		table_1.addMouseListener(new MouseListener() {
+		
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				if(e.getButton()==1) {
+					if(table_1.getValueAt(table_1.getSelectedRow(), table_1.getSelectedColumn()).equals("")) {
+						table_1.setValueAt("1",table_1.getSelectedRow(), table_1.getSelectedColumn());
+					}
+					else {
+						table_1.setValueAt("",table_1.getSelectedRow(), table_1.getSelectedColumn());	
+					}
+					IconNode node=(IconNode)tree.getLastSelectedPathComponent();
+					if(node.getParent().equals(node.getRoot().getChildAt(0))){
+			        	int index = node.getParent().getIndex(node);
+			        	 if(index == 9) {
+			        	 	node.setIconName("computer");
+			        	 }
+			        	 ((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+					}
+				}
+			}
 
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+		});
+		
 		JSplitPane splitPane_8 = new JSplitPane();
 		JPanel jpanel_8 = new JPanel(new FlowLayout(FlowLayout.TRAILING));
 		JButton button_10 = new JButton("Commit");
@@ -557,18 +625,20 @@ public class Activity1010 extends JTabbedPane {
 		
 		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				int row = table.getSelectedRow();
-				if(row!=-1) {
-					model.removeRow(row);
-					table.editingCanceled(changeEvent);
+				IconNode node=(IconNode)tree.getLastSelectedPathComponent();
+				if(node.getParent().equals(node.getRoot().getChildAt(0))){
+		        	int index = node.getParent().getIndex(node);
+		        	 if(index == 9) {
+		        	 	node.setIconName("floppyDrive");
+		        	 }
 				}
+				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
 			}
 		});
 		
 		button_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Object[] add= {"",1, 1, 1};
-				Object[] add2= {"",""};
+				Object[] add= {"","",""};
 				req.add_row();
 				model.addRow(add);
 			}
@@ -675,6 +745,7 @@ public class Activity1010 extends JTabbedPane {
 		
 
 	}
+	
 	private static void addPopup(Component component, final JPopupMenu popup) {
 		component.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {
@@ -693,9 +764,7 @@ public class Activity1010 extends JTabbedPane {
 		});
 	}
 	public void syncRequirement(Requirement req) {
-		for(int i=0;i<=model.getRowCount();i++) {
-			model.removeRow(0);
-		}
+		model.setRowCount(0);
 		for(int i=0;i<req.get_length();i++) {
 			Object[] add = {req.getRef(i),req.getName(i),req.getCategory(i)};
 			model.addRow(add);

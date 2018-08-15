@@ -1,15 +1,13 @@
 package Model;
 
 
-import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
-import com.horstmann.violet.application.gui.MainFrame;
-import com.horstmann.violet.application.gui.SplashScreen;
+import javax.swing.JTabbedPane;
+
 import com.horstmann.violet.framework.dialog.DialogFactory;
 import com.horstmann.violet.framework.dialog.DialogFactoryMode;
 import com.horstmann.violet.framework.file.GraphFile;
@@ -33,11 +31,11 @@ import com.horstmann.violet.framework.userpreferences.DefaultUserPreferencesDao;
 import com.horstmann.violet.framework.userpreferences.IUserPreferencesDao;
 import com.horstmann.violet.framework.userpreferences.UserPreferencesService;
 import com.horstmann.violet.framework.util.VersionChecker;
+import com.horstmann.violet.product.diagram.abstracts.IGraph;
+import com.horstmann.violet.product.diagram.usecase.UseCaseDiagramGraph;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.Workspace;
 import com.horstmann.violet.workspace.WorkspacePanel;
-
-import javax.swing.*;
 
 /**
  * A program for editing UML diagrams.
@@ -49,9 +47,12 @@ public class UMLEditorApplication
      * 
      * @param filesToOpen
      */
+	public UMLEditorApplication() {
+		initBeanFactory();
+	}
     public UMLEditorApplication(String[] filesToOpen, JTabbedPane jp)
     {
-        initBeanFactory();
+        //initBeanFactory();
         BeanInjector.getInjector().inject(this);
         createDefaultWorkspace(filesToOpen, jp);
     }
@@ -70,6 +71,7 @@ public class UMLEditorApplication
         themeList.add(theme3);
         themeManager.setInstalledThemes(themeList);
         themeManager.applyPreferedTheme();
+        
         BeanFactory.getFactory().register(ThemeManager.class, themeManager);
         themeManager.applyPreferedTheme();
 
@@ -99,14 +101,14 @@ public class UMLEditorApplication
         //SplashScreen splashScreen = new SplashScreen();
         //splashScreen.setVisible(true);
         this.versionChecker.checkJavaVersion();
-        MainFrame mainFrame = new MainFrame();
-        mainFrame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
-        mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        //MainFrame mainFrame = new MainFrame();
+        //mainFrame.setSize(Toolkit.getDefaultToolkit().getScreenSize());
+        //mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         //SplashScreen.displayOverEditor(mainFrame, 1000);
         List<IFile> fullList = new ArrayList<IFile>();
         List<IFile> lastSessionFiles = this.userPreferencesService.getOpenedFilesDuringLastSession();
         fullList.addAll(lastSessionFiles);
-        
+
         
         for (String aFileToOpen : filesToOpen)
         {
@@ -114,6 +116,7 @@ public class UMLEditorApplication
             {
                 LocalFile localFile = new LocalFile(new File(aFileToOpen));
                 fullList.add(localFile);
+
             }
             catch (IOException e)
             {
@@ -122,7 +125,9 @@ public class UMLEditorApplication
                 e.printStackTrace();
             }
         }
+        
         // Open files
+        /*
         for (IFile aFile : lastSessionFiles)
         {
             try
@@ -131,8 +136,9 @@ public class UMLEditorApplication
                 IWorkspace workspace = new Workspace(graphFile);
                 WorkspacePanel wp = workspace.getAWTComponent();
                 jp.addTab("test", null, wp, null);
-                break;
-                //mainFrame.addWorkspace(workspace);
+               
+                //mainFrame.addTabbedPane(workspace);
+                //System.out.println("aaaaa");
             }
             catch (Exception e)
             {
@@ -141,8 +147,20 @@ public class UMLEditorApplication
                 System.err.println("Removed from user preferences!");
             }
         }
-        IFile activeFile = this.userPreferencesService.getActiveDiagramFile();
-        //mainFrame.setActiveWorkspace(activeFile);
+        */
+        try {
+        	//IFile activeFile = this.userPreferencesService.getActiveDiagramFile();
+        	Class<? extends IGraph> graphClass = new UseCaseDiagramGraph().getClass();
+            IGraphFile graphFile = new GraphFile(graphClass);
+            IWorkspace workspace = new Workspace(graphFile);
+            WorkspacePanel wp = workspace.getAWTComponent();
+            jp.addTab("Draw a Use-Case Diagram", null, wp, null);
+            
+        }
+        catch (Exception e) {
+            System.err.println("Removed from user preferences!");
+        }
+        //mainFrame.setActiveDiagramPanel(activeFile);
         //mainFrame.setVisible(true);
         //splashScreen.setVisible(false);
         //splashScreen.dispose();
