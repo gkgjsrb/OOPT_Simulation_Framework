@@ -1,10 +1,7 @@
 package view;
 import java.awt.Component;
-import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.geom.Ellipse2D;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
@@ -19,16 +16,10 @@ import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.plaf.metal.MetalIconFactory;
-import javax.swing.tree.DefaultTreeModel;
 
 import Model.Requirement;
 import Model.Risk;
 import Model.UMLEditorApplication;
-
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JSeparator;
-import javax.swing.SwingConstants;
 public class GUI {
 
 	private JFrame frame;

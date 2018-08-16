@@ -8,9 +8,13 @@ import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.table.DefaultTableModel;
 
-import com.horstmann.violet.product.diagram.abstracts.property.MultiLineString;
-import com.horstmann.violet.product.diagram.usecase.UseCaseNode;
-import com.horstmann.violet.workspace.sidebar.graphtools.GraphTool;
+import com.horstmann.violet.framework.file.GraphFile;
+import com.horstmann.violet.framework.file.IGraphFile;
+import com.horstmann.violet.product.diagram.abstracts.IGraph;
+import com.horstmann.violet.product.diagram.usecase.UseCaseDiagramGraph;
+import com.horstmann.violet.workspace.IWorkspace;
+import com.horstmann.violet.workspace.Workspace;
+import com.horstmann.violet.workspace.WorkspacePanel;
 
 import Model.UMLEditorApplication;
 
@@ -40,8 +44,12 @@ public class Activity1006 extends JTabbedPane {
 
 		JScrollPane scrollPane_5 = new JScrollPane();
 		addTab("Identify Relationsships between Use-Cases", null, scrollPane_5, null);
-
-		UMLEditorApplication uml = new UMLEditorApplication(args, this);
+		Class<? extends IGraph> graphClass = new UseCaseDiagramGraph().getClass();
+        IGraphFile graphFile = new GraphFile(graphClass);
+        IWorkspace workspace = new Workspace(graphFile);
+        WorkspacePanel wp = workspace.getAWTComponent();
+        addTab("Draw a Use-Case Diagram", null, wp, null);
+		//UMLEditorApplication uml = new UMLEditorApplication(args, this);
 		
 		JTabbedPane panel = new JTabbedPane();
 		addTab("Describe Use-Cases", null, panel, null);
