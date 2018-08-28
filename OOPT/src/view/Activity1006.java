@@ -272,9 +272,11 @@ public class Activity1006 extends JTabbedPane {
 	                    }
 	                    selectedFile = fileOpener.getFileDefinition();
 	                    IGraphFile graphFile_tmp = new GraphFile(selectedFile);
-	                    IWorkspace workspace_tmp = new Workspace(graphFile_tmp);
-	                    WorkspacePanel wp_tmp = workspace_tmp.getAWTComponent();
-	                    splitPane.setBottomComponent(wp_tmp);
+	                    if(graphFile_tmp.getGraph().getClass().equals(graphClass)) {
+	                    	IWorkspace workspace_tmp = new Workspace(graphFile_tmp);
+		                    WorkspacePanel wp_tmp = workspace_tmp.getAWTComponent();
+		                    splitPane.setBottomComponent(wp_tmp);	
+	                    }
 
 	                }
 	                catch (StreamException se)
