@@ -10,7 +10,6 @@ public class Main {
 		// TODO Auto-generated method stub
 		Mkdir md = new Mkdir();
 		md.createVioletDirectory();
-		
 		Requirement req = new Requirement();
 		Risk risk = new Risk();
 		ArrayList <UseCase> uc = new ArrayList<>();

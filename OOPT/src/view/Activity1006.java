@@ -30,13 +30,25 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.tree.DefaultTreeModel;
 
+import com.horstmann.violet.framework.dialog.DialogFactory;
 import com.horstmann.violet.framework.file.GraphFile;
+import com.horstmann.violet.framework.file.IFile;
 import com.horstmann.violet.framework.file.IGraphFile;
+import com.horstmann.violet.framework.file.chooser.IFileChooserService;
+import com.horstmann.violet.framework.file.naming.ExtensionFilter;
+import com.horstmann.violet.framework.file.naming.FileNamingService;
+import com.horstmann.violet.framework.file.persistence.IFileReader;
+import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjector;
+import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
+import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
+import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
+import com.horstmann.violet.framework.userpreferences.UserPreferencesService;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.usecase.UseCaseDiagramGraph;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.Workspace;
 import com.horstmann.violet.workspace.WorkspacePanel;
+import com.thoughtworks.xstream.io.StreamException;
 
 import Model.UMLEditorApplication;
 
@@ -45,9 +57,20 @@ import Model.UMLEditorApplication;
 public class Activity1006 extends JTabbedPane {
 	//private JTable table;
 	DefaultTableModel model;
-
+	@InjectedBean
+	private FileNamingService fileNamingService;
+	@InjectedBean
+	private IFileChooserService fileChooserService;
+	@InjectedBean
+	private DialogFactory dialogFactory;
+	@ResourceBundleBean(key = "dialog.open_file_failed.text")
+	private String dialogOpenFileErrorMessage;
+    @ResourceBundleBean(key = "dialog.open_file_content_incompatibility.text")
+    private String dialogOpenFileIncompatibilityMessage;
+	
 	public Activity1006(JTree tree, ArrayList uc, String[] args) {
 		
+		BeanInjector.getInjector().inject(this);
 		JScrollPane scrollPane = new JScrollPane();
 		addTab("Define System Boundary", null, scrollPane, null);
 		
@@ -218,8 +241,61 @@ public class Activity1006 extends JTabbedPane {
 		Class<? extends IGraph> graphClass = new UseCaseDiagramGraph().getClass();
         IGraphFile graphFile = new GraphFile(graphClass);
         IWorkspace workspace = new Workspace(graphFile);
+        JSplitPane splitPane = new JSplitPane();
+        
+        
+		JPanel tpanel_uc = new JPanel(new FlowLayout(FlowLayout.TRAILING));
+		JButton button_save = new JButton("Save");
+		JButton button_open = new JButton("Open");
+		tpanel_uc.add(button_save);
+		tpanel_uc.add(button_open);
+		
         WorkspacePanel wp = workspace.getAWTComponent();
-        addTab("Draw a Use-Case Diagram", null, wp, null);
+        button_save.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				workspace.getGraphFile().save();
+			}
+		});
+		button_open.addActionListener(new ActionListener()
+	        {
+	            public void actionPerformed(ActionEvent event)
+	            {
+	            	IFile selectedFile = null;
+	                try
+	                {
+	                    ExtensionFilter[] filters = fileNamingService.getFileFilters();
+	                    IFileReader fileOpener = fileChooserService.chooseAndGetFileReader(filters);
+	                    if (fileOpener == null)
+	                    {
+	                        // Action cancelled by user
+	                        return;
+	                    }
+	                    selectedFile = fileOpener.getFileDefinition();
+	                    IGraphFile graphFile_tmp = new GraphFile(selectedFile);
+	                    IWorkspace workspace_tmp = new Workspace(graphFile_tmp);
+	                    WorkspacePanel wp_tmp = workspace_tmp.getAWTComponent();
+	                    splitPane.setBottomComponent(wp_tmp);
+
+	                }
+	                catch (StreamException se)
+	                {
+	                    dialogFactory.showErrorDialog(dialogOpenFileIncompatibilityMessage);
+	                }
+	                catch (Exception e)
+	                {
+	                    dialogFactory.showErrorDialog(dialogOpenFileErrorMessage + " : " + e.getMessage());
+	                }
+	            }
+	    });
+		if(fileChooserService==null) button_open.setEnabled(false);
+		
+        
+        splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
+        splitPane.setBottomComponent(wp);
+        splitPane.setTopComponent(tpanel_uc);
+        //workspace.getGraphFile().save();
+        
+        addTab("Draw a Use-Case Diagram", null, splitPane, null);
 		
 		JTabbedPane tpanel = new JTabbedPane();
 		addTab("Describe Use-Cases", null, tpanel, null);
