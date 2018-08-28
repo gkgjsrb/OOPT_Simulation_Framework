@@ -14,6 +14,7 @@ public class Activity2037 extends JTabbedPane {
 
 	public Activity2037() {
 		Class<? extends IGraph> graphClass = new StateDiagramGraph().getClass();
+		StateDiagramGraph a = new StateDiagramGraph();
         IGraphFile graphFile = new GraphFile(graphClass);
         IWorkspace workspace = new Workspace(graphFile);
         WorkspacePanel wp = workspace.getAWTComponent();

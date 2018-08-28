@@ -1,12 +1,34 @@
 package view;
 
+import java.awt.Component;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
+import javax.swing.DefaultCellEditor;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
+import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.JTextPane;
 import javax.swing.JTree;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellEditor;
+import javax.swing.tree.DefaultTreeModel;
 
 import com.horstmann.violet.framework.file.GraphFile;
 import com.horstmann.violet.framework.file.IGraphFile;
@@ -22,18 +44,166 @@ import Model.UMLEditorApplication;
 
 public class Activity1006 extends JTabbedPane {
 	//private JTable table;
-	
+	DefaultTableModel model;
 
 	public Activity1006(JTree tree, ArrayList uc, String[] args) {
 		
 		JScrollPane scrollPane = new JScrollPane();
 		addTab("Define System Boundary", null, scrollPane, null);
 		
-		JScrollPane scrollPane_1 = new JScrollPane();
-		addTab("Identify and Describe Actors", null, scrollPane_1, null);
+		JSplitPane splitPane_1 = new JSplitPane();
+		JPanel jpanel_1 = new JPanel(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 0.5;
+		c.gridx = 3;
+		c.gridy = 0;
+		JButton button_1 = new JButton("Commit");
+		jpanel_1.add(button_1, c);
+		jpanel_1.setBorder(BorderFactory.createEmptyBorder(0 , 0, 0, 5));
 		
-		JScrollPane scrollPane_2 = new JScrollPane();
-		addTab("Identify Use-Case", null, scrollPane_2, null);
+		JScrollPane scrollPane_1 = new JScrollPane();
+		splitPane_1.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		splitPane_1.disable();
+		splitPane_1.setBottomComponent(scrollPane_1);
+		splitPane_1.setTopComponent(jpanel_1);
+		this.addTab("Identify and Describe Actors", null, splitPane_1, null);
+		
+		JTextPane textPane = new JTextPane();
+		scrollPane_1.setViewportView(textPane);
+		textPane.addKeyListener(new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				IconNode node=(IconNode)tree.getLastSelectedPathComponent();
+				if(node.getParent().equals(node.getRoot().getChildAt(0))){
+		        	int index = node.getParent().getIndex(node);
+		        	 if(index == 5) {
+		        	 	node.setIconName("computer");
+		        	 }
+		        	 ((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+				}
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		JLabel lblNewLabel = new JLabel("<html>example(Library Management System)<br>"
+	            + ".....<br>"
+	            + "</html>");
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridwidth = 3;
+		jpanel_1.add(lblNewLabel, c);
+		//
+		JTabbedPane tabPane = new JTabbedPane();
+		JSplitPane splitPane_2 = new JSplitPane();		
+		JScrollPane panel = new JScrollPane();
+		JTable table = new JTable();
+		table.setModel(new DefaultTableModel(
+				new Object[][] {
+					{"", "", ""}
+				},
+				new String[] {
+						"AUseCase1","AUseCase2","AUseCase3"
+				}
+			)
+		);
+		
+		//panel.setViewportView(table);
+		table.setRowHeight(45);
+		
+		table.getColumn("AUseCase1").setCellRenderer(new TextAreaRenderer());
+	    table.getColumn("AUseCase1").setCellEditor(new TextAreaEditor());
+	    
+		table.getColumn("AUseCase2").setCellRenderer(new TextAreaRenderer());
+	    table.getColumn("AUseCase2").setCellEditor(new TextAreaEditor());
+	    
+	    table.getColumn("AUseCase3").setCellRenderer(new TextAreaRenderer());
+	    table.getColumn("AUseCase3").setCellEditor(new TextAreaEditor());
+	    
+		JPanel jpanel_2 = new JPanel(new FlowLayout(FlowLayout.TRAILING));
+		JButton button_2 = new JButton("+");
+		JButton button_3 = new JButton("-");
+		JButton button_4 = new JButton("Commit");
+		
+		jpanel_2.add(button_2);
+		jpanel_2.add(button_3);
+		jpanel_2.add(button_4);
+		jpanel_2.setBorder(BorderFactory.createEmptyBorder(0 , 0, 0, 5));
+		
+		splitPane_2.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		splitPane_2.setBottomComponent(table);
+		splitPane_2.setTopComponent(jpanel_2);
+		splitPane_2.disable();
+		
+		JSplitPane splitPane_3 = new JSplitPane();
+		JScrollPane panel_1 = new JScrollPane();
+		JTable table_1 = new JTable();
+		table_1.setModel(new DefaultTableModel(
+				new Object[][] {
+					{"", "", ""}
+				},
+				new String[] {
+						"EUseCase1","EUseCase2","EUseCase3"
+				}
+			)
+		);
+		
+		panel_1.setViewportView(table_1);
+		table_1.setRowHeight(45);		
+
+		table_1.getColumn("EUseCase1").setCellRenderer(new TextAreaRenderer());
+	    table_1.getColumn("EUseCase1").setCellEditor(new TextAreaEditor());
+	    table_1.getColumn("EUseCase1").setWidth(0);
+	    table_1.getColumn("EUseCase1").setMinWidth(0);
+	    table_1.getColumn("EUseCase1").setMaxWidth(0);
+
+	    table_1.getColumn("EUseCase2").setCellRenderer(new TextAreaRenderer());
+	    table_1.getColumn("EUseCase2").setCellEditor(new TextAreaEditor());
+	    table_1.getColumn("EUseCase2").setWidth(0);
+	    table_1.getColumn("EUseCase2").setMinWidth(0);
+	    table_1.getColumn("EUseCase2").setMaxWidth(0);
+	   
+	    table_1.getColumn("EUseCase3").setCellRenderer(new TextAreaRenderer());
+	    table_1.getColumn("EUseCase3").setCellEditor(new TextAreaEditor());
+	    table_1.getColumn("EUseCase3").setWidth(0);
+	    table_1.getColumn("EUseCase3").setMinWidth(0);
+	    table_1.getColumn("EUseCase3").setMaxWidth(0);
+	    
+		
+		JPanel jpanel_3 = new JPanel(new FlowLayout(FlowLayout.TRAILING));
+		JButton button_5 = new JButton("+");
+		JButton button_6 = new JButton("-");
+		JButton button_7 = new JButton("Commit");
+		
+		jpanel_3.add(button_5);
+		jpanel_3.add(button_6);
+		jpanel_3.add(button_7);
+		jpanel_3.setBorder(BorderFactory.createEmptyBorder(0 , 0, 0, 5));
+		
+		splitPane_3.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		splitPane_3.setBottomComponent(panel_1);
+		splitPane_3.setTopComponent(jpanel_3);
+		splitPane_3.disable();
+		
+		
+		tabPane.addTab("Use-Cases by Actor-Based", null, splitPane_2, null);
+		tabPane.addTab("Use-Cases by Event-Based", null, splitPane_3, null);
+		this.addTab("Identify Use-Case", null,tabPane, null);
+
+		//JScrollPane scrollPane_2 = new JScrollPane();
+		//addTab("Identify Use-Case", null, scrollPane_2, null);
 
         
 		JScrollPane scrollPane_3 = new JScrollPane();
@@ -44,20 +214,20 @@ public class Activity1006 extends JTabbedPane {
 
 		JScrollPane scrollPane_5 = new JScrollPane();
 		addTab("Identify Relationsships between Use-Cases", null, scrollPane_5, null);
+		
 		Class<? extends IGraph> graphClass = new UseCaseDiagramGraph().getClass();
         IGraphFile graphFile = new GraphFile(graphClass);
         IWorkspace workspace = new Workspace(graphFile);
         WorkspacePanel wp = workspace.getAWTComponent();
         addTab("Draw a Use-Case Diagram", null, wp, null);
-		//UMLEditorApplication uml = new UMLEditorApplication(args, this);
 		
-		JTabbedPane panel = new JTabbedPane();
-		addTab("Describe Use-Cases", null, panel, null);
+		JTabbedPane tpanel = new JTabbedPane();
+		addTab("Describe Use-Cases", null, tpanel, null);
 		JScrollPane usecasePane = new JScrollPane();
-		panel.addTab("Use Case1", null, usecasePane, null);
+		tpanel.addTab("Use Case1", null, usecasePane, null);
 		
-		JTable table = new JTable();
-		table.setModel(new DefaultTableModel(
+		JTable table_4 = new JTable();
+		table_4.setModel(new DefaultTableModel(
 			new Object[][] {
 				{"Name", null},
 				{"Actor", null},
@@ -74,18 +244,72 @@ public class Activity1006 extends JTabbedPane {
 				return columnEditables[column];
 			}
 		});
-		table.getColumnModel().getColumn(0).setResizable(false);
-		usecasePane.setViewportView(table);
-		table.setRowHeight(45);
+		table_4.getColumnModel().getColumn(0).setResizable(false);
+		usecasePane.setViewportView(table_4);
+		table_4.setRowHeight(45);
 		
-		table.getColumn(" ").setCellRenderer(new TextAreaRenderer());
-	    table.getColumn(" ").setCellEditor(new TextAreaEditor(null, table, uc, panel));
+		table_4.getColumn(" ").setCellRenderer(new TextAreaRenderer());
+	    table_4.getColumn(" ").setCellEditor(new TextAreaEditor(null, table_4, uc, tpanel));
 		
 		JScrollPane scrollPane_7 = new JScrollPane();
 		addTab("Rank Use-Cases", null, scrollPane_7, null);
 		
+		button_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				IconNode node=(IconNode)tree.getLastSelectedPathComponent();
+				if(node.getParent().equals(node.getRoot().getChildAt(0))){
+		        	int index = node.getParent().getIndex(node);
+		        	 if(index == 5) {
+		        	 	node.setIconName("floppyDrive");
+		        	 }
+				}
+				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+			}
+		});
+		JPopupMenu popupMenu = new JPopupMenu();
+		addPopup(panel, popupMenu);
+		addPopup(table, popupMenu);
+		addPopup(panel_1, popupMenu);
+		addPopup(table_1, popupMenu);
+		
+		JMenuItem mntmNewMenuItem = new JMenuItem("add row");
+		mntmNewMenuItem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Object[] add= {"","",""};
+				//model.addRow(add);
+			}
+		});
+		popupMenu.add(mntmNewMenuItem);
+		
+		JMenuItem mntmNewMenuItem_1 = new JMenuItem("del row");
+		mntmNewMenuItem_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int row = table.getSelectedRow();
+				if(row!=-1) {
+					//model.removeRow(row);
+					table.editingCanceled(changeEvent);
+				}
+			}
+		});
+		popupMenu.add(mntmNewMenuItem_1);
 	}
 
-
+	private static void addPopup(Component component, final JPopupMenu popup) {
+		component.addMouseListener(new MouseAdapter() {
+			public void mousePressed(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			public void mouseReleased(MouseEvent e) {
+				if (e.isPopupTrigger()) {
+					showMenu(e);
+				}
+			}
+			private void showMenu(MouseEvent e) {
+				popup.show(e.getComponent(), e.getX(), e.getY());
+			}
+		});
+	}
 
 }

@@ -53,6 +53,7 @@ public class GUI {
 	private void initialize(Requirement req, Risk risk, ArrayList uc, String[] args) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 928, 617);
+		
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.X_AXIS));
 		
