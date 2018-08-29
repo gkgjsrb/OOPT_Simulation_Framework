@@ -28,7 +28,7 @@ import com.horstmann.violet.workspace.WorkspacePanel;
 import com.thoughtworks.xstream.io.StreamException;
 //define system sequence diagram
 public class Activity2035 extends JTabbedPane {
-
+	
 	@InjectedBean
 	private FileNamingService fileNamingService;
 	@InjectedBean
@@ -39,6 +39,7 @@ public class Activity2035 extends JTabbedPane {
 	private String dialogOpenFileErrorMessage;
     @ResourceBundleBean(key = "dialog.open_file_content_incompatibility.text")
     private String dialogOpenFileIncompatibilityMessage;
+    
 	public Activity2035() {
 		
 		BeanInjector.getInjector().inject(this);
@@ -46,8 +47,6 @@ public class Activity2035 extends JTabbedPane {
         IGraphFile graphFile = new GraphFile(graphClass);
         IWorkspace workspace = new Workspace(graphFile);
         WorkspacePanel wp = workspace.getAWTComponent();
-        
-        
         JPanel tpanel_dd = new JPanel(new FlowLayout(FlowLayout.TRAILING));
 		JButton button_save = new JButton("Save");
 		JButton button_open = new JButton("Open");
@@ -99,8 +98,7 @@ public class Activity2035 extends JTabbedPane {
 		if(fileChooserService==null) button_open.setEnabled(false);
 		
 		
-        addTab("Define Domain Model", null, splitPane, null);
-       
+        addTab("Define System Sequence Diagrams", null, splitPane, null);
 	}
 
 }

@@ -28,8 +28,6 @@ import com.horstmann.violet.workspace.WorkspacePanel;
 import com.thoughtworks.xstream.io.StreamException;
 //define domain model
 public class Activity2033 extends JTabbedPane {
-
-	
 	@InjectedBean
 	private FileNamingService fileNamingService;
 	@InjectedBean
@@ -40,17 +38,14 @@ public class Activity2033 extends JTabbedPane {
 	private String dialogOpenFileErrorMessage;
     @ResourceBundleBean(key = "dialog.open_file_content_incompatibility.text")
     private String dialogOpenFileIncompatibilityMessage;
+    
 	public Activity2033() {
 		BeanInjector.getInjector().inject(this);
-		
-		
 		
 		Class<? extends IGraph> graphClass = new ClassDiagramGraph().getClass();
         IGraphFile graphFile = new GraphFile(graphClass);
         IWorkspace workspace = new Workspace(graphFile);
         WorkspacePanel wp = workspace.getAWTComponent();
-        
-        
         JPanel tpanel_dd = new JPanel(new FlowLayout(FlowLayout.TRAILING));
 		JButton button_save = new JButton("Save");
 		JButton button_open = new JButton("Open");
@@ -100,8 +95,6 @@ public class Activity2033 extends JTabbedPane {
 	            }
 	    });
 		if(fileChooserService==null) button_open.setEnabled(false);
-		
-		
         addTab("Define Domain Model", null, splitPane, null);
     }
 

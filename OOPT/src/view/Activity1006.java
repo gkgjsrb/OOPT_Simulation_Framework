@@ -13,9 +13,7 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
-import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
-import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
@@ -27,7 +25,6 @@ import javax.swing.JTable;
 import javax.swing.JTextPane;
 import javax.swing.JTree;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableCellEditor;
 import javax.swing.tree.DefaultTreeModel;
 
 import com.horstmann.violet.framework.dialog.DialogFactory;
@@ -40,9 +37,7 @@ import com.horstmann.violet.framework.file.naming.FileNamingService;
 import com.horstmann.violet.framework.file.persistence.IFileReader;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjector;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
-import com.horstmann.violet.framework.injection.resources.ResourceBundleInjector;
 import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
-import com.horstmann.violet.framework.userpreferences.UserPreferencesService;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.usecase.UseCaseDiagramGraph;
 import com.horstmann.violet.workspace.IWorkspace;
@@ -50,13 +45,12 @@ import com.horstmann.violet.workspace.Workspace;
 import com.horstmann.violet.workspace.WorkspacePanel;
 import com.thoughtworks.xstream.io.StreamException;
 
-import Model.UMLEditorApplication;
-
 
 
 public class Activity1006 extends JTabbedPane {
 	//private JTable table;
 	DefaultTableModel model;
+	
 	@InjectedBean
 	private FileNamingService fileNamingService;
 	@InjectedBean
@@ -67,7 +61,7 @@ public class Activity1006 extends JTabbedPane {
 	private String dialogOpenFileErrorMessage;
     @ResourceBundleBean(key = "dialog.open_file_content_incompatibility.text")
     private String dialogOpenFileIncompatibilityMessage;
-	
+    
 	public Activity1006(JTree tree, ArrayList uc, String[] args) {
 		
 		BeanInjector.getInjector().inject(this);
@@ -235,28 +229,27 @@ public class Activity1006 extends JTabbedPane {
 		JScrollPane scrollPane_4 = new JScrollPane();
 		addTab("Categorize Use-Cases", null, scrollPane_4, null);
 
-		JScrollPane scrollPane_5 = new JScrollPane();
-		addTab("Identify Relationsships between Use-Cases", null, scrollPane_5, null);
+		//JScrollPane scrollPane_5 = new JScrollPane();
+		//addTab("Identify Relationsships between Use-Cases", null, scrollPane_5, null);
+		
+		JSplitPane splitPane_6 = new JSplitPane();
+		JPanel jpanel_6 = new JPanel(new FlowLayout(FlowLayout.TRAILING));
+		JButton button_14 = new JButton("Save");
+		JButton button_15 = new JButton("Open");
+		jpanel_6.add(button_14);
+		jpanel_6.add(button_15);
 		
 		Class<? extends IGraph> graphClass = new UseCaseDiagramGraph().getClass();
         IGraphFile graphFile = new GraphFile(graphClass);
         IWorkspace workspace = new Workspace(graphFile);
-        JSplitPane splitPane = new JSplitPane();
-        
-        
-		JPanel tpanel_uc = new JPanel(new FlowLayout(FlowLayout.TRAILING));
-		JButton button_save = new JButton("Save");
-		JButton button_open = new JButton("Open");
-		tpanel_uc.add(button_save);
-		tpanel_uc.add(button_open);
-		
         WorkspacePanel wp = workspace.getAWTComponent();
-        button_save.addActionListener(new ActionListener() {
+        //addTab("Draw a Use-Case Diagram", null, wp, null);
+        button_14.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				workspace.getGraphFile().save();
 			}
 		});
-		button_open.addActionListener(new ActionListener()
+		button_15.addActionListener(new ActionListener()
 	        {
 	            public void actionPerformed(ActionEvent event)
 	            {
@@ -275,9 +268,8 @@ public class Activity1006 extends JTabbedPane {
 	                    if(graphFile_tmp.getGraph().getClass().equals(graphClass)) {
 	                    	IWorkspace workspace_tmp = new Workspace(graphFile_tmp);
 		                    WorkspacePanel wp_tmp = workspace_tmp.getAWTComponent();
-		                    splitPane.setBottomComponent(wp_tmp);	
+		                    splitPane_6.setBottomComponent(wp_tmp);	
 	                    }
-
 	                }
 	                catch (StreamException se)
 	                {
@@ -289,46 +281,46 @@ public class Activity1006 extends JTabbedPane {
 	                }
 	            }
 	    });
-		if(fileChooserService==null) button_open.setEnabled(false);
+		if(fileChooserService==null) button_15.setEnabled(false);
 		
+        splitPane_6.setOrientation(JSplitPane.VERTICAL_SPLIT);
+        splitPane_6.setBottomComponent(wp);
+        splitPane_6.setTopComponent(jpanel_6);
+        addTab("Draw a Use-Case Diagram", null, splitPane_6, null);
         
-        splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
-        splitPane.setBottomComponent(wp);
-        splitPane.setTopComponent(tpanel_uc);
-        //workspace.getGraphFile().save();
-        
-        addTab("Draw a Use-Case Diagram", null, splitPane, null);
-		
 		JTabbedPane tpanel = new JTabbedPane();
 		addTab("Describe Use-Cases", null, tpanel, null);
-		JScrollPane usecasePane = new JScrollPane();
-		tpanel.addTab("Use Case1", null, usecasePane, null);
 		
-		JTable table_4 = new JTable();
-		table_4.setModel(new DefaultTableModel(
-			new Object[][] {
-				{"Name", null},
-				{"Actor", null},
-				{"Description", null}
-			},
-			new String[] {
-				"", " "
-			}
-		) {
-			boolean[] columnEditables = new boolean[] {
-				false, true
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
-		table_4.getColumnModel().getColumn(0).setResizable(false);
-		usecasePane.setViewportView(table_4);
-		table_4.setRowHeight(45);
-		
-		table_4.getColumn(" ").setCellRenderer(new TextAreaRenderer());
-	    table_4.getColumn(" ").setCellEditor(new TextAreaEditor(null, table_4, uc, tpanel));
-		
+		for(int i = 0; i < 5; i++) {
+			JScrollPane usecasePane = new JScrollPane();
+			tpanel.addTab("Use Case" +  i, null, usecasePane, null);
+			JTable table_4 = new JTable();
+			table_4.setModel(new DefaultTableModel(
+				new Object[][] {
+					{"Name", null},
+					{"Actor", null},
+					{"Description", null}
+				},
+				new String[] {
+					"", " "
+				}
+			) {
+				boolean[] columnEditables = new boolean[] {
+					false, true
+				};
+				public boolean isCellEditable(int row, int column) {
+					return columnEditables[column];
+				}
+			});
+			table_4.getColumnModel().getColumn(0).setResizable(false);
+			usecasePane.setViewportView(table_4);
+			table_4.setRowHeight(45);
+			
+			table_4.getColumn(" ").setCellRenderer(new TextAreaRenderer());
+		    table_4.getColumn(" ").setCellEditor(new TextAreaEditor(null, table_4, uc, tpanel));
+
+		}
+			
 		JScrollPane scrollPane_7 = new JScrollPane();
 		addTab("Rank Use-Cases", null, scrollPane_7, null);
 		
