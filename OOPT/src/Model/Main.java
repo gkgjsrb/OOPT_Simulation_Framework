@@ -15,7 +15,7 @@ public class Main {
 		Risk risk = new Risk();
 		ArrayList <UseCase> uc = new ArrayList<>();
 		
-		GUI gui = new GUI(req, risk, uc, args);
+		GUI gui = new GUI(req, risk, uc);
 		
 	}
 	

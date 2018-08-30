@@ -33,8 +33,8 @@ public class GUI {
 	 * Create the application.
 	 * @throws ClassNotFoundException 
 	 */
-	public GUI(Requirement req, Risk risk, ArrayList uc, String[] args) {
-		initialize(req, risk, uc, args);
+	public GUI(Requirement req, Risk risk, ArrayList uc) {
+		initialize(req, risk, uc);
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class GUI {
 	    icons.put("html", TextIcons.getIcon("html"));
 	    return icons;
 	}
-	private void initialize(Requirement req, Risk risk, ArrayList uc, String[] args) {
+	private void initialize(Requirement req, Risk risk, ArrayList uc) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 928, 617);
 		
@@ -163,7 +163,7 @@ public class GUI {
 		Activity1003 a1003 = new Activity1003(tree, req);
 		Activity1004 a1004 = new Activity1004(tree);
 		Activity1005 a1005 = new Activity1005(tree);
-		Activity1006 a1006 = new Activity1006(tree, uc, args);
+		Activity1006 a1006 = new Activity1006(tree, req, uc);
 		Activity1007 a1007 = new Activity1007(tree);
 		Activity1008 a1008 = new Activity1008(tree);
 		Activity1009 a1009 = new Activity1009(tree, req);
@@ -373,7 +373,8 @@ public class GUI {
 	    	 					break;
 		        	 	case 4 :splitPane.setRightComponent(a1005);
 	    	 					break;
-		        	 	case 5 :splitPane.setRightComponent(a1006);
+		        	 	case 5 :a1006.sync(req);
+		        	 			splitPane.setRightComponent(a1006);
 	    	 					break;
 		        	 	case 6 :splitPane.setRightComponent(a1007);
 	    	 					break;

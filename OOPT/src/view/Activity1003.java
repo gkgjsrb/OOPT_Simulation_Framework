@@ -421,8 +421,10 @@ public class Activity1003 extends JTabbedPane {
 		});
 	}
 	public void syncRequirement(Requirement req) {
-		for(int i = 0; i <= model.getRowCount();i++) {
+		int count = model.getRowCount();
+		for(int i = 0; i < count; i++) {
 			model.removeRow(0);
+			
 		}
 		for(int i = 0; i < req.get_length();i++) {
 			Object[] add = {req.getRef(i), req.getName(i), req.getCategory(i)};
