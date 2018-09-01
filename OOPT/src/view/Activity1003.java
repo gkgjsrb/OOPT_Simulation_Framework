@@ -222,7 +222,7 @@ public class Activity1003 extends JTabbedPane {
 		c.gridx = 3;
 		c.gridy = 0;
 		jpanel_3.add(button_5,c);
-		jpanel_3.setBorder(BorderFactory.createEmptyBorder(0 , 0, 0, 5));
+		jpanel_3.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));
 		
 		JScrollPane ScrollPane_2 = new JScrollPane();
 		splitPane_3.setOrientation(JSplitPane.VERTICAL_SPLIT);
