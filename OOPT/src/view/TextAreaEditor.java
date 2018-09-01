@@ -2,6 +2,7 @@ package view;
 
 import java.awt.Component;
 import java.util.ArrayList;
+import java.util.Collection;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.JCheckBox;
@@ -12,6 +13,11 @@ import javax.swing.JTextArea;
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.table.DefaultTableModel;
+
+import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.product.diagram.property.text.SingleLineText;
+import com.horstmann.violet.product.diagram.usecase.node.UseCaseNode;
+import com.horstmann.violet.workspace.IWorkspace;
 
 import Model.Requirement;
 import Model.Risk;
@@ -29,7 +35,7 @@ public class TextAreaEditor extends DefaultCellEditor {
 		textarea.setWrapStyleWord(true);
 	    scrollpane.getViewport().add(textarea);
 	}
-	public TextAreaEditor(Requirement req, JTable table) {
+	public TextAreaEditor(Requirement req, JTable table, DefaultTableModel model) {
 		super(new JCheckBox());
 		scrollpane = new JScrollPane();
 		textarea = new JTextArea(); 
@@ -54,6 +60,13 @@ public class TextAreaEditor extends DefaultCellEditor {
 				}
 				else if(table.getSelectedColumn()==2) {
 					req.setCategory((String)table.getValueAt(table.getSelectedRow(), 2), table.getSelectedRow());
+				}
+				
+				model.setRowCount(0);
+			
+				for(int i=0; i<req.get_length(); i++) {
+					Object[] add = {req.getRef(i), req.getName(i), req.getCategory(i)};
+					model.addRow(add);
 				}
 			}
 			
@@ -195,6 +208,47 @@ public class TextAreaEditor extends DefaultCellEditor {
 				}
 			}
 	    	
+	    });
+	}
+	public TextAreaEditor(JTable table, ArrayList<UseCase> uc, JTabbedPane panel, IWorkspace workspace) {
+		super(new JCheckBox());
+		scrollpane = new JScrollPane();
+		textarea = new JTextArea(); 
+		textarea.setLineWrap(true);;
+		textarea.setWrapStyleWord(true);
+	    scrollpane.getViewport().add(textarea);
+	    this.addCellEditorListener(new CellEditorListener() {
+
+			@Override
+			public void editingCanceled(ChangeEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void editingStopped(ChangeEvent arg0) {
+				// TODO Auto-generated method stub
+				int index = panel.getSelectedIndex();
+				if(table.getSelectedRow()==0) {
+					panel.getSelectedComponent().setName((String)table.getValueAt(0, table.getSelectedColumn()));
+					uc.get(index).setName((String)table.getValueAt(0, table.getSelectedColumn()));
+					Collection<INode> allNodes = workspace.getGraphFile().getGraph().getAllNodes();
+					for (INode aNode : allNodes) {
+						if(aNode.getClass().equals(UseCaseNode.class)) {
+							UseCaseNode a = (UseCaseNode)aNode;
+							if(a.getId().equals(uc.get(index).getId())) {
+								a.getName().setText((String)table.getValueAt(0, table.getSelectedColumn()));
+							}
+						}
+					}
+				}
+				else if(table.getSelectedRow()==1) {
+					uc.get(index).setActor((String)table.getValueAt(1, table.getSelectedColumn()));
+				}
+				else if(table.getSelectedRow()==2) {
+					uc.get(index).setDes((String)table.getValueAt(2, table.getSelectedColumn()));
+				}
+			}
 	    });
 	}
 	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {

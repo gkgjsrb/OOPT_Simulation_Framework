@@ -54,11 +54,11 @@ import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.classes.edge.DependencyEdge;
+import com.horstmann.violet.product.diagram.communication.node.ActorNode;
 import com.horstmann.violet.product.diagram.property.ArrowheadChoiceList;
 import com.horstmann.violet.product.diagram.property.BentStyleChoiceList;
 import com.horstmann.violet.product.diagram.property.LineStyleChoiceList;
 import com.horstmann.violet.product.diagram.usecase.UseCaseDiagramGraph;
-import com.horstmann.violet.product.diagram.usecase.node.ActorNode;
 import com.horstmann.violet.product.diagram.usecase.node.UseCaseNode;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.Workspace;
@@ -68,6 +68,7 @@ import com.thoughtworks.xstream.io.StreamException;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
 import Model.Requirement;
+import Model.UseCase;
 
 
 
@@ -93,7 +94,11 @@ public class Activity1006 extends JTabbedPane {
     
     private XStreamBasedPersistenceService xstreamService = new XStreamBasedPersistenceService();
     
-	public Activity1006(JTree tree, Requirement req, ArrayList uc) {
+    private IWorkspace workspace;
+    
+    private WorkspacePanel wp;
+    
+	public Activity1006(JTree tree, Requirement req, ArrayList<UseCase> uc) {
 		
 		BeanInjector.getInjector().inject(this);
 		JScrollPane scrollPane = new JScrollPane();
@@ -242,8 +247,6 @@ public class Activity1006 extends JTabbedPane {
 				
 		this.addTab("Allocate System Functions into Related Use-Cases", null, splitPane_4, null);
 		
-		//JScrollPane scrollPane_2 = new JScrollPane();
-		//addTab("Allocate System Functions into Related Use-Cases", null, scrollPane_2, null);
 		this.addChangeListener(new ChangeListener() {
 
 			@Override
@@ -261,63 +264,21 @@ public class Activity1006 extends JTabbedPane {
 		});
 		JScrollPane scrollPane_3 = new JScrollPane();
 		addTab("Categorize Use-Cases", null, scrollPane_3, null);
-
-		//JScrollPane scrollPane_5 = new JScrollPane();
-		//addTab("Identify Relationsships between Use-Cases", null, scrollPane_5, null);
 		
 		JSplitPane splitPane_6 = new JSplitPane();
 		JPanel jpanel_6 = new JPanel(new FlowLayout(FlowLayout.TRAILING));
 		JButton button_14 = new JButton("Save");
 		JButton button_15 = new JButton("Open");
+		JButton button_16 = new JButton("Commit");
 		jpanel_6.add(button_14);
 		jpanel_6.add(button_15);
+		jpanel_6.add(button_16);
 		
 		Class<? extends IGraph> graphClass = new UseCaseDiagramGraph().getClass();
         IGraphFile graphFile = new GraphFile(graphClass);
-        IWorkspace workspace = new Workspace(graphFile);
-        WorkspacePanel wp = workspace.getAWTComponent();
-        //addTab("Draw a Use-Case Diagram", null, wp, null);
-        button_14.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				workspace.getGraphFile().save();
-			}
-		});
-		button_15.addActionListener(new ActionListener()
-	        {
-	            public void actionPerformed(ActionEvent event)
-	            {
-	            	IFile selectedFile = null;
-	                try
-	                {
-	                    ExtensionFilter[] filters = fileNamingService.getFileFilters();
-	                    IFileReader fileOpener = fileChooserService.chooseAndGetFileReader(filters);
-	                    if (fileOpener == null)
-	                    {
-	                        // Action cancelled by user
-	                        return;
-	                    }
-	                    selectedFile = fileOpener.getFileDefinition();
-	                    InputStream in = fileOpener.getInputStream();
-	                    read(in);
-	                    IGraphFile graphFile_tmp = new GraphFile(selectedFile);
-	                    if(graphFile_tmp.getGraph().getClass().equals(graphClass)) {
-	                    	IWorkspace workspace_tmp = new Workspace(graphFile_tmp);
-		                    WorkspacePanel wp_tmp = workspace_tmp.getAWTComponent();
-		                    splitPane_6.setBottomComponent(wp_tmp);	
-	                    }
-	                }
-	                catch (StreamException se)
-	                {
-	                    dialogFactory.showErrorDialog(dialogOpenFileIncompatibilityMessage);
-	                }
-	                catch (Exception e)
-	                {
-	                    dialogFactory.showErrorDialog(dialogOpenFileErrorMessage + " : " + e.getMessage());
-	                }
-	            }
-	    });
-		if(fileChooserService==null) button_15.setEnabled(false);
-		
+        workspace = new Workspace(graphFile);
+        wp = workspace.getAWTComponent();
+       
         splitPane_6.setOrientation(JSplitPane.VERTICAL_SPLIT);
         splitPane_6.setBottomComponent(wp);
         splitPane_6.setTopComponent(jpanel_6);
@@ -325,37 +286,122 @@ public class Activity1006 extends JTabbedPane {
         
 		JTabbedPane tpanel = new JTabbedPane();
 		addTab("Describe Use-Cases", null, tpanel, null);
-		
-		for(int i = 0; i < 5; i++) {
-			JScrollPane usecasePane = new JScrollPane();
-			tpanel.addTab("Use Case" +  i, null, usecasePane, null);
-			JTable table_4 = new JTable();
-			table_4.setModel(new DefaultTableModel(
-				new Object[][] {
-					{"Name", null},
-					{"Actor", null},
-					{"Description", null}
-				},
-				new String[] {
-					"", " "
-				}
-			) {
-				boolean[] columnEditables = new boolean[] {
-					false, true
-				};
-				public boolean isCellEditable(int row, int column) {
-					return columnEditables[column];
+	
+		button_14.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				workspace.getGraphFile().save();
+			}
+		});
+		 button_16.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					Collection<INode> allNodes = workspace.getGraphFile().getGraph().getAllNodes();
+					Collection<IEdge> allEdges = workspace.getGraphFile().getGraph().getAllEdges();
+					tpanel.removeAll();
+					for (INode aNode : allNodes) {
+						int exist=0;
+						String Actor_tmp = null;
+						if(aNode.getClass().equals(UseCaseNode.class)) {
+							UseCaseNode a = (UseCaseNode)aNode;
+							/*
+							for (IEdge Edge : allEdges) {
+								if(Edge.getClass().equals(DependencyEdge.class)) {
+									DependencyEdge e = (DependencyEdge)Edge;
+										if(e.getEndNode().equals(a) && e.getStartNode().getClass().equals(ActorNode.class)) {
+											ActorNode an = (ActorNode)e.getStartNode();
+											Actor_tmp = an.getName().toString();
+										}
+										else if(e.getStartNode().equals(a) && e.getEndNode().getClass().equals(ActorNode.class)) {
+											ActorNode an = (ActorNode)e.getEndNode();
+											Actor_tmp = an.getName().toString();
+										}
+								}
+							}
+							*/
+							for(UseCase tmp : uc) {
+								if(a.getId().equals(tmp.getId())) {
+									tmp.setName(a.getName().toString());
+									tmp.setActor(Actor_tmp);
+									exist=1;
+								}
+							}
+							if(exist==0) {
+								UseCase usec = new UseCase();
+								usec.setName(a.getName().toString());
+								usec.setActor(Actor_tmp);
+								usec.setId(a.getId());
+								uc.add(usec);
+							}
+						}
+					}
+					
+					for(UseCase tmp : uc) {
+						JScrollPane usecasePane = new JScrollPane();
+						tpanel.addTab(tmp.getName(), null, usecasePane, null);
+						JTable table_4 = new JTable();
+						table_4.setModel(new DefaultTableModel(
+							new Object[][] {
+								{"Name", tmp.getName()},
+								{"Actor", tmp.getActor()},
+								{"Description", tmp.getDes()}
+							},
+							new String[] {
+								"", " "
+							}
+						) {
+							boolean[] columnEditables = new boolean[] {
+								false, true
+							};
+							public boolean isCellEditable(int row, int column) {
+								return columnEditables[column];
+							}
+						});
+						table_4.getColumnModel().getColumn(0).setResizable(false);
+						usecasePane.setViewportView(table_4);
+						table_4.setRowHeight(45);
+						
+						table_4.getColumn(" ").setCellRenderer(new TextAreaRenderer());
+					    table_4.getColumn(" ").setCellEditor(new TextAreaEditor(table_4, uc, tpanel, workspace));
+					}
 				}
 			});
-			table_4.getColumnModel().getColumn(0).setResizable(false);
-			usecasePane.setViewportView(table_4);
-			table_4.setRowHeight(45);
+		 
+			button_15.addActionListener(new ActionListener()
+		        {
+		            public void actionPerformed(ActionEvent event)
+		            {
+		            	IFile selectedFile = null;
+		                try
+		                {
+		                    ExtensionFilter[] filters = fileNamingService.getFileFilters();
+		                    IFileReader fileOpener = fileChooserService.chooseAndGetFileReader(filters);
+		                    if (fileOpener == null)
+		                    {
+		                        // Action cancelled by user
+		                        return;
+		                    }
+		                    selectedFile = fileOpener.getFileDefinition();
+		                    InputStream in = fileOpener.getInputStream();
+		                    IGraphFile graphFile_tmp = new GraphFile(selectedFile);
+		                    if(graphFile_tmp.getGraph().getClass().equals(graphClass)) {
+		                    	workspace = new Workspace(graphFile_tmp);
+			                    wp = workspace.getAWTComponent();
+			                    splitPane_6.setBottomComponent(wp);	
+		                    }
+		                }
+		                catch (StreamException se)
+		                {
+		                    dialogFactory.showErrorDialog(dialogOpenFileIncompatibilityMessage);
+		                }
+		                catch (Exception e)
+		                {
+		                    dialogFactory.showErrorDialog(dialogOpenFileErrorMessage + " : " + e.getMessage());
+		                }
+		            }
+		    });
+			if(fileChooserService==null) button_15.setEnabled(false);
 			
-			table_4.getColumn(" ").setCellRenderer(new TextAreaRenderer());
-		    table_4.getColumn(" ").setCellEditor(new TextAreaEditor(null, table_4, uc, tpanel));
-
-		}
-			
+		
+		
 		JScrollPane scrollPane_7 = new JScrollPane();
 		addTab("Rank Use-Cases", null, scrollPane_7, null);
 		
@@ -376,7 +422,7 @@ public class Activity1006 extends JTabbedPane {
 			public void actionPerformed(ActionEvent arg0) {
 				Object[] add= {""};
 				model.addRow(add);
-				read();
+				
 			}
 		});
 		
@@ -466,7 +512,6 @@ public class Activity1006 extends JTabbedPane {
         parser.parse(reader, callback, true);
         String xmlContent = writer.toString();
         InputStream xmlContentStream = new ByteArrayInputStream(xmlContent.getBytes());
-        System.out.println(xmlContent);
         InputStreamReader reader2 = new InputStreamReader(xmlContentStream);
 		XStream xStream = new XStream(new DomDriver("UTF-8"));
 		xStream = getConfiguredXStream(xStream);
@@ -483,12 +528,7 @@ public class Activity1006 extends JTabbedPane {
 			if(aNode.getClass().equals(UseCaseNode.class)) {
 				UseCaseNode a = (UseCaseNode)aNode;
 				System.out.println(a.getName());
-				//System.out.println(a.getTextColor());
 			}
-			//else if (aNode.getClass().equals(ActorNode.class)) {
-				//ActorNode b = (ActorNode)aNode;
-				//System.out.println(b.getName());
-			//}
 			System.out.println(aNode.getId());
 			System.out.println(aNode.getLocation());
 			System.out.println(aNode.getClass());
@@ -503,10 +543,8 @@ public class Activity1006 extends JTabbedPane {
 			System.out.println(Edge.getEndNode());
 			System.out.println(Edge.getClass());
 		}
-        //IGraph graph = this.xstreamService.read(xmlContentStream);
         reader.close();
         xmlContentStream.close();
-        reader.close();
         writer.close();
         return graph2;
     }

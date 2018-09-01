@@ -78,10 +78,10 @@ public class Activity1010 extends JTabbedPane {
 		table.setRowHeight(70);
 
 		table.getColumn("Ref").setCellRenderer(new TextAreaRenderer());
-	    table.getColumn("Ref").setCellEditor(new TextAreaEditor());
+	    table.getColumn("Ref").setCellEditor(new TextAreaEditor(req,table,model));
 
 		table.getColumn("Name").setCellRenderer(new TextAreaRenderer());
-	    table.getColumn("Name").setCellEditor(new TextAreaEditor());
+	    table.getColumn("Name").setCellEditor(new TextAreaEditor(req,table,model));
 	    
 	    table.getModel().addTableModelListener(new TableModelListener() {
 	    	public void tableChanged(TableModelEvent e) {

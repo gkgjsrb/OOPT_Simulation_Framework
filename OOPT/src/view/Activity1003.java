@@ -52,10 +52,10 @@ public class Activity1003 extends JTabbedPane {
 		table.setRowHeight(70);
 
 		table.getColumn("Ref").setCellRenderer(new TextAreaRenderer());
-	    table.getColumn("Ref").setCellEditor(new TextAreaEditor(req, table));
+	    table.getColumn("Ref").setCellEditor(new TextAreaEditor(req, table,model));
 
 	    table.getColumn("Name").setCellRenderer(new TextAreaRenderer());
-	    table.getColumn("Name").setCellEditor(new TextAreaEditor(req, table));
+	    table.getColumn("Name").setCellEditor(new TextAreaEditor(req, table,model));
 	   
 		JSplitPane splitPane = new JSplitPane();
 		JScrollPane panel = new JScrollPane(table);
@@ -421,11 +421,7 @@ public class Activity1003 extends JTabbedPane {
 		});
 	}
 	public void syncRequirement(Requirement req) {
-		int count = model.getRowCount();
-		for(int i = 0; i < count; i++) {
-			model.removeRow(0);
-			
-		}
+		model.setRowCount(0);
 		for(int i = 0; i < req.get_length();i++) {
 			Object[] add = {req.getRef(i), req.getName(i), req.getCategory(i)};
 			model.addRow(add);

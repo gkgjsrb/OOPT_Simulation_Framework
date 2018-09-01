@@ -1,8 +1,13 @@
 package Model;
 
+import com.horstmann.violet.product.diagram.abstracts.Id;
+import com.horstmann.violet.product.diagram.property.text.SingleLineText;
+
 public class UseCase {
+	Id Id;
 	String Name;
 	String Actor;
+	String Description;
 	String Purpose;
 	String Overview;
 	String Type;
@@ -16,6 +21,14 @@ public class UseCase {
 	public UseCase() {
 		super();
 		// TODO Auto-generated constructor stub
+	}
+	
+	public Id getId() {
+		return Id;
+	}
+	
+	public void setId(Id id) {
+		Id = id;
 	}
 	public String getName() {
 		return Name;
@@ -31,6 +44,15 @@ public class UseCase {
 	public void setActor(String actor) {
 		Actor = actor;
 	}
+	
+	public String getDes() {
+		return Description;
+	}
+	
+	public void setDes(String description) {
+		Description=description;
+	}
+	
 	public String getPurpose() {
 		return Purpose;
 	}
