@@ -1,7 +1,6 @@
 package Model;
 
 import com.horstmann.violet.product.diagram.abstracts.Id;
-import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 
 public class UseCase {
 	Id Id;
@@ -22,7 +21,6 @@ public class UseCase {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	
 	public Id getId() {
 		return Id;
 	}
@@ -44,7 +42,6 @@ public class UseCase {
 	public void setActor(String actor) {
 		Actor = actor;
 	}
-	
 	public String getDes() {
 		return Description;
 	}

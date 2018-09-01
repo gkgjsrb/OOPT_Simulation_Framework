@@ -3,6 +3,8 @@ package view;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -74,7 +76,8 @@ public class Activity1002 extends JTabbedPane {
 		table.getColumnModel().getColumn(3).setCellEditor(editor);
 		table2.getColumnModel().getColumn(0).setCellEditor(editor2);
 		table2.getColumnModel().getColumn(1).setCellEditor(editor2);
-		
+		table.setCellSelectionEnabled(false);
+		table2.setCellSelectionEnabled(false);
 		editor.addCellEditorListener(new CellEditorListener() {
 
 			@Override
@@ -172,6 +175,7 @@ public class Activity1002 extends JTabbedPane {
 		splitPane_2.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		splitPane_2.setBottomComponent(panel);
 		splitPane_2.setTopComponent(jpanel_2);
+		splitPane_2.disable();
 		
 		JMenuItem mntmNewMenuItem = new JMenuItem("add row");
 		mntmNewMenuItem.addActionListener(new ActionListener() {
@@ -236,18 +240,25 @@ public class Activity1002 extends JTabbedPane {
 				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
 			}
 		});
+		
 		JSplitPane splitPane = new JSplitPane();
-		JPanel jpanel = new JPanel(new FlowLayout(FlowLayout.TRAILING));
+		JPanel jpanel = new JPanel(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 0.5;
+		c.gridx = 3;
+		c.gridy = 0;
 		JButton button = new JButton("Commit");
-		jpanel.add(button);
-		jpanel.setBorder(BorderFactory.createEmptyBorder(0 , 0, 5, 5));
+		jpanel.add(button, c);
+		jpanel.setBorder(BorderFactory.createEmptyBorder(0 , 0, 0, 5));
 		
 		JScrollPane scrollPane = new JScrollPane();
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		splitPane.setBottomComponent(scrollPane);
 		splitPane.setTopComponent(jpanel);
-		this.addTab("Alternative Solution", null, splitPane, null);
+		splitPane.disable();
 		
+		this.addTab("Alternative Solution", null, splitPane, null);
 		
 		JTextPane textPane = new JTextPane();
 		scrollPane.setViewportView(textPane);
@@ -282,21 +293,28 @@ public class Activity1002 extends JTabbedPane {
 	            + "- Outsourcing<br>"
 	            + "- Other Options<br>"
 	            + "</html>");
-		lblNewLabel.setOpaque(true);
-		lblNewLabel.setBackground(Color.LIGHT_GRAY);
 		
-		scrollPane.setColumnHeaderView(lblNewLabel);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridwidth = 3;
+		jpanel.add(lblNewLabel, c);
 		
 		JSplitPane splitPane_1 = new JSplitPane();
-		JPanel jpanel_1 = new JPanel(new FlowLayout(FlowLayout.TRAILING));
+		JPanel jpanel_1 = new JPanel(new GridBagLayout());
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 0.5;
+		c.gridx = 3;
+		c.gridy = 0;
 		JButton button_1 = new JButton("Commit");
-		jpanel_1.add(button_1);
-		jpanel_1.setBorder(BorderFactory.createEmptyBorder(0 , 0, 5, 5));
+		jpanel_1.add(button_1, c);
+		jpanel_1.setBorder(BorderFactory.createEmptyBorder(0 , 0, 0, 5));
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		splitPane_1.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		splitPane_1.setBottomComponent(scrollPane_1);
 		splitPane_1.setTopComponent(jpanel_1);
+		splitPane_1.disable();
 		this.addTab("Project Justification", null, splitPane_1, null);
 		
 		JTextPane textPane_1 = new JTextPane();
@@ -333,10 +351,12 @@ public class Activity1002 extends JTabbedPane {
 	            + "- Risk<br>"
 	            + "- Effect<br>"
 	            + "</html>");
-		lblNewLabel_1.setOpaque(true);
-		lblNewLabel_1.setBackground(Color.LIGHT_GRAY);
 		
-		scrollPane_1.setColumnHeaderView(lblNewLabel_1);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridwidth = 3;
+		jpanel_1.add(lblNewLabel_1, c);
 		
 		this.addTab("Risk Management", null, splitPane_2, null);
 		
@@ -349,18 +369,24 @@ public class Activity1002 extends JTabbedPane {
 		splitPane_3.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		splitPane_3.setBottomComponent(panel2);
 		splitPane_3.setTopComponent(jpanel_3);
+		splitPane_3.disable();
 		this.addTab("Risk Reduction Plan", null, splitPane_3, null);
 		
 		JSplitPane splitPane_4 = new JSplitPane();
-		JPanel jpanel_4 = new JPanel(new FlowLayout(FlowLayout.TRAILING));
+		JPanel jpanel_4 = new JPanel(new GridBagLayout());
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 0.5;
+		c.gridx = 3;
+		c.gridy = 0;
 		JButton button_6 = new JButton("Commit");
-		jpanel_4.add(button_6);
-		jpanel_4.setBorder(BorderFactory.createEmptyBorder(0 , 0, 5, 5));
+		jpanel_4.add(button_6, c);
+		jpanel_4.setBorder(BorderFactory.createEmptyBorder(0 , 0, 0, 5));
 		
 		JScrollPane scrollPane_2 = new JScrollPane();
 		splitPane_4.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		splitPane_4.setBottomComponent(scrollPane_2);
 		splitPane_4.setTopComponent(jpanel_4);
+		splitPane_4.disable();
 		this.addTab("Analyze business Plan", null, splitPane_4, null);
 		
 		JTextPane textPane_2 = new JTextPane();
@@ -395,21 +421,28 @@ public class Activity1002 extends JTabbedPane {
 				+ "- A few generic packages are available, however too expensive<br>"
 				+ "- May be able to market the software to other similar-scaled libraries<br>"
 				+ "</html>");
-		lblNewLabel_2.setOpaque(true);
-		lblNewLabel_2.setBackground(Color.LIGHT_GRAY);
 		
-		scrollPane_2.setColumnHeaderView(lblNewLabel_2);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridwidth = 3;
+		jpanel_4.add(lblNewLabel_2, c);
 				
 		JSplitPane splitPane_5 = new JSplitPane();
-		JPanel jpanel_5 = new JPanel(new FlowLayout(FlowLayout.TRAILING));
+		JPanel jpanel_5 = new JPanel(new GridBagLayout());
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 0.5;
+		c.gridx = 3;
+		c.gridy = 0;
 		JButton button_7 = new JButton("Commit");
-		jpanel_5.add(button_7);
-		jpanel_5.setBorder(BorderFactory.createEmptyBorder(0 , 0, 5, 5));
+		jpanel_5.add(button_7, c);
+		jpanel_5.setBorder(BorderFactory.createEmptyBorder(0 , 0, 0, 5));
 		
 		JScrollPane scrollPane_3 = new JScrollPane();
 		splitPane_5.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		splitPane_5.setBottomComponent(scrollPane_3);
 		splitPane_5.setTopComponent(jpanel_5);
+		splitPane_5.disable();
 		this.addTab("Managerial Issues", null, splitPane_5, null);
 		
 		JTextPane textPane_3 = new JTextPane();
@@ -443,10 +476,12 @@ public class Activity1002 extends JTabbedPane {
 		JLabel lblNewLabel_3 = new JLabel("<html>example(Library Management System)<br>"
 	            + "- The project should be compeleted by June, 2008(Plan to participate in a SW exhibition<br>"
 	            + "</html>");
-		lblNewLabel_3.setOpaque(true);
-		lblNewLabel_3.setBackground(Color.LIGHT_GRAY);
 		
-		scrollPane_3.setColumnHeaderView(lblNewLabel_3);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridwidth = 3;
+		jpanel_5.add(lblNewLabel_3, c);
 		
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {

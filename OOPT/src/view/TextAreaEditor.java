@@ -15,7 +15,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.table.DefaultTableModel;
 
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 import com.horstmann.violet.product.diagram.usecase.node.UseCaseNode;
 import com.horstmann.violet.workspace.IWorkspace;
 
@@ -35,7 +34,7 @@ public class TextAreaEditor extends DefaultCellEditor {
 		textarea.setWrapStyleWord(true);
 	    scrollpane.getViewport().add(textarea);
 	}
-	public TextAreaEditor(Requirement req, JTable table, DefaultTableModel model) {
+	public TextAreaEditor(Requirement req, JTable table) {
 		super(new JCheckBox());
 		scrollpane = new JScrollPane();
 		textarea = new JTextArea(); 
@@ -43,7 +42,7 @@ public class TextAreaEditor extends DefaultCellEditor {
 		textarea.setWrapStyleWord(true);
 	    scrollpane.getViewport().add(textarea);
 	    this.addCellEditorListener(new CellEditorListener() {
-
+	    	
 			@Override
 			public void editingCanceled(ChangeEvent arg0) {
 				// TODO Auto-generated method stub
@@ -52,22 +51,11 @@ public class TextAreaEditor extends DefaultCellEditor {
 			@Override
 			public void editingStopped(ChangeEvent arg0) {
 				// TODO Auto-generated method stub
-				if(table.getSelectedColumn()==0) {
-					req.setRef((String)table.getValueAt(table.getSelectedRow(), 0), table.getSelectedRow());
-				}
-				else if(table.getSelectedColumn()==1) {
-					req.setName((String)table.getValueAt(table.getSelectedRow(), 1), table.getSelectedRow());
-				}
-				else if(table.getSelectedColumn()==2) {
-					req.setCategory((String)table.getValueAt(table.getSelectedRow(), 2), table.getSelectedRow());
-				}
+				req.setRef((String)table.getValueAt(table.getSelectedRow(), 0), table.getSelectedRow());
+				req.setName((String)table.getValueAt(table.getSelectedRow(), 1), table.getSelectedRow());
+				req.setCategory((String)table.getValueAt(table.getSelectedRow(), 2), table.getSelectedRow());
 				
-				model.setRowCount(0);
-			
-				for(int i=0; i<req.get_length(); i++) {
-					Object[] add = {req.getRef(i), req.getName(i), req.getCategory(i)};
-					model.addRow(add);
-				}
+				
 			}
 			
 		});
@@ -207,6 +195,7 @@ public class TextAreaEditor extends DefaultCellEditor {
 					}
 				}
 			}
+			
 	    	
 	    });
 	}

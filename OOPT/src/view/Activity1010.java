@@ -3,6 +3,8 @@ package view;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -78,10 +80,10 @@ public class Activity1010 extends JTabbedPane {
 		table.setRowHeight(70);
 
 		table.getColumn("Ref").setCellRenderer(new TextAreaRenderer());
-	    table.getColumn("Ref").setCellEditor(new TextAreaEditor(req,table,model));
+	    table.getColumn("Ref").setCellEditor(new TextAreaEditor(req, table));
 
 		table.getColumn("Name").setCellRenderer(new TextAreaRenderer());
-	    table.getColumn("Name").setCellEditor(new TextAreaEditor(req,table,model));
+	    table.getColumn("Name").setCellEditor(new TextAreaEditor(req, table));
 	    
 	    table.getModel().addTableModelListener(new TableModelListener() {
 	    	public void tableChanged(TableModelEvent e) {
@@ -98,6 +100,7 @@ public class Activity1010 extends JTabbedPane {
 	    
 	    JSplitPane splitPane_2 = new JSplitPane();
 		JScrollPane scrollPane_2 = new JScrollPane(table);
+		
 		JPanel jpanel_2 = new JPanel(new FlowLayout(FlowLayout.TRAILING));
 		JButton button_2 = new JButton("+");
 		JButton button_3 = new JButton("-");
@@ -111,7 +114,7 @@ public class Activity1010 extends JTabbedPane {
 		splitPane_2.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		splitPane_2.setBottomComponent(scrollPane_2);
 		splitPane_2.setTopComponent(jpanel_2);
-		
+		splitPane_2.disable();
 
 		JPopupMenu popupMenu = new JPopupMenu();
 		addPopup(table, popupMenu);
@@ -140,15 +143,22 @@ public class Activity1010 extends JTabbedPane {
 		
 		
 		JSplitPane splitPane = new JSplitPane();
-		JPanel jpanel = new JPanel(new FlowLayout(FlowLayout.TRAILING));
+		JPanel jpanel = new JPanel(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 0.5;
+		c.gridx = 3;
+		c.gridy = 0;
 		JButton button = new JButton("Commit");
-		jpanel.add(button);
-		jpanel.setBorder(BorderFactory.createEmptyBorder(0 , 0, 5, 5));
+		jpanel.add(button, c);
+		jpanel.setBorder(BorderFactory.createEmptyBorder(0 , 0, 0, 5));
 		
 		JScrollPane scrollPane = new JScrollPane();
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		splitPane.setBottomComponent(scrollPane);
 		splitPane.setTopComponent(jpanel);
+		splitPane.disable();
+		
 		this.addTab("Project Scope", null, splitPane, null);
 		
 		JTextPane textPane = new JTextPane();
@@ -184,20 +194,29 @@ public class Activity1010 extends JTabbedPane {
 	            + "&ensp;operations; reservation, lending item, adding, removing, and <br>"
 	            + "&ensp;updating the information of title, item, and borrower.<br>"
 	            + "</html>");
-		scrollPane.setColumnHeaderView(lblNewLabel);
-		lblNewLabel.setOpaque(true);
-		lblNewLabel.setBackground(Color.LIGHT_GRAY);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridwidth = 3;
+		jpanel.add(lblNewLabel, c);
 		
 		JSplitPane splitPane_1 = new JSplitPane();
-		JPanel jpanel_1 = new JPanel(new FlowLayout(FlowLayout.TRAILING));
+		JPanel jpanel_1 = new JPanel(new GridBagLayout());
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 0.5;
+		c.gridx = 3;
+		c.gridy = 0;
 		JButton button_1 = new JButton("Commit");
-		jpanel_1.add(button_1);
-		jpanel_1.setBorder(BorderFactory.createEmptyBorder(0 , 0, 5, 5));
+		jpanel_1.add(button_1, c);
+		jpanel_1.setBorder(BorderFactory.createEmptyBorder(0 , 0, 0, 5));
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
 		splitPane_1.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		splitPane_1.setBottomComponent(scrollPane_1);
 		splitPane_1.setTopComponent(jpanel_1);
+		splitPane_1.disable();
+		
 		this.addTab("Project Objective", null, splitPane_1, null);
 		
 		JTextPane textPane_1 = new JTextPane();
@@ -234,22 +253,31 @@ public class Activity1010 extends JTabbedPane {
 	            + "&ensp;Lend and return books, Reserve books, Maintaining Borrow information, and Purchasing new books<br>"
 	            + "- The new software should be easy to learn and use, and efficient<br>"
 	            + "</html>");
-		scrollPane_1.setColumnHeaderView(lblNewLabel_1);
-		lblNewLabel_1.setOpaque(true);
-		lblNewLabel_1.setBackground(Color.LIGHT_GRAY);
+		
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridwidth = 3;
+		jpanel_1.add(lblNewLabel_1, c);
 		
 		this.addTab("Functional Requirements", null, splitPane_2, null);
 		
 		JSplitPane splitPane_3 = new JSplitPane();
-		JPanel jpanel_3 = new JPanel(new FlowLayout(FlowLayout.TRAILING));
+		JPanel jpanel_3 = new JPanel(new GridBagLayout());
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 0.5;
+		c.gridx = 3;
+		c.gridy = 0;
 		JButton button_5 = new JButton("Commit");
-		jpanel_3.add(button_5);
-		jpanel_3.setBorder(BorderFactory.createEmptyBorder(0 , 0, 5, 5));
+		jpanel_3.add(button_5, c);
+		jpanel_3.setBorder(BorderFactory.createEmptyBorder(0 , 0, 0, 5));
 		
 		JScrollPane scrollPane_3 = new JScrollPane();
 		splitPane_3.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		splitPane_3.setBottomComponent(scrollPane_3);
 		splitPane_3.setTopComponent(jpanel_3);
+		splitPane_3.disable();
+		
 		this.addTab("Performance Requirement", null, splitPane_3, null);
 		
 		JTextPane textPane_2 = new JTextPane();
@@ -285,21 +313,29 @@ public class Activity1010 extends JTabbedPane {
 	            + "- When lending items, the content of lending item will appear within 5 seconds<br>"
 	            + "- When returning items, the content of returning item will appear within 5 seconds.<br>"
 	            + "</html>");
-		lblNewLabel_2.setOpaque(true);
-		lblNewLabel_2.setBackground(Color.LIGHT_GRAY);
 		
-		scrollPane_3.setColumnHeaderView(lblNewLabel_2);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridwidth = 3;
+		jpanel_3.add(lblNewLabel_2, c);
 		
 		JSplitPane splitPane_4 = new JSplitPane();
-		JPanel jpanel_4 = new JPanel(new FlowLayout(FlowLayout.TRAILING));
+		JPanel jpanel_4 = new JPanel(new GridBagLayout());
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 0.5;
+		c.gridx = 3;
+		c.gridy = 0;
 		JButton button_6 = new JButton("Commit");
-		jpanel_4.add(button_6);
-		jpanel_4.setBorder(BorderFactory.createEmptyBorder(0 , 0, 5, 5));
+		jpanel_4.add(button_6, c);
+		jpanel_4.setBorder(BorderFactory.createEmptyBorder(0 , 0, 0, 5));
 		
 		JScrollPane scrollPane_4 = new JScrollPane();
 		splitPane_4.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		splitPane_4.setBottomComponent(scrollPane_4);
 		splitPane_4.setTopComponent(jpanel_4);
+		splitPane_4.disable();
+		
 		this.addTab("Operation Environment", null, splitPane_4, null);
 		
 		JTextPane textPane_3 = new JTextPane();
@@ -337,21 +373,29 @@ public class Activity1010 extends JTabbedPane {
 	            + "- Language : Java<br>"
 	            + "- UML : StarUML<br>"
 	            + "</html>");
-		lblNewLabel_3.setOpaque(true);
-		lblNewLabel_3.setBackground(Color.LIGHT_GRAY);
 		
-		scrollPane_4.setColumnHeaderView(lblNewLabel_3);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridwidth = 3;
+		jpanel_4.add(lblNewLabel_3, c);
 		
 		JSplitPane splitPane_5 = new JSplitPane();
-		JPanel jpanel_5 = new JPanel(new FlowLayout(FlowLayout.TRAILING));
+		JPanel jpanel_5 = new JPanel(new GridBagLayout());
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 0.5;
+		c.gridx = 3;
+		c.gridy = 0;
 		JButton button_7 = new JButton("Commit");
-		jpanel_5.add(button_7);
-		jpanel_5.setBorder(BorderFactory.createEmptyBorder(0 , 0, 5, 5));
+		jpanel_5.add(button_7, c);
+		jpanel_5.setBorder(BorderFactory.createEmptyBorder(0 , 0, 0, 5));
 		
 		JScrollPane scrollPane_5 = new JScrollPane();
 		splitPane_5.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		splitPane_5.setBottomComponent(scrollPane_5);
 		splitPane_5.setTopComponent(jpanel_5);
+		splitPane_5.disable();
+		
 		this.addTab("User Interface Requirement", null, splitPane_5, null);
 		
 		JTextPane textPane_4 = new JTextPane();
@@ -386,21 +430,28 @@ public class Activity1010 extends JTabbedPane {
 	            + "- Menu-driven approach<br>"
 	            + "- Should be desgined to upgrading to 'Windows-based' version<br>"
 	            + "</html>");
-		lblNewLabel_4.setOpaque(true);
-		lblNewLabel_4.setBackground(Color.LIGHT_GRAY);
-		
-		scrollPane_5.setColumnHeaderView(lblNewLabel_4);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridwidth = 3;
+		jpanel_5.add(lblNewLabel_4, c);
 		
 		JSplitPane splitPane_6 = new JSplitPane();
-		JPanel jpanel_6 = new JPanel(new FlowLayout(FlowLayout.TRAILING));
+		JPanel jpanel_6 = new JPanel(new GridBagLayout());
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 0.5;
+		c.gridx = 3;
+		c.gridy = 0;
 		JButton button_8 = new JButton("Commit");
-		jpanel_6.add(button_8);
-		jpanel_6.setBorder(BorderFactory.createEmptyBorder(0 , 0, 5, 5));
+		jpanel_6.add(button_8, c);
+		jpanel_6.setBorder(BorderFactory.createEmptyBorder(0 , 0, 0, 5));
 		
 		JScrollPane scrollPane_6 = new JScrollPane();
 		splitPane_6.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		splitPane_6.setBottomComponent(scrollPane_6);
 		splitPane_6.setTopComponent(jpanel_6);
+		splitPane_6.disable();
+		
 		this.addTab("Other Requirement", null, splitPane_6, null);
 		
 		JTextPane textPane_5 = new JTextPane();
@@ -435,21 +486,29 @@ public class Activity1010 extends JTabbedPane {
 	            + "- The Content of database shoudl be maintained reliably<br>"
 	            + "- System should control the system access<br>"
 	            + "</html>");
-		lblNewLabel_5.setOpaque(true);
-		lblNewLabel_5.setBackground(Color.LIGHT_GRAY);
-		
-		scrollPane_6.setColumnHeaderView(lblNewLabel_5);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridwidth = 3;
+		jpanel_6.add(lblNewLabel_5, c);
 		
 		JSplitPane splitPane_7 = new JSplitPane();
-		JPanel jpanel_7 = new JPanel(new FlowLayout(FlowLayout.TRAILING));
+		JPanel jpanel_7 = new JPanel(new GridBagLayout());
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 0.5;
+		c.gridx = 3;
+		c.gridy = 0;
 		JButton button_9 = new JButton("Commit");
-		jpanel_7.add(button_9);
-		jpanel_7.setBorder(BorderFactory.createEmptyBorder(0 , 0, 5, 5));
+		jpanel_7.add(button_9, c);
+		jpanel_7.setBorder(BorderFactory.createEmptyBorder(0 , 0, 0, 5));
+		
 		
 		JScrollPane scrollPane_7 = new JScrollPane();
 		splitPane_7.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		splitPane_7.setBottomComponent(scrollPane_7);
 		splitPane_7.setTopComponent(jpanel_7);
+		splitPane_7.disable();
+		
 		this.addTab("Resources", null, splitPane_7, null);
 		
 		JTextPane textPane_6 = new JTextPane();
@@ -486,10 +545,11 @@ public class Activity1010 extends JTabbedPane {
 	            + "Hardware : Intel PC<br>"
 	            + "Software : Windows 7/10, Java, StarUML<br>"
 	            + "</html>");
-		lblNewLabel_6.setOpaque(true);
-		lblNewLabel_6.setBackground(Color.LIGHT_GRAY);
-		
-		scrollPane_7.setColumnHeaderView(lblNewLabel_6);
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridwidth = 3;
+		jpanel_7.add(lblNewLabel_6, c);
 		
 		table_1 = new JTable();
 		table_1.setModel(model2=new DefaultTableModel(
@@ -607,6 +667,8 @@ public class Activity1010 extends JTabbedPane {
 		splitPane_8.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		splitPane_8.setBottomComponent(scrollPane_8);
 		splitPane_8.setTopComponent(jpanel_8);
+		splitPane_8.disable();
+		
 		this.addTab("Scheduling", null, splitPane_8, null);
 		
 		scrollPane_8.setViewportView(table_1);
@@ -664,6 +726,11 @@ public class Activity1010 extends JTabbedPane {
 		        	 }
 				}
 				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+				for(int i = 0; i < req.get_length(); i++) {
+					req.setRef((String)table.getValueAt(i, 0), i);
+					req.setName((String)table.getValueAt(i, 1), i);
+					req.setCategory((String)table.getValueAt(i, 2), i);
+				}
 			}
 		});
 		
@@ -764,10 +831,23 @@ public class Activity1010 extends JTabbedPane {
 		});
 	}
 	public void syncRequirement(Requirement req) {
-		model.setRowCount(0);
-		for(int i=0;i<req.get_length();i++) {
-			Object[] add = {req.getRef(i),req.getName(i),req.getCategory(i)};
-			model.addRow(add);
+		if(req.get_length()>model.getRowCount()) {
+			int count = req.get_length()-model.getRowCount();
+			for(int i = 0; i < count; i++) {
+				Object[] add = {"", "", ""};
+				model.addRow(add);
+			}
 		}
+		else if(req.get_length()<model.getRowCount()) {
+			int count = model.getRowCount()-req.get_length();
+			for(int i = 0; i < count; i++) {
+				model.removeRow(0);
+			}
+		}
+		for(int i = 0; i < req.get_length(); i++) {
+			model.setValueAt(req.getRef(i), i, 0);
+			model.setValueAt(req.getName(i), i, 1);
+			model.setValueAt(req.getCategory(i), i, 2);
+		}	
 	}
 }

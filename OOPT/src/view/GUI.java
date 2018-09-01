@@ -366,7 +366,8 @@ public class GUI {
 		        	 			break;
 		        	 	case 1 :splitPane.setRightComponent(a1002);
 	    	 					break;
-		        	 	case 2 :splitPane.setRightComponent(a1003);
+		        	 	case 2 :a1003.syncRequirement(req);
+		        	 			splitPane.setRightComponent(a1003);
 	    	 					break;
 		        	 	case 3 :splitPane.setRightComponent(a1004);
 	    	 					break;
@@ -382,7 +383,8 @@ public class GUI {
 		        	 	case 8 :a1009.syncComboBox(req.getAllName());
 		        	 			splitPane.setRightComponent(a1009);
 	    	 					break;
-		        	 	case 9 :splitPane.setRightComponent(a1010);
+		        	 	case 9 :a1010.syncRequirement(req);
+		        	 			splitPane.setRightComponent(a1010);
 	    	 					break;		 
 		        	 	default : break;
 		        	 }

@@ -56,6 +56,7 @@ public class Activity1004 extends JTabbedPane {
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		splitPane.setBottomComponent(panel);
 		splitPane.setTopComponent(jpanel);
+		splitPane.disable();
 		
 		JPopupMenu popupMenu = new JPopupMenu();
 		addPopup(table, popupMenu);

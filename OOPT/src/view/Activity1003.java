@@ -52,11 +52,12 @@ public class Activity1003 extends JTabbedPane {
 		table.setRowHeight(70);
 
 		table.getColumn("Ref").setCellRenderer(new TextAreaRenderer());
-	    table.getColumn("Ref").setCellEditor(new TextAreaEditor(req, table,model));
+	    table.getColumn("Ref").setCellEditor(new TextAreaEditor(req, table));
+	    
 
 	    table.getColumn("Name").setCellRenderer(new TextAreaRenderer());
-	    table.getColumn("Name").setCellEditor(new TextAreaEditor(req, table,model));
-	   
+	    table.getColumn("Name").setCellEditor(new TextAreaEditor(req, table));
+	    table.setCellSelectionEnabled(false);
 		JSplitPane splitPane = new JSplitPane();
 		JScrollPane panel = new JScrollPane(table);
 		JPanel jpanel = new JPanel(new FlowLayout(FlowLayout.TRAILING));
@@ -352,6 +353,11 @@ public class Activity1003 extends JTabbedPane {
 		        	 }
 				}
 				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+				for(int i = 0; i < req.get_length(); i++) {
+					req.setRef((String)table.getValueAt(i, 0), i);
+					req.setName((String)table.getValueAt(i, 1), i);
+					req.setCategory((String)table.getValueAt(i, 2), i);
+				}
 			}
 		});
 		button_3.addActionListener(new ActionListener() {
@@ -421,10 +427,23 @@ public class Activity1003 extends JTabbedPane {
 		});
 	}
 	public void syncRequirement(Requirement req) {
-		model.setRowCount(0);
-		for(int i = 0; i < req.get_length();i++) {
-			Object[] add = {req.getRef(i), req.getName(i), req.getCategory(i)};
-			model.addRow(add);
+		if(req.get_length()>model.getRowCount()) {
+			int count = req.get_length()-model.getRowCount();
+			for(int i = 0; i < count; i++) {
+				Object[] add = {"", "",""};
+				model.addRow(add);
+			}
 		}
+		else if(req.get_length()<model.getRowCount()) {
+			int count = model.getRowCount()-req.get_length();
+			for(int i = 0; i < count; i++) {
+				model.removeRow(0);
+			}
+		}
+		for(int i = 0; i < req.get_length(); i++) {
+			model.setValueAt(req.getRef(i), i, 0);
+			model.setValueAt(req.getName(i), i, 1);
+			model.setValueAt(req.getCategory(i), i, 2);
+		}	
 	}
  }
