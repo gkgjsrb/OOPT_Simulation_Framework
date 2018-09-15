@@ -33,8 +33,8 @@ public class GUI {
 	 * Create the application.
 	 * @throws ClassNotFoundException 
 	 */
-	public GUI(Requirement req, Risk risk, ArrayList uc) {
-		initialize(req, risk, uc);
+	public GUI(Requirement req, Risk risk, ArrayList uc, ArrayList op) {
+		initialize(req, risk, uc, op);
 	}
 
 	/**
@@ -50,7 +50,7 @@ public class GUI {
 	    icons.put("html", TextIcons.getIcon("html"));
 	    return icons;
 	}
-	private void initialize(Requirement req, Risk risk, ArrayList uc) {
+	private void initialize(Requirement req, Risk risk, ArrayList uc, ArrayList op) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 928, 617);
 		
@@ -172,7 +172,7 @@ public class GUI {
 		Activity2032 a2032 = new Activity2032();
 		Activity2033 a2033 = new Activity2033();
 		Activity2034 a2034 = new Activity2034();
-		Activity2035 a2035 = new Activity2035();
+		Activity2035 a2035 = new Activity2035(op);
 		Activity2036 a2036 = new Activity2036();
 		Activity2037 a2037 = new Activity2037();
 		Activity2038 a2038 = new Activity2038(req, uc);
@@ -406,7 +406,8 @@ public class GUI {
 	        	 else if(node.getParent().equals(node.getRoot().getChildAt(1).getChildAt(0))){
 		        	 index = node.getParent().getIndex(node);
 		        	 switch(index) {
-		        	 	case 0 :splitPane.setRightComponent(a2031);
+		        	 	case 0 :a2031.syncUseCase(req, uc);
+		        	 			splitPane.setRightComponent(a2031);
 		        	 			break;
 		        	 	case 1 :splitPane.setRightComponent(a2032);
 	    	 					break;
@@ -416,7 +417,8 @@ public class GUI {
 	    	 					break;
 		        	 	case 4 :splitPane.setRightComponent(a2035);
 	    	 					break;
-		        	 	case 5 :splitPane.setRightComponent(a2036);
+		        	 	case 5 :a2036.syncOperation(op);
+		        	 			splitPane.setRightComponent(a2036);
 	    	 					break;
 		        	 	case 6 :splitPane.setRightComponent(a2037);
 	    	 					break;

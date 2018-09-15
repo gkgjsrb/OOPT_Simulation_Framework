@@ -564,7 +564,7 @@ public class Activity1006 extends JTabbedPane {
 				tpanel.removeAll();
 				for (INode aNode : allNodes) {
 					int exist=0;
-					String Actor_tmp = null;
+					//String Actor_tmp = null;
 					if(aNode.getClass().equals(UseCaseNode.class)) {
 						UseCaseNode a = (UseCaseNode)aNode;
 						/*
@@ -585,19 +585,29 @@ public class Activity1006 extends JTabbedPane {
 						for(UseCase tmp : uc) {
 							if(a.getId().equals(tmp.getId())) {
 								tmp.setName(a.getName().toString());
-								tmp.setActor(Actor_tmp);
+								//tmp.setActor(Actor_tmp);
 								exist=1;
 							}
 						}
 						if(exist==0) {
 							UseCase usec = new UseCase();
 							usec.setName(a.getName().toString());
-							usec.setActor(Actor_tmp);
+							//usec.setActor(Actor_tmp);
 							usec.setId(a.getId());
 							uc.add(usec);
 						}
 					}
 				}
+				ArrayList<UseCase> tmp_list = new ArrayList<UseCase>();
+				for(UseCase tmp : uc) {
+					for(INode aNode : allNodes) {
+						if(tmp.getId().equals(aNode.getId())){
+							tmp_list.add(tmp);
+						}
+					}
+				} // clone?
+				uc.clear();
+				uc.addAll(tmp_list);
 				
 				for(UseCase tmp : uc) {
 					JScrollPane usecasePane = new JScrollPane();

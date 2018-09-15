@@ -20,6 +20,7 @@ import com.horstmann.violet.workspace.IWorkspace;
 
 import Model.Requirement;
 import Model.Risk;
+import Model.SystemOperation;
 import Model.UseCase;
 
 public class TextAreaEditor extends DefaultCellEditor {
@@ -140,7 +141,7 @@ public class TextAreaEditor extends DefaultCellEditor {
 			}
 		});	
 	}
-	public TextAreaEditor(Requirement req, JTable table, ArrayList<UseCase> uc, JTabbedPane panel) {
+	public TextAreaEditor(ArrayList<UseCase> uc,JTable table, JTabbedPane panel) {
 		super(new JCheckBox());
 		scrollpane = new JScrollPane();
 		textarea = new JTextArea(); 
@@ -154,51 +155,95 @@ public class TextAreaEditor extends DefaultCellEditor {
 				// TODO Auto-generated method stub
 				
 			}
-
+			//system
 			@Override
 			public void editingStopped(ChangeEvent arg0) {
 				// TODO Auto-generated method stub
-				String tmp = panel.getSelectedComponent().getName();
-				for(int i=0; i<uc.size();i++) {
-					if(uc.get(i).getName().equals(tmp)) {
-						if(table.getSelectedRow()==0) {
-							uc.get(i).setName((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
-						}
-						else if(table.getSelectedRow()==1) {
-							uc.get(i).setActor((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
-						}
-						else if(table.getSelectedRow()==2) {
-							uc.get(i).setPurpose((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
-						}
-						else if(table.getSelectedRow()==3) {
-							uc.get(i).setOverview((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
-						}
-						else if(table.getSelectedRow()==4) {
-							uc.get(i).setType((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
-						}
-						else if(table.getSelectedRow()==5) {
-							uc.get(i).setRelated_requirement((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
-						}
-						else if(table.getSelectedRow()==6) {
-							uc.get(i).setPreRequistes((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
-						}
-						else if(table.getSelectedRow()==7) {
-							uc.get(i).setTypical((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
-						}
-						else if(table.getSelectedRow()==8) {
-							uc.get(i).setAlternative((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
-						}
-						else if(table.getSelectedRow()==9) {
-							uc.get(i).setExceptional((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
-						}
-						break;
+				int index = panel.getSelectedIndex();
+					if(table.getSelectedRow()==0) {
+						uc.get(index).setName((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
 					}
-				}
-			}
-			
-	    	
+					else if(table.getSelectedRow()==1) {
+						uc.get(index).setActor((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
+					}
+					else if(table.getSelectedRow()==2) {
+						uc.get(index).setPurpose((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
+					}
+					else if(table.getSelectedRow()==3) {
+						uc.get(index).setOverview((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
+					}
+					else if(table.getSelectedRow()==4) {
+						uc.get(index).setType((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
+					}
+					else if(table.getSelectedRow()==5) {
+						uc.get(index).setRelated_requirement((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
+					}
+					else if(table.getSelectedRow()==6) {
+						uc.get(index).setPreRequistes((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
+					}
+					else if(table.getSelectedRow()==7) {
+						uc.get(index).setTypical((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
+					}
+					else if(table.getSelectedRow()==8) {
+						uc.get(index).setAlternative((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
+					}
+					else if(table.getSelectedRow()==9) {
+						uc.get(index).setExceptional((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
+					}
+				}	
 	    });
 	}
+	
+	public TextAreaEditor(JTable table, ArrayList<SystemOperation> op, JTabbedPane panel) {
+		super(new JCheckBox());
+		scrollpane = new JScrollPane();
+		textarea = new JTextArea(); 
+		textarea.setLineWrap(true);;
+		textarea.setWrapStyleWord(true);
+	    scrollpane.getViewport().add(textarea);
+	    this.addCellEditorListener(new CellEditorListener() {
+
+			@Override
+			public void editingCanceled(ChangeEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			//system
+			@Override
+			public void editingStopped(ChangeEvent arg0) {
+				// TODO Auto-generated method stub
+				int index = panel.getSelectedIndex();
+					if(table.getSelectedRow()==0) {
+						op.get(index).setName((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
+					}
+					else if(table.getSelectedRow()==1) {
+						op.get(index).setResponsibility((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
+					}
+					else if(table.getSelectedRow()==2) {
+						op.get(index).setType((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
+					}
+					else if(table.getSelectedRow()==3) {
+						op.get(index).setCross((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
+					}
+					else if(table.getSelectedRow()==4) {
+						op.get(index).setNotes((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
+					}
+					else if(table.getSelectedRow()==5) {
+						op.get(index).setException((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
+					}
+					else if(table.getSelectedRow()==6) {
+						op.get(index).setOutput((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
+					}
+					else if(table.getSelectedRow()==7) {
+						op.get(index).setPreconditions((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
+					}
+					else if(table.getSelectedRow()==8) {
+						op.get(index).setPostconditions((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
+					}
+				}	
+	    });
+	}
+	
 	public TextAreaEditor(JTable table, ArrayList<UseCase> uc, JTabbedPane panel, IWorkspace workspace) {
 		super(new JCheckBox());
 		scrollpane = new JScrollPane();

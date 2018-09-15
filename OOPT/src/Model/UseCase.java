@@ -11,6 +11,7 @@ public class UseCase {
 	String Overview;
 	String Type;
 	String Base;
+	String Cross;
 	String related_requirement;
 	String PreRequistes;
 	String Typical;
@@ -24,7 +25,12 @@ public class UseCase {
 	public Id getId() {
 		return Id;
 	}
-	
+	public String getCross() {
+		return Cross;
+	}
+	public void setCross(String cross) {
+		Cross=cross;
+	}
 	public void setId(Id id) {
 		Id = id;
 	}

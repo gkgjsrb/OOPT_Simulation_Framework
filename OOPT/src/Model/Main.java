@@ -14,8 +14,8 @@ public class Main {
 		Requirement req = new Requirement();
 		Risk risk = new Risk();
 		ArrayList <UseCase> uc = new ArrayList<>();
-		
-		GUI gui = new GUI(req, risk, uc);
+		ArrayList <SystemOperation> op = new ArrayList();
+		GUI gui = new GUI(req, risk, uc, op);
 		
 	}
 	
