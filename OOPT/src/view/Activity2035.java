@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
@@ -34,114 +35,88 @@ import com.horstmann.violet.workspace.Workspace;
 import com.horstmann.violet.workspace.WorkspacePanel;
 import com.thoughtworks.xstream.io.StreamException;
 
+import Model.Graph;
 import Model.SystemOperation;
+import Model.UseCase;
 //define system sequence diagram
 public class Activity2035 extends JTabbedPane {
 	
-	@InjectedBean
-	private FileNamingService fileNamingService;
-	@InjectedBean
-	private IFileChooserService fileChooserService;
-	@InjectedBean
-	private DialogFactory dialogFactory;
-	@ResourceBundleBean(key = "dialog.open_file_failed.text")
-	private String dialogOpenFileErrorMessage;
-    @ResourceBundleBean(key = "dialog.open_file_content_incompatibility.text")
-    private String dialogOpenFileIncompatibilityMessage;
-    
+  
     private IWorkspace workspace;
-    private WorkspacePanel wp;
+    private WorkspacePanel wp;  
+    private JComboBox<String> combo;
     
-	public Activity2035(ArrayList<SystemOperation> op) {
+	public Activity2035(ArrayList<SystemOperation> op, ArrayList<Graph> sd) {
 		
 		BeanInjector.getInjector().inject(this);
 		Class<? extends IGraph> graphClass = new SequenceDiagramGraph().getClass();
         IGraphFile graphFile = new GraphFile(graphClass);
         workspace = new Workspace(graphFile);
         wp = workspace.getAWTComponent();
+        
         JPanel tpanel_dd = new JPanel(new FlowLayout(FlowLayout.TRAILING));
-		JButton button_save = new JButton("Save");
-		JButton button_open = new JButton("Open");
-		JButton button_commit = new JButton("Commit");
-		tpanel_dd.add(button_save);
-		tpanel_dd.add(button_open);
+        combo = new JComboBox<String>();
+        JButton button_commit = new JButton("Commit");
+		tpanel_dd.add(combo);
 		tpanel_dd.add(button_commit);
+
 		JSplitPane splitPane = new JSplitPane();
         splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
         splitPane.setBottomComponent(wp);
         splitPane.setTopComponent(tpanel_dd);
-		
-        button_save.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				workspace.getGraphFile().save();
-			}
-		});
-		button_open.addActionListener(new ActionListener()
-	        {
-	            public void actionPerformed(ActionEvent event)
-	            {
-	            	IFile selectedFile = null;
-	                try
-	                {
-	                    ExtensionFilter[] filters = fileNamingService.getFileFilters();
-	                    IFileReader fileOpener = fileChooserService.chooseAndGetFileReader(filters);
-	                    if (fileOpener == null)
-	                    {
-	                        // Action cancelled by user
-	                        return;
-	                    }
-	                    selectedFile = fileOpener.getFileDefinition();
-	                    IGraphFile graphFile_tmp = new GraphFile(selectedFile);
-	                    if(graphFile_tmp.getGraph().getClass().equals(graphClass)) {
-	                    	workspace = new Workspace(graphFile_tmp);
-		                    wp = workspace.getAWTComponent();
-		                    splitPane.setBottomComponent(wp);	
-	                    }
-	                    //if diffrent show dialog
-	                }
-	                catch (StreamException se)
-	                {
-	                    dialogFactory.showErrorDialog(dialogOpenFileIncompatibilityMessage);
-	                }
-	                catch (Exception e)
-	                {
-	                    dialogFactory.showErrorDialog(dialogOpenFileErrorMessage + " : " + e.getMessage());
-	                }
-	            }
-	    });
-		if(fileChooserService==null) button_open.setEnabled(false);
-		button_commit.addActionListener(new ActionListener() {
+		combo.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				Collection<IEdge> allEdges = workspace.getGraphFile().getGraph().getAllEdges();
-				for(IEdge aEdge : allEdges) {
-					int exist=0;
-					if(aEdge.getClass().equals(SynchronousCallEdge.class)) {
-						SynchronousCallEdge a =(SynchronousCallEdge)aEdge;
-						for(SystemOperation tmp : op) {
-							if(a.getId().equals(tmp.getId())) {
-								tmp.setName(a.getCenterLabel().toString());
-								exist=1;
+				int index = combo.getSelectedIndex();
+				String sel = combo.getItemAt(index);
+				for(Graph tmp : sd) {
+					if(tmp.getName().equals(sel)) {
+						workspace = new Workspace(tmp.getGraph());
+						wp=workspace.getAWTComponent();
+						splitPane.setBottomComponent(wp);
+					}
+				}
+			}
+		});
+		
+		button_commit.addActionListener(new ActionListener() {
+			
+			
+			ArrayList<SystemOperation> tmp_list = new ArrayList<SystemOperation>();
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				for(Graph tmp_Graph : sd) {
+					Collection<IEdge> allEdges = tmp_Graph.getGraph().getGraph().getAllEdges();
+					for(IEdge aEdge : allEdges) {
+						int exist=0;
+						if(aEdge.getClass().equals(SynchronousCallEdge.class)) {
+							SynchronousCallEdge a =(SynchronousCallEdge)aEdge;
+							for(SystemOperation tmp_Operation : op) {
+								if(a.getId().equals(tmp_Operation.getId())) {
+									tmp_Operation.setName(a.getCenterLabel().toString());
+									exist=1;
+								}
+							}
+							if(exist==0) {
+								SystemOperation opc = new SystemOperation();
+								opc.setName(a.getCenterLabel().toString());
+								opc.setId(a.getId());
+								op.add(opc);
 							}
 						}
-						if(exist==0) {
-							SystemOperation opc = new SystemOperation();
-							opc.setName(a.getCenterLabel().toString());
-							opc.setId(a.getId());
-							op.add(opc);
+					}
+					for(SystemOperation tmp_Operation : op) {
+						for(IEdge aEdge : allEdges) {
+							if(tmp_Operation.getId().equals(aEdge.getId())) {
+								tmp_list.add(tmp_Operation);
+							}
 						}
 					}
 				}
-				ArrayList<SystemOperation> tmp_list = new ArrayList();
-				for(SystemOperation tmp : op) {
-					for(IEdge aEdge : allEdges) {
-						if(tmp.getId().equals(aEdge.getId())) {
-							tmp_list.add(tmp);
-						}
-					}
-				}
+				
 				op.clear();
 				op.addAll(tmp_list);
 			}
@@ -149,6 +124,13 @@ public class Activity2035 extends JTabbedPane {
 		});
 		
         addTab("Define System Sequence Diagrams", null, splitPane, null);
+	}
+	
+	public void syncComboBox(ArrayList<UseCase> uc) {
+		combo.removeAllItems();
+		for(UseCase tmp : uc) {
+			combo.addItem(tmp.getName());
+		}
 	}
 
 }

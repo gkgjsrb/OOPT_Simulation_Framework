@@ -17,6 +17,7 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.plaf.metal.MetalIconFactory;
 
+import Model.Graph;
 import Model.Requirement;
 import Model.Risk;
 import Model.UMLEditorApplication;
@@ -33,8 +34,8 @@ public class GUI {
 	 * Create the application.
 	 * @throws ClassNotFoundException 
 	 */
-	public GUI(Requirement req, Risk risk, ArrayList uc, ArrayList op) {
-		initialize(req, risk, uc, op);
+	public GUI(Requirement req, Risk risk, ArrayList uc, ArrayList op, ArrayList std, ArrayList sd, ArrayList id, Graph ud, Graph cd, Graph dm, Graph sa) {
+		initialize(req, risk, uc, op, std, sd, id, ud, cd, dm, sa);
 	}
 
 	/**
@@ -50,7 +51,7 @@ public class GUI {
 	    icons.put("html", TextIcons.getIcon("html"));
 	    return icons;
 	}
-	private void initialize(Requirement req, Risk risk, ArrayList uc, ArrayList op) {
+	private void initialize(Requirement req, Risk risk, ArrayList uc, ArrayList op, ArrayList std, ArrayList sd, ArrayList id, Graph ud, Graph cd, Graph dm, Graph sa) {
 		frame = new JFrame();
 		frame.setBounds(100, 100, 928, 617);
 		
@@ -163,25 +164,25 @@ public class GUI {
 		Activity1003 a1003 = new Activity1003(tree, req);
 		Activity1004 a1004 = new Activity1004(tree);
 		Activity1005 a1005 = new Activity1005(tree);
-		Activity1006 a1006 = new Activity1006(tree, req, uc);
+		Activity1006 a1006 = new Activity1006(tree, req, uc, ud, sd, id, std);
 		Activity1007 a1007 = new Activity1007(tree);
 		Activity1008 a1008 = new Activity1008(tree);
 		Activity1009 a1009 = new Activity1009(tree, req);
 		Activity1010 a1010 = new Activity1010(tree, req);
-		Activity2031 a2031 = new Activity2031(req, uc);
+		Activity2031 a2031 = new Activity2031();
 		Activity2032 a2032 = new Activity2032();
-		Activity2033 a2033 = new Activity2033();
+		Activity2033 a2033 = new Activity2033(dm);
 		Activity2034 a2034 = new Activity2034();
-		Activity2035 a2035 = new Activity2035(op);
+		Activity2035 a2035 = new Activity2035(op, sd);
 		Activity2036 a2036 = new Activity2036();
-		Activity2037 a2037 = new Activity2037();
+		Activity2037 a2037 = new Activity2037(std);
 		Activity2038 a2038 = new Activity2038(req, uc);
 		Activity2039 a2039 = new Activity2039();
 		Activity2041 a2041 = new Activity2041();	
 		Activity2042 a2042 = new Activity2042();
-		Activity2043 a2043 = new Activity2043();
-		Activity2044 a2044 = new Activity2044();
-		Activity2045 a2045 = new Activity2045();
+		Activity2043 a2043 = new Activity2043(sa);
+		Activity2044 a2044 = new Activity2044(id);
+		Activity2045 a2045 = new Activity2045(cd);
 		Activity2046 a2046 = new Activity2046();
 		Activity2051 a2051 = new Activity2051();	
 		Activity2052 a2052 = new Activity2052();
@@ -415,12 +416,14 @@ public class GUI {
 	    	 					break;
 		        	 	case 3 :splitPane.setRightComponent(a2034);
 	    	 					break;
-		        	 	case 4 :splitPane.setRightComponent(a2035);
+		        	 	case 4 :a2035.syncComboBox(uc);
+		        	 			splitPane.setRightComponent(a2035);
 	    	 					break;
 		        	 	case 5 :a2036.syncOperation(op);
 		        	 			splitPane.setRightComponent(a2036);
 	    	 					break;
-		        	 	case 6 :splitPane.setRightComponent(a2037);
+		        	 	case 6 :a2037.syncComboBox(uc);
+		        	 			splitPane.setRightComponent(a2037);
 	    	 					break;
 		        	 	case 7 :a2038.syncComboBox(req.getAllName());
 		        	 			splitPane.setRightComponent(a2038);
@@ -433,13 +436,15 @@ public class GUI {
 	        	 else if(node.getParent().equals(node.getRoot().getChildAt(1).getChildAt(1))){
 		        	 index = node.getParent().getIndex(node);
 		        	 switch(index) {
-		        	 	case 0 :splitPane.setRightComponent(a2041);
+		        	 	case 0 :a2041.syncUseCase(req, uc);
+		        	 			splitPane.setRightComponent(a2041);
 		        	 			break;
 		        	 	case 1 :splitPane.setRightComponent(a2042);
 	    	 					break;
 		        	 	case 2 :splitPane.setRightComponent(a2043);
 	    	 					break;
-		        	 	case 3 :splitPane.setRightComponent(a2044);
+		        	 	case 3 :a2044.syncComboBox(uc);
+		        	 			splitPane.setRightComponent(a2044);
 	    	 					break;
 		        	 	case 4 :splitPane.setRightComponent(a2045);
 	    	 					break;

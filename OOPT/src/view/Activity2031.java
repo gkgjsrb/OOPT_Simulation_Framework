@@ -17,66 +17,53 @@ import Model.UseCase;
 public class Activity2031 extends JTabbedPane {
 	private JTable table;
 	JTabbedPane panel;
-	public Activity2031(Requirement req, ArrayList uc) {
+	public Activity2031() {
 		panel = new JTabbedPane();
 		addTab("Define Essential Use Cases", null, panel, null);
 	    
 	}
-
-	private static void addPopup(Component component, final JPopupMenu popup) {
-		component.addMouseListener(new MouseAdapter() {
-			public void mousePressed(MouseEvent e) {
-				if (e.isPopupTrigger()) {
-					showMenu(e);
-				}
-			}
-			public void mouseReleased(MouseEvent e) {
-				if (e.isPopupTrigger()) {
-					showMenu(e);
-				}
-			}
-			private void showMenu(MouseEvent e) {
-				popup.show(e.getComponent(), e.getX(), e.getY());
-			}
-		});
-	}
 	
 	public void syncUseCase(Requirement req,ArrayList<UseCase> uc) {
 		panel.removeAll();
-		for(UseCase tmp : uc) {
-			JScrollPane usecasePane = new JScrollPane();
-			panel.addTab(tmp.getName(), null, usecasePane, null);
-			table = new JTable();
-			table.setModel(new DefaultTableModel(
-				new Object[][] {
-					{"Use Case", tmp.getName()},
-					{"Actor", tmp.getActor()},
-					{"Purpose", tmp.getPurpose()},
-					{"Overview", tmp.getOverview()},
-					{"Type", tmp.getType()},
-					{"Cross Reference", null},
-					{"Pre-Requistes", tmp.getPreRequistes()},
-					{"Typical Courses of Events", tmp.getTypical()},
-					{"Alternative Courses of Events", tmp.getAlternative()},
-					{"Exceptional Courses of Events", tmp.getExceptional()},
-				},
-				new String[] {
-					"", " "
-				}
-			) {
-				boolean[] columnEditables = new boolean[] {
-					false, true
-				};
-				public boolean isCellEditable(int row, int column) {
-					return columnEditables[column];
-				}
-			});
-			table.getColumnModel().getColumn(0).setResizable(false);
-			usecasePane.setViewportView(table);
-			table.setRowHeight(45);
+		if(uc.size()==0) {
 			
-			table.getColumn(" ").setCellRenderer(new TextAreaRenderer());
-		    table.getColumn(" ").setCellEditor(new TextAreaEditor(uc, table, panel));
+		}
+		else {
+			for(UseCase tmp : uc) {
+				JScrollPane usecasePane = new JScrollPane();
+				panel.addTab(tmp.getName(), null, usecasePane, null);
+				table = new JTable();
+				table.setModel(new DefaultTableModel(
+					new Object[][] {
+						{"Use Case", tmp.getName()},
+						{"Actor", tmp.getActor()},
+						{"Purpose", tmp.getPurpose()},
+						{"Overview", tmp.getOverview()},
+						{"Type", tmp.getType()},
+						{"Cross Reference", null},
+						{"Pre-Requistes", tmp.getPreRequistes()},
+						{"Typical Courses of Events", tmp.getTypical()},
+						{"Alternative Courses of Events", tmp.getAlternative()},
+						{"Exceptional Courses of Events", tmp.getExceptional()},
+					},
+					new String[] {
+						"", " "
+					}
+					) {
+					boolean[] columnEditables = new boolean[] {
+						false, true
+					};
+					public boolean isCellEditable(int row, int column) {
+						return columnEditables[column];
+					}
+				});
+				table.getColumnModel().getColumn(0).setResizable(false);
+				usecasePane.setViewportView(table);
+				table.setRowHeight(45);
+			
+				table.getColumn(" ").setCellRenderer(new TextAreaRenderer());
+				table.getColumn(" ").setCellEditor(new TextAreaEditor(uc, table, panel));
+			}
 		}
 	}
 }

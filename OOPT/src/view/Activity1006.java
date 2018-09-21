@@ -60,6 +60,7 @@ import com.horstmann.violet.product.diagram.classes.edge.DependencyEdge;
 import com.horstmann.violet.product.diagram.property.ArrowheadChoiceList;
 import com.horstmann.violet.product.diagram.property.BentStyleChoiceList;
 import com.horstmann.violet.product.diagram.property.LineStyleChoiceList;
+import com.horstmann.violet.product.diagram.sequence.SequenceDiagramGraph;
 import com.horstmann.violet.product.diagram.usecase.UseCaseDiagramGraph;
 import com.horstmann.violet.product.diagram.usecase.node.ActorNode;
 import com.horstmann.violet.product.diagram.usecase.node.UseCaseNode;
@@ -70,6 +71,7 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.StreamException;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
+import Model.Graph;
 import Model.Requirement;
 import Model.UseCase;
 
@@ -82,27 +84,12 @@ public class Activity1006 extends JTabbedPane {
 	DefaultTableModel model3;
 	DefaultTableModel model4;
 	DefaultTableModel model5;
-	
-	@InjectedBean
-	private FileNamingService fileNamingService;
-	@InjectedBean
-	private IFileChooserService fileChooserService;
-	@InjectedBean
-	private DialogFactory dialogFactory;
-	@InjectedBean
-	private PluginRegistry pluginRegistry;
-	@ResourceBundleBean(key = "dialog.open_file_failed.text")
-	private String dialogOpenFileErrorMessage;
-    @ResourceBundleBean(key = "dialog.open_file_content_incompatibility.text")
-    private String dialogOpenFileIncompatibilityMessage;
-    
-    private XStreamBasedPersistenceService xstreamService = new XStreamBasedPersistenceService();
-    
+	   
     private IWorkspace workspace;
     
     private WorkspacePanel wp;
     
-	public Activity1006(JTree tree, Requirement req, ArrayList<UseCase> uc) {
+	public Activity1006(JTree tree, Requirement req, ArrayList<UseCase> uc, Graph ud, ArrayList<Graph> sd, ArrayList<Graph> id, ArrayList<Graph> std) {
 		
 		BeanInjector.getInjector().inject(this);
 		
@@ -334,11 +321,7 @@ public class Activity1006 extends JTabbedPane {
 		
 		JSplitPane splitPane_6 = new JSplitPane();
 		JPanel jpanel_6 = new JPanel(new FlowLayout(FlowLayout.TRAILING));
-		JButton button_10 = new JButton("Save");
-		JButton button_11 = new JButton("Open");
 		JButton button_12 = new JButton("Commit");
-		jpanel_6.add(button_10);
-		jpanel_6.add(button_11);
 		jpanel_6.add(button_12);
 
 		Class<? extends IGraph> graphClass = new UseCaseDiagramGraph().getClass();
@@ -516,83 +499,27 @@ public class Activity1006 extends JTabbedPane {
 				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
 			}
 		});
-		
-		button_10.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				workspace.getGraphFile().save();
-			}
-		});
-		
-		button_11.addActionListener(new ActionListener()
-        {
-            public void actionPerformed(ActionEvent event)
-            {
-            	IFile selectedFile = null;
-                try
-                {
-                    ExtensionFilter[] filters = fileNamingService.getFileFilters();
-                    IFileReader fileOpener = fileChooserService.chooseAndGetFileReader(filters);
-                    if (fileOpener == null)
-                    {
-                        // Action cancelled by user
-                        return;
-                    }
-                    selectedFile = fileOpener.getFileDefinition();
-                    InputStream in = fileOpener.getInputStream();
-                    IGraphFile graphFile_tmp = new GraphFile(selectedFile);
-                    if(graphFile_tmp.getGraph().getClass().equals(graphClass)) {
-                    	workspace = new Workspace(graphFile_tmp);
-	                    wp = workspace.getAWTComponent();
-	                    splitPane_6.setBottomComponent(wp);	
-                    }
-                }
-                catch (StreamException se)
-                {
-                    dialogFactory.showErrorDialog(dialogOpenFileIncompatibilityMessage);
-                }
-                catch (Exception e)
-                {
-                    dialogFactory.showErrorDialog(dialogOpenFileErrorMessage + " : " + e.getMessage());
-                }
-            }
-        });
-		if(fileChooserService==null) button_11.setEnabled(false);
+		ud.setGraph(workspace.getGraphFile());
 		 button_12.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Collection<INode> allNodes = workspace.getGraphFile().getGraph().getAllNodes();
-				Collection<IEdge> allEdges = workspace.getGraphFile().getGraph().getAllEdges();
+				ud.setGraph(workspace.getGraphFile());
+				Collection<INode> allNodes = ud.getGraph().getGraph().getAllNodes();
+				Collection<IEdge> allEdges = ud.getGraph().getGraph().getAllEdges();
 				tpanel.removeAll();
 				for (INode aNode : allNodes) {
 					int exist=0;
-					//String Actor_tmp = null;
 					if(aNode.getClass().equals(UseCaseNode.class)) {
 						UseCaseNode a = (UseCaseNode)aNode;
-						/*
-						for (IEdge Edge : allEdges) {
-							if(Edge.getClass().equals(DependencyEdge.class)) {
-								DependencyEdge e = (DependencyEdge)Edge;
-									if(e.getEndNode().equals(a) && e.getStartNode().getClass().equals(ActorNode.class)) {
-										ActorNode an = (ActorNode)e.getStartNode();
-										Actor_tmp = an.getName().toString();
-									}
-									else if(e.getStartNode().equals(a) && e.getEndNode().getClass().equals(ActorNode.class)) {
-										ActorNode an = (ActorNode)e.getEndNode();
-										Actor_tmp = an.getName().toString();
-									}
-							}
-						}
-						*/
+
 						for(UseCase tmp : uc) {
 							if(a.getId().equals(tmp.getId())) {
 								tmp.setName(a.getName().toString());
-								//tmp.setActor(Actor_tmp);
 								exist=1;
 							}
 						}
 						if(exist==0) {
 							UseCase usec = new UseCase();
 							usec.setName(a.getName().toString());
-							//usec.setActor(Actor_tmp);
 							usec.setId(a.getId());
 							uc.add(usec);
 						}
@@ -609,6 +536,29 @@ public class Activity1006 extends JTabbedPane {
 				uc.clear();
 				uc.addAll(tmp_list);
 				
+				for(UseCase tmp : uc) {
+					Graph sdtmp = new Graph(tmp.getName());
+					Class<? extends IGraph> graphClass = new SequenceDiagramGraph().getClass();
+			        IGraphFile graphFile = new GraphFile(graphClass);
+					sdtmp.setGraph(graphFile);
+					sd.add(sdtmp);
+				}
+				for(UseCase tmp : uc) {
+					Graph idtmp = new Graph(tmp.getName());
+					Class<? extends IGraph> graphClass = new SequenceDiagramGraph().getClass();
+			        IGraphFile graphFile = new GraphFile(graphClass);
+					idtmp.setGraph(graphFile);
+					id.add(idtmp);
+				}
+				
+				for(UseCase tmp : uc) {
+					Graph stdtmp = new Graph(tmp.getName());
+					Class<? extends IGraph> graphClass = new SequenceDiagramGraph().getClass();
+			        IGraphFile graphFile = new GraphFile(graphClass);
+					stdtmp.setGraph(graphFile);
+					std.add(stdtmp);
+				}
+						
 				for(UseCase tmp : uc) {
 					JScrollPane usecasePane = new JScrollPane();
 					tpanel.addTab(tmp.getName(), null, usecasePane, null);
@@ -674,169 +624,5 @@ public class Activity1006 extends JTabbedPane {
 		}	
 	}
 	
-	public IGraph read(InputStream in) throws IOException
-    {
-        InputStreamReader reader = new InputStreamReader(in, "UTF-8");
-    	XHTMLPersistenceServiceParserGetter kit = new XHTMLPersistenceServiceParserGetter();
-        HTMLEditorKit.Parser parser = kit.getParser();
-        StringWriter writer = new StringWriter();
-        HTMLEditorKit.ParserCallback callback = new XHTMLPersistenceServiceParserCallback(writer);
-        parser.parse(reader, callback, true);
-        String xmlContent = writer.toString();
-        InputStream xmlContentStream = new ByteArrayInputStream(xmlContent.getBytes());
-        InputStreamReader reader2 = new InputStreamReader(xmlContentStream);
-		XStream xStream = new XStream(new DomDriver("UTF-8"));
-		xStream = getConfiguredXStream(xStream);
-		Object fromXML = xStream.fromXML(reader2);
-		IGraph graph2 = (IGraph) fromXML;
-		
-		Collection<INode> allNodes = graph2.getAllNodes();
-		Collection<IEdge> allEdges = graph2.getAllEdges();
-		
-		
-		reader2.close();
-		graph2.deserializeSupport();
-		/*
-		for (INode aNode : allNodes) {
-			if(aNode.getClass().equals(UseCaseNode.class)) {
-				UseCaseNode a = (UseCaseNode)aNode;
-				System.out.println(a.getName());
-			}
-			//else if (aNode.getClass().equals(ActorNode.class)) {
-				//ActorNode b = (ActorNode)aNode;
-				//System.out.println(b.getName());
-			//}
-			System.out.println(aNode.getId());
-			System.out.println(aNode.getLocation());
-			System.out.println(aNode.getClass());
-		}
-		for (IEdge Edge : allEdges) {
-			if(Edge.getClass().equals(DependencyEdge.class)) {
-				DependencyEdge e = (DependencyEdge)Edge;
-				
-			}
-			System.out.println(Edge.getId());
-			System.out.println(Edge.getStartNode());
-			System.out.println(Edge.getEndNode());
-			System.out.println(Edge.getClass());
-		}
-		*/
-        reader.close();
-        xmlContentStream.close();
-        writer.close();
-        return graph2;
-    }
-	private class XHTMLPersistenceServiceParserGetter extends HTMLEditorKit
-    {
-        public HTMLEditorKit.Parser getParser()
-        {
-            return super.getParser();
-        }
-    }
-
-    private class XHTMLPersistenceServiceParserCallback extends HTMLEditorKit.ParserCallback
-    {
-
-        private Writer out;
-
-        private boolean inHeader = false;
-
-        public XHTMLPersistenceServiceParserCallback(Writer out)
-        {
-            this.out = out;
-        }
-
-        public void handleStartTag(HTML.Tag tag, MutableAttributeSet attributes, int position)
-        {
-            if (!tag.equals(HTML.Tag.SCRIPT))
-            {
-                return;
-            }
-            if (!attributes.containsAttribute(HTML.getAttributeKey("id"), "content"))
-            {
-                return;
-            }
-            this.inHeader = true;
-        }
-
-        public void handleEndTag(HTML.Tag tag, int position)
-        {
-            if (tag.equals(HTML.Tag.SCRIPT))
-            {
-                if (this.inHeader)
-                {
-                    this.inHeader = false;
-                }
-            }
-            // work around bug in the parser that fails to call flush
-            if (tag.equals(HTML.Tag.HTML)) this.flush();
-        }
-        
-
-        @Override
-        public void handleComment(char[] text, int position)
-        {
-            if (this.inHeader)
-            {
-                try
-                {
-                    String xmlContent = new String(text);
-                    xmlContent = xmlContent.replace("<![CDATA[", "");
-                    xmlContent = xmlContent.replace("]]>", "");
-                    out.write(xmlContent);
-                    out.flush();
-                }
-                catch (IOException ex)
-                {
-                    throw new RuntimeException(ex);
-                }
-            }
-        }
-
-        public void flush()
-        {
-            try
-            {
-                out.flush();
-            }
-            catch (IOException e)
-            {
-                throw new RuntimeException(e);
-            }
-        }
-
-    }
-    private XStream getConfiguredXStream(XStream xStream) {
-		xStream.autodetectAnnotations(true);
-		xStream.setMode(XStream.ID_REFERENCES);
-		xStream.useAttributeFor(Point2D.Double.class, "x");
-		xStream.useAttributeFor(Point2D.Double.class, "y");
-		xStream.alias("Point2D.Double", Point2D.Double.class);
-		xStream.addImmutableType(ArrowheadChoiceList.class);
-        xStream.addImmutableType(LineStyleChoiceList.class);
-        xStream.addImmutableType(BentStyleChoiceList.class);
-		List<IDiagramPlugin> diagramPlugins = this.pluginRegistry.getDiagramPlugins();
-		for (IDiagramPlugin aPlugin : diagramPlugins) {
-			Class<? extends IGraph> graphClass = aPlugin.getGraphClass();
-			xStream.alias(graphClass.getSimpleName(), graphClass);
-			try {
-				IGraph aDummyGraph = graphClass.newInstance();
-				List<IEdge> edgePrototypes = aDummyGraph.getEdgePrototypes();
-				List<INode> nodePrototypes = aDummyGraph.getNodePrototypes();
-				for (IEdge anEdgePrototype : edgePrototypes) {
-					Class<? extends IEdge> edgeClass = anEdgePrototype.getClass();
-					xStream.alias(edgeClass.getSimpleName(), anEdgePrototype.getClass());
-				}
-				for (INode aNodePrototype : nodePrototypes) {
-					Class<? extends INode> nodeClass = aNodePrototype.getClass();
-					xStream.alias(nodeClass.getSimpleName(), aNodePrototype.getClass());
-				}
-			} catch (Exception e) {
-				throw new RuntimeException(e);
-			}
-		}
-		return xStream;
-	}
-
 
 }

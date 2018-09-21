@@ -9,93 +9,43 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 
-import com.horstmann.violet.framework.dialog.DialogFactory;
 import com.horstmann.violet.framework.file.GraphFile;
-import com.horstmann.violet.framework.file.IFile;
 import com.horstmann.violet.framework.file.IGraphFile;
-import com.horstmann.violet.framework.file.chooser.IFileChooserService;
-import com.horstmann.violet.framework.file.naming.ExtensionFilter;
-import com.horstmann.violet.framework.file.naming.FileNamingService;
-import com.horstmann.violet.framework.file.persistence.IFileReader;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjector;
-import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
-import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.classes.ClassDiagramGraph;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.Workspace;
 import com.horstmann.violet.workspace.WorkspacePanel;
-import com.thoughtworks.xstream.io.StreamException;
+
+import Model.Graph;
 //refine system architecture
 public class Activity2043 extends JTabbedPane {
-
-	@InjectedBean
-	private FileNamingService fileNamingService;
-	@InjectedBean
-	private IFileChooserService fileChooserService;
-	@InjectedBean
-	private DialogFactory dialogFactory;
-	@ResourceBundleBean(key = "dialog.open_file_failed.text")
-	private String dialogOpenFileErrorMessage;
-    @ResourceBundleBean(key = "dialog.open_file_content_incompatibility.text")
-    private String dialogOpenFileIncompatibilityMessage;
     
-	public Activity2043() {
+	public Activity2043(Graph sa) {
 		BeanInjector.getInjector().inject(this);
-		
 		Class<? extends IGraph> graphClass = new ClassDiagramGraph().getClass();
         IGraphFile graphFile = new GraphFile(graphClass);
-        IWorkspace workspace = new Workspace(graphFile);
+        sa.setGraph(graphFile);
+        IWorkspace workspace = new Workspace(sa.getGraph());
         WorkspacePanel wp = workspace.getAWTComponent();
         JPanel tpanel_dd = new JPanel(new FlowLayout(FlowLayout.TRAILING));
-		JButton button_save = new JButton("Save");
-		JButton button_open = new JButton("Open");
-		tpanel_dd.add(button_save);
-		tpanel_dd.add(button_open);
+		JButton button_commit = new JButton("Commit");
+		tpanel_dd.add(button_commit);
 		JSplitPane splitPane = new JSplitPane();
         splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
         splitPane.setBottomComponent(wp);
         splitPane.setTopComponent(tpanel_dd);
 		
-        button_save.addActionListener(new ActionListener() {
+        button_commit.addActionListener(new ActionListener() {
+
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				workspace.getGraphFile().save();
+				// TODO Auto-generated method stub
+				sa.setGraph(workspace.getGraphFile());
 			}
 		});
-		button_open.addActionListener(new ActionListener()
-	        {
-	            public void actionPerformed(ActionEvent event)
-	            {
-	            	IFile selectedFile = null;
-	                try
-	                {
-	                    ExtensionFilter[] filters = fileNamingService.getFileFilters();
-	                    IFileReader fileOpener = fileChooserService.chooseAndGetFileReader(filters);
-	                    if (fileOpener == null)
-	                    {
-	                        // Action cancelled by user
-	                        return;
-	                    }
-	                    selectedFile = fileOpener.getFileDefinition();
-	                    IGraphFile graphFile_tmp = new GraphFile(selectedFile);
-	                    if(graphFile_tmp.getGraph().getClass().equals(graphClass)) {
-	                    	IWorkspace workspace_tmp = new Workspace(graphFile_tmp);
-		                    WorkspacePanel wp_tmp = workspace_tmp.getAWTComponent();
-		                    splitPane.setBottomComponent(wp_tmp);	
-	                    }
-
-	                }
-	                catch (StreamException se)
-	                {
-	                    dialogFactory.showErrorDialog(dialogOpenFileIncompatibilityMessage);
-	                }
-	                catch (Exception e)
-	                {
-	                    dialogFactory.showErrorDialog(dialogOpenFileErrorMessage + " : " + e.getMessage());
-	                }
-	            }
-	    });
-		if(fileChooserService==null) button_open.setEnabled(false);
+       
         addTab("Refine System Architecture", null, splitPane, null);
     }
 
