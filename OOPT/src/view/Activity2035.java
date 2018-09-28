@@ -12,38 +12,26 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 
-import com.horstmann.violet.framework.dialog.DialogFactory;
 import com.horstmann.violet.framework.file.GraphFile;
-import com.horstmann.violet.framework.file.IFile;
 import com.horstmann.violet.framework.file.IGraphFile;
-import com.horstmann.violet.framework.file.chooser.IFileChooserService;
-import com.horstmann.violet.framework.file.naming.ExtensionFilter;
-import com.horstmann.violet.framework.file.naming.FileNamingService;
-import com.horstmann.violet.framework.file.persistence.IFileReader;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjector;
-import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
-import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
-import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.sequence.SequenceDiagramGraph;
 import com.horstmann.violet.product.diagram.sequence.edge.SynchronousCallEdge;
-import com.horstmann.violet.product.diagram.sequence.node.ActivationBarNode;
-import com.horstmann.violet.product.diagram.sequence.node.LifelineNode;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.Workspace;
 import com.horstmann.violet.workspace.WorkspacePanel;
-import com.thoughtworks.xstream.io.StreamException;
 
 import Model.Graph;
 import Model.SystemOperation;
 import Model.UseCase;
+
 //define system sequence diagram
 public class Activity2035 extends JTabbedPane {
 	
-  
     private IWorkspace workspace;
-    private WorkspacePanel wp;  
+    private WorkspacePanel wp;
     private JComboBox<String> combo;
     
 	public Activity2035(ArrayList<SystemOperation> op, ArrayList<Graph> sd) {
@@ -55,19 +43,21 @@ public class Activity2035 extends JTabbedPane {
         wp = workspace.getAWTComponent();
         
         JPanel tpanel_dd = new JPanel(new FlowLayout(FlowLayout.TRAILING));
-        combo = new JComboBox<String>();
-        JButton button_commit = new JButton("Commit");
+		
+		JButton button_commit = new JButton("Commit");
+		combo = new JComboBox<String>();
 		tpanel_dd.add(combo);
 		tpanel_dd.add(button_commit);
-
+		
 		JSplitPane splitPane = new JSplitPane();
         splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
         splitPane.setBottomComponent(wp);
         splitPane.setTopComponent(tpanel_dd);
-		combo.addActionListener(new ActionListener() {
+		
+        combo.addActionListener(new ActionListener() {
 
 			@Override
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				int index = combo.getSelectedIndex();
 				String sel = combo.getItemAt(index);
@@ -79,24 +69,23 @@ public class Activity2035 extends JTabbedPane {
 					}
 				}
 			}
-		});
-		
+        	
+        });
 		button_commit.addActionListener(new ActionListener() {
-			
-			
+
 			ArrayList<SystemOperation> tmp_list = new ArrayList<SystemOperation>();
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				for(Graph tmp_Graph : sd) {
-					Collection<IEdge> allEdges = tmp_Graph.getGraph().getGraph().getAllEdges();
+					Collection<IEdge> allEdges = workspace.getGraphFile().getGraph().getAllEdges();
 					for(IEdge aEdge : allEdges) {
 						int exist=0;
 						if(aEdge.getClass().equals(SynchronousCallEdge.class)) {
 							SynchronousCallEdge a =(SynchronousCallEdge)aEdge;
-							for(SystemOperation tmp_Operation : op) {
-								if(a.getId().equals(tmp_Operation.getId())) {
-									tmp_Operation.setName(a.getCenterLabel().toString());
+							for(SystemOperation tmp : op) {
+								if(a.getId().equals(tmp.getId())) {
+									tmp.setName(a.getCenterLabel().toString());
 									exist=1;
 								}
 							}
@@ -108,17 +97,17 @@ public class Activity2035 extends JTabbedPane {
 							}
 						}
 					}
-					for(SystemOperation tmp_Operation : op) {
+					for(SystemOperation tmp : op) {
 						for(IEdge aEdge : allEdges) {
-							if(tmp_Operation.getId().equals(aEdge.getId())) {
-								tmp_list.add(tmp_Operation);
+							if(tmp.getId().equals(aEdge.getId())) {
+								tmp_list.add(tmp);
 							}
 						}
 					}
 				}
-				
 				op.clear();
 				op.addAll(tmp_list);
+				
 			}
 			
 		});

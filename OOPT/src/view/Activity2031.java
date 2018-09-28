@@ -22,6 +22,8 @@ public class Activity2031 extends JTabbedPane {
 		addTab("Define Essential Use Cases", null, panel, null);
 	    
 	}
+
+	
 	
 	public void syncUseCase(Requirement req,ArrayList<UseCase> uc) {
 		panel.removeAll();
@@ -49,7 +51,7 @@ public class Activity2031 extends JTabbedPane {
 					new String[] {
 						"", " "
 					}
-					) {
+				) {
 					boolean[] columnEditables = new boolean[] {
 						false, true
 					};
@@ -60,9 +62,9 @@ public class Activity2031 extends JTabbedPane {
 				table.getColumnModel().getColumn(0).setResizable(false);
 				usecasePane.setViewportView(table);
 				table.setRowHeight(45);
-			
+				
 				table.getColumn(" ").setCellRenderer(new TextAreaRenderer());
-				table.getColumn(" ").setCellEditor(new TextAreaEditor(uc, table, panel));
+			    table.getColumn(" ").setCellEditor(new TextAreaEditor(uc, table, panel));
 			}
 		}
 	}

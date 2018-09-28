@@ -18,6 +18,7 @@ public class Stage1000 extends JPanel {
 	Image img = null;
 	Image img2 = null;
 	public Stage1000() {
+		
 		try{
 			File sourceimage = new File("./stage1000.png");
 			img = ImageIO.read(sourceimage);

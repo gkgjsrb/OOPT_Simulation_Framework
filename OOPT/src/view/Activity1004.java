@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -20,11 +21,19 @@ import javax.swing.JTree;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultTreeModel;
 
+import Model.Datainfo;
+import Model.Glossary;
+import Model.Requirement;
+import Model.Risk;
+import Model.StageText;
+
 public class Activity1004 extends JTabbedPane {
 
 	//glossray save in file
-	public Activity1004(JTree tree) {
-		DefaultTableModel model;	
+	DefaultTableModel model;
+	public Activity1004(JTree tree, ArrayList<Glossary> gl, Datainfo data) {
+		gl.add(new Glossary("D"));
+		
 		String[] colName= {"Term","Description","Remarks"};
 		Object[][] rowData= {{"","",""}};
 		model=new DefaultTableModel(rowData,colName);
@@ -67,6 +76,7 @@ public class Activity1004 extends JTabbedPane {
 			public void actionPerformed(ActionEvent arg0) {
 				Object[] add= {null,null,null};
 				model.addRow(add);
+				gl.add(new Glossary("D"));
 			}
 		});
 		popupMenu.add(mntmNewMenuItem);
@@ -76,6 +86,9 @@ public class Activity1004 extends JTabbedPane {
 			public void actionPerformed(ActionEvent arg0) {
 				int row = table.getSelectedRow();
 				if(row!=-1) {
+					gl.remove(row);
+					data.syncTerm("D", gl.size());
+					
 					model.removeRow(row);
 					table.editingCanceled(changeEvent);
 				}
@@ -85,8 +98,9 @@ public class Activity1004 extends JTabbedPane {
 		this.addTab("Record Terms in Glossary", null, splitPane, null);
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Object[] add= {"","", ""};
+				Object[] add= {null, null, null};
 				model.addRow(add);
+				gl.add(new Glossary("D"));
 			}
 		});
 		
@@ -94,6 +108,9 @@ public class Activity1004 extends JTabbedPane {
 			public void actionPerformed(ActionEvent arg0) {
 				int row = table.getSelectedRow();
 				if(row!=-1) {
+					gl.remove(row);
+					data.syncTerm("D", gl.size());
+					
 					model.removeRow(row);
 					table.editingCanceled(changeEvent);
 				}
@@ -108,6 +125,14 @@ public class Activity1004 extends JTabbedPane {
 		        	 if(index == 3) {
 		        	 	node.setIconName("floppyDrive");
 		        	 }
+				}
+				table.editingStopped(changeEvent);
+				for(int i = 0; i < table.getRowCount(); i++) {
+					Glossary g = gl.get(i);
+					g.setTerm((String)table.getValueAt(i, 0));
+					g.setDescription((String)table.getValueAt(i, 1));
+					g.setRemarks((String)table.getValueAt(i, 2));
+					data.setTerm(i, g);
 				}
 				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
 			}
@@ -129,8 +154,22 @@ public class Activity1004 extends JTabbedPane {
 				popup.show(e.getComponent(), e.getX(), e.getY());
 			}
 		});
-	
-
 	}
+	public void save(Datainfo data, ArrayList<Glossary> gl) {
+		for(Glossary g : gl) {
+			data.setTerm(gl.indexOf(g), g);
+		}
+	}
+	public void open(ArrayList<Glossary> gl) {
+		
+		model.setRowCount(0);
+		for(Glossary g : gl) {
+			Object[] add= {g.getTerm(), g.getDescription(), g.getRemarks()};
+			
+			model.addRow(add);
+		}	
+		
+	}
+	
 
 }

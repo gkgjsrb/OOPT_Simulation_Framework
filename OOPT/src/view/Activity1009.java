@@ -24,15 +24,19 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.tree.DefaultTreeModel;
 
+import Model.Datainfo;
+import Model.NonFuncReq;
 import Model.Requirement;
+import Model.Risk;
+import Model.StageText;
 
 public class Activity1009 extends JTabbedPane {
 	
 	JComboBox<String> comboBox = new JComboBox<String>();
-	
-	public Activity1009(JTree tree, Requirement req) {
-		DefaultTableModel model;
-		DefaultTableModel model2;
+	DefaultTableModel model;
+	DefaultTableModel model2;
+	public Activity1009(JTree tree, Requirement req, Datainfo data) {
+		
 
 		String[] colName= {"Ref","Function","Test Case"};
 		String[] colName2= {"Category","Test Case"};
@@ -75,22 +79,21 @@ public class Activity1009 extends JTabbedPane {
 		JSplitPane splitPane_1 = new JSplitPane();
 		JPanel jpanel = new JPanel(new FlowLayout(FlowLayout.TRAILING));
 		JPanel jpanel_1 = new JPanel(new FlowLayout(FlowLayout.TRAILING));
-		JButton button = new JButton("+");
-		JButton button_1 = new JButton("-");
-		JButton button_2 = new JButton("Commit");
 		
-		JButton button_3 = new JButton("+");
-		JButton button_4 = new JButton("-");
-		JButton button_5 = new JButton("Commit");
+		JButton button = new JButton("Commit");
+		
+		JButton button_1 = new JButton("+");
+		JButton button_2 = new JButton("-");
+		JButton button_3 = new JButton("Commit");
 		
 		jpanel.add(button);
-		jpanel.add(button_1);
-		jpanel.add(button_2);
+		
 		jpanel.setBorder(BorderFactory.createEmptyBorder(0 , 0, 5, 5));
 		
+		jpanel_1.add(button_1);
+		jpanel_1.add(button_2);
 		jpanel_1.add(button_3);
-		jpanel_1.add(button_4);
-		jpanel_1.add(button_5);
+		
 		jpanel_1.setBorder(BorderFactory.createEmptyBorder(0 , 0, 5, 5));
 		
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
@@ -103,78 +106,13 @@ public class Activity1009 extends JTabbedPane {
 		splitPane_1.setTopComponent(jpanel_1);
 		splitPane_1.disable();
 		
-		JPopupMenu popupMenu = new JPopupMenu();		
-		JPopupMenu popupMenu2 = new JPopupMenu();
-		addPopup(table, popupMenu);
-		addPopup(table2,popupMenu2);
-		addPopup(panel, popupMenu);
-		addPopup(panel2, popupMenu2);
-
-		JMenuItem mntmNewMenuItem = new JMenuItem("add row");
-		mntmNewMenuItem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				Object[] add= {" "," "," "};
-				model.addRow(add);
-			}
-		});
-		popupMenu.add(mntmNewMenuItem);
-		
-		JMenuItem mntmNewMenuItem_1 = new JMenuItem("del row");
-		mntmNewMenuItem_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				int row = table.getSelectedRow();
-				if(row!=-1) {
-					model.removeRow(row);
-					table.editingCanceled(changeEvent);
-				}
-			}
-		});
-		popupMenu.add(mntmNewMenuItem_1);
-
-		JMenuItem mntmNewMenuItem_2 = new JMenuItem("add row");
-		mntmNewMenuItem_2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				Object[] add2= {null,null};
-				model2.addRow(add2);
-			}
-		});
-		popupMenu2.add(mntmNewMenuItem_2);
-		
-		JMenuItem mntmNewMenuItem_3 = new JMenuItem("del row");
-		mntmNewMenuItem_3.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				int row2 = table2.getSelectedRow();
-				if(row2!=-1) {
-					model2.removeRow(row2);
-					table2.editingCanceled(changeEvent);
-				}
-			}
-		});
-		popupMenu2.add(mntmNewMenuItem_3);
 		
 		this.addTab("Functional Requirement Test Case", null, splitPane, null);
 		this.addTab("Non Functional Requirement Test Case", null, splitPane_1, null);
 
+		
+		
 		button.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				Object[] add= {"","", ""};
-				req.add_row();
-				model.addRow(add);
-			}
-		});
-		
-		button_1.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				int row = table.getSelectedRow();
-				if(row!=-1) {
-					req.del_row(row);
-					model.removeRow(row);
-					table.editingCanceled(changeEvent);
-				}
-			}
-		});
-		
-		button_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				IconNode node=(IconNode)tree.getLastSelectedPathComponent();
 				if(node.getParent().equals(node.getRoot().getChildAt(0))){
@@ -184,28 +122,36 @@ public class Activity1009 extends JTabbedPane {
 		        	 }
 				}
 				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+				table.editingStopped(changeEvent);
+				for(int i = 0; i < req.get_length(); i++) {
+					req.setRef((String)table.getValueAt(i, 0), i);
+					req.setName((String)table.getValueAt(i, 1), i);
+					req.setTestcase((String)table.getValueAt(i, 2), i);
+					data.setReq(i, req);
+				}
 			}
 		});
-		button_3.addActionListener(new ActionListener() {
+		
+		button_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Object[] add= {"",""};
-				req.add_row();
+				
 				model2.addRow(add);
 			}
 		});
 		
-		button_4.addActionListener(new ActionListener() {
+		button_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				int row = table.getSelectedRow();
+				int row = table2.getSelectedRow();
 				if(row!=-1) {
-					req.del_row(row);
+					
 					model2.removeRow(row);
 					table2.editingCanceled(changeEvent);
 				}
 			}
 		});
 		
-		button_5.addActionListener(new ActionListener() {
+		button_3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				IconNode node=(IconNode)tree.getLastSelectedPathComponent();
 				if(node.getParent().equals(node.getRoot().getChildAt(0))){
@@ -215,6 +161,16 @@ public class Activity1009 extends JTabbedPane {
 		        	 }
 				}
 				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+				
+				table.editingStopped(changeEvent);
+				data.syncNonReq("D");
+				for(int i = 0; i < model2.getRowCount(); i++) {
+					NonFuncReq r = new NonFuncReq();
+					r.setCategory((String)model2.getValueAt(i, 0));
+					r.setTestcase((String)model2.getValueAt(i, 1));
+					
+					data.setNonReq(i, "D", r);
+				}
 			}
 		});
 		
@@ -242,6 +198,31 @@ public class Activity1009 extends JTabbedPane {
 		for(int i=0; i<array.size(); i++) {
 			comboBox.addItem((String) array.get(i));
 		}
+	}
+	public void save(Datainfo data, Requirement req) {
+		for(int i = 0; i < req.get_length(); i++) {
+			data.setReq(i, req);
+		}
+
+	}
+	public void open(Requirement req, ArrayList<NonFuncReq> nreq) {
+		
+		model.setRowCount(0);
+		model2.setRowCount(0);
+		for(int i = 0; i < req.get_length(); i++) {
+			Object[] add= {req.getRef(i), req.getName(i), req.getTestcase(i)};
+			model.addRow(add);
+		}
+		
+		for(NonFuncReq r : nreq) {
+			Object[] add2= {r.getCategory(), r.getTestcase()};
+			model2.addRow(add2);
+		}
+		if(nreq.size() == 0) {
+			Object[] add2= {"", ""};
+			model2.addRow(add2);
+		}
+		
 	}
 /*
 	public void addComboItem(String add) {

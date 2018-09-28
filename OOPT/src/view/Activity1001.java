@@ -1,13 +1,12 @@
 package view;
 
-import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 import java.util.Hashtable;
 
 import javax.swing.BorderFactory;
@@ -19,15 +18,22 @@ import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextPane;
 import javax.swing.JTree;
-import javax.swing.SwingConstants;
 import javax.swing.plaf.metal.MetalIconFactory;
 import javax.swing.tree.DefaultTreeModel;
+
+import Model.Datainfo;
+import Model.StageText;
 
 
 public class Activity1001 extends JTabbedPane {
 
 	JTextPane MotivationPane;
-	
+	JTextPane ProjectObjectivePane;
+	JTextPane ScopePane;
+	JTextPane FuncReqPane;
+	JTextPane NonFuncReqPane;
+	JTextPane ResourceEstPane;
+	JTextPane OtherInfoPane;
 	private Hashtable makeIcons() {
 	    Hashtable icons = new Hashtable();
 	    icons.put("floppyDrive", MetalIconFactory.getTreeFloppyDriveIcon());
@@ -38,7 +44,7 @@ public class Activity1001 extends JTabbedPane {
 	    icons.put("html", TextIcons.getIcon("html"));
 	    return icons;
 	}
-	public Activity1001(JTree tree) {
+	public Activity1001(JTree tree, Datainfo data) {
 		JSplitPane splitPane = new JSplitPane();
 		
 		JPanel jpanel = new JPanel(new GridBagLayout());
@@ -114,7 +120,7 @@ public class Activity1001 extends JTabbedPane {
 		JScrollPane scrollPane_1 = new JScrollPane();
 		this.addTab("Project Objective", null, splitPane_1, null);
 
-		JTextPane ProjectObjectivePane = new JTextPane();
+		ProjectObjectivePane = new JTextPane();
 		scrollPane_1.setViewportView(ProjectObjectivePane);
 		
 		ProjectObjectivePane.addKeyListener(new KeyListener() {
@@ -176,7 +182,7 @@ public class Activity1001 extends JTabbedPane {
 		JScrollPane scrollPane_2 = new JScrollPane();
 		this.addTab("Scope", null, splitPane_2, null);
 
-		JTextPane ScopePane = new JTextPane();
+		ScopePane = new JTextPane();
 		scrollPane_2.setViewportView(ScopePane);
 		ScopePane.addKeyListener(new KeyListener() {
 			@Override
@@ -232,7 +238,7 @@ public class Activity1001 extends JTabbedPane {
 		JScrollPane scrollPane_3 = new JScrollPane();
 		this.addTab("Functional Requirement", null, splitPane_3, null);
 
-		JTextPane FuncReqPane = new JTextPane();
+		FuncReqPane = new JTextPane();
 		scrollPane_3.setViewportView(FuncReqPane);
 		FuncReqPane.addKeyListener(new KeyListener() {
 			@Override
@@ -294,7 +300,7 @@ public class Activity1001 extends JTabbedPane {
 		JScrollPane scrollPane_4 = new JScrollPane();
 		this.addTab("Non-Functional Requirement", null, splitPane_4, null);
 
-		JTextPane NonFuncReqPane = new JTextPane();
+		NonFuncReqPane = new JTextPane();
 		scrollPane_4.setViewportView(NonFuncReqPane);
 		NonFuncReqPane.addKeyListener(new KeyListener() {
 			@Override
@@ -351,7 +357,7 @@ public class Activity1001 extends JTabbedPane {
 		JScrollPane scrollPane_5 = new JScrollPane();
 		this.addTab("Resource Estimation", null, splitPane_5, null);
 
-		JTextPane ResourceEstPane = new JTextPane();
+		ResourceEstPane = new JTextPane();
 		scrollPane_5.setViewportView(ResourceEstPane);
 		ResourceEstPane.addKeyListener(new KeyListener() {
 			@Override
@@ -410,7 +416,7 @@ public class Activity1001 extends JTabbedPane {
 		JScrollPane scrollPane_6 = new JScrollPane();
 		this.addTab("Other Information", null, splitPane_6, null);
 
-		JTextPane OtherInfoPane = new JTextPane();
+		OtherInfoPane = new JTextPane();
 		scrollPane_6.setViewportView(OtherInfoPane);
 		OtherInfoPane.addKeyListener(new KeyListener() {
 			@Override
@@ -464,6 +470,7 @@ public class Activity1001 extends JTabbedPane {
 		        	 	node.setIconName("floppyDrive");
 		        	 }
 				}
+				data.setText(0, MotivationPane.getText());
 				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
 			}
 		});
@@ -477,6 +484,7 @@ public class Activity1001 extends JTabbedPane {
 		        	 }
 				}
 				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+				data.setText(1, ProjectObjectivePane.getText());
 			}
 		});
 		button_2.addActionListener(new ActionListener() {
@@ -489,6 +497,7 @@ public class Activity1001 extends JTabbedPane {
 		        	 }
 				}
 				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+				data.setText(2, ScopePane.getText());
 			}
 		});
 		button_3.addActionListener(new ActionListener() {
@@ -501,6 +510,7 @@ public class Activity1001 extends JTabbedPane {
 		        	 }
 				}
 				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+				data.setText(3, FuncReqPane.getText());
 			}
 		});
 		button_4.addActionListener(new ActionListener() {
@@ -513,6 +523,7 @@ public class Activity1001 extends JTabbedPane {
 		        	 }
 				}
 				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+				data.setText(4, NonFuncReqPane.getText());
 			}
 		});
 		button_5.addActionListener(new ActionListener() {
@@ -525,6 +536,7 @@ public class Activity1001 extends JTabbedPane {
 		        	 }
 				}
 				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+				data.setText(5, ResourceEstPane.getText());
 			}
 		});
 		button_6.addActionListener(new ActionListener() {
@@ -537,12 +549,48 @@ public class Activity1001 extends JTabbedPane {
 		        	 }
 				}
 				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+				data.setText(6, OtherInfoPane.getText());
 			}
 		});
 	}
-	public String getMotivationString() {
-		return MotivationPane.getText();
-		
+	public void save(Datainfo data) {
+		data.setText(0, MotivationPane.getText());
+		data.setText(1, ProjectObjectivePane.getText());
+		data.setText(2, ScopePane.getText());
+		data.setText(3, FuncReqPane.getText());
+		data.setText(4, NonFuncReqPane.getText());
+		data.setText(5, ResourceEstPane.getText());
+		data.setText(6, OtherInfoPane.getText());
+	}
+	public void open(ArrayList<StageText> st) {
+		setMotivationString(st);
+		setProjectObjective(st);
+		setScope(st);
+		setFunc(st);
+		setNonFunc(st);
+		setResource(st);
+		setOther(st);
+	}
+	private void setMotivationString(ArrayList<StageText> st) {
+		MotivationPane.setText(st.get(0).getText());
+	}
+	private void setProjectObjective(ArrayList<StageText> st) {
+		ProjectObjectivePane.setText(st.get(1).getText());
+	}
+	private void setScope(ArrayList<StageText> st) {
+		ScopePane.setText(st.get(2).getText());	
+	}
+	private void setFunc(ArrayList<StageText> st) {
+		FuncReqPane.setText(st.get(3).getText());
+	}
+	private void setNonFunc(ArrayList<StageText> st) {
+		NonFuncReqPane.setText(st.get(4).getText());
+	}
+	private void setResource(ArrayList<StageText> st) {
+		ResourceEstPane.setText(st.get(5).getText());
+	}
+	private void setOther(ArrayList<StageText> st) {
+		OtherInfoPane.setText(st.get(6).getText());
 	}
 
 }

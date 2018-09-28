@@ -39,10 +39,11 @@ public class Activity2037 extends JTabbedPane {
         wp = workspace.getAWTComponent();
         
         JPanel tpanel_dd = new JPanel(new FlowLayout(FlowLayout.TRAILING));
-		JButton button_commit = new JButton("Save");
+		JButton button_commit = new JButton("Commit");
 		combo = new JComboBox<String>();
-		tpanel_dd.add(button_commit);
 		tpanel_dd.add(combo);
+		tpanel_dd.add(button_commit);
+		
 		
 		JSplitPane splitPane = new JSplitPane();
         splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);

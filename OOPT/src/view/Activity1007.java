@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -23,22 +24,29 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumnModel;
 import javax.swing.tree.DefaultTreeModel;
 
-public class Activity1007 extends JTabbedPane {
+import Model.Datainfo;
+import Model.Risk;
+import Model.StageText;
 
-	public Activity1007(JTree tree) {
-		DefaultTableModel model;
-		DefaultTableCellRenderer CellRenderer = new DefaultTableCellRenderer();
-		CellRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+public class Activity1007 extends JTabbedPane {
+	DefaultTableModel model;
+	//ArrayList<String> concept;
+	
+	public Activity1007(JTree tree, Datainfo data) {
+		
+		//DefaultTableCellRenderer CellRenderer = new DefaultTableCellRenderer();
+		//CellRenderer.setHorizontalAlignment(SwingConstants.CENTER);
 		String[] colName= {"Concepts"};
 		Object[][] rowData= {{null}};
+		
 		model=new DefaultTableModel(rowData,colName);
 		
 		JTable table = new JTable(model);
-		TableColumnModel colmodel = table.getColumnModel();
+		//TableColumnModel colmodel = table.getColumnModel();
 		
-		for(int i=0; i<colmodel.getColumnCount(); i++) {
-			colmodel.getColumn(i).setCellRenderer(CellRenderer);
-		}
+		//for(int i=0; i<colmodel.getColumnCount(); i++) {
+		//	colmodel.getColumn(i).setCellRenderer(CellRenderer);
+		//}
 		table.setRowHeight(35);
 
 		table.getColumn("Concepts").setCellRenderer(new TextAreaRenderer());
@@ -80,6 +88,7 @@ public class Activity1007 extends JTabbedPane {
 				int row = table.getSelectedRow();
 				if(row!=-1) {
 					model.removeRow(row);
+					data.syncConcept(model.getRowCount());
 					table.editingCanceled(changeEvent);
 				}
 			}
@@ -99,6 +108,7 @@ public class Activity1007 extends JTabbedPane {
 				int row = table.getSelectedRow();
 				if(row!=-1) {
 					model.removeRow(row);
+					data.syncConcept(model.getRowCount());
 					table.editingCanceled(changeEvent);
 				}
 			}
@@ -107,11 +117,17 @@ public class Activity1007 extends JTabbedPane {
 		button_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				IconNode node=(IconNode)tree.getLastSelectedPathComponent();
+				
 				if(node.getParent().equals(node.getRoot().getChildAt(0))){
 		        	int index = node.getParent().getIndex(node);
 		        	 if(index == 6) {
 		        	 	node.setIconName("floppyDrive");
 		        	 }
+				}
+				table.editingStopped(changeEvent);
+				for(int i = 0; i < model.getRowCount(); i++) {
+					String text = (String)model.getValueAt(i, 0);
+					data.setConcept(i, text);
 				}
 				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
 			}
@@ -133,9 +149,22 @@ public class Activity1007 extends JTabbedPane {
 				popup.show(e.getComponent(), e.getX(), e.getY());
 			}
 		});
+	}
 	
-	
-
+	public void save(Datainfo data) {
+		
+		for(int i = 0; i < model.getRowCount(); i++) {
+			String text = (String)model.getValueAt(i, 0);
+			data.setConcept(i, text);
+		}
+	}
+	public void open(ArrayList<String> concept) {
+		model.setRowCount(0);
+				
+		for(String s : concept) {
+			Object[] add= {s};
+			model.addRow(add);
+		}
 	}
 
 }

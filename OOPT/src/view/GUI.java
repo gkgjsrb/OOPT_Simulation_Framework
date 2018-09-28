@@ -1,5 +1,4 @@
 package view;
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -17,14 +16,19 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.plaf.metal.MetalIconFactory;
 
+import Model.Datainfo;
+import Model.Glossary;
 import Model.Graph;
+import Model.NonFuncReq;
 import Model.Requirement;
 import Model.Risk;
-import Model.UMLEditorApplication;
+import Model.Schedule;
+import Model.StageText;
+import Model.UseCase;
 public class GUI {
 
 	private JFrame frame;
-
+	ArrayList<Glossary> gl2;	
 	/**
 	 * Launch the application.
 	 */
@@ -34,8 +38,9 @@ public class GUI {
 	 * Create the application.
 	 * @throws ClassNotFoundException 
 	 */
-	public GUI(Requirement req, Risk risk, ArrayList uc, ArrayList op, ArrayList std, ArrayList sd, ArrayList id, Graph ud, Graph cd, Graph dm, Graph sa) {
-		initialize(req, risk, uc, op, std, sd, id, ud, cd, dm, sa);
+	public GUI(Requirement req, ArrayList<Risk> risk, ArrayList<Glossary> gl, ArrayList uc, ArrayList op, ArrayList std, ArrayList sd, ArrayList id, Graph ud, Graph cd, Graph dm, Graph sa,
+			Datainfo data) {
+		initialize(req, risk, gl, uc, op, std, sd, id, ud, cd, dm, sa, data);
 	}
 
 	/**
@@ -51,7 +56,10 @@ public class GUI {
 	    icons.put("html", TextIcons.getIcon("html"));
 	    return icons;
 	}
-	private void initialize(Requirement req, Risk risk, ArrayList uc, ArrayList op, ArrayList std, ArrayList sd, ArrayList id, Graph ud, Graph cd, Graph dm, Graph sa) {
+	private void initialize(Requirement req, ArrayList<Risk> risk, ArrayList<Glossary> gl, ArrayList<UseCase> uc, ArrayList op, ArrayList std, ArrayList sd, ArrayList id, Graph ud, Graph cd, Graph dm, Graph sa, 
+			Datainfo data) {
+		gl2 = new ArrayList<>();
+		
 		frame = new JFrame();
 		frame.setBounds(100, 100, 928, 617);
 		
@@ -59,10 +67,10 @@ public class GUI {
 		frame.getContentPane().setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.X_AXIS));
 		
 		JSplitPane splitPane = new JSplitPane();
-
 		splitPane.setResizeWeight(0.2);
-		splitPane.setAlignmentY(Component.CENTER_ALIGNMENT);
-		splitPane.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
+		//splitPane.setAlignmentY(Component.CENTER_ALIGNMENT);
+		//splitPane.setAlignmentX(Component.CENTER_ALIGNMENT);
 		frame.getContentPane().add(splitPane);
 		
 		 String[] strs = { "OOPT", // 0
@@ -158,21 +166,21 @@ public class GUI {
 		Stage2050 s2050 = new Stage2050();
 		Stage2060 s2060 = new Stage2060();
 		//activity
-		UMLEditorApplication u = new UMLEditorApplication();
-		Activity1001 a1001 = new Activity1001(tree);
-		Activity1002 a1002 = new Activity1002(tree, risk);
-		Activity1003 a1003 = new Activity1003(tree, req);
-		Activity1004 a1004 = new Activity1004(tree);
+		//UMLEditorApplication u = new UMLEditorApplication();
+		Activity1001 a1001 = new Activity1001(tree, data);
+		Activity1002 a1002 = new Activity1002(tree, risk, data);
+		Activity1003 a1003 = new Activity1003(tree, req, data);
+		Activity1004 a1004 = new Activity1004(tree, gl, data);
 		Activity1005 a1005 = new Activity1005(tree);
-		Activity1006 a1006 = new Activity1006(tree, req, uc, ud, sd, id, std);
-		Activity1007 a1007 = new Activity1007(tree);
+		Activity1006 a1006 = new Activity1006(tree, req, uc, ud, sd, id, std, data);
+		Activity1007 a1007 = new Activity1007(tree, data);
 		Activity1008 a1008 = new Activity1008(tree);
-		Activity1009 a1009 = new Activity1009(tree, req);
-		Activity1010 a1010 = new Activity1010(tree, req);
+		Activity1009 a1009 = new Activity1009(tree, req, data);
+		Activity1010 a1010 = new Activity1010(tree, req, data);
 		Activity2031 a2031 = new Activity2031();
 		Activity2032 a2032 = new Activity2032();
 		Activity2033 a2033 = new Activity2033(dm);
-		Activity2034 a2034 = new Activity2034();
+		Activity2034 a2034 = new Activity2034(tree, gl2, data);
 		Activity2035 a2035 = new Activity2035(op, sd);
 		Activity2036 a2036 = new Activity2036();
 		Activity2037 a2037 = new Activity2037(std);
@@ -211,6 +219,61 @@ public class GUI {
 		JMenuItem mntmOpen = new JMenuItem("Open");
 		File.add(mntmOpen);
 		
+		mntmOpen.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				ArrayList<StageText> st = data.getSearchText();
+				ArrayList<Risk> r = data.getSearchRisk();
+				risk.clear();
+				risk.addAll(r);
+				
+				Requirement temp_req = data.getSearchReq();
+				req.clear();
+				for(int i = 0; i <temp_req.get_length(); i++) {
+					req.add_row();
+					req.setRef(temp_req.getRef(i), i);
+					req.setName(temp_req.getName(i), i);
+					req.setCategory(temp_req.getCategory(i), i);
+					req.setuCategory(temp_req.getuCategory(i), i);
+					req.setuNumber(temp_req.getuNumber(i), i);
+					req.setuName(temp_req.getuName(i), i);
+					req.setRank(temp_req.getRank(i), i);
+					req.setTestcase(temp_req.getTestcase(i), i);
+				}
+				ArrayList<Glossary> g = data.getSearchGl("D");
+				gl.clear();
+				gl.addAll(g);
+				
+				ArrayList<Glossary> g2 = data.getSearchGl("R");
+				gl2.clear();
+				gl2.addAll(g2);
+				
+				ArrayList<String> concept = data.getSearchConcept();
+				ArrayList<String> ausecase = data.getSearchBUsecase("A");
+				ArrayList<String> eusecase = data.getSearchBUsecase("E");
+				ArrayList<UseCase> u = data.getSearchUseCase();
+				
+				uc.clear();
+				uc.addAll(u);
+				ArrayList<Schedule> sc = data.getSearchSche();
+				ArrayList<NonFuncReq> nreq = data.getSearchNonReq("D");
+				Graph ud = data.getSearchGraph("ud").get(0);
+				//ArrayList<Graph> sd = data.getSearchGraph("sd");
+				a1001.open(st);
+				a1002.open(st, risk);
+				a1003.open(st, req);
+				a1004.open(gl);
+				a1006.open(st, ausecase, eusecase, ud, uc);
+				a1007.open(concept);
+				a1009.open(req, nreq);
+				a1010.open(st, sc);
+				a2034.open(gl2);
+				
+			}
+			
+		});
 		JMenuItem mntmSave = new JMenuItem("Save");
 		File.add(mntmSave);
 		
@@ -226,25 +289,33 @@ public class GUI {
 	        	 else if(node.getParent().equals(node.getRoot().getChildAt(0))){
 		        	index = node.getParent().getIndex(node);
 		        	 switch(index) {
-		        	 	case 0 :nodes[2].setIconName("floppyDrive");
+		        	 	case 0 :a1001.save(data);
+		        	 			nodes[2].setIconName("floppyDrive");
 		        	 			break;
-		        	 	case 1 :nodes[3].setIconName("floppyDrive");
+		        	 	case 1 :a1002.save(data, risk);
+		        	 			nodes[3].setIconName("floppyDrive");
 	    	 					break;
-		        	 	case 2 :nodes[4].setIconName("floppyDrive");
+		        	 	case 2 :a1003.save(data, req);
+		        	 			nodes[4].setIconName("floppyDrive");
 	    	 					break;
-		        	 	case 3 :nodes[5].setIconName("floppyDrive");
+		        	 	case 3 :a1004.save(data, gl);
+		        	 			nodes[5].setIconName("floppyDrive");
 	    	 					break;
 		        	 	case 4 :nodes[6].setIconName("floppyDrive");
 	    	 					break;
-		        	 	case 5 :nodes[7].setIconName("floppyDrive");
+		        	 	case 5 :a1006.save(data, req, uc);
+		        	 			nodes[7].setIconName("floppyDrive");
 	    	 					break;
-		        	 	case 6 :nodes[8].setIconName("floppyDrive");
+		        	 	case 6 :a1007.save(data);
+		        	 			nodes[8].setIconName("floppyDrive");
 	    	 					break;
 		        	 	case 7 :nodes[9].setIconName("floppyDrive");
 	    	 					break;
-		        	 	case 8 :nodes[10].setIconName("floppyDrive");
+		        	 	case 8 :a1009.save(data, req);
+		        	 			nodes[10].setIconName("floppyDrive");
 	    	 					break;
-		        	 	case 9 :nodes[11].setIconName("floppyDrive");
+		        	 	case 9 :a1010.save(data);
+		        	 			nodes[11].setIconName("floppyDrive");
 	    	 					break;		 
 		        	 	default : break;
 		        	 }
@@ -259,7 +330,8 @@ public class GUI {
 	    	 					break;
 		        	 	case 2 :nodes[16].setIconName("floppyDrive");
 	    	 					break;
-		        	 	case 3 :nodes[17].setIconName("floppyDrive");
+		        	 	case 3 :a2034.save(data, gl2);
+		        	 			nodes[17].setIconName("floppyDrive");
 	    	 					break;
 		        	 	case 4 :nodes[18].setIconName("floppyDrive");
 	    	 					break;

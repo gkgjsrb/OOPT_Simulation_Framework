@@ -61,7 +61,7 @@ public class TextAreaEditor extends DefaultCellEditor {
 			
 		});
 	}
-	public TextAreaEditor(Risk risk, JTable table, DefaultTableModel model, DefaultTableModel model2) {
+	public TextAreaEditor(ArrayList<Risk> risk, JTable table, JTable table2) {
 		super(new JCheckBox());
 		scrollpane = new JScrollPane();
 		textarea = new JTextArea(); 
@@ -78,33 +78,38 @@ public class TextAreaEditor extends DefaultCellEditor {
 			@Override
 			public void editingStopped(ChangeEvent arg0) {
 				// TODO Auto-generated method stub
-				table.setValueAt(table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()), table.getSelectedRow(), table.getSelectedColumn());
+
 				if(table.getSelectedColumn()==0) {
-					risk.setName((String)table.getValueAt(table.getSelectedRow(), 0),table.getSelectedRow());
+					risk.get(table.getSelectedRow()).setName((String)table.getValueAt(table.getSelectedRow(), 0));
+					table2.setValueAt(table.getValueAt(table.getSelectedRow(), 0), table.getSelectedRow(), 0);
 				}
 				else if(table.getSelectedColumn()==1) {
-					risk.setPro(Integer.parseInt((String) table.getValueAt(table.getSelectedRow(), 1)),table.getSelectedRow());
-					risk.setWeight((Integer)risk.getPro(table.getSelectedRow()), (Integer)risk.getSig(table.getSelectedRow()), table.getSelectedRow());
+					risk.get(table.getSelectedRow()).setProbability(Integer.parseInt((String) table.getValueAt(table.getSelectedRow(), 1)));
+					risk.get(table.getSelectedRow()).setWeight();
+					table.setValueAt(risk.get(table.getSelectedRow()).getWeight(), table.getSelectedRow(), 3);
 				}
 				else if(table.getSelectedColumn()==2) {
-					risk.setSig(Integer.parseInt((String) table.getValueAt(table.getSelectedRow(), 2)),table.getSelectedRow());
-					risk.setWeight((Integer)risk.getPro(table.getSelectedRow()), (Integer)risk.getSig(table.getSelectedRow()), table.getSelectedRow());
+					risk.get(table.getSelectedRow()).setSignificance(Integer.parseInt((String) table.getValueAt(table.getSelectedRow(), 2)));
+					risk.get(table.getSelectedRow()).setWeight();
+					table.setValueAt(risk.get(table.getSelectedRow()).getWeight(), table.getSelectedRow(), 3);
 				}
+				/*
+				model.setRowCount(0);
+				model2.setRowCount(0);
 				
-					model.setRowCount(0);
-					model2.setRowCount(0);
-				
-				for(int i=0; i<risk.get_length(); i++) {
-					Object[] add= {risk.getName(i),risk.getPro(i),risk.getSig(i),risk.getWeight(i)};
-					Object[] add2= {risk.getName(i),risk.getPlan(i)};
+				for(int i=0; i<risk.size(); i++) {
+					Object[] add= {risk.get(i).getName(),risk.get(i).getProbability(),risk.get(i).getSignificance(),
+							risk.get(i).getWeight()};
+					Object[] add2= {risk.get(i).getName(),risk.get(i).getPlan()};
 					model.addRow(add);
 					model2.addRow(add2);
 				}
+				*/
 			}	
 		});
 	}
 	
-	public TextAreaEditor(JTable table2, Risk risk, DefaultTableModel model, DefaultTableModel model2) {
+	public TextAreaEditor(JTable table2, ArrayList<Risk> risk, JTable table) {
 		super(new JCheckBox());
 		scrollpane = new JScrollPane();
 		textarea = new JTextArea(); 
@@ -121,23 +126,26 @@ public class TextAreaEditor extends DefaultCellEditor {
 			@Override
 			public void editingStopped(ChangeEvent arg0) {
 				// TODO Auto-generated method stub
-				table2.setValueAt(table2.getValueAt(table2.getSelectedRow(), table2.getSelectedColumn()), table2.getSelectedRow(), table2.getSelectedColumn());
 				if(table2.getSelectedColumn()==0) {
-					risk.setName((String)table2.getValueAt(table2.getSelectedRow(), 0), table2.getSelectedRow());
+					risk.get(table2.getSelectedRow()).setName((String)table2.getValueAt(table2.getSelectedRow(), 0));
+					table.setValueAt(table2.getValueAt(table2.getSelectedRow(), 0), table2.getSelectedRow(), 0);
 				}
 				else if(table2.getSelectedColumn()==1) {
-					risk.setPlan((String)table2.getValueAt(table2.getSelectedRow(), 1), table2.getSelectedRow());
+					risk.get(table2.getSelectedRow()).setPlan((String)table2.getValueAt(table2.getSelectedRow(), 1));
 				}
 				
+				/*
 				model.setRowCount(0);
 				model2.setRowCount(0);
 				
-				for(int i=0; i<risk.get_length();i++) {
-					Object[] add= {risk.getName(i),risk.getPro(i),risk.getSig(i),risk.getWeight(i)};
-					Object[] add2= {risk.getName(i),risk.getPlan(i)};
+				for(int i=0; i<risk.size();i++) {
+					Object[] add= {risk.get(i).getName(),risk.get(i).getProbability(),risk.get(i).getSignificance(),
+							risk.get(i).getWeight()};
+					Object[] add2= {risk.get(i).getName(),risk.get(i).getPlan()};
 					model.addRow(add);
 					model2.addRow(add2);
 				}
+				*/
 			}
 		});	
 	}
@@ -176,11 +184,12 @@ public class TextAreaEditor extends DefaultCellEditor {
 						uc.get(index).setType((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
 					}
 					else if(table.getSelectedRow()==5) {
-						uc.get(index).setRelated_requirement((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
+						uc.get(index).setCross((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
 					}
 					else if(table.getSelectedRow()==6) {
 						uc.get(index).setPreRequistes((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
 					}
+					//ui
 					else if(table.getSelectedRow()==7) {
 						uc.get(index).setTypical((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
 					}
@@ -189,6 +198,9 @@ public class TextAreaEditor extends DefaultCellEditor {
 					}
 					else if(table.getSelectedRow()==9) {
 						uc.get(index).setExceptional((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
+					}
+					else if(table.getSelectedRow()==10) {
+						uc.get(index).setUI((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
 					}
 				}	
 	    });
@@ -264,7 +276,7 @@ public class TextAreaEditor extends DefaultCellEditor {
 				// TODO Auto-generated method stub
 				int index = panel.getSelectedIndex();
 				if(table.getSelectedRow()==0) {
-					panel.getSelectedComponent().setName((String)table.getValueAt(0, table.getSelectedColumn()));
+					panel.setTitleAt(panel.getSelectedIndex(), (String)table.getValueAt(0, table.getSelectedColumn()));
 					uc.get(index).setName((String)table.getValueAt(0, table.getSelectedColumn()));
 					Collection<INode> allNodes = workspace.getGraphFile().getGraph().getAllNodes();
 					for (INode aNode : allNodes) {

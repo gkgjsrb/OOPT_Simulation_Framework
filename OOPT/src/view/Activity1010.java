@@ -1,11 +1,9 @@
 package view;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -13,6 +11,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
@@ -38,14 +37,26 @@ import javax.swing.table.TableCellEditor;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 
+import Model.Datainfo;
 import Model.Requirement;
+import Model.Schedule;
+import Model.StageText;
 
 public class Activity1010 extends JTabbedPane {
+	private JTable table_1;
+	JTextPane textPane;
+	JTextPane textPane_1;
+	JTextPane textPane_2;
+	JTextPane textPane_3;
+	JTextPane textPane_4;
+	JTextPane textPane_5;
+	JTextPane textPane_6;
+	
 	DefaultTableModel model;
 	DefaultTableModel model2;
-	private JTable table_1;
 	
-	public Activity1010(JTree tree, Requirement req) {
+	
+	public Activity1010(JTree tree, Requirement req, Datainfo data) {
 		String Category[] = {"EVIDENT","HIDEEN"};
 		String[] colName= {"Ref","Name","Category"};
 		Object[][] rowData= {{null,null,null}};
@@ -135,6 +146,7 @@ public class Activity1010 extends JTabbedPane {
 				int row = table.getSelectedRow();
 				if(row!=-1) {
 					req.del_row(row);
+					data.syncReq(req.get_length());
 					model.removeRow(row);
 				}
 			}
@@ -161,7 +173,7 @@ public class Activity1010 extends JTabbedPane {
 		
 		this.addTab("Project Scope", null, splitPane, null);
 		
-		JTextPane textPane = new JTextPane();
+		textPane = new JTextPane();
 		scrollPane.setViewportView(textPane);
 		textPane.addKeyListener(new KeyListener() {
 			@Override
@@ -219,7 +231,7 @@ public class Activity1010 extends JTabbedPane {
 		
 		this.addTab("Project Objective", null, splitPane_1, null);
 		
-		JTextPane textPane_1 = new JTextPane();
+		textPane_1 = new JTextPane();
 		scrollPane_1.setViewportView(textPane_1);
 		textPane_1.addKeyListener(new KeyListener() {
 			@Override
@@ -280,7 +292,7 @@ public class Activity1010 extends JTabbedPane {
 		
 		this.addTab("Performance Requirement", null, splitPane_3, null);
 		
-		JTextPane textPane_2 = new JTextPane();
+		textPane_2 = new JTextPane();
 		scrollPane_3.setViewportView(textPane_2);
 		textPane_2.addKeyListener(new KeyListener() {
 			@Override
@@ -338,7 +350,7 @@ public class Activity1010 extends JTabbedPane {
 		
 		this.addTab("Operation Environment", null, splitPane_4, null);
 		
-		JTextPane textPane_3 = new JTextPane();
+		textPane_3 = new JTextPane();
 		scrollPane_4.setViewportView(textPane_3);
 		textPane_3.addKeyListener(new KeyListener() {
 			@Override
@@ -398,7 +410,7 @@ public class Activity1010 extends JTabbedPane {
 		
 		this.addTab("User Interface Requirement", null, splitPane_5, null);
 		
-		JTextPane textPane_4 = new JTextPane();
+		textPane_4 = new JTextPane();
 		scrollPane_5.setViewportView(textPane_4);
 		textPane_4.addKeyListener(new KeyListener() {
 			@Override
@@ -454,7 +466,7 @@ public class Activity1010 extends JTabbedPane {
 		
 		this.addTab("Other Requirement", null, splitPane_6, null);
 		
-		JTextPane textPane_5 = new JTextPane();
+		textPane_5 = new JTextPane();
 		scrollPane_6.setViewportView(textPane_5);
 		textPane_5.addKeyListener(new KeyListener() {
 			@Override
@@ -511,7 +523,7 @@ public class Activity1010 extends JTabbedPane {
 		
 		this.addTab("Resources", null, splitPane_7, null);
 		
-		JTextPane textPane_6 = new JTextPane();
+		textPane_6 = new JTextPane();
 		scrollPane_7.setViewportView(textPane_6);
 		textPane_6.addKeyListener(new KeyListener() {
 			@Override
@@ -604,6 +616,7 @@ public class Activity1010 extends JTabbedPane {
 			public boolean isCellEditable(int row, int column) {
 				return columnEditables[column];
 			}
+			
 		});
 		TableCellRenderer renderer = new MyTableCellRenderer();
 		table_1.setDefaultRenderer(Object.class, renderer);
@@ -617,7 +630,7 @@ public class Activity1010 extends JTabbedPane {
 					if(table_1.getValueAt(table_1.getSelectedRow(), table_1.getSelectedColumn()).equals("")) {
 						table_1.setValueAt("1",table_1.getSelectedRow(), table_1.getSelectedColumn());
 					}
-					else {
+					else if(table_1.getValueAt(table_1.getSelectedRow(), table_1.getSelectedColumn()).equals("1")){
 						table_1.setValueAt("",table_1.getSelectedRow(), table_1.getSelectedColumn());	
 					}
 					IconNode node=(IconNode)tree.getLastSelectedPathComponent();
@@ -672,6 +685,7 @@ public class Activity1010 extends JTabbedPane {
 		this.addTab("Scheduling", null, splitPane_8, null);
 		
 		scrollPane_8.setViewportView(table_1);
+		
 		button.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				IconNode node=(IconNode)tree.getLastSelectedPathComponent();
@@ -682,6 +696,8 @@ public class Activity1010 extends JTabbedPane {
 		        	 }
 				}
 				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+				data.setText(16, textPane.getText());
+
 			}
 		});
 		
@@ -695,6 +711,8 @@ public class Activity1010 extends JTabbedPane {
 		        	 }
 				}
 				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+				data.setText(17, textPane_1.getText());
+
 			}
 		});
 		
@@ -710,8 +728,10 @@ public class Activity1010 extends JTabbedPane {
 				int row = table.getSelectedRow();
 				if(row!=-1) {
 					req.del_row(row);
+					data.syncReq(req.get_length());
 					model.removeRow(row);
 					table.editingCanceled(changeEvent);
+					
 				}
 			}
 		});
@@ -726,10 +746,12 @@ public class Activity1010 extends JTabbedPane {
 		        	 }
 				}
 				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+				table.editingStopped(changeEvent);
 				for(int i = 0; i < req.get_length(); i++) {
 					req.setRef((String)table.getValueAt(i, 0), i);
 					req.setName((String)table.getValueAt(i, 1), i);
 					req.setCategory((String)table.getValueAt(i, 2), i);
+					data.setReq(i, req);
 				}
 			}
 		});
@@ -744,6 +766,8 @@ public class Activity1010 extends JTabbedPane {
 		        	 }
 				}
 				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+				data.setText(18, textPane_2.getText());
+
 			}
 		});
 		button_6.addActionListener(new ActionListener() {
@@ -756,6 +780,7 @@ public class Activity1010 extends JTabbedPane {
 		        	 }
 				}
 				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+				data.setText(19, textPane_3.getText());
 			}
 		});
 		
@@ -769,6 +794,7 @@ public class Activity1010 extends JTabbedPane {
 		        	 }
 				}
 				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+				data.setText(20, textPane_4.getText());
 			}
 		});
 		
@@ -782,6 +808,7 @@ public class Activity1010 extends JTabbedPane {
 		        	 }
 				}
 				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+				data.setText(21, textPane_5.getText());
 			}
 		});
 		button_9.addActionListener(new ActionListener() {
@@ -794,6 +821,7 @@ public class Activity1010 extends JTabbedPane {
 		        	 }
 				}
 				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+				data.setText(22, textPane_6.getText());
 			}
 		});
 		
@@ -807,10 +835,17 @@ public class Activity1010 extends JTabbedPane {
 		        	 }
 				}
 				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+				table_1.editingStopped(changeEvent);
+				data.syncSchedule();
+				for(int i = 0; i < table_1.getColumnCount(); i++) {
+					for(int j = 0; j < table_1.getRowCount(); j++) {
+						if(table_1.getValueAt(j, i).equals("1"))
+							data.setSchedule(j, i);
+					}
+				}
+				
 			}
 		});
-		
-
 	}
 	
 	private static void addPopup(Component component, final JPopupMenu popup) {
@@ -849,5 +884,51 @@ public class Activity1010 extends JTabbedPane {
 			model.setValueAt(req.getName(i), i, 1);
 			model.setValueAt(req.getCategory(i), i, 2);
 		}	
+	}
+	public void save(Datainfo data) {
+		data.setText(16, textPane.getText());
+		data.setText(17, textPane_1.getText());
+		data.setText(18, textPane_2.getText());
+		data.setText(19, textPane_3.getText());
+		data.setText(20, textPane_4.getText());
+		data.setText(21, textPane_5.getText());
+		data.setText(22, textPane_6.getText());
+		
+		
+	}
+	public void open(ArrayList<StageText> st, ArrayList<Schedule> schedule) {
+		setScope(st);
+		setPro(st);
+		setPerformance(st);
+		setOperation(st);
+		setInterface(st);
+		setOther(st);
+		setResource(st);
+		
+		for(int i = 0; i < schedule.size(); i++) {
+			table_1.setValueAt("1", schedule.get(i).getRow(), schedule.get(i).getColumn());
+		}
+		
+	}
+	private void setScope(ArrayList<StageText> st) {
+		textPane.setText(st.get(16).getText());
+	}
+	private void setPro(ArrayList<StageText> st) {
+		textPane_1.setText(st.get(17).getText());
+	}
+	private void setPerformance(ArrayList<StageText> st) {
+		textPane_2.setText(st.get(18).getText());
+	}
+	private void setOperation(ArrayList<StageText> st) {
+		textPane_3.setText(st.get(19).getText());
+	}
+	private void setInterface(ArrayList<StageText> st) {
+		textPane_4.setText(st.get(20).getText());
+	}
+	private void setOther(ArrayList<StageText> st) {
+		textPane_5.setText(st.get(21).getText());
+	}
+	private void setResource(ArrayList<StageText> st) {
+		textPane_6.setText(st.get(22).getText());
 	}
 }

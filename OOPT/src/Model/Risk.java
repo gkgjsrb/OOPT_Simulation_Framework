@@ -3,66 +3,59 @@ package Model;
 import java.util.ArrayList;
 
 public class Risk {
-	ArrayList<String> Name = new ArrayList<String>();
-	ArrayList<Integer> Probability = new ArrayList<Integer>();
-	ArrayList<Integer> Significance = new ArrayList<Integer>();	
-	ArrayList<Integer> Weight = new ArrayList<Integer>();	
-	ArrayList<String> Plan = new ArrayList<String>();
+	private String name;	
+	private int probability;
+	private int significance;
+	private int weight;
+	private String plan;
+	
 
 	public Risk() {
-		Name.add("");
-		Probability.add(1);
-		Significance.add(1);
-		Weight.add(1);
-		Plan.add("");
-	}
-	public void add_row() {
-		Name.add("");
-		Probability.add(1);
-		Significance.add(1);
-		Weight.add(1);
-		Plan.add("");
+		super();
+		this.probability = 1;
+		this.significance = 1;
+		this.weight = 1;
 	}
 	
-	public void del_row(int row) {
-		Name.remove(row);
-		Probability.remove(row);
-		Significance.remove(row);
-		Weight.remove(row);
-		Plan.remove(row);
+	public String getName() {
+		return name;
 	}
-	public int get_length() {
-		return Name.size();
+
+	public void setName(String name) {
+		this.name = name;
 	}
-	public String getName(int index) {
-		return Name.get(index);
+
+	public int getProbability() {
+		return probability;
 	}
-	public void setName(String name, int index) {
-		Name.set(index, name);
+
+	public void setProbability(int probability) {
+		this.probability = probability;
 	}
-	public int getPro(int index) {
-		return Probability.get(index);
+
+	public int getSignificance() {
+		return significance;
 	}
-	public void setPro(int pro, int index) {
-		Probability.set(index, pro);
+
+	public void setSignificance(int significance) {
+		this.significance = significance;
 	}
-	public int getSig(int index) {
-		return Significance.get(index);
+
+	public int getWeight() {
+		return weight;
 	}
-	public void setSig(int sig, int index) {
-		Significance.set(index, sig);
+
+	public void setWeight() {
+		this.weight = this.probability * this.significance;
 	}
-	public int getWeight(int index) {
-		return Weight.get(index);
+
+	public String getPlan() {
+		return plan;
 	}
-	public void setWeight(int pro, int sig, int index) {
-		Weight.set(index, pro*sig);
+
+	public void setPlan(String plan) {
+		this.plan = plan;
 	}
-	public String getPlan(int index) {
-		return Plan.get(index);
-	}
-	public void setPlan(String plan, int index) {
-		Plan.set(index, plan);
-	}
-	
+
+		
 }

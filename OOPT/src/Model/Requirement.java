@@ -4,57 +4,87 @@ import java.util.ArrayList;
 
 public class Requirement {
 	enum Category {EVIDENT, HIDDEN};
+	enum uCategory {PRIMARY,SECONDARY, OPTIONAL};
+	enum Rank {HIGH, MEDIUM, LOW};
 	ArrayList<String> Ref = new ArrayList<String>();
 	ArrayList<String> Name = new ArrayList<String>();
 	ArrayList<String> Category = new ArrayList<String>();
-	ArrayList<String> Purpose = new ArrayList<String>();
-	ArrayList<String> Overview = new ArrayList<String>();	
-	ArrayList<String> Type = new ArrayList<String>();	
-	ArrayList<String> CrossReference = new ArrayList<String>();
-	ArrayList<String> PreRequistes = new ArrayList<String>();	
-	ArrayList<String> Typical = new ArrayList<String>();
-	ArrayList<String> Alternative = new ArrayList<String>();
-	ArrayList<String> Exceptional = new ArrayList<String>();
+	ArrayList<String> uCategory = new ArrayList<>();
+	ArrayList<Integer> uNumber = new ArrayList<>();
+	ArrayList<String> uName = new ArrayList<>();
+	ArrayList<String> rank = new ArrayList<>();
+	ArrayList<String> testcase = new ArrayList<>();
 	
 	public Requirement() {
 		Ref.add(null);
 		Name.add(null);
 		Category.add(null);
-		Purpose.add(null);
-		Overview.add(null);
-		Type.add(null);
-		CrossReference.add(null);
-		PreRequistes.add(null);
-		Typical.add(null);
-		Alternative.add(null);
-		Exceptional.add(null);	
-
+		uCategory.add(null);
+		uNumber.add(-1);
+		uName.add(null);
+		rank.add(null);
+		testcase.add(null);
 	}
 	public void add_row() {
 		Ref.add(null);
 		Name.add(null);
 		Category.add(null);
-		Purpose.add(null);
-		Overview.add(null);
-		Type.add(null);
-		CrossReference.add(null);
-		PreRequistes.add(null);
-		Typical.add(null);
-		Alternative.add(null);
-		Exceptional.add(null);
+		uCategory.add(null);
+		uNumber.add(-1);
+		uName.add(null);
+		rank.add(null);
+		testcase.add(null);
 	}
 	public void del_row(int row) {
 		Ref.remove(row);
 		Name.remove(row);
 		Category.remove(row);
-		Purpose.remove(row);
-		Overview.remove(row);
-		Type.remove(row);
-		CrossReference.remove(row);
-		PreRequistes.remove(row);
-		Typical.remove(row);
-		Alternative.remove(row);
-		Exceptional.remove(row);		
+		uCategory.remove(row);
+		uNumber.remove(row);
+		uName.remove(row);
+		rank.remove(row);
+		testcase.remove(row);
+			
+	}
+	public void clear() {
+		Ref.clear();
+		Name.clear();
+		Category.clear();
+		uCategory.clear();
+		uNumber.clear();
+		uName.clear();
+		rank.clear();
+		testcase.clear();
+	}
+	public String getuCategory(int index) {
+		return uCategory.get(index);
+	}
+	public void setuCategory(String ucategory, int index) {
+		uCategory.set(index, ucategory);
+	}
+	public Integer getuNumber(int index) {
+		return uNumber.get(index);
+	}
+	public void setuNumber(Integer unumber, int index) {
+		uNumber.set(index, unumber);
+	}
+	public String getuName(int index) {
+		return uName.get(index);
+	}
+	public void setuName(String uname, int index) {
+		uName.set(index, uname);
+	}
+	public String getRank(int index) {
+		return rank.get(index);
+	}
+	public void setRank(String rank, int index) {
+		this.rank.set(index, rank);
+	}
+	public String getTestcase(int index) {
+		return testcase.get(index);
+	}
+	public void setTestcase(String testcase, int index) {
+		this.testcase.set(index, testcase);
 	}
 	public int get_length() {
 		return Ref.size();

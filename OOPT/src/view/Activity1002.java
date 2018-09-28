@@ -1,6 +1,5 @@
 package view;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -11,6 +10,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
@@ -32,19 +32,26 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableCellEditor;
 import javax.swing.tree.DefaultTreeModel;
 
+import Model.Datainfo;
 import Model.Risk;
+import Model.StageText;
 
 public class Activity1002 extends JTabbedPane {
-
-	public Activity1002(JTree tree, Risk risk) {
-		DefaultTableModel model;
-		DefaultTableModel model2;
-		
+	JTextPane textPane;
+	JTextPane textPane_1;
+	JTextPane textPane_2;
+	JTextPane textPane_3;
+	JTable table;
+	JTable table2;
+	DefaultTableModel model;
+	DefaultTableModel model2;
+	
+	public Activity1002(JTree tree, ArrayList<Risk> risk, Datainfo data) {		
 		String[] colName= {"Name","Probability","Significance","Weight"};
 		String[] colName2= {"Name","Plan"};
 		
-		Object[][] rowData= {{risk.getName(0),risk.getPro(0),risk.getSig(0),risk.getWeight(0)}};
-		Object[][] rowData2= {{risk.getName(0), risk.getPlan(0)}};		
+		Object[][] rowData= {{null, 1, 1, 1}};
+		Object[][] rowData2= {{null, null}};		
 		
 		model=new DefaultTableModel(rowData,colName) {
 			private static final long serialVersionUID = 1L;
@@ -55,29 +62,15 @@ public class Activity1002 extends JTabbedPane {
 				return columnTypes[columnIndex];
 			}
 		};
+		
 		model2=new DefaultTableModel(rowData2,colName2);
+		risk.add(new Risk());
 		
-		for(int i=1; i<risk.get_length();i++) {
-			Object[] add= {risk.getName(i),risk.getPro(i),risk.getSig(i),risk.getWeight(i)};
-			Object[] add2= {risk.getName(i),risk.getPlan(i)};
-			model.addRow(add);
-			model2.addRow(add2);
-		}
+		table = new JTable(model);
+		table2 = new JTable(model2);
 		
-		JTable table = new JTable(model);
-		JTable table2 = new JTable(model2);
 		JTextField tf = new JTextField();
-		JTextField tf2 = new JTextField();
 		TableCellEditor editor = new DefaultCellEditor(tf);
-		TableCellEditor editor2 = new DefaultCellEditor(tf2);
-		table.getColumnModel().getColumn(0).setCellEditor(editor);
-		table.getColumnModel().getColumn(1).setCellEditor(editor);
-		table.getColumnModel().getColumn(2).setCellEditor(editor);
-		table.getColumnModel().getColumn(3).setCellEditor(editor);
-		table2.getColumnModel().getColumn(0).setCellEditor(editor2);
-		table2.getColumnModel().getColumn(1).setCellEditor(editor2);
-		table.setCellSelectionEnabled(false);
-		table2.setCellSelectionEnabled(false);
 		editor.addCellEditorListener(new CellEditorListener() {
 
 			@Override
@@ -88,73 +81,45 @@ public class Activity1002 extends JTabbedPane {
 			@Override
 			public void editingStopped(ChangeEvent arg0) {
 				// TODO Auto-generated method stub
-				table.setValueAt(table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()), table.getSelectedRow(), table.getSelectedColumn());
 				if(table.getSelectedColumn()==0) {
-					risk.setName((String)table.getValueAt(table.getSelectedRow(), 0),table.getSelectedRow());
+					risk.get(table.getSelectedRow()).setName((String)table.getValueAt(table.getSelectedRow(), 0));
+					table2.setValueAt(table.getValueAt(table.getSelectedRow(), 0), table.getSelectedRow(), 0);
 				}
 				else if(table.getSelectedColumn()==1) {
-					risk.setPro(Integer.parseInt((String) table.getValueAt(table.getSelectedRow(), 1)),table.getSelectedRow());
-					risk.setWeight((Integer)risk.getPro(table.getSelectedRow()), (Integer)risk.getSig(table.getSelectedRow()), table.getSelectedRow());
+					risk.get(table.getSelectedRow()).setProbability(Integer.parseInt((String) table.getValueAt(table.getSelectedRow(), 1)));
+					risk.get(table.getSelectedRow()).setWeight();
+					table.setValueAt(risk.get(table.getSelectedRow()).getWeight(), table.getSelectedRow(), 3);
 				}
 				else if(table.getSelectedColumn()==2) {
-					risk.setSig(Integer.parseInt((String) table.getValueAt(table.getSelectedRow(), 2)),table.getSelectedRow());
-					risk.setWeight((Integer)risk.getPro(table.getSelectedRow()), (Integer)risk.getSig(table.getSelectedRow()), table.getSelectedRow());
-				}
-				for(int i=0; i<risk.get_length(); i++) {
-					model.removeRow(0);
-					model2.removeRow(0);
-				}
-				for(int i=0; i<risk.get_length(); i++) {
-					Object[] add= {risk.getName(i),risk.getPro(i),risk.getSig(i),risk.getWeight(i)};
-					Object[] add2= {risk.getName(i),risk.getPlan(i)};
-					model.addRow(add);
-					model2.addRow(add2);
+					risk.get(table.getSelectedRow()).setSignificance(Integer.parseInt((String) table.getValueAt(table.getSelectedRow(), 2)));
+					risk.get(table.getSelectedRow()).setWeight();
+					table.setValueAt(risk.get(table.getSelectedRow()).getWeight(), table.getSelectedRow(), 3);
 				}
 			}	
 		});
+		table.getColumnModel().getColumn(1).setCellEditor(editor);
+		table.getColumnModel().getColumn(2).setCellEditor(editor);
+		table.setCellSelectionEnabled(false);
+		table2.setCellSelectionEnabled(false);
 		
-		editor2.addCellEditorListener(new CellEditorListener() {
-
-			@Override
-			public void editingCanceled(ChangeEvent arg0) {
-				// TODO Auto-generated method stub
-			}
-
-			@Override
-			public void editingStopped(ChangeEvent arg0) {
-				// TODO Auto-generated method stub
-				table2.setValueAt(table2.getValueAt(table2.getSelectedRow(), table2.getSelectedColumn()), table2.getSelectedRow(), table2.getSelectedColumn());
-				if(table2.getSelectedColumn()==0) {
-					risk.setName((String)table2.getValueAt(table2.getSelectedRow(), 0), table2.getSelectedRow());
-				}
-				else if(table2.getSelectedColumn()==1) {
-					risk.setPlan((String)table2.getValueAt(table2.getSelectedRow(), 1), table2.getSelectedRow());
-				}
-				
-				for(int i=0; i<risk.get_length() ;i++) {
-					model.removeRow(0);
-					model2.removeRow(0);
-				}
-				for(int i=0; i<risk.get_length();i++) {
-					Object[] add= {risk.getName(i),risk.getPro(i),risk.getSig(i),risk.getWeight(i)};
-					Object[] add2= {risk.getName(i),risk.getPlan(i)};
-					model.addRow(add);
-					model2.addRow(add2);
-				}
-			}
-		});	
 		
 		table.setRowHeight(35);
 		table2.setRowHeight(70);
 	    
 	    table.getColumn("Name").setCellRenderer(new TextAreaRenderer());
-	    table.getColumn("Name").setCellEditor(new TextAreaEditor(risk, table, model, model2));
+	    table.getColumn("Name").setCellEditor(new TextAreaEditor(risk, table, table2));
+	    
+	    //table.getColumn("Probability").setCellRenderer(new TextAreaRenderer());
+	    //table.getColumn("Probability").setCellEditor(new TextAreaEditor(risk, table, table2));
+	    
+	    //table.getColumn("Significance").setCellRenderer(new TextAreaRenderer());
+	    //table.getColumn("Significance").setCellEditor(new TextAreaEditor(risk, table, table2));
 
 	    table2.getColumn("Name").setCellRenderer(new TextAreaRenderer());
-	    table2.getColumn("Name").setCellEditor(new TextAreaEditor(table2, risk, model, model2));
+	    table2.getColumn("Name").setCellEditor(new TextAreaEditor(table2, risk, table));
 	    
 	    table2.getColumn("Plan").setCellRenderer(new TextAreaRenderer());
-	    table2.getColumn("Plan").setCellEditor(new TextAreaEditor(table2, risk, model, model2));
+	    table2.getColumn("Plan").setCellEditor(new TextAreaEditor(table2, risk, table));
 	  
 	    JSplitPane splitPane_2 = new JSplitPane();
 		JScrollPane panel = new JScrollPane(table);
@@ -182,7 +147,7 @@ public class Activity1002 extends JTabbedPane {
 			public void actionPerformed(ActionEvent arg0) {
 				Object[] add= {"",1, 1, 1};
 				Object[] add2= {"",""};
-				risk.add_row();
+				risk.add(new Risk());
 				model.addRow(add);
 				model2.addRow(add2);
 			}
@@ -194,12 +159,12 @@ public class Activity1002 extends JTabbedPane {
 			public void actionPerformed(ActionEvent arg0) {
 				int row = table.getSelectedRow();
 				if(row!=-1) {
-					risk.del_row(row);
+					risk.remove(row);
+					data.syncRisk(risk.size());
 					model.removeRow(row);
 					model2.removeRow(row);
 					table.editingCanceled(changeEvent);
 					table2.editingCanceled(changeEvent);
-
 				}
 			}
 		});
@@ -209,7 +174,7 @@ public class Activity1002 extends JTabbedPane {
 			public void actionPerformed(ActionEvent arg0) {
 				Object[] add= {"",1, 1, 1};
 				Object[] add2= {"",""};
-				risk.add_row();
+				risk.add(new Risk());
 				model.addRow(add);
 				model2.addRow(add2);
 			}
@@ -219,7 +184,8 @@ public class Activity1002 extends JTabbedPane {
 			public void actionPerformed(ActionEvent arg0) {
 				int row = table.getSelectedRow();
 				if(row!=-1) {
-					risk.del_row(row);
+					risk.remove(row);
+					data.syncRisk(risk.size());
 					model.removeRow(row);
 					model2.removeRow(row);
 					table.editingCanceled(changeEvent);
@@ -236,6 +202,16 @@ public class Activity1002 extends JTabbedPane {
 		        	 if(index == 1) {
 		        	 	node.setIconName("floppyDrive");
 		        	 }
+				}
+				table.editingStopped(changeEvent);
+				for(int i = 0; i < table.getRowCount(); i++) {
+					Risk r = risk.get(i);
+					r.setName((String) table.getValueAt(i, 0));
+					r.setProbability(Integer.parseInt(table.getValueAt(i, 1).toString()));
+					r.setSignificance(Integer.parseInt(table.getValueAt(i, 2).toString()));
+					r.setWeight();
+					r.setPlan((String) table2.getValueAt(i, 1));
+					data.setRisk(i, r);
 				}
 				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
 			}
@@ -260,7 +236,7 @@ public class Activity1002 extends JTabbedPane {
 		
 		this.addTab("Alternative Solution", null, splitPane, null);
 		
-		JTextPane textPane = new JTextPane();
+		textPane = new JTextPane();
 		scrollPane.setViewportView(textPane);
 		textPane.addKeyListener(new KeyListener() {
 			@Override
@@ -317,7 +293,7 @@ public class Activity1002 extends JTabbedPane {
 		splitPane_1.disable();
 		this.addTab("Project Justification", null, splitPane_1, null);
 		
-		JTextPane textPane_1 = new JTextPane();
+		textPane_1 = new JTextPane();
 		scrollPane_1.setViewportView(textPane_1);
 		textPane_1.addKeyListener(new KeyListener() {
 			@Override
@@ -389,7 +365,7 @@ public class Activity1002 extends JTabbedPane {
 		splitPane_4.disable();
 		this.addTab("Analyze business Plan", null, splitPane_4, null);
 		
-		JTextPane textPane_2 = new JTextPane();
+		textPane_2 = new JTextPane();
 		scrollPane_2.setViewportView(textPane_2);
 		textPane_2.addKeyListener(new KeyListener() {
 			@Override
@@ -445,7 +421,7 @@ public class Activity1002 extends JTabbedPane {
 		splitPane_5.disable();
 		this.addTab("Managerial Issues", null, splitPane_5, null);
 		
-		JTextPane textPane_3 = new JTextPane();
+		textPane_3 = new JTextPane();
 		scrollPane_3.setViewportView(textPane_3);
 		textPane_3.addKeyListener(new KeyListener() {
 			@Override
@@ -493,6 +469,7 @@ public class Activity1002 extends JTabbedPane {
 		        	 }
 				}
 				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+				data.setText(7, textPane.getText());
 			}
 		});
 		button_1.addActionListener(new ActionListener() {
@@ -505,6 +482,7 @@ public class Activity1002 extends JTabbedPane {
 		        	 }
 				}
 				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+				data.setText(8, textPane_1.getText());
 			}
 		});
 		button_5.addActionListener(new ActionListener() {
@@ -515,6 +493,16 @@ public class Activity1002 extends JTabbedPane {
 		        	 if(index == 1) {
 		        	 	node.setIconName("floppyDrive");
 		        	 }
+				}
+				table2.editingStopped(changeEvent);
+				for(int i = 0; i < table2.getRowCount(); i++) {
+					Risk r = risk.get(i);
+					r.setName((String) table2.getValueAt(i, 0));
+					r.setProbability(Integer.parseInt(table.getValueAt(i, 1).toString()));
+					r.setSignificance(Integer.parseInt(table.getValueAt(i, 2).toString()));
+					r.setWeight();
+					r.setPlan((String) table2.getValueAt(i, 1));
+					data.setRisk(i, r);
 				}
 				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
 			}
@@ -529,6 +517,7 @@ public class Activity1002 extends JTabbedPane {
 		        	 }
 				}
 				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+				data.setText(9, textPane_2.getText());
 			}
 		});
 		button_7.addActionListener(new ActionListener() {
@@ -541,6 +530,7 @@ public class Activity1002 extends JTabbedPane {
 		        	 }
 				}
 				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+				data.setText(10, textPane_3.getText());
 			}
 		});
 	}
@@ -561,8 +551,46 @@ public class Activity1002 extends JTabbedPane {
 			}
 		});
 	}
-	
+	public void save(Datainfo data, ArrayList<Risk> risk) {
+		data.setText(7, textPane.getText());
+		data.setText(8, textPane_1.getText());
+		data.setText(9, textPane_2.getText());
+		data.setText(10, textPane_3.getText());
+		table.editingStopped(changeEvent);
+		table2.editingStopped(changeEvent);
+		
+		for(Risk r : risk) {
+			data.setRisk(risk.indexOf(r), r);
+		}
+	}
+	public void open(ArrayList<StageText> st, ArrayList<Risk> risk) {
+		setAlter(st);
+		setPro(st);
+		setPlan(st);
+		setIssue(st);
+		model.setRowCount(0);
+		model2.setRowCount(0);
 				
+		for(Risk r : risk) {
+			Object[] add= {r.getName(), r.getProbability(), r.getSignificance(), r.getWeight()};
+			Object[] add2= {r.getName(), r.getPlan()};
+			
+			model.addRow(add);
+			model2.addRow(add2);
+		}
+	}
+	private void setAlter(ArrayList<StageText> st) {
+		textPane.setText(st.get(7).getText());
+	}
+	private void setPro(ArrayList<StageText> st) {
+		textPane_1.setText(st.get(8).getText());
+	}
+	private void setPlan(ArrayList<StageText> st) {
+		textPane_2.setText(st.get(9).getText());
+	}
+	private void setIssue(ArrayList<StageText> st) {
+		textPane_3.setText(st.get(10).getText());
+	}
 }
 
 

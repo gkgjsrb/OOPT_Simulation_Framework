@@ -10,29 +10,32 @@ public class UseCase {
 	String Purpose;
 	String Overview;
 	String Type;
-	String Base;
+	//String Base;
 	String Cross;
-	String related_requirement;
+	//String related_requirement;
 	String PreRequistes;
 	String Typical;
 	String Alternative;
 	String Exceptional;
+	String UI;
 	
 	public UseCase() {
 		super();
+		this.Name = " ";
 		// TODO Auto-generated constructor stub
 	}
 	public Id getId() {
 		return Id;
 	}
+	
+	public void setId(Id id) {
+		Id = id;
+	}
 	public String getCross() {
 		return Cross;
 	}
 	public void setCross(String cross) {
-		Cross=cross;
-	}
-	public void setId(Id id) {
-		Id = id;
+		Cross = cross;
 	}
 	public String getName() {
 		return Name;
@@ -74,18 +77,7 @@ public class UseCase {
 	public void setType(String type) {
 		Type = type;
 	}
-	public String getBase() {
-		return Base;
-	}
-	public void setBase(String base) {
-		Base = base;
-	}
-	public String getRelated_requirement() {
-		return related_requirement;
-	}
-	public void setRelated_requirement(String related_requirement) {
-		this.related_requirement = related_requirement;
-	}
+	
 	public String getPreRequistes() {
 		return PreRequistes;
 	}
@@ -109,6 +101,12 @@ public class UseCase {
 	}
 	public void setExceptional(String exceptional) {
 		Exceptional = exceptional;
+	}
+	public String getUI() {
+		return UI;
+	}
+	public void setUI(String ui) {
+		UI = ui;
 	}
 
 

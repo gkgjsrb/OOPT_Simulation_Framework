@@ -17,7 +17,7 @@ public class Oopt extends JPanel{
 		try{
 			File sourceimage = new File("./oopt.png");
 			img = ImageIO.read(sourceimage);
-			img2 = img.getScaledInstance(500, 400, Image.SCALE_SMOOTH);
+			img2 = img.getScaledInstance(500, 300, Image.SCALE_SMOOTH);
 
 		}
 		catch(IOException e){
