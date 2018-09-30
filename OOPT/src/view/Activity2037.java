@@ -4,6 +4,7 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collection;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -13,14 +14,19 @@ import javax.swing.JTabbedPane;
 
 import com.horstmann.violet.framework.file.GraphFile;
 import com.horstmann.violet.framework.file.IGraphFile;
-import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjector;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
+import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
+import com.horstmann.violet.product.diagram.sequence.edge.AsynchronousCallEdge;
+import com.horstmann.violet.product.diagram.sequence.edge.ReturnEdge;
+import com.horstmann.violet.product.diagram.sequence.edge.SynchronousCallEdge;
 import com.horstmann.violet.product.diagram.state.StateDiagramGraph;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.Workspace;
 import com.horstmann.violet.workspace.WorkspacePanel;
 
+import Model.Datainfo;
 import Model.Graph;
+import Model.SystemOperation;
 import Model.UseCase;
 //define state diagram
 public class Activity2037 extends JTabbedPane {
@@ -29,9 +35,9 @@ public class Activity2037 extends JTabbedPane {
     private WorkspacePanel wp;  
     private JComboBox<String> combo;
     
-	public Activity2037(ArrayList<Graph> std) {
+	public Activity2037(ArrayList<Graph> std, Datainfo data) {
 		
-		BeanInjector.getInjector().inject(this);
+		//BeanInjector.getInjector().inject(this);
 		Class<? extends IGraph> graphClass = new StateDiagramGraph().getClass();
         
 		IGraphFile graphFile = new GraphFile(graphClass);
@@ -67,13 +73,32 @@ public class Activity2037 extends JTabbedPane {
 			}
 		});
         
+        button_commit.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				data.syncGraph("std", std.get(combo.getSelectedIndex()).getId());
+				data.setGraph("std", std.get(combo.getSelectedIndex()));
+				
+			}
+        	
+        });
         addTab("Define State Diagrams", null, splitPane, null);
 	}
 
-	public void syncComboBox(ArrayList<UseCase> uc) {
+	public void syncComboBox(ArrayList<Graph> std) {
 		combo.removeAllItems();
-		for(UseCase tmp : uc) {
+		for(Graph tmp : std) {
 			combo.addItem(tmp.getName());
+		}
+	}
+	
+	public void save(Datainfo data, ArrayList<Graph> std) {
+		
+		for(Graph g : std) {
+			data.syncGraph("std", g.getId());
+			data.setGraph("std", g);
 		}
 	}
 }

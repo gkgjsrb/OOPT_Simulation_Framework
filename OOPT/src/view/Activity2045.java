@@ -9,40 +9,33 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 
-import com.horstmann.violet.framework.dialog.DialogFactory;
 import com.horstmann.violet.framework.file.GraphFile;
-import com.horstmann.violet.framework.file.IFile;
 import com.horstmann.violet.framework.file.IGraphFile;
-import com.horstmann.violet.framework.file.chooser.IFileChooserService;
-import com.horstmann.violet.framework.file.naming.ExtensionFilter;
-import com.horstmann.violet.framework.file.naming.FileNamingService;
-import com.horstmann.violet.framework.file.persistence.IFileReader;
-import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjector;
-import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
-import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.classes.ClassDiagramGraph;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.Workspace;
 import com.horstmann.violet.workspace.WorkspacePanel;
-import com.thoughtworks.xstream.io.StreamException;
 
+import Model.Datainfo;
 import Model.Graph;
 //define design class diagram
 public class Activity2045 extends JTabbedPane {
-
+	IWorkspace workspace;
+	WorkspacePanel wp;
+	JSplitPane splitPane;
    
-	public Activity2045(Graph cd) {
-		BeanInjector.getInjector().inject(this);
+	public Activity2045(Graph cd, Datainfo data) {
+		//BeanInjector.getInjector().inject(this);
 		Class<? extends IGraph> graphClass = new ClassDiagramGraph().getClass();
         IGraphFile graphFile = new GraphFile(graphClass);
         cd.setGraph(graphFile);
-        IWorkspace workspace = new Workspace(cd.getGraph());
-        WorkspacePanel wp = workspace.getAWTComponent();
+        workspace = new Workspace(cd.getGraph());
+        wp = workspace.getAWTComponent();
         JPanel tpanel_dd = new JPanel(new FlowLayout(FlowLayout.TRAILING));
 		JButton button_commit = new JButton("Commit");
 		tpanel_dd.add(button_commit);
-		JSplitPane splitPane = new JSplitPane();
+		splitPane = new JSplitPane();
         splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
         splitPane.setBottomComponent(wp);
         splitPane.setTopComponent(tpanel_dd);
@@ -53,9 +46,23 @@ public class Activity2045 extends JTabbedPane {
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				cd.setGraph(workspace.getGraphFile());
+				cd.setName("class");
+				data.syncGraph("cd","");
+				data.setGraph("cd", cd);
 			}
 		});
        
         addTab("Define Design Class Diagrams", null, splitPane, null);
     }
+	
+	public void save(Datainfo data, Graph cd) {
+		data.syncGraph("cd","");
+		data.setGraph("cd", cd);
+	}
+	
+	public void open(Graph cd) {
+		workspace = new Workspace(cd.getGraph());
+		wp = workspace.getAWTComponent();
+		splitPane.setBottomComponent(wp);
+	}
 }

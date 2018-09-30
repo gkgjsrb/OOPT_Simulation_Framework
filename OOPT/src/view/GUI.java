@@ -56,8 +56,8 @@ public class GUI {
 	    icons.put("html", TextIcons.getIcon("html"));
 	    return icons;
 	}
-	private void initialize(Requirement req, ArrayList<Risk> risk, ArrayList<Glossary> gl, ArrayList<UseCase> uc, ArrayList op, ArrayList std, ArrayList sd, ArrayList id, Graph ud, Graph cd, Graph dm, Graph sa, 
-			Datainfo data) {
+	private void initialize(Requirement req, ArrayList<Risk> risk, ArrayList<Glossary> gl, ArrayList<UseCase> uc, ArrayList op, ArrayList<Graph> std, ArrayList<Graph> sd,
+			ArrayList<Graph> id, Graph ud, Graph cd, Graph dm, Graph sa, Datainfo data) {
 		gl2 = new ArrayList<>();
 		
 		frame = new JFrame();
@@ -179,18 +179,18 @@ public class GUI {
 		Activity1010 a1010 = new Activity1010(tree, req, data);
 		Activity2031 a2031 = new Activity2031();
 		Activity2032 a2032 = new Activity2032();
-		Activity2033 a2033 = new Activity2033(dm);
+		Activity2033 a2033 = new Activity2033(dm, data);
 		Activity2034 a2034 = new Activity2034(tree, gl2, data);
-		Activity2035 a2035 = new Activity2035(op, sd);
+		Activity2035 a2035 = new Activity2035(op, sd, data);
 		Activity2036 a2036 = new Activity2036();
-		Activity2037 a2037 = new Activity2037(std);
+		Activity2037 a2037 = new Activity2037(std, data);
 		Activity2038 a2038 = new Activity2038(req, uc);
 		Activity2039 a2039 = new Activity2039();
 		Activity2041 a2041 = new Activity2041();	
 		Activity2042 a2042 = new Activity2042();
-		Activity2043 a2043 = new Activity2043(sa);
-		Activity2044 a2044 = new Activity2044(id);
-		Activity2045 a2045 = new Activity2045(cd);
+		Activity2043 a2043 = new Activity2043(sa, data);
+		Activity2044 a2044 = new Activity2044(id, data);
+		Activity2045 a2045 = new Activity2045(cd, data);
 		Activity2046 a2046 = new Activity2046();
 		Activity2051 a2051 = new Activity2051();	
 		Activity2052 a2052 = new Activity2052();
@@ -254,13 +254,25 @@ public class GUI {
 				ArrayList<String> ausecase = data.getSearchBUsecase("A");
 				ArrayList<String> eusecase = data.getSearchBUsecase("E");
 				ArrayList<UseCase> u = data.getSearchUseCase();
-				
 				uc.clear();
 				uc.addAll(u);
+				
 				ArrayList<Schedule> sc = data.getSearchSche();
 				ArrayList<NonFuncReq> nreq = data.getSearchNonReq("D");
 				Graph ud = data.getSearchGraph("ud").get(0);
-				//ArrayList<Graph> sd = data.getSearchGraph("sd");
+				Graph dm = data.getSearchGraph("dm").get(0);
+				Graph sa = data.getSearchGraph("sa").get(0);
+				Graph cd = data.getSearchGraph("cd").get(0);
+				ArrayList<Graph> tmpSd = data.getSearchGraph("sd");
+				sd.clear();
+				sd.addAll(tmpSd);
+				ArrayList<Graph> tmpStd = data.getSearchGraph("std");
+				std.clear();
+				std.addAll(tmpStd);
+				ArrayList<Graph> tmpId = data.getSearchGraph("id");
+				id.clear();
+				id.addAll(tmpId);
+				
 				a1001.open(st);
 				a1002.open(st, risk);
 				a1003.open(st, req);
@@ -269,8 +281,10 @@ public class GUI {
 				a1007.open(concept);
 				a1009.open(req, nreq);
 				a1010.open(st, sc);
+				a2033.open(dm);
 				a2034.open(gl2);
-				
+				a2043.open(sa);
+				a2045.open(cd);
 			}
 			
 		});
@@ -328,16 +342,19 @@ public class GUI {
 		        	 			break;
 		        	 	case 1 :nodes[15].setIconName("floppyDrive");
 	    	 					break;
-		        	 	case 2 :nodes[16].setIconName("floppyDrive");
+		        	 	case 2 :a2033.save(data, dm);
+		        	 			nodes[16].setIconName("floppyDrive");
 	    	 					break;
 		        	 	case 3 :a2034.save(data, gl2);
 		        	 			nodes[17].setIconName("floppyDrive");
 	    	 					break;
-		        	 	case 4 :nodes[18].setIconName("floppyDrive");
+		        	 	case 4 :a2035.save(data, sd);
+		        	 			nodes[18].setIconName("floppyDrive");
 	    	 					break;
 		        	 	case 5 :nodes[19].setIconName("floppyDrive");
 	    	 					break;
-		        	 	case 6 :nodes[20].setIconName("floppyDrive");
+		        	 	case 6 :a2037.save(data, std);
+		        	 			nodes[20].setIconName("floppyDrive");
 	    	 					break;
 		        	 	case 7 :nodes[21].setIconName("floppyDrive");
 	    	 					break;
@@ -354,11 +371,14 @@ public class GUI {
 		        	 			break;
 		        	 	case 1 :nodes[25].setIconName("floppyDrive");
 	    	 					break;
-		        	 	case 2 :nodes[26].setIconName("floppyDrive");
+		        	 	case 2 :a2043.save(data, sa);
+		        	 			nodes[26].setIconName("floppyDrive");
 	    	 					break;
-		        	 	case 3 :nodes[27].setIconName("floppyDrive");
+		        	 	case 3 :a2044.save(data, id);
+		        	 			nodes[27].setIconName("floppyDrive");
 	    	 					break;
-		        	 	case 4 :nodes[28].setIconName("floppyDrive");
+		        	 	case 4 :a2045.save(data, cd);
+		        	 			nodes[28].setIconName("floppyDrive");
 	    	 					break;
 		        	 	case 5 :nodes[29].setIconName("floppyDrive");
 	    	 					break;
@@ -488,13 +508,13 @@ public class GUI {
 	    	 					break;
 		        	 	case 3 :splitPane.setRightComponent(a2034);
 	    	 					break;
-		        	 	case 4 :a2035.syncComboBox(uc);
+		        	 	case 4 :a2035.syncComboBox(sd);
 		        	 			splitPane.setRightComponent(a2035);
 	    	 					break;
 		        	 	case 5 :a2036.syncOperation(op);
 		        	 			splitPane.setRightComponent(a2036);
 	    	 					break;
-		        	 	case 6 :a2037.syncComboBox(uc);
+		        	 	case 6 :a2037.syncComboBox(std);
 		        	 			splitPane.setRightComponent(a2037);
 	    	 					break;
 		        	 	case 7 :a2038.syncComboBox(req.getAllName());
@@ -515,7 +535,7 @@ public class GUI {
 	    	 					break;
 		        	 	case 2 :splitPane.setRightComponent(a2043);
 	    	 					break;
-		        	 	case 3 :a2044.syncComboBox(uc);
+		        	 	case 3 :a2044.syncComboBox(id);
 		        	 			splitPane.setRightComponent(a2044);
 	    	 					break;
 		        	 	case 4 :splitPane.setRightComponent(a2045);

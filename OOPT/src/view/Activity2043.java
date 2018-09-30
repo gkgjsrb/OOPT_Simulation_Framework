@@ -18,35 +18,50 @@ import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.Workspace;
 import com.horstmann.violet.workspace.WorkspacePanel;
 
+import Model.Datainfo;
 import Model.Graph;
 //refine system architecture
 public class Activity2043 extends JTabbedPane {
-    
-	public Activity2043(Graph sa) {
-		BeanInjector.getInjector().inject(this);
+	IWorkspace workspace;
+	WorkspacePanel wp;
+	JSplitPane splitPane;
+	public Activity2043(Graph sa, Datainfo data) {
+		//BeanInjector.getInjector().inject(this);
 		Class<? extends IGraph> graphClass = new ClassDiagramGraph().getClass();
         IGraphFile graphFile = new GraphFile(graphClass);
         sa.setGraph(graphFile);
-        IWorkspace workspace = new Workspace(sa.getGraph());
-        WorkspacePanel wp = workspace.getAWTComponent();
+        workspace = new Workspace(sa.getGraph());
+        wp = workspace.getAWTComponent();
         JPanel tpanel_dd = new JPanel(new FlowLayout(FlowLayout.TRAILING));
 		JButton button_commit = new JButton("Commit");
 		tpanel_dd.add(button_commit);
-		JSplitPane splitPane = new JSplitPane();
+		splitPane = new JSplitPane();
         splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
         splitPane.setBottomComponent(wp);
         splitPane.setTopComponent(tpanel_dd);
 		
         button_commit.addActionListener(new ActionListener() {
-
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				sa.setGraph(workspace.getGraphFile());
+        		sa.setName("sa");
+				data.syncGraph("sa","");
+				data.setGraph("sa", sa);
 			}
 		});
        
         addTab("Refine System Architecture", null, splitPane, null);
     }
-
+	
+	public void save(Datainfo data, Graph sa) {
+		data.syncGraph("sa","");
+		data.setGraph("sa", sa);
+	}
+	
+	public void open(Graph sa) {
+		workspace = new Workspace(sa.getGraph());
+		wp = workspace.getAWTComponent();
+		splitPane.setBottomComponent(wp);
+	}
 }

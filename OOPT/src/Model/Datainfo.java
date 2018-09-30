@@ -272,10 +272,11 @@ public class Datainfo {
 	}
 	public void setGraph(String type, Graph g) {
 		try {
-			String sql = "insert or replace into Graph values(?,?)";
+			String sql = "insert or replace into Graph values(?,?,?)";
 			statement = connection.prepareStatement(sql);
 			statement.setString(1, type);
 			statement.setString(2, g.getName());
+			statement.setString(3, g.getId());
 			statement.executeUpdate();
 			
 			String filename = type + "." + g.getName() + "." + "html";
@@ -290,12 +291,23 @@ public class Datainfo {
 			e.printStackTrace();
 		}
 	}
-	public void syncGraph(String type) {
+	public void syncGraph(String type, String id) {
 		try {
-			String sql = "delete from Graph where type = ?";
-			statement = connection.prepareStatement(sql);
-			statement.setString(1, type);
-			statement.executeUpdate();
+			String sql;
+			if(id.equals("")) {
+				sql = "delete from Graph where type = ?";
+				statement = connection.prepareStatement(sql);
+				statement.setString(1, type);
+				statement.executeUpdate();
+			}
+			
+			else {
+				sql = "delete from Graph where type = ? and id = ?";
+				statement = connection.prepareStatement(sql);
+				statement.setString(1, type);
+				statement.setString(2, id);
+				statement.executeUpdate();
+			}
 		}
 		catch(SQLException e) {
 			e.printStackTrace();
@@ -579,7 +591,7 @@ public class Datainfo {
 			while(result.next()) {
 				Graph g = new Graph();
 				g.setName(result.getString("name"));
-				
+				g.setId(result.getString("id"));
 				String filename = type + "." + g.getName() + "." + "html";
 				graphfile = new File(filename);
 				IFileReader r = new JFileReader(graphfile);

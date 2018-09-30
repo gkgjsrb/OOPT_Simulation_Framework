@@ -12,29 +12,21 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 
-import com.horstmann.violet.framework.dialog.DialogFactory;
 import com.horstmann.violet.framework.file.GraphFile;
-import com.horstmann.violet.framework.file.IFile;
 import com.horstmann.violet.framework.file.IGraphFile;
-import com.horstmann.violet.framework.file.chooser.IFileChooserService;
-import com.horstmann.violet.framework.file.naming.ExtensionFilter;
-import com.horstmann.violet.framework.file.naming.FileNamingService;
-import com.horstmann.violet.framework.file.persistence.IFileReader;
-import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjector;
-import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
-import com.horstmann.violet.framework.injection.resources.annotation.ResourceBundleBean;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.sequence.SequenceDiagramGraph;
+import com.horstmann.violet.product.diagram.sequence.edge.AsynchronousCallEdge;
+import com.horstmann.violet.product.diagram.sequence.edge.ReturnEdge;
 import com.horstmann.violet.product.diagram.sequence.edge.SynchronousCallEdge;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.Workspace;
 import com.horstmann.violet.workspace.WorkspacePanel;
-import com.thoughtworks.xstream.io.StreamException;
 
+import Model.Datainfo;
 import Model.Graph;
 import Model.SystemOperation;
-import Model.UseCase;
 //define interaction diagram
 public class Activity2044 extends JTabbedPane {
 
@@ -42,9 +34,9 @@ public class Activity2044 extends JTabbedPane {
     private WorkspacePanel wp;  
     private JComboBox<String> combo;
     
-	public Activity2044(ArrayList<Graph> id) {
+	public Activity2044(ArrayList<Graph> id, Datainfo data) {
 		
-		BeanInjector.getInjector().inject(this);
+		//BeanInjector.getInjector().inject(this);
 		Class<? extends IGraph> graphClass = new SequenceDiagramGraph().getClass();
         IGraphFile graphFile = new GraphFile(graphClass);
         workspace = new Workspace(graphFile);
@@ -82,19 +74,28 @@ public class Activity2044 extends JTabbedPane {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				
+				data.syncGraph("id", id.get(combo.getSelectedIndex()).getId());
+				data.setGraph("id", id.get(combo.getSelectedIndex()));
 				
 			}
 			
 		});
 		
-        addTab("Define System Sequence Diagrams", null, splitPane, null);
+        addTab("Define Interaction Diagrams", null, splitPane, null);
 	}
 	
-	public void syncComboBox(ArrayList<UseCase> uc) {
+	public void syncComboBox(ArrayList<Graph> id) {
 		combo.removeAllItems();
-		for(UseCase tmp : uc) {
+		for(Graph tmp : id) {
 			combo.addItem(tmp.getName());
+		}
+	}
+	
+	public void save(Datainfo data, ArrayList<Graph> id) {
+		
+		for(Graph g : id) {
+			data.syncGraph("id", g.getId());
+			data.setGraph("id", g);
 		}
 	}
 }

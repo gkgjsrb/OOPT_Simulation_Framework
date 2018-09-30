@@ -420,17 +420,8 @@ public class Activity1006 extends JTabbedPane {
 		
 		button_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				syncSd(sd, model.getRowCount());
-				
 				Object[] add= {""};
 				model.addRow(add);
-				
-				Graph sdtmp = new Graph();
-				Class<? extends IGraph> graphClass = new SequenceDiagramGraph().getClass();
-		        IGraphFile graphFile = new GraphFile(graphClass);
-				sdtmp.setGraph(graphFile);
-				sd.add(sdtmp);
-			
 			}
 		});
 		
@@ -438,9 +429,7 @@ public class Activity1006 extends JTabbedPane {
 			public void actionPerformed(ActionEvent arg0) {
 				int row = table.getSelectedRow();
 				if(row!=-1) {
-					syncSd(sd, model.getRowCount());
 					model.removeRow(row);
-					sd.remove(row);
 					data.syncBUsecase("A", model.getRowCount());
 					table.editingCanceled(changeEvent);
 				}
@@ -457,15 +446,10 @@ public class Activity1006 extends JTabbedPane {
 		        	 }
 				}
 				table.editingStopped(changeEvent);
-				syncSd(sd, model.getRowCount());
-				data.syncGraph("sd");
+				
 				for(int i = 0; i < model.getRowCount(); i++) {
 					String text = (String)model.getValueAt(i, 0);
 					data.setBasedUsecase(i, "A", text);
-					
-					sd.get(i).setName(text);
-					
-					data.setGraph("sd", sd.get(i));
 				}
 				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
 			}
@@ -570,7 +554,7 @@ public class Activity1006 extends JTabbedPane {
 			public void actionPerformed(ActionEvent arg0) {
 				ud.setGraph(workspace.getGraphFile());
 				ud.setName("usecase");
-				data.syncGraph("ud");
+				data.syncGraph("ud","");
 				data.setGraph("ud", ud);
 				
 				Collection<INode> allNodes = workspace.getGraphFile().getGraph().getAllNodes();
@@ -606,27 +590,12 @@ public class Activity1006 extends JTabbedPane {
 				uc.clear();
 				uc.addAll(tmp_list);
 				
-				ArrayList<Graph> idTmp = new ArrayList<Graph>();
-				idTmp.addAll(id);
-				id.clear();
-				for(UseCase tmp : uc) {
-					int exist = 0;
-					for(Graph gtmp : idTmp) {
-						if(gtmp.getId().equals(tmp.getId().toString())) {
-							id.add(gtmp);
-							exist = 1;
-						}
-					}
-					if(exist==0) {
-						Graph idtmp = new Graph(tmp.getName());
-						Class<? extends IGraph> graphClass = new SequenceDiagramGraph().getClass();
-				        IGraphFile graphFile = new GraphFile(graphClass);
-						idtmp.setGraph(graphFile);
-						idtmp.setId(tmp.getId().toString());
-						id.add(idtmp);
-					}
-				}
-				ArrayList<Graph> stdTmp = (ArrayList<Graph>) std.clone();
+				syncSd(sd, uc);
+				
+				syncId(id, uc);
+				
+				ArrayList<Graph> stdTmp = new ArrayList<>();
+				stdTmp.addAll(std);
 				std.clear();
 				for(UseCase tmp : uc) {
 					int exist = 0;
@@ -836,14 +805,75 @@ public class Activity1006 extends JTabbedPane {
 		textPane.setText(st.get(15).getText());
 	}
 	
-	private void syncSd(ArrayList<Graph> sd, int size) {
+	private void syncSd(ArrayList<Graph> sd, ArrayList<UseCase> uc) {
+		
+		ArrayList<Graph> sdTmp = new ArrayList<Graph>();
+		sdTmp.addAll(sd);
 		sd.clear();
-		for(int i = 0; i < size; i ++) {
-			Graph sdtmp = new Graph();
-			Class<? extends IGraph> graphClass = new SequenceDiagramGraph().getClass();
-	        IGraphFile graphFile = new GraphFile(graphClass);
-			sdtmp.setGraph(graphFile);
-			sd.add(sdtmp);
+		//data.syncGraph("sd");
+		for(UseCase tmp : uc) {
+			int exist = 0;
+			for(Graph gtmp : sdTmp) {
+				
+				if(gtmp.getId().equals(tmp.getId().toString())) {
+					sd.add(gtmp);
+					exist=1;
+				}
+			}
+			if(exist==0) {
+				for(int i = 0; i < model.getRowCount(); i++) {
+					if(tmp.getName().equals(model.getValueAt(i, 0))) {
+						Graph sdtmp = new Graph(tmp.getName());
+						Class<? extends IGraph> graphClass = new SequenceDiagramGraph().getClass();
+				        IGraphFile graphFile = new GraphFile(graphClass);
+						sdtmp.setGraph(graphFile);
+						sdtmp.setId(tmp.getId().toString());
+						sd.add(sdtmp);
+						break;
+					}
+				}
+			}
+			
 		}
+		/*
+		for(Graph g : sd) {
+			data.setGraph("sd", g);
+		}
+		*/
+	}
+	
+private void syncId(ArrayList<Graph> id, ArrayList<UseCase> uc) {
+		
+		ArrayList<Graph> idTmp = new ArrayList<Graph>();
+		idTmp.addAll(id);
+		id.clear();
+		//data.syncGraph("id");
+		for(UseCase tmp : uc) {
+			int exist = 0;
+			for(Graph gtmp : idTmp) {
+				if(gtmp.getId().equals(tmp.getId().toString())) {
+					id.add(gtmp);
+					exist=1;
+				}
+			}
+			if(exist==0) {
+				for(int i = 0; i < model.getRowCount(); i++) {
+					if(tmp.getName().equals(model.getValueAt(i, 0))) {
+						Graph idtmp = new Graph(tmp.getName());
+						Class<? extends IGraph> graphClass = new SequenceDiagramGraph().getClass();
+				        IGraphFile graphFile = new GraphFile(graphClass);
+						idtmp.setGraph(graphFile);
+						idtmp.setId(tmp.getId().toString());
+						id.add(idtmp);
+						break;
+					}
+				}
+			}
+		}
+		/*
+		for(Graph g : id) {
+			data.setGraph("id", g);
+		}
+		*/
 	}
 }
