@@ -9,6 +9,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
@@ -72,7 +73,8 @@ public class Activity1006 extends JTabbedPane {
     private WorkspacePanel wp;
     
 	public Activity1006(JTree tree, Requirement req, ArrayList<UseCase> uc, Graph ud, ArrayList<Graph> sd, ArrayList<Graph> id, ArrayList<Graph> std, Datainfo data) {
-		sd.add(new Graph());
+		
+		//sd.add(new Graph()); 어디서 쓰는지?
 		
 		String category[] = {"Primary","Secondary", "Optional"};
 		String rank[] = {"High","Medium", "Low"};
@@ -222,7 +224,7 @@ public class Activity1006 extends JTabbedPane {
 		splitPane_4.setTopComponent(jpanel_4);
 		splitPane_4.disable();
 				
-		this.addTab("Allocate System Functions into Related Use-Cases", null, splitPane_4, null);
+		this.addTab("Allocate System Functions into Related Use-Cases(Formmat : #._Name)", null, splitPane_4, null);
 		this.addChangeListener(new ChangeListener() {
 
 			@Override
@@ -583,7 +585,7 @@ public class Activity1006 extends JTabbedPane {
 				
 				uc.clear();
 				uc.addAll(tmp_list);
-				
+				Collections.reverse(uc);
 				syncSd(sd, uc);
 				
 				syncId(id, uc);

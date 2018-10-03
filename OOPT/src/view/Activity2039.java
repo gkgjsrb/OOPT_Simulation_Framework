@@ -9,6 +9,7 @@ import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -103,9 +104,7 @@ public class Activity2039 extends JTabbedPane {
 				ArrayList<UseCaseNode> op_Node = new ArrayList<UseCaseNode>();
 				ArrayList<String> req_name = new ArrayList<String>(req.getAllName());
 		        ArrayList<String> uName = new ArrayList<String>(req.getAlluName());
-		        for(String tmp_name : uName) {
-		        	System.out.println(tmp_name);
-		        }
+		       
 				for(String tmp_req : req_name) {
 		        	UseCaseNode tmp_reqnode = new UseCaseNode();
 		        	SingleLineText tmp_name = new SingleLineText();
@@ -116,6 +115,7 @@ public class Activity2039 extends JTabbedPane {
 		        	workspace.getGraphFile().getGraph().addNode(tmp_reqnode, tmp_xy);
 		        	i=i+5;
 		        }
+		        
 		        i=1;
 				for(UseCase tmp_uc : uc) {
 		        	UseCaseNode tmp_ucnode = new UseCaseNode();
