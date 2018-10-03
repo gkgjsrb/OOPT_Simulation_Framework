@@ -71,6 +71,9 @@ public class Requirement {
 	public String getuName(int index) {
 		return uName.get(index);
 	}
+	public ArrayList getAlluName() {
+		return this.uName;
+	}
 	public void setuName(String uname, int index) {
 		uName.set(index, uname);
 	}

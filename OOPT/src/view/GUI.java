@@ -185,7 +185,7 @@ public class GUI {
 		Activity2036 a2036 = new Activity2036();
 		Activity2037 a2037 = new Activity2037(std, data);
 		Activity2038 a2038 = new Activity2038(req, uc);
-		Activity2039 a2039 = new Activity2039();
+		Activity2039 a2039 = new Activity2039(req,uc,op,sd);
 		Activity2041 a2041 = new Activity2041();	
 		Activity2042 a2042 = new Activity2042();
 		Activity2043 a2043 = new Activity2043(sa, data);

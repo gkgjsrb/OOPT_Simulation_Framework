@@ -17,12 +17,190 @@
 	<BR />
 	<BR />
 	<SCRIPT id="content" type="text/xml"><![CDATA[<com.horstmann.violet.product.diagram.sequence.SequenceDiagramGraph id="1">
-  <nodes id="2"/>
-  <edges id="3"/>
+  <nodes id="2">
+    <com.horstmann.violet.product.diagram.sequence.node.LifelineNode id="3">
+      <id id="4" value="b632fb6c-33be-4182-9eaf-b5c6613f91f3"/>
+      <revision>1</revision>
+      <children id="5">
+        <com.horstmann.violet.product.diagram.sequence.node.ActivationBarNode id="6">
+          <id id="7" value="0de77206-a9de-48c4-a6c9-ef97ee109abc"/>
+          <revision>1</revision>
+          <children id="8"/>
+          <parent class="com.horstmann.violet.product.diagram.sequence.node.LifelineNode" reference="3"/>
+          <location class="Point2D.Double" id="9" x="42.0" y="110.0"/>
+          <backgroundColor id="10">
+            <red>255</red>
+            <green>255</green>
+            <blue>255</blue>
+            <alpha>255</alpha>
+          </backgroundColor>
+          <borderColor id="11">
+            <red>191</red>
+            <green>191</green>
+            <blue>191</blue>
+            <alpha>255</alpha>
+          </borderColor>
+          <textColor id="12">
+            <red>51</red>
+            <green>51</green>
+            <blue>51</blue>
+            <alpha>255</alpha>
+          </textColor>
+        </com.horstmann.violet.product.diagram.sequence.node.ActivationBarNode>
+        <com.horstmann.violet.product.diagram.sequence.node.ActivationBarNode id="13">
+          <id id="14" value="1fa7edc5-a158-4ff8-83a5-cf0ab36c5697"/>
+          <revision>1</revision>
+          <children id="15"/>
+          <parent class="com.horstmann.violet.product.diagram.sequence.node.LifelineNode" reference="3"/>
+          <location class="Point2D.Double" id="16" x="42.0" y="195.0"/>
+          <backgroundColor reference="10"/>
+          <borderColor reference="11"/>
+          <textColor reference="12"/>
+        </com.horstmann.violet.product.diagram.sequence.node.ActivationBarNode>
+      </children>
+      <location class="Point2D.Double" id="17" x="200.0" y="40.0"/>
+      <textColor reference="12"/>
+      <name id="18">
+        <text></text>
+      </name>
+      <type id="19">
+        <text></text>
+      </type>
+      <endOfLife>false</endOfLife>
+    </com.horstmann.violet.product.diagram.sequence.node.LifelineNode>
+    <com.horstmann.violet.product.diagram.sequence.node.LifelineNode id="20">
+      <id id="21" value="14054e1d-4a96-4a14-9fdb-13098bf38326"/>
+      <revision>1</revision>
+      <children id="22">
+        <com.horstmann.violet.product.diagram.sequence.node.ActivationBarNode id="23">
+          <id id="24" value="dd489cf1-0eec-48d3-a0c0-065fa6961b7f"/>
+          <revision>0</revision>
+          <children id="25"/>
+          <parent class="com.horstmann.violet.product.diagram.sequence.node.LifelineNode" reference="20"/>
+          <location class="Point2D.Double" id="26" x="42.0" y="120.0"/>
+          <backgroundColor reference="10"/>
+          <borderColor reference="11"/>
+          <textColor reference="12"/>
+        </com.horstmann.violet.product.diagram.sequence.node.ActivationBarNode>
+        <com.horstmann.violet.product.diagram.sequence.node.ActivationBarNode id="27">
+          <id id="28" value="a02da858-c528-4fa7-a017-0ec14b9e6e46"/>
+          <revision>0</revision>
+          <children id="29"/>
+          <parent class="com.horstmann.violet.product.diagram.sequence.node.LifelineNode" reference="20"/>
+          <location class="Point2D.Double" id="30" x="42.0" y="200.0"/>
+          <backgroundColor reference="10"/>
+          <borderColor reference="11"/>
+          <textColor reference="12"/>
+        </com.horstmann.violet.product.diagram.sequence.node.ActivationBarNode>
+      </children>
+      <location class="Point2D.Double" id="31" x="560.0" y="30.0"/>
+      <textColor reference="12"/>
+      <name id="32">
+        <text></text>
+      </name>
+      <type id="33">
+        <text></text>
+      </type>
+      <endOfLife>false</endOfLife>
+    </com.horstmann.violet.product.diagram.sequence.node.LifelineNode>
+  </nodes>
+  <edges id="34">
+    <com.horstmann.violet.product.diagram.sequence.edge.SynchronousCallEdge id="35">
+      <id id="36" value="1cbfdb64-7058-4b09-8376-fdd6aaa0ed53"/>
+      <revision>1</revision>
+      <startNode class="com.horstmann.violet.product.diagram.sequence.node.ActivationBarNode" reference="6"/>
+      <startLocation class="Point2D.Double" id="37" x="8.0" y="20.0"/>
+      <endNode class="com.horstmann.violet.product.diagram.sequence.node.ActivationBarNode" reference="23"/>
+      <endLocation class="Point2D.Double" id="38" x="60.0" y="120.0"/>
+      <transitionPoints id="39"/>
+      <selectedBentStyle>1</selectedBentStyle>
+      <selectedLineStyle>0</selectedLineStyle>
+      <selectedStartArrowhead>0</selectedStartArrowhead>
+      <selectedEndArrowhead>3</selectedEndArrowhead>
+      <startLabel id="40">
+        <text></text>
+      </startLabel>
+      <centerLabel id="41">
+        <text>a</text>
+      </centerLabel>
+      <endLabel id="42">
+        <text></text>
+      </endLabel>
+    </com.horstmann.violet.product.diagram.sequence.edge.SynchronousCallEdge>
+    <com.horstmann.violet.product.diagram.sequence.edge.SynchronousCallEdge id="43">
+      <id id="44" value="a5b10410-46ab-4ec9-a686-41d7437871b9"/>
+      <revision>1</revision>
+      <startNode class="com.horstmann.violet.product.diagram.sequence.node.ActivationBarNode" reference="13"/>
+      <startLocation class="Point2D.Double" id="45" x="8.0" y="20.0"/>
+      <endNode class="com.horstmann.violet.product.diagram.sequence.node.ActivationBarNode" reference="27"/>
+      <endLocation class="Point2D.Double" id="46" x="50.0" y="200.0"/>
+      <transitionPoints id="47"/>
+      <selectedBentStyle>1</selectedBentStyle>
+      <selectedLineStyle>0</selectedLineStyle>
+      <selectedStartArrowhead>0</selectedStartArrowhead>
+      <selectedEndArrowhead>3</selectedEndArrowhead>
+      <startLabel id="48">
+        <text></text>
+      </startLabel>
+      <centerLabel id="49">
+        <text>c</text>
+      </centerLabel>
+      <endLabel id="50">
+        <text></text>
+      </endLabel>
+    </com.horstmann.violet.product.diagram.sequence.edge.SynchronousCallEdge>
+  </edges>
 </com.horstmann.violet.product.diagram.sequence.SequenceDiagramGraph>]]></SCRIPT>
 	<BR />
 	<BR />
-	<IMG alt="embedded diagram image" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAIAAACQd1PeAAAADElEQVR42mP4//8/AAX+Av4zEpUU
-AAAAAElFTkSuQmCC" />
+	<IMG alt="embedded diagram image" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAc0AAAEeCAIAAABnjdnLAAAKe0lEQVR4Xu3cMU6VWxeAYQgnxpKS
+3pDQexsraShsYQJUTALvFKwZAGECEFtyexN7KRkAA6DwV7aX33wid69kB9ZePk9FzrdyipWsNwQO
+rF0S8RX4+nV5GDxq7VI7utkVNG6hn87G2BU0bqGfzsbYFTRuoZ/OxtgVNG6hn87G2BU0bqGfzsbY
+FTRuoZ/OxtgVNG6hn87G2BU0bqGfzsbYFTRuoZ/OxtgVNG6hn87G2BU0bqGfzsbYFTRuoZ/OxtgV
+NG6hn87G2BU0bqGfzsbYFTRuoZ/OxtgVNG6hn87G2BU0bqGfzsbYFTRuoZ/OxtgVNG6hn87G2BU0
+bqGfzsbYFTRuoZ/OxtgVNG6hn87G2BU0bqGfzsbYFTRuoZ/OxtgVNG6hn87G2BU0bqGfzsbYFTRu
+oZ/OxtgVNG6hX+7O/vP369ev//5n+fIzyrsreFp5byFlN3Q2IO+u4GnlvYWU3Ujc2XzsChq30E9n
+Y+wKGrfQT2dj7Aoat9BPZ2PsChq30E9nY+wKGrfQT2dj7Aoat9Avd2dTfj5j+RL8kfLeQspu6GxA
+3l3B08p7Cym7kbiz+dgVNG6hn87G2BU0bqGfzsbYFTRuoZ/OxtgVNG6hn87G2BU0bqGfzsbYFTRu
+oZ/OxtgVNG6hn87G2BU0bqGfzsbYFTRuoZ/OxtgVNG6hn87G2BU0bqGfzsbYFTRuoZ/OxtgVNG6h
+n87G2BU0bqGfzsbYFTRuoZ/OxtgVNG6hn87G2BU0bqGfzsbYFTRuoZ/OxtgVNG6hn87G2BU0bqGf
+zsbYFTRuod+PztJvuUL4Iy0Pg0etLfeXw6WiAUFpu6GzQBFpu6GzQBFpu6GzQBFpu6GzQBFpu6Gz
+QBFpu6GzQBFpu6GzQBFpu6GzQBFpu6GzQBFpu6GzQBFpu6GzQBFpu6GzQBFpu6GzQBFpu6GzQBFp
+u6GzQBFpu6GzQBFpu6GzQBFpu6GzQBFpu6GzQBFpu6GzQBFpu6GzQBFpu6GzQBFpu6GzQBFpu6Gz
+QBFpu6GzQBFpu6GzQBFpu6GzQBFpu6GzQBFpu6GzQBFpu6GzQBFpu6GzQBFpu6GzQBFpu6GzQBFp
+u6GzQBFpu6GzQBFpu6GzQBFpu6GzQBFpu6GzQBFpu6GzQBFpu6GzQBFpu6GzQBFpu6GzQBFpu6Gz
+QBFpu6GzzOPLhzdrPxx9XD6EtN3QWWbx8WjtzYcvd19+D67SspS2GzrLjL41V2dZStsNnWUm3/rq
+Jwf8Ttpu6Cyz+N7YH3H1cwMekrYbz9zZy7jlW/CH+Lmt37/+92e18K+0fXj+zi5felR0nkr+/3GD
+N0dHvqHlF2n7oLNAEWn7oLNAEWn7oLNARtfX18uX/kvaPugskNFqtdrf37+5uVk++L20fdBZIKP2
+K88XL14cHx/f3t4uHz8kbR90Fsjo/i9S1tfXNzc3z87OlhO/SNsHnQUyuu9ss7Gx8erVq0+fPi3n
+fpK2DzoLZLTobLNarfb29q6urpbTd9L2YbLOLrcO/JHOz88vI5YpeVqTdTY6D0xqEdbNzc2Dg4Ot
+ra3Dw8PT09Pl9KOevRs6C2R0X9jVavXu3bvt7e3d3d3Pnz9/jXcgOj+czgIZtcj+dWdnZ+fi4uL+
+UbQD0fnhdBbI6Ftk3759u7W1dXJysvj8bLQD0fnhdBbI6OXLl+/fv3/w78GiHYjOD6ezQEaP/H+D
+aAei88PpLDCZaAei88PpLDCZaAei88PpLDCZaAei88PpLDCZaAei88PpLDCZaAei88PpLDCZaAei
+88PpLDCZaAei88PpLDCZaAei88PpLDCZaAei88PpLDCZaAei88PpLDCZaAei88PpLDCZaAei88Pp
+LDCZaAei88PpLDCZaAei88PpLDCZaAei88PpLDCZaAei88PpLDCZaAei88PpLDCZaAei88PpLDCZ
+aAei88PpLDCZaAei88PpLDCZaAei88PpLDCZaAei88PpLDCZaAei88PpLDCZaAei88PpLDCZaAei
+88PpLDCZaAei88PpLDCZaAei88PpLDCZaAei88PpLDCZy7jlWzwtnQWKSNsHnQWKSNsHnQWKSNsH
+nQWKSNsHnQWKSNsHnQWKSNsHnQWKSNsHnQWKSNsHnQWKSNsHnQWKSNsHnQWKSNsHnQWKSNsHnQWK
+SNsHnQWKSNsHnQWKSNsHnQWKSNsHnQWKSNsHnQWKSNsHnQWKSNuH5+9s1PItAO6k7cMzd/Z30u4L
+SCttN3QWKCJtN3QWKCJtN3QWKCJtN3QWKCJtN3QWKCJtN3QWKCJtN3QWKCJtN3QWKCJtN3SWiXw8
+WmvefPiyfAZpu6GzzOLLhzdrRx/vvvzWW6XlF2m7obNM4qfMwoPSdkNnmcS3zvoelkel7YbOMgnf
+z/Jf0nZDZ5nFT6HVXB6Sths6y0R83oDHpO2GzgJFpO2GzgJFpO2GzgIZXV9fL1/6L2m78cydvYxb
+vgVQ0Wq12t/fv7m5WT74vbR9eP7OLl96VHQemFT7jeeLFy+Oj49vb2+Xjx+Stg86C2T046Mla2vr
+6+ubm5tnZ2fLiV+k7YPOAhndd7bZ2Nh49erVp0+flnM/SdsHnQUyWnS2Wa1We3t7V1dXy+k7afsw
+WWeXWwf+SOfn55cRy5Q8rck6G50HJrUI6+bm5sHBwdbW1uHh4enp6XL6Uc/eDZ0FMrov7Gq1evfu
+3fb29u7u7ufPn7/GOxCdH05ngYxaZP+6s7Ozc3Fxcf8o2oHo/HA6C2T0LbJv377d2to6OTlZfH42
+2oHo/HA6C2T08uXL9+/fP/j3YNEOROeH01kgo0f+v0G0A9H54XQWmEy0A9H54XQWmEy0A9H54XQW
+mEy0A9H54XQWmEy0A9H54XQWmEy0A9H54XQWmEy0A9H54XQWmEy0A9H54XQWmEy0A9H54XQWmEy0
+A9H54XQWmEy0A9H54XQWmEy0A9H54XQWmEy0A9H54XQWmEy0A9H54XQWmEy0A9H54XQWmEy0A9H5
+4XQWmEy0A9H54XQWmEy0A9H54XQWmEy0A9H54XQWmEy0A9H54XQWmEy0A9H54XQWmEy0A9H54XQW
+mEy0A9H54XQWmEy0A9H54XQWmEy0A9H54XQWmEy0A9H54XQWmEy0A9H54XQWmEy0A9H54XQWmEy0
+A9H54XQWmMxl3PItnpbOAkWk7YPOAkWk7YPOAkWk7YPOAkWk7YPOAkWk7YPOAkWk7YPOAkWk7YPO
+AkWk7YPOAkWk7YPOAkWk7YPOAkWk7YPOAkWk7YPOAkWk7YPOAkWk7YPOAkWk7YPOAkWk7YPOAkWk
+7YPOAkWk7YPOAkWk7cPzdzZq+RYAd9L24Zk7+ztp9wWklbYbOgsUkbYbOgsUkbYbOgsUkbYbOgsU
+kbYbOgsUkbYbOgsUkbYbOgsUkbYbOgsUkbYbOgsUkbYbOgsUkbYbOgsUkbYbOgsUkbYbOgsUkbYb
+OgsUkbYbOgsUkbYbOgsUkbYbOgsUkbYbOgsUkbYbOgsUkbYbOgsUkbYbOgsUkbYbOgsUkbYbOgsU
+kbYbOgsUkbYbOgsUkbYbOgsUkbYbOgsUkbYbOgsUkbYbOgsUkbYb/wMOCIZZ+m6+CAAAAABJRU5E
+rkJg" />
 </BODY>
 </HTML>

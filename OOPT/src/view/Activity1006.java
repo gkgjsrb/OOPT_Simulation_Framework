@@ -209,7 +209,7 @@ public class Activity1006 extends JTabbedPane {
 		table_2.setRowHeight(45);		
 
 		table_2.getColumn("Use-Case Number & Name").setCellRenderer(new TextAreaRenderer());
-	    table_2.getColumn("Use-Case Number & Name").setCellEditor(new TextAreaEditor());
+	    table_2.getColumn("Use-Case Number & Name").setCellEditor(new TextAreaEditor(table_2,req));
 	    
 	    JPanel jpanel_4 = new JPanel(new FlowLayout(FlowLayout.TRAILING));
 		JButton button_8 = new JButton("Commit");

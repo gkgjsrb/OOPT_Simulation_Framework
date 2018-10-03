@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.Point2D;
+import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.swing.JButton;
@@ -21,6 +22,8 @@ import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
+import com.horstmann.violet.product.diagram.sequence.edge.AsynchronousCallEdge;
+import com.horstmann.violet.product.diagram.sequence.edge.SynchronousCallEdge;
 import com.horstmann.violet.product.diagram.usecase.UseCaseDiagramGraph;
 import com.horstmann.violet.product.diagram.usecase.edge.InteractionEdge;
 import com.horstmann.violet.product.diagram.usecase.node.UseCaseNode;
@@ -30,6 +33,11 @@ import com.horstmann.violet.workspace.WorkspacePanel;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
+
+import Model.Graph;
+import Model.Requirement;
+import Model.SystemOperation;
+import Model.UseCase;
 //traceability
 public class Activity2039 extends JTabbedPane {
 
@@ -42,7 +50,8 @@ public class Activity2039 extends JTabbedPane {
     private IEditorPartBehaviorManager behaviorManager;
     
     
-    
+    private WorkspacePanel wp;
+    private IWorkspace workspace;
     private boolean isDragGesture = false;
     
     private INode unprocessedNode = null; 
@@ -50,54 +59,129 @@ public class Activity2039 extends JTabbedPane {
     private IEdge unprocessedEdge = null; 
 	
 	
-	public Activity2039() {
+	public Activity2039(Requirement req, ArrayList<UseCase> uc, ArrayList<SystemOperation> op, ArrayList<Graph> sd) {
 		
 		
 		JSplitPane splitPane = new JSplitPane();
 		JPanel jpanel = new JPanel(new FlowLayout(FlowLayout.TRAILING));
 		JButton button_1 = new JButton("+");
 		JButton button_2 = new JButton("-");
+		JButton button_3 = new JButton("commit");
 		jpanel.add(button_1);
 		jpanel.add(button_2);
+		jpanel.add(button_3);
 		
 		Class<? extends IGraph> graphClass = new UseCaseDiagramGraph().getClass();
         IGraphFile graphFile = new GraphFile(graphClass);
-        IWorkspace workspace = new Workspace(graphFile);
+        workspace = new Workspace(graphFile);
         
         this.editorPart = workspace.getEditorPart();
         this.graph = editorPart.getGraph();
         this.selectionHandler = editorPart.getSelectionHandler();
         this.behaviorManager = editorPart.getBehaviorManager();
         
-        
-        UseCaseNode n = new UseCaseNode();
-        SingleLineText ca = new SingleLineText();
-        ca.setText("aaasdfasfasfas");
-        n.setName(ca);
-        Point2D qq = new Point2D.Double(10.0, 10.0);
-        
-        UseCaseNode n2 = new UseCaseNode();
-        SingleLineText ca2 = new SingleLineText();
-        ca2.setText("a2");
-        n2.setName(ca2);
-        Point2D qq2 = new Point2D.Double(100.0, 100.0);
-        
-        UseCaseNode n3 = new UseCaseNode();
-        SingleLineText ca3 = new SingleLineText();
-        ca3.setText("a3");
-        n3.setName(ca3);
-        Point2D qq3 = new Point2D.Double(300.0, 300.0);
-        InteractionEdge ie = new InteractionEdge();
-        //ie.setStartNode(n);
-       // ie.setEndNode(n3);
-        
-        workspace.getGraphFile().getGraph().addNode(n, qq);
-        workspace.getGraphFile().getGraph().addNode(n2, qq2);
-        workspace.getGraphFile().getGraph().addNode(n3, qq3);
-        workspace.getGraphFile().getGraph().connect(ie, n, n.getLocation(), n3, n3.getLocation(), null);
-        WorkspacePanel wp = workspace.getAWTComponent();
+        wp = workspace.getAWTComponent();
         wp.getScrollableSideBar().setVisible(false);
         wp.getScrollableEditorPart().getViewport().getView().removeMouseListener(wp.getScrollableEditorPart().getViewport().getView().getMouseListeners()[0]);
+        button_3.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				
+				Collection<INode> allNodes = workspace.getGraphFile().getGraph().getAllNodes();
+				Collection<IEdge> allEdges = workspace.getGraphFile().getGraph().getAllEdges();
+				for(INode in : allNodes) {
+					workspace.getGraphFile().getGraph().removeNode(in);
+				}
+				for(IEdge ie : allEdges) {
+					workspace.getGraphFile().getGraph().removeEdge(ie);
+				}
+				int i=1;
+				ArrayList<UseCaseNode> req_Node = new ArrayList<UseCaseNode>();
+				ArrayList<UseCaseNode> uc_Node = new ArrayList<UseCaseNode>();
+				ArrayList<UseCaseNode> op_Node = new ArrayList<UseCaseNode>();
+				ArrayList<String> req_name = new ArrayList<String>(req.getAllName());
+		        ArrayList<String> uName = new ArrayList<String>(req.getAlluName());
+		        for(String tmp_name : uName) {
+		        	System.out.println(tmp_name);
+		        }
+				for(String tmp_req : req_name) {
+		        	UseCaseNode tmp_reqnode = new UseCaseNode();
+		        	SingleLineText tmp_name = new SingleLineText();
+		        	tmp_name.setText(tmp_req);
+		        	tmp_reqnode.setName(tmp_name);
+		        	Point2D tmp_xy = new Point2D.Double(10.0, i*10.0);
+		        	req_Node.add(tmp_reqnode);
+		        	workspace.getGraphFile().getGraph().addNode(tmp_reqnode, tmp_xy);
+		        	i=i+5;
+		        }
+		        i=1;
+				for(UseCase tmp_uc : uc) {
+		        	UseCaseNode tmp_ucnode = new UseCaseNode();
+		        	SingleLineText tmp_name = new SingleLineText();
+		        	tmp_name.setText(tmp_uc.getName());
+		        	tmp_ucnode.setName(tmp_name);
+		        	Point2D tmp_xy = new Point2D.Double(200.0, i*10.0);
+		        	uc_Node.add(tmp_ucnode);
+		        	workspace.getGraphFile().getGraph().addNode(tmp_ucnode, tmp_xy);
+		        	i=i+5;
+		        }
+		        i=1;
+		        for(SystemOperation tmp_op : op) {
+		        	UseCaseNode tmp_opnode = new UseCaseNode();
+		        	SingleLineText tmp_name = new SingleLineText();
+		        	tmp_name.setText(tmp_op.getName());
+		        	tmp_opnode.setName(tmp_name);
+		        	Point2D tmp_xy = new Point2D.Double(380.0, i*10.0);
+		        	op_Node.add(tmp_opnode);
+		        	workspace.getGraphFile().getGraph().addNode(tmp_opnode, tmp_xy);
+		        	i=i+5;
+		        }
+		        for(UseCaseNode tmp_node : req_Node) {
+		        	for(int index=0; index<req_name.size(); index++) {
+		        		if(req_name.get(index).equals(tmp_node.getName().toString())){
+		        			String related_uc = req.getuName(index);
+		        			for(UseCaseNode uc_nd : uc_Node) {
+		        				if(uc_nd.getName().toString().equals(related_uc)) {
+		        					InteractionEdge ie_tmp = new InteractionEdge();
+		        					workspace.getGraphFile().getGraph().connect(ie_tmp, tmp_node, tmp_node.getLocation(), uc_nd, uc_nd.getLocation(), null);
+		        				}
+		        			}
+		        		}
+		        	}	
+		        }
+		        for(UseCaseNode uc_node : uc_Node) {
+		        	for(Graph tmp_graph : sd) {
+		        		if(uc_node.getName().toString().equals(tmp_graph.getName())) {
+		        			Collection<IEdge> tmp_allEdges = tmp_graph.getGraph().getGraph().getAllEdges();
+		        			for(IEdge aEdge : tmp_allEdges) {
+		        				if(aEdge.getClass().equals(SynchronousCallEdge.class)) {
+		        					SynchronousCallEdge a =(SynchronousCallEdge)aEdge;
+		        					for(UseCaseNode op_node : op_Node) {
+		        						if(a.getCenterLabel().toString().equals(op_node.getName().toString())) {
+		        							InteractionEdge ie_tmp = new InteractionEdge();
+				        					workspace.getGraphFile().getGraph().connect(ie_tmp, uc_node, uc_node.getLocation(), op_node, op_node.getLocation(), null);
+		        						}
+		        					}
+		        				}
+		        				else if(aEdge.getClass().equals(AsynchronousCallEdge.class)) {
+		        					AsynchronousCallEdge a =(AsynchronousCallEdge)aEdge;
+		        					for(UseCaseNode op_node : op_Node) {
+		        						if(a.getCenterLabel().toString().equals(op_node.getName().toString())) {
+		        							InteractionEdge ie_tmp = new InteractionEdge();
+				        					workspace.getGraphFile().getGraph().connect(ie_tmp, uc_node, uc_node.getLocation(), op_node, op_node.getLocation(), null);
+		        						}
+		        					}
+		        				}
+		        			}
+		        		}
+		        	}
+		        }
+		        wp.refreshDisplay();
+			}
+			
+        });
         wp.getScrollableEditorPart().getViewport().getView().addMouseListener(new MouseAdapter()
         {
         	
