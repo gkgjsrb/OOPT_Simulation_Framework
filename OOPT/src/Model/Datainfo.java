@@ -350,6 +350,43 @@ public class Datainfo {
 			e.printStackTrace();
 		}
 	}
+	public void setRealUsecase(int index, UseCase uc) {
+		try {			
+			String sql = "insert or replace into RealUseCase values(?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			statement = connection.prepareStatement(sql);
+			statement.setInt(1, index);
+			statement.setString(2, uc.getId().toString());
+			statement.setString(3, uc.getName());
+			statement.setString(4, uc.getActor());
+			statement.setString(5, uc.getDes());
+			statement.setString(6, uc.getPurpose());
+			statement.setString(7, uc.getOverview());
+			statement.setString(8, uc.getType());
+			statement.setString(9, uc.getCross());
+			statement.setString(10, uc.getPreRequistes());
+			statement.setString(11, uc.getTypical());
+			statement.setString(12, uc.getAlternative());
+			statement.setString(13, uc.getExceptional());
+			statement.setString(14, uc.getUI());
+			
+			statement.executeUpdate();
+			
+			
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public void syncRealUsecase() {
+		try {
+			String sql = "delete from RealUseCase";
+			statement = connection.prepareStatement(sql);
+			statement.executeUpdate();
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	public void setSchedule(int row, int column) {
 		try {
 			String sql = "insert or replace into schedule values(?,?)";
@@ -366,6 +403,39 @@ public class Datainfo {
 	public void syncSchedule() {
 		try {
 			String sql = "delete from schedule";
+			statement = connection.prepareStatement(sql);
+			statement.executeUpdate();
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public void setOp(int index,SystemOperation op) {
+		try {			
+			String sql = "insert or replace into SystemOperation values(?,?,?,?,?,?,?,?,?,?,?)";
+			statement = connection.prepareStatement(sql);
+			statement.setInt(1, index);
+			statement.setString(2, op.getId().toString());
+			statement.setString(3, op.getName());
+			statement.setString(4, op.getResponsibility());
+			statement.setString(5, op.getType());
+			statement.setString(6, op.getCross());
+			statement.setString(7, op.getNotes());
+			statement.setString(8, op.getException());
+			statement.setString(9, op.getOutput());
+			statement.setString(10, op.getPreconditions());
+			statement.setString(11, op.getPostconditions());
+			statement.executeUpdate();
+			
+			
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public void syncOp() {
+		try {
+			String sql = "delete from SystemOperation";
 			statement = connection.prepareStatement(sql);
 			statement.executeUpdate();
 		}
@@ -560,6 +630,39 @@ public class Datainfo {
 		
 		return data;
 	}
+	public ArrayList<UseCase> getSearchRealUseCase() {
+		ArrayList<UseCase> data = new ArrayList<>();
+		
+		try {
+			String sql = "SELECT * FROM RealUseCase";
+			statement = connection.prepareStatement(sql);
+			result = statement.executeQuery();
+			while(result.next()) {
+				UseCase uc = new UseCase();
+				Id i = new Id();
+			
+				i.setValue(result.getString("id"));
+				uc.setId(i);
+				uc.setName(result.getString("name"));
+				uc.setActor(result.getString("actor"));
+				uc.setDes(result.getString("description"));
+				uc.setPurpose(result.getString("purpose"));
+				uc.setOverview(result.getString("overview"));
+				uc.setType(result.getString("type"));
+				uc.setCross(result.getString("cross"));
+				uc.setPreRequistes(result.getString("prerequistes"));
+				uc.setTypical(result.getString("typical"));
+				uc.setAlternative(result.getString("alternative"));
+				uc.setExceptional(result.getString("exceptional"));
+							
+				data.add(uc);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return data;
+	}
 	public ArrayList<Schedule> getSearchSche() {
 		
 		ArrayList<Schedule> data = new ArrayList<>();
@@ -607,19 +710,34 @@ public class Datainfo {
 		}
 		
 		return data;
-	} 
-	public ArrayList<StageText> getSearchOperation() {
-		ArrayList<StageText> data = new ArrayList<>();
+	}
+	
+	public ArrayList<SystemOperation> getSearchOperation() {
+		ArrayList<SystemOperation> data = new ArrayList<>();
 		
 		try {
-			String sql = "SELECT * FROM TextTable";
+			String sql = "SELECT * FROM SystemOperation";
 			statement = connection.prepareStatement(sql);
 			result = statement.executeQuery();
+			while(result.next()) {
+				SystemOperation op = new SystemOperation();
+				Id i = new Id();
 			
-			StageText text = new StageText();
-			text.setText(result.getString("text"));
+				i.setValue(result.getString("id"));
+				op.setId(i);
+				op.setName(result.getString("name"));
+				op.setResponsibility(result.getString("respons"));
+				op.setType(result.getString("type"));
+				op.setCross(result.getString("cross"));
+				op.setNotes(result.getString("notes"));
+				op.setException(result.getString("exception"));
+				op.setOutput(result.getString("output"));
+				op.setPreconditions(result.getString("pre"));
+				op.setPostconditions(result.getString("post"));
+				
+				data.add(op);
+			}
 			
-			data.add(text);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

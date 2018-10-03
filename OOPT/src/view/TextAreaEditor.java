@@ -35,29 +35,6 @@ public class TextAreaEditor extends DefaultCellEditor {
 		textarea.setWrapStyleWord(true);
 	    scrollpane.getViewport().add(textarea);
 	}
-
-	public TextAreaEditor(JTable table, Requirement req) {
-		super(new JCheckBox());
-		scrollpane = new JScrollPane();
-		textarea = new JTextArea(); 
-		textarea.setLineWrap(true);;
-		textarea.setWrapStyleWord(true);
-	    scrollpane.getViewport().add(textarea);
-this.addCellEditorListener(new CellEditorListener() {
-	    	
-			@Override
-			public void editingCanceled(ChangeEvent arg0) {
-				// TODO Auto-generated method stub
-			}
-
-			@Override
-			public void editingStopped(ChangeEvent arg0) {
-				// TODO Auto-generated method stub
-				req.setuName((String)table.getValueAt(table.getSelectedRow(), 2), table.getSelectedRow());
-			}
-		});
-	}
-	
 	public TextAreaEditor(Requirement req, JTable table) {
 		super(new JCheckBox());
 		scrollpane = new JScrollPane();

@@ -24,11 +24,13 @@ import Model.Requirement;
 import Model.Risk;
 import Model.Schedule;
 import Model.StageText;
+import Model.SystemOperation;
 import Model.UseCase;
 public class GUI {
 
 	private JFrame frame;
 	ArrayList<Glossary> gl2;	
+	ArrayList<UseCase> ruc;
 	/**
 	 * Launch the application.
 	 */
@@ -38,7 +40,7 @@ public class GUI {
 	 * Create the application.
 	 * @throws ClassNotFoundException 
 	 */
-	public GUI(Requirement req, ArrayList<Risk> risk, ArrayList<Glossary> gl, ArrayList uc, ArrayList op, ArrayList std, ArrayList sd, ArrayList id, Graph ud, Graph cd, Graph dm, Graph sa,
+	public GUI(Requirement req, ArrayList risk, ArrayList gl, ArrayList uc, ArrayList op, ArrayList std, ArrayList sd, ArrayList id, Graph ud, Graph cd, Graph dm, Graph sa,
 			Datainfo data) {
 		initialize(req, risk, gl, uc, op, std, sd, id, ud, cd, dm, sa, data);
 	}
@@ -56,10 +58,10 @@ public class GUI {
 	    icons.put("html", TextIcons.getIcon("html"));
 	    return icons;
 	}
-	private void initialize(Requirement req, ArrayList<Risk> risk, ArrayList<Glossary> gl, ArrayList<UseCase> uc, ArrayList op, ArrayList<Graph> std, ArrayList<Graph> sd,
+	private void initialize(Requirement req, ArrayList<Risk> risk, ArrayList<Glossary> gl, ArrayList<UseCase> uc, ArrayList<SystemOperation> op, ArrayList<Graph> std, ArrayList<Graph> sd,
 			ArrayList<Graph> id, Graph ud, Graph cd, Graph dm, Graph sa, Datainfo data) {
 		gl2 = new ArrayList<>();
-		
+		ruc = new ArrayList<>();
 		frame = new JFrame();
 		frame.setBounds(100, 100, 928, 617);
 		
@@ -177,16 +179,16 @@ public class GUI {
 		Activity1008 a1008 = new Activity1008(tree);
 		Activity1009 a1009 = new Activity1009(tree, req, data);
 		Activity1010 a1010 = new Activity1010(tree, req, data);
-		Activity2031 a2031 = new Activity2031();
+		Activity2031 a2031 = new Activity2031(tree, uc, data);
 		Activity2032 a2032 = new Activity2032();
 		Activity2033 a2033 = new Activity2033(dm, data);
 		Activity2034 a2034 = new Activity2034(tree, gl2, data);
-		Activity2035 a2035 = new Activity2035(op, sd, data);
-		Activity2036 a2036 = new Activity2036();
+		Activity2035 a2035 = new Activity2035(tree, op, sd, data);
+		Activity2036 a2036 = new Activity2036(tree, op, data);
 		Activity2037 a2037 = new Activity2037(std, data);
 		Activity2038 a2038 = new Activity2038(req, uc);
-		Activity2039 a2039 = new Activity2039(req,uc,op,sd);
-		Activity2041 a2041 = new Activity2041();	
+		Activity2039 a2039 = new Activity2039();
+		Activity2041 a2041 = new Activity2041(tree, ruc, data);	
 		Activity2042 a2042 = new Activity2042();
 		Activity2043 a2043 = new Activity2043(sa, data);
 		Activity2044 a2044 = new Activity2044(id, data);
@@ -245,7 +247,6 @@ public class GUI {
 				ArrayList<Glossary> g = data.getSearchGl("D");
 				gl.clear();
 				gl.addAll(g);
-				
 				ArrayList<Glossary> g2 = data.getSearchGl("R");
 				gl2.clear();
 				gl2.addAll(g2);
@@ -259,6 +260,7 @@ public class GUI {
 				
 				ArrayList<Schedule> sc = data.getSearchSche();
 				ArrayList<NonFuncReq> nreq = data.getSearchNonReq("D");
+				
 				Graph ud = data.getSearchGraph("ud").get(0);
 				Graph dm = data.getSearchGraph("dm").get(0);
 				Graph sa = data.getSearchGraph("sa").get(0);
@@ -273,6 +275,14 @@ public class GUI {
 				id.clear();
 				id.addAll(tmpId);
 				
+				ArrayList<UseCase> ructmp = data.getSearchRealUseCase();
+				ruc.clear();
+				ruc.addAll(ructmp);
+				
+				ArrayList<SystemOperation> s = data.getSearchOperation();
+				op.clear();
+				op.addAll(s);
+				
 				a1001.open(st);
 				a1002.open(st, risk);
 				a1003.open(st, req);
@@ -281,8 +291,11 @@ public class GUI {
 				a1007.open(concept);
 				a1009.open(req, nreq);
 				a1010.open(st, sc);
+				a2031.open(uc);
 				a2033.open(dm);
 				a2034.open(gl2);
+				a2036.open(op);
+				a2041.open(ruc);
 				a2043.open(sa);
 				a2045.open(cd);
 			}
@@ -338,7 +351,8 @@ public class GUI {
 	        	 else if(node.getParent().equals(node.getRoot().getChildAt(1).getChildAt(0))){
 		        	 index = node.getParent().getIndex(node);
 		        	 switch(index) {
-		        	 	case 0 :nodes[14].setIconName("floppyDrive");
+		        	 	case 0 :a2031.save(data, uc);
+		        	 			nodes[14].setIconName("floppyDrive");
 		        	 			break;
 		        	 	case 1 :nodes[15].setIconName("floppyDrive");
 	    	 					break;
@@ -351,7 +365,8 @@ public class GUI {
 		        	 	case 4 :a2035.save(data, sd);
 		        	 			nodes[18].setIconName("floppyDrive");
 	    	 					break;
-		        	 	case 5 :nodes[19].setIconName("floppyDrive");
+		        	 	case 5 :a2036.save(data, op);
+		        	 			nodes[19].setIconName("floppyDrive");
 	    	 					break;
 		        	 	case 6 :a2037.save(data, std);
 		        	 			nodes[20].setIconName("floppyDrive");
@@ -367,7 +382,8 @@ public class GUI {
 	        	 else if(node.getParent().equals(node.getRoot().getChildAt(1).getChildAt(1))){
 		        	 index = node.getParent().getIndex(node);
 		        	 switch(index) {
-		        	 	case 0 :nodes[24].setIconName("floppyDrive");
+		        	 	case 0 :a2041.save(data, ruc);
+		        	 			nodes[24].setIconName("floppyDrive");
 		        	 			break;
 		        	 	case 1 :nodes[25].setIconName("floppyDrive");
 	    	 					break;
@@ -499,7 +515,7 @@ public class GUI {
 	        	 else if(node.getParent().equals(node.getRoot().getChildAt(1).getChildAt(0))){
 		        	 index = node.getParent().getIndex(node);
 		        	 switch(index) {
-		        	 	case 0 :a2031.syncUseCase(req, uc);
+		        	 	case 0 :a2031.syncUseCase(uc);
 		        	 			splitPane.setRightComponent(a2031);
 		        	 			break;
 		        	 	case 1 :splitPane.setRightComponent(a2032);
@@ -528,7 +544,7 @@ public class GUI {
 	        	 else if(node.getParent().equals(node.getRoot().getChildAt(1).getChildAt(1))){
 		        	 index = node.getParent().getIndex(node);
 		        	 switch(index) {
-		        	 	case 0 :a2041.syncUseCase(req, uc);
+		        	 	case 0 :a2041.syncUseCase(uc, ruc);
 		        	 			splitPane.setRightComponent(a2041);
 		        	 			break;
 		        	 	case 1 :splitPane.setRightComponent(a2042);

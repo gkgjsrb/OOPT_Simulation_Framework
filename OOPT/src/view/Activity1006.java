@@ -9,7 +9,6 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
@@ -73,8 +72,7 @@ public class Activity1006 extends JTabbedPane {
     private WorkspacePanel wp;
     
 	public Activity1006(JTree tree, Requirement req, ArrayList<UseCase> uc, Graph ud, ArrayList<Graph> sd, ArrayList<Graph> id, ArrayList<Graph> std, Datainfo data) {
-		
-		//sd.add(new Graph()); 어디서 쓰는지?
+		sd.add(new Graph());
 		
 		String category[] = {"Primary","Secondary", "Optional"};
 		String rank[] = {"High","Medium", "Low"};
@@ -211,7 +209,7 @@ public class Activity1006 extends JTabbedPane {
 		table_2.setRowHeight(45);		
 
 		table_2.getColumn("Use-Case Number & Name").setCellRenderer(new TextAreaRenderer());
-	    table_2.getColumn("Use-Case Number & Name").setCellEditor(new TextAreaEditor(table_2,req));
+	    table_2.getColumn("Use-Case Number & Name").setCellEditor(new TextAreaEditor());
 	    
 	    JPanel jpanel_4 = new JPanel(new FlowLayout(FlowLayout.TRAILING));
 		JButton button_8 = new JButton("Commit");
@@ -224,7 +222,7 @@ public class Activity1006 extends JTabbedPane {
 		splitPane_4.setTopComponent(jpanel_4);
 		splitPane_4.disable();
 				
-		this.addTab("Allocate System Functions into Related Use-Cases(Formmat : #._Name)", null, splitPane_4, null);
+		this.addTab("Allocate System Functions into Related Use-Cases", null, splitPane_4, null);
 		this.addChangeListener(new ChangeListener() {
 
 			@Override
@@ -499,22 +497,27 @@ public class Activity1006 extends JTabbedPane {
 				}
 				table_2.editingStopped(changeEvent);
 				for(int i = 0; i < req.get_length(); i++) {
-					String n = table_2.getValueAt(i, 2).toString();
-					int idx = table_2.getValueAt(i, 2).toString().indexOf(".");
-					if(n.length() < 1) {
-						req.setuNumber(-1, i);
-						req.setuName(n, i);
-						data.setReq(i, req);
+					String n = (String)table_2.getValueAt(i, 2);
+					if(n == null) {
+						
 					}
 					else {
-						String s = n.substring(0, idx);
-						req.setuNumber(Integer.parseInt(s), i);
-					
-						s = n.substring(idx+2); 
-						if( s.equals(null))
-							s = "";
-						req.setuName(s, i);
-						data.setReq(i, req);
+						if(n.length() < 1) {
+							req.setuNumber(-1, i);
+							req.setuName(n, i);
+							data.setReq(i, req);
+						}
+						else {
+							int idx = n.indexOf(".");
+							String s = n.substring(0, idx);
+							req.setuNumber(Integer.parseInt(s), i);
+						
+							s = n.substring(idx+2); 
+							if( s.equals(null))
+								s = "";
+							req.setuName(s, i);
+							data.setReq(i, req);
+						}
 					}
 				}
 				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
@@ -585,7 +588,7 @@ public class Activity1006 extends JTabbedPane {
 				
 				uc.clear();
 				uc.addAll(tmp_list);
-				Collections.reverse(uc);
+				
 				syncSd(sd, uc);
 				
 				syncId(id, uc);
@@ -838,7 +841,7 @@ public class Activity1006 extends JTabbedPane {
 		*/
 	}
 	
-private void syncId(ArrayList<Graph> id, ArrayList<UseCase> uc) {
+	private void syncId(ArrayList<Graph> id, ArrayList<UseCase> uc) {
 		
 		ArrayList<Graph> idTmp = new ArrayList<Graph>();
 		idTmp.addAll(id);

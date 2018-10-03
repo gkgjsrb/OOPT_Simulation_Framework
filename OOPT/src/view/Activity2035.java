@@ -1,6 +1,5 @@
 package view;
 
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,10 +11,10 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
+import javax.swing.JTree;
 
 import com.horstmann.violet.framework.file.GraphFile;
 import com.horstmann.violet.framework.file.IGraphFile;
-import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjector;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.sequence.SequenceDiagramGraph;
@@ -28,9 +27,7 @@ import com.horstmann.violet.workspace.WorkspacePanel;
 
 import Model.Datainfo;
 import Model.Graph;
-import Model.Requirement;
 import Model.SystemOperation;
-import Model.UseCase;
 
 //define system sequence diagram
 public class Activity2035 extends JTabbedPane {
@@ -39,7 +36,7 @@ public class Activity2035 extends JTabbedPane {
     private WorkspacePanel wp;
     private JComboBox<String> combo;
     
-	public Activity2035(ArrayList<SystemOperation> op, ArrayList<Graph> sd, Datainfo data) {
+	public Activity2035(JTree tree, ArrayList<SystemOperation> op, ArrayList<Graph> sd, Datainfo data) {
 		
 		//BeanInjector.getInjector().inject(this);
 		Class<? extends IGraph> graphClass = new SequenceDiagramGraph().getClass();
@@ -77,12 +74,18 @@ public class Activity2035 extends JTabbedPane {
         	
         });
 		button_commit.addActionListener(new ActionListener() {
-
+			
 			ArrayList<SystemOperation> tmp_list = new ArrayList<SystemOperation>();
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				
+				IconNode node=(IconNode)tree.getLastSelectedPathComponent();
+				if(node.getParent().equals(node.getRoot().getChildAt(1).getChildAt(0))){
+		        	int index = node.getParent().getIndex(node);
+		        	 if(index == 4) {
+		        	 	node.setIconName("floppyDrive");
+		        	 }
+				}
 				data.syncGraph("sd", sd.get(combo.getSelectedIndex()).getId());
 				data.setGraph("sd", sd.get(combo.getSelectedIndex()));
 				for(Graph tmp_Graph : sd) {

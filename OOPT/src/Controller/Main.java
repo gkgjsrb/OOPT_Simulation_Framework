@@ -40,8 +40,6 @@ public class Main {
 		Graph cd = new Graph();
 		Graph sa = new Graph();
 		
-		
-		
 		GUI gui = new GUI(req, risk, gl, uc, op, std, sd, id, ud, cd, dm, sa, data);
 		
 		
