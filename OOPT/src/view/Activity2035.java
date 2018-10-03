@@ -154,10 +154,13 @@ public class Activity2035 extends JTabbedPane {
 	}
 	
 	public void syncComboBox(ArrayList<Graph> sd) {
-		combo.removeAllItems();
-		for(Graph g : sd) {
-			combo.addItem(g.getName());
+		if(sd.size() > 0) {
+			combo.removeAllItems();
+			for(Graph g : sd) {
+				combo.addItem(g.getName());
+			}
 		}
+		
 	}
 	
 	public void save(Datainfo data, ArrayList<Graph> sd) {
