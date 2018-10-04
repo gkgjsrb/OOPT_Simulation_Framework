@@ -9,6 +9,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 
 import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
@@ -72,7 +73,7 @@ public class Activity1006 extends JTabbedPane {
     private WorkspacePanel wp;
     
 	public Activity1006(JTree tree, Requirement req, ArrayList<UseCase> uc, Graph ud, ArrayList<Graph> sd, ArrayList<Graph> id, ArrayList<Graph> std, Datainfo data) {
-		sd.add(new Graph());
+		//sd.add(new Graph());
 		
 		String category[] = {"Primary","Secondary", "Optional"};
 		String rank[] = {"High","Medium", "Low"};
@@ -200,7 +201,7 @@ public class Activity1006 extends JTabbedPane {
 
 		JSplitPane splitPane_4 = new JSplitPane();
 		JScrollPane panel3 = new JScrollPane();
-		String[] colName3= {"Ref", "Function", "Use-Case Number & Name"};
+		String[] colName3= {"Ref", "Function", "Use-Case Number & Name(Formmat : #._Name)"};
 		Object[][] rowData3= {{"","",""}};
 		model3=new DefaultTableModel(rowData3, colName3);
 		JTable table_2 = new JTable(model3);
@@ -208,8 +209,8 @@ public class Activity1006 extends JTabbedPane {
 		panel3.setViewportView(table_2);
 		table_2.setRowHeight(45);		
 
-		table_2.getColumn("Use-Case Number & Name").setCellRenderer(new TextAreaRenderer());
-	    table_2.getColumn("Use-Case Number & Name").setCellEditor(new TextAreaEditor());
+		table_2.getColumn("Use-Case Number & Name(Formmat : #._Name)").setCellRenderer(new TextAreaRenderer());
+	    table_2.getColumn("Use-Case Number & Name(Formmat : #._Name)").setCellEditor(new TextAreaEditor(table_2, req));
 	    
 	    JPanel jpanel_4 = new JPanel(new FlowLayout(FlowLayout.TRAILING));
 		JButton button_8 = new JButton("Commit");
@@ -588,6 +589,7 @@ public class Activity1006 extends JTabbedPane {
 				
 				uc.clear();
 				uc.addAll(tmp_list);
+				Collections.reverse(uc);
 				
 				syncSd(sd, uc);
 				
