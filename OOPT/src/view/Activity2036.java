@@ -97,6 +97,7 @@ public class Activity2036 extends JTabbedPane {
 				JScrollPane operationPane = new JScrollPane();
 				tabbedPane.addTab(tmp.getName(), null, operationPane, null);
 				table = new JTable();
+				table.setCellSelectionEnabled(false);
 				table.setModel(new DefaultTableModel(
 					new Object[][] {
 						{"Name", tmp.getName()},
@@ -135,6 +136,7 @@ public class Activity2036 extends JTabbedPane {
 			JScrollPane operationPane = new JScrollPane();
 			tabbedPane.addTab(tmp.getName(), null, operationPane, null);
 			table = new JTable();
+			table.setCellSelectionEnabled(false);
 			table.setModel(new DefaultTableModel(
 				new Object[][] {
 					{"Name", tmp.getName()},

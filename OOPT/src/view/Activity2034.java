@@ -37,6 +37,7 @@ public class Activity2034 extends JTabbedPane {
 		model=new DefaultTableModel(rowData,colName);
 		
 		JTable table = new JTable(model);
+		table.setCellSelectionEnabled(false);
 		
 		table.setRowHeight(70);
 		

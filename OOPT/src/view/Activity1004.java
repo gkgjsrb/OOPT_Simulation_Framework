@@ -39,6 +39,7 @@ public class Activity1004 extends JTabbedPane {
 		model=new DefaultTableModel(rowData,colName);
 		
 		JTable table = new JTable(model);
+		table.setCellSelectionEnabled(false);
 		table.setRowHeight(70);
 
 		table.getColumn("Term").setCellRenderer(new TextAreaRenderer());

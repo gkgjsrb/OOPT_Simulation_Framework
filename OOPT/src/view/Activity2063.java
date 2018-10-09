@@ -34,6 +34,7 @@ public class Activity2063 extends JTabbedPane {
 		DefaultTableModel model = new DefaultTableModel(contents, header);
 		
 		JTable table = new JTable(model);
+		table.setCellSelectionEnabled(false);
 		table.setRowHeight(70);
 
 	    table.getColumn("Test Case Number").setCellRenderer(new TextAreaRenderer());

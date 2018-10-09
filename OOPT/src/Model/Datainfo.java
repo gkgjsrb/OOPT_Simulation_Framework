@@ -243,14 +243,14 @@ public class Datainfo {
 			e.printStackTrace();
 		}
 	}
-	public void setNonReq(int index, String type, NonFuncReq req) {
+	public void setNonReq(int index, NonFuncReq req) {
 		try {
 			String sql = "insert or replace into NonFuncReq values(?,?,?,?)";
 			statement = connection.prepareStatement(sql);
 			statement.setInt(1, index);
 			statement.setString(2, req.getCategory());
 			statement.setString(3, req.getTestcase());
-			statement.setString(4, type);
+			statement.setString(4, req.getType());
 			statement.executeUpdate();
 			
 		}
@@ -263,6 +263,33 @@ public class Datainfo {
 			String sql = "delete from NonFuncReq where type = ?";
 			statement = connection.prepareStatement(sql);
 			statement.setString(1, type);
+			statement.executeUpdate();
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	public void setSystemTestCase(int index, SystemTestCase req) {
+		try {
+			String sql = "insert or replace into FuncReq values(?,?,?,?,?,?)";
+			statement = connection.prepareStatement(sql);
+			statement.setInt(1, index);
+			statement.setString(2, req.getNumber());
+			statement.setString(3, req.getName());
+			statement.setString(4, req.getDescription());
+			statement.setString(5, req.getUsecase());
+			statement.setString(6, req.getSystemFunction());
+			statement.executeUpdate();
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public void syncSystemTestCase() {
+		try {
+			String sql = "delete from FuncReq";
+			statement = connection.prepareStatement(sql);
 			statement.executeUpdate();
 		}
 		catch(SQLException e) {
@@ -532,7 +559,30 @@ public class Datainfo {
 		}
 		
 		return data;
-	} 
+	}
+	public ArrayList<SystemTestCase> getSearchSystemTC() {
+		ArrayList<SystemTestCase> data = new ArrayList<>();
+		
+		try {
+			String sql = "SELECT * FROM FuncReq";
+			statement = connection.prepareStatement(sql);
+			result = statement.executeQuery();
+			while(result.next()) {
+				SystemTestCase req = new SystemTestCase();
+				req.setNumber(result.getString("number"));
+				req.setName(result.getString("name"));
+				req.setDescription(result.getString("description"));
+				req.setUsecase(result.getString("usecase"));
+				req.setSystemFunction(result.getString("function"));
+				data.add(req);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return data;
+	}
 	public ArrayList<Glossary> getSearchGl(String type) {
 		ArrayList<Glossary> data = new ArrayList<>();
 		

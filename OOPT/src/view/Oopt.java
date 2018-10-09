@@ -14,6 +14,7 @@ public class Oopt extends JPanel{
 	Image img2 = null;
 
 	public Oopt() {
+		
 		try{
 			File sourceimage = new File("./oopt.png");
 			img = ImageIO.read(sourceimage);

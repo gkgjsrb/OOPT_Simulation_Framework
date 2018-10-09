@@ -32,6 +32,7 @@ import com.horstmann.violet.workspace.WorkspacePanel;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
+import com.horstmann.violet.workspace.editorpart.behavior.EditSelectedBehavior;
 
 import Model.Graph;
 import Model.Requirement;
@@ -44,10 +45,9 @@ public class Activity2039 extends JTabbedPane {
     private IGraph graph;
     private IEditorPartSelectionHandler selectionHandler;
     private IEditorPartBehaviorManager behaviorManager;
+    
     private WorkspacePanel wp;
     private IWorkspace workspace;
-    private INode unprocessedNode = null; 
-    private IEdge unprocessedEdge = null;
 	
 	public Activity2039(Requirement req, ArrayList<UseCase> uc, ArrayList<SystemOperation> op, ArrayList<Graph> sd) {
 					
@@ -65,13 +65,12 @@ public class Activity2039 extends JTabbedPane {
         IWorkspace workspace = new Workspace(graphFile);
         
         this.editorPart = workspace.getEditorPart();
-        this.graph = editorPart.getGraph();
-        this.selectionHandler = editorPart.getSelectionHandler();
-        this.behaviorManager = editorPart.getBehaviorManager();
+        GraphEditor ge = new GraphEditor(editorPart);
         
         wp = workspace.getAWTComponent();
         wp.getScrollableSideBar().setVisible(false);
         wp.getScrollableEditorPart().getViewport().getView().removeMouseListener(wp.getScrollableEditorPart().getViewport().getView().getMouseListeners()[0]);
+        
         wp.getScrollableEditorPart().getViewport().getView().addMouseListener(new MouseAdapter()
         {
         	
@@ -86,45 +85,10 @@ public class Activity2039 extends JTabbedPane {
             }
 
             public void mouseClicked(MouseEvent event)
-            {	
-            	 double zoom = editorPart.getZoomFactor();
-            	 Point2D mousePoint = new Point2D.Double(event.getX() / zoom, event.getY() / zoom);
-            	 boolean isOnNodeOrEdge = isMouseOnNodeOrEdge(mousePoint);
-        		if (!isOnNodeOrEdge )
-                {
-        			UseCaseNode node = (UseCaseNode)selectionHandler.getLastSelectedNode();
-        			
-        			Collection<IEdge> ea = graph.getAllEdges();
-                    for(IEdge q : ea) {
-                    	if(q.getStartNode().equals(node)) {
-                    		node.setBackgroundColor(Color.white);
-                    		UseCaseNode endNode = (UseCaseNode) q.getEndNode();
-                    		endNode.setBackgroundColor(Color.white);
-                    	}
-                    }
-                    resetSelectedElements();
-                    wp.refreshDisplay();
-                    return;
-                }
-                if (isOnNodeOrEdge)
-                {
-                    processSelection(mousePoint, true);
-                    UseCaseNode node = (UseCaseNode) graph.findNode(mousePoint);
-                    
-                    Collection<IEdge> ea = graph.getAllEdges();
-                    for(IEdge q : ea) {
-                    	if(q.getStartNode().equals(node)) {
-                    		node.setBackgroundColor(Color.cyan);
-                    		UseCaseNode endNode = (UseCaseNode) q.getEndNode();
-                    		endNode.setBackgroundColor(Color.GRAY);
-                    	}
-                    }
-                    return;
-                }
-        		
-            	
-                
-            }
+            {
+            	ge.highlight(event);
+            	wp.refreshDisplay();
+            }   
         });
         
         button_1.addActionListener(new ActionListener() {
@@ -200,7 +164,10 @@ public class Activity2039 extends JTabbedPane {
 		        			for(UseCaseNode uc_nd : uc_Node) {
 		        				if(uc_nd.getName().toString().equals(related_uc)) {
 		        					InteractionEdge ie_tmp = new InteractionEdge();
+		        					ge.changeEdge(ie_tmp);
 		        					workspace.getGraphFile().getGraph().connect(ie_tmp, tmp_node, tmp_node.getLocation(), uc_nd, uc_nd.getLocation(), null);
+		        					
+		        					
 		        				}
 		        			}
 		        		}
@@ -216,6 +183,7 @@ public class Activity2039 extends JTabbedPane {
 		        					for(UseCaseNode op_node : op_Node) {
 		        						if(a.getCenterLabel().toString().equals(op_node.getName().toString())) {
 		        							InteractionEdge ie_tmp = new InteractionEdge();
+		        							ge.changeEdge(ie_tmp);
 				        					workspace.getGraphFile().getGraph().connect(ie_tmp, uc_node, uc_node.getLocation(), op_node, op_node.getLocation(), null);
 		        						}
 		        					}
@@ -225,6 +193,7 @@ public class Activity2039 extends JTabbedPane {
 		        					for(UseCaseNode op_node : op_Node) {
 		        						if(a.getCenterLabel().toString().equals(op_node.getName().toString())) {
 		        							InteractionEdge ie_tmp = new InteractionEdge();
+		        							ge.changeEdge(ie_tmp);
 				        					workspace.getGraphFile().getGraph().connect(ie_tmp, uc_node, uc_node.getLocation(), op_node, op_node.getLocation(), null);
 		        						}
 		        					}
@@ -242,63 +211,5 @@ public class Activity2039 extends JTabbedPane {
         splitPane.setTopComponent(jpanel);
         addTab("Traceability Analysis", null, splitPane, null);
 	}
-	private void processSelection(Point2D mouseLocation, boolean isResetSelectionFirst)
-    {
-        INode node = this.graph.findNode(mouseLocation);
-        IEdge edge = this.graph.findEdge(mouseLocation);
-        if (edge != null)
-        {
-        	if (this.selectionHandler.isElementAlreadySelected(edge))
-        	{
-        		// This edge will be removed only on mouse button released
-        		// to avoid conflicts with dragging events
-        		this.unprocessedEdge = edge;
-        	}
-        	else
-        	{
-        		if (isResetSelectionFirst) {
-        			resetSelectedElements();
-        		}
-        		this.selectionHandler.addSelectedElement(edge);
-        		if (this.selectionHandler.getSelectedEdges().size() == 1) {
-        			this.behaviorManager.fireOnEdgeSelected(edge);
-        		}
-        	}
-        	return;
-        }
-        if (node != null)
-        {
-            if (this.selectionHandler.isElementAlreadySelected(node))
-            {
-                // This node_old will be removed only on mouse button released
-                // to avoid conflicts with dragging events
-                this.unprocessedNode = node;
-            }
-            else
-            {
-                if (isResetSelectionFirst) {
-                    resetSelectedElements();
-                }
-                this.selectionHandler.addSelectedElement(node);
-                if (this.selectionHandler.getSelectedNodes().size() == 1) {
-                	this.behaviorManager.fireOnNodeSelected(node);
-                }
-            }
-            return;
-        }
-    }
-	private void resetSelectedElements()
-    {
-        this.selectionHandler.clearSelection();
-    }
-	private boolean isMouseOnNodeOrEdge(Point2D mouseLocation)
-    {
-        INode node = this.graph.findNode(mouseLocation);
-        IEdge edge = this.graph.findEdge(mouseLocation);
-        if (node == null && edge == null)
-        {
-            return false;
-        }
-        return true;
-    }
+	
 }

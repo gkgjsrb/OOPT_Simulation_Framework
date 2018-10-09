@@ -92,6 +92,9 @@ public class Requirement {
 	public int get_length() {
 		return Ref.size();
 	}
+	public ArrayList getAllRef() {
+		return this.Ref;
+	}
 	public String getRef(int index) {
 		return Ref.get(index);
 	}

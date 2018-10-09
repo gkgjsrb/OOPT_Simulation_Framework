@@ -3,6 +3,8 @@ package view;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Collection;
+import java.util.StringTokenizer;
 
 import javax.swing.JButton;
 import javax.swing.JPanel;
@@ -12,7 +14,9 @@ import javax.swing.JTabbedPane;
 import com.horstmann.violet.framework.file.GraphFile;
 import com.horstmann.violet.framework.file.IGraphFile;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
+import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.classes.ClassDiagramGraph;
+import com.horstmann.violet.product.diagram.classes.node.ClassNode;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.Workspace;
 import com.horstmann.violet.workspace.WorkspacePanel;
@@ -64,5 +68,17 @@ public class Activity2045 extends JTabbedPane {
 		workspace = new Workspace(cd.getGraph());
 		wp = workspace.getAWTComponent();
 		splitPane.setBottomComponent(wp);
+		/*
+		Collection<INode> node = cd.getGraph().getGraph().getAllNodes();
+		for(INode s : node) {
+			ClassNode c = (ClassNode) s;
+			
+			StringTokenizer t = new StringTokenizer(c.getMethods().toString(), "|");
+			for(int i = 0; t.hasMoreTokens(); i++) {
+				System.out.println(t.nextToken());
+			}
+			
+		}
+		*/
 	}
 }

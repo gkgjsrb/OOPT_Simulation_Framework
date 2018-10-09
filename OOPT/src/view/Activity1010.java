@@ -62,7 +62,8 @@ public class Activity1010 extends JTabbedPane {
 		Object[][] rowData= {{null,null,null}};
 		model=new DefaultTableModel(rowData,colName);
 		JTable table = new JTable(model);
-
+		table.setCellSelectionEnabled(false);
+		
 		JComboBox<String> comboBox = new JComboBox<>(Category);
 		JTextField tf = new JTextField();
 		TableCellEditor Comboeditor = new DefaultCellEditor(comboBox);

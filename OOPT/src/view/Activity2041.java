@@ -108,6 +108,7 @@ public class Activity2041 extends JTabbedPane {
 				JScrollPane usecasePane = new JScrollPane();
 				panel.addTab(tmp.getName(), null, usecasePane, null);
 				table = new JTable();
+				table.setCellSelectionEnabled(false);
 				table.setModel(new DefaultTableModel(
 					new Object[][] {
 						{"Use Case", tmp.getName()},
@@ -173,6 +174,7 @@ public class Activity2041 extends JTabbedPane {
 				JScrollPane usecasePane = new JScrollPane();
 				panel.addTab(tmp.getName(), null, usecasePane, null);
 				table = new JTable();
+				table.setCellSelectionEnabled(false);
 				table.setModel(new DefaultTableModel(
 					new Object[][] {
 						{"Use Case", tmp.getName()},

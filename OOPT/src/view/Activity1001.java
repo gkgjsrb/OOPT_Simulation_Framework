@@ -45,6 +45,7 @@ public class Activity1001 extends JTabbedPane {
 	    return icons;
 	}
 	public Activity1001(JTree tree, Datainfo data) {
+		
 		JSplitPane splitPane = new JSplitPane();
 		
 		JPanel jpanel = new JPanel(new GridBagLayout());

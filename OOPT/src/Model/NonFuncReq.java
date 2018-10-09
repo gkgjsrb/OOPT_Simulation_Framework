@@ -1,11 +1,20 @@
 package Model;
 
 public class NonFuncReq {
+	private String type;
 	private String category;
 	private String testcase;
 	
 	public NonFuncReq() {
 		
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
 	}
 
 	public String getCategory() {
