@@ -5,22 +5,27 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 
 import javax.swing.JMenuItem;
-import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextPane;
+import javax.swing.JTree;
 import javax.swing.table.DefaultTableModel;
+
+import Model.Datainfo;
+import Model.SystemTestCase;
 
 public class Activity2063 extends JTabbedPane {
 
 	/**
 	 * Create the panel.
 	 */
-	public Activity2063() {
+	DefaultTableModel model;
+	public Activity2063(JTree tree, Datainfo data) {
 		JScrollPane scrollPane = new JScrollPane();
 		this.addTab("System Test Environment", null, scrollPane, null);
 		
@@ -31,7 +36,7 @@ public class Activity2063 extends JTabbedPane {
 		String [][]contents = {
 				{null, null, null, null, null, null}
 		};
-		DefaultTableModel model = new DefaultTableModel(contents, header);
+		model = new DefaultTableModel(contents, header);
 		
 		JTable table = new JTable(model);
 		table.setCellSelectionEnabled(false);
@@ -100,5 +105,26 @@ public class Activity2063 extends JTabbedPane {
 			}
 		});
 	}
-
+	public void syncSystemTestCase(ArrayList<SystemTestCase> stc) {
+		if(stc.size()>model.getRowCount()) {
+			int count = stc.size()-model.getRowCount();
+			for(int i = 0; i < count; i++) {
+				Object[] add = {"", "", ""};
+				model.addRow(add);
+			}
+		}
+		else if(stc.size()>model.getRowCount()) {
+			int count = model.getRowCount()-stc.size();
+			for(int i = 0; i < count; i++) {
+				model.removeRow(0);
+			}
+		}
+		for(int i = 0; i < stc.size(); i++) {
+			model.setValueAt(stc.get(i).getNumber(), i, 0);
+			model.setValueAt(stc.get(i).getName(), i, 1);
+			model.setValueAt(stc.get(i).getDescription(), i, 2);
+			model.setValueAt(stc.get(i).getUsecase(), i, 3);
+			model.setValueAt(stc.get(i).getSystemFunction(), i, 4);
+		}	
+	}
 }

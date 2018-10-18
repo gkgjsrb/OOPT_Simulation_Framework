@@ -272,7 +272,7 @@ public class Datainfo {
 	}
 	public void setSystemTestCase(int index, SystemTestCase req) {
 		try {
-			String sql = "insert or replace into FuncReq values(?,?,?,?,?,?)";
+			String sql = "insert or replace into FuncReq values(?,?,?,?,?,?,?)";
 			statement = connection.prepareStatement(sql);
 			statement.setInt(1, index);
 			statement.setString(2, req.getNumber());
@@ -280,6 +280,7 @@ public class Datainfo {
 			statement.setString(4, req.getDescription());
 			statement.setString(5, req.getUsecase());
 			statement.setString(6, req.getSystemFunction());
+			statement.setString(7, req.getResult());
 			statement.executeUpdate();
 		}
 		catch(SQLException e) {

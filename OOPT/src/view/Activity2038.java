@@ -36,7 +36,7 @@ public class Activity2038 extends JTabbedPane {
 	DefaultTableModel model;
 	DefaultTableModel model2;
 
-	public Activity2038(JTree tree, Requirement req, ArrayList<UseCase> uc, Datainfo data) {
+	public Activity2038(JTree tree, Requirement req, ArrayList<UseCase> uc, ArrayList<SystemTestCase> stc, Datainfo data) {
 
 		String[] colName = { "Test No.", "Test Item", "Description", "Use Case", "System Function" };
 		String[] colName2 = { "Category", "Test Case" };
@@ -204,6 +204,7 @@ public class Activity2038 extends JTabbedPane {
 				}
 
 				table.editingStopped(changeEvent);
+				stc.clear();
 				data.syncSystemTestCase();
 				for (int i = 0; i < model.getRowCount(); i++) {
 					SystemTestCase r = new SystemTestCase();
@@ -213,6 +214,7 @@ public class Activity2038 extends JTabbedPane {
 					r.setUsecase((String) model.getValueAt(i, 3));
 					r.setSystemFunction((String) model.getValueAt(i, 4));
 					data.setSystemTestCase(i, r);
+					stc.add(r);
 				}
 				((DefaultTreeModel) tree.getModel()).nodeChanged(node);
 			}

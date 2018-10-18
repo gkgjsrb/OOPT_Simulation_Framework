@@ -1,6 +1,5 @@
 package view;
 
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -30,9 +29,6 @@ import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.Workspace;
 import com.horstmann.violet.workspace.WorkspacePanel;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
-import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
-import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
-import com.horstmann.violet.workspace.editorpart.behavior.EditSelectedBehavior;
 
 import Model.Graph;
 import Model.Requirement;
@@ -42,14 +38,9 @@ import Model.UseCase;
 public class Activity2039 extends JTabbedPane {
 
 	private IEditorPart editorPart;
-    private IGraph graph;
-    private IEditorPartSelectionHandler selectionHandler;
-    private IEditorPartBehaviorManager behaviorManager;
-    
     private WorkspacePanel wp;
-    private IWorkspace workspace;
-	
-	public Activity2039(Requirement req, ArrayList<UseCase> uc, ArrayList<SystemOperation> op, ArrayList<Graph> sd) {
+    
+    public Activity2039(Requirement req, ArrayList<UseCase> uc, ArrayList<SystemOperation> op, ArrayList<Graph> sd) {
 					
 		JSplitPane splitPane = new JSplitPane();
 		JPanel jpanel = new JPanel(new FlowLayout(FlowLayout.TRAILING));

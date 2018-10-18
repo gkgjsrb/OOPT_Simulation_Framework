@@ -4,7 +4,6 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Collection;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -15,10 +14,6 @@ import javax.swing.JTabbedPane;
 import com.horstmann.violet.framework.file.GraphFile;
 import com.horstmann.violet.framework.file.IGraphFile;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
-import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
-import com.horstmann.violet.product.diagram.sequence.edge.AsynchronousCallEdge;
-import com.horstmann.violet.product.diagram.sequence.edge.ReturnEdge;
-import com.horstmann.violet.product.diagram.sequence.edge.SynchronousCallEdge;
 import com.horstmann.violet.product.diagram.state.StateDiagramGraph;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.Workspace;
@@ -26,8 +21,6 @@ import com.horstmann.violet.workspace.WorkspacePanel;
 
 import Model.Datainfo;
 import Model.Graph;
-import Model.SystemOperation;
-import Model.UseCase;
 //define state diagram
 public class Activity2037 extends JTabbedPane {
 

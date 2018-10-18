@@ -34,7 +34,7 @@ public class Activity2032 extends JTabbedPane {
 	public Activity2032() {
 		
 		JPanel jpanel = new JPanel();
-		jpanel.add(new JLabel("1006 Use Case Diagram refine!"));
+		jpanel.add(new JLabel("Refine 1006 Use Case Diagram"));
         addTab("Refine Use Case Diagrams", null, jpanel, null);
 	}
 

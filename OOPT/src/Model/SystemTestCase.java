@@ -6,7 +6,16 @@ public class SystemTestCase {
 	private String description;
 	private String usecase;
 	private String systemFunction;
+	private String result;
 	
+	public String getResult() {
+		return result;
+	}
+
+	public void setResult(String result) {
+		this.result = result;
+	}
+
 	public SystemTestCase() {
 		
 	}

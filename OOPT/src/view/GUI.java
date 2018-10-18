@@ -28,14 +28,16 @@ import Model.Schedule;
 import Model.StageText;
 import Model.SystemOperation;
 import Model.SystemTestCase;
+import Model.UnitTestCase;
 import Model.UseCase;
 
 public class GUI {
 	private int divSize = 400;
 	private JFrame frame;
-	ArrayList<Glossary> gl2;
-	ArrayList<UseCase> ruc;
-
+	private ArrayList<Glossary> gl2;
+	private ArrayList<UseCase> ruc;
+	private ArrayList<SystemTestCase> stc = new ArrayList<>();
+	private ArrayList<UnitTestCase> utc = new ArrayList<>();
 	/**
 	 * Launch the application.
 	 */
@@ -192,26 +194,26 @@ public class GUI {
 		Activity2035 a2035 = new Activity2035(tree, op, sd, data);
 		Activity2036 a2036 = new Activity2036(tree, op, data);
 		Activity2037 a2037 = new Activity2037(std, data);
-		Activity2038 a2038 = new Activity2038(tree, req, uc, data);
+		Activity2038 a2038 = new Activity2038(tree, req, uc, stc, data);
 		Activity2039 a2039 = new Activity2039(req, uc, op, sd);
 		Activity2041 a2041 = new Activity2041(tree, ruc, data);
 		Activity2042 a2042 = new Activity2042();
 		Activity2043 a2043 = new Activity2043(sa, data);
 		Activity2044 a2044 = new Activity2044(id, data);
 		Activity2045 a2045 = new Activity2045(cd, data);
-		Activity2046 a2046 = new Activity2046();
+		Activity2046 a2046 = new Activity2046(op, id, cd);
 		Activity2051 a2051 = new Activity2051();
 		Activity2052 a2052 = new Activity2052();
 		Activity2053 a2053 = new Activity2053();
 		Activity2054 a2054 = new Activity2054();
 		Activity2055 a2055 = new Activity2055();
-		Activity2061 a2061 = new Activity2061();
+		Activity2061 a2061 = new Activity2061(tree, utc, data);
 		Activity2062 a2062 = new Activity2062();
-		Activity2063 a2063 = new Activity2063();
+		Activity2063 a2063 = new Activity2063(tree, data);
 		Activity2064 a2064 = new Activity2064();
 		Activity2065 a2065 = new Activity2065();
 		Activity2066 a2066 = new Activity2066();
-		Activity2067 a2067 = new Activity2067();
+		Activity2067 a2067 = new Activity2067(req, uc, cd, stc, utc);
 
 		JScrollPane jtree = new JScrollPane(tree);
 		splitPane.setDividerLocation(divSize);
@@ -269,10 +271,22 @@ public class GUI {
 				ArrayList<Schedule> sc = data.getSearchSche();
 				ArrayList<NonFuncReq> nreq = data.getSearchNonReq("D");
 				
-				Graph ud = data.getSearchGraph("ud").get(0);
-				Graph dm = data.getSearchGraph("dm").get(0);
-				Graph sa = data.getSearchGraph("sa").get(0);
-				Graph cd = data.getSearchGraph("cd").get(0);
+				Graph tmp_ud = data.getSearchGraph("ud").get(0);
+				ud.setGraph(tmp_ud.getGraph());
+				ud.setId(tmp_ud.getId());
+				ud.setName(tmp_ud.getName());
+				Graph tmp_dm = data.getSearchGraph("dm").get(0);
+				dm.setGraph(tmp_dm.getGraph());
+				dm.setId(tmp_dm.getId());
+				dm.setName(tmp_dm.getName());
+				Graph tmp_sa = data.getSearchGraph("sa").get(0);
+				sa.setGraph(tmp_sa.getGraph());
+				sa.setId(tmp_sa.getId());
+				sa.setName(tmp_sa.getName());
+				Graph tmp_cd = data.getSearchGraph("cd").get(0);
+				cd.setGraph(tmp_cd.getGraph());
+				cd.setId(tmp_cd.getId());
+				cd.setName(tmp_cd.getName());
 				ArrayList<Graph> tmpSd = data.getSearchGraph("sd");
 				sd.clear();
 				sd.addAll(tmpSd);
@@ -292,8 +306,9 @@ public class GUI {
 				op.addAll(s);
 				
 				ArrayList<NonFuncReq> nreq2 = data.getSearchNonReq("R");
-				ArrayList<SystemTestCase> stc = data.getSearchSystemTC();
-				
+				ArrayList<SystemTestCase> stc2 = data.getSearchSystemTC();
+				stc.clear();
+				stc.addAll(stc2);
 				a1001.open(st);
 				a1002.open(st, risk);
 				a1003.open(st, req);
@@ -698,7 +713,8 @@ public class GUI {
 					case 1:
 						c = a2062;
 						break;
-					case 2:
+					case 2: 
+						a2063.syncSystemTestCase(stc);
 						c = a2063;
 						break;
 					case 3:
