@@ -795,5 +795,80 @@ public class Datainfo {
 		
 		return data;
 	}
-
+	public ArrayList getSearchTC(String type) {
+		
+		if(type.equals("U")) {
+			ArrayList<UnitTestCase> data = new ArrayList<>();
+			try {
+				String sql = "SELECT * FROM TestCase";
+				statement = connection.prepareStatement(sql);
+				result = statement.executeQuery();
+				while(result.next()) {
+					UnitTestCase req = new UnitTestCase();
+					req.setNumber(result.getString("number"));
+					req.setName(result.getString("name"));
+					req.setDescription(result.getString("description"));
+					req.setInput(result.getString("input"));
+					req.setOutput(result.getString("output"));
+					req.setResult(result.getString("result"));
+					data.add(req);
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return data;
+		}
+		else if(type.equals("I")) {
+			//integration
+			ArrayList<UnitTestCase> data = new ArrayList<>();
+			try {
+				String sql = "SELECT * FROM TestCase";
+				statement = connection.prepareStatement(sql);
+				result = statement.executeQuery();
+				while(result.next()) {
+					UnitTestCase req = new UnitTestCase();
+					req.setNumber(result.getString("number"));
+					req.setName(result.getString("name"));
+					req.setDescription(result.getString("description"));
+					req.setInput(result.getString("input"));
+					req.setOutput(result.getString("output"));
+					req.setResult(result.getString("result"));
+					data.add(req);
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return data;
+		}
+		else {
+			//etc testcase
+			ArrayList<UnitTestCase> data = new ArrayList<>();
+			try {
+				String sql = "SELECT * FROM TestCase";
+				statement = connection.prepareStatement(sql);
+				result = statement.executeQuery();
+				while(result.next()) {
+					UnitTestCase req = new UnitTestCase();
+					req.setNumber(result.getString("number"));
+					req.setName(result.getString("name"));
+					req.setDescription(result.getString("description"));
+					req.setInput(result.getString("input"));
+					req.setOutput(result.getString("output"));
+					req.setResult(result.getString("result"));
+					data.add(req);
+				}
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			
+			return data;
+		}
+		
+		
+	}
 }

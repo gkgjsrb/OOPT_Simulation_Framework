@@ -20,6 +20,7 @@ import com.horstmann.violet.framework.file.IGraphFile;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.product.diagram.classes.edge.AssociationEdge;
 import com.horstmann.violet.product.diagram.classes.node.ClassNode;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 import com.horstmann.violet.product.diagram.sequence.edge.AsynchronousCallEdge;
@@ -27,7 +28,6 @@ import com.horstmann.violet.product.diagram.sequence.edge.ReturnEdge;
 import com.horstmann.violet.product.diagram.sequence.edge.SynchronousCallEdge;
 import com.horstmann.violet.product.diagram.usecase.UseCaseDiagramGraph;
 import com.horstmann.violet.product.diagram.usecase.edge.InteractionEdge;
-import com.horstmann.violet.product.diagram.usecase.node.UseCaseNode;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.Workspace;
 import com.horstmann.violet.workspace.WorkspacePanel;
@@ -110,10 +110,10 @@ public class Activity2046 extends JTabbedPane {
 					workspace.getGraphFile().getGraph().removeEdge(ie);
 				}
 				int i = 1;
-				ArrayList<UseCaseNode> op_Node = new ArrayList<UseCaseNode>();
-				ArrayList<UseCaseNode> id_Node = new ArrayList<UseCaseNode>();
-				ArrayList<UseCaseNode> m_Node = new ArrayList<UseCaseNode>();
-				ArrayList<UseCaseNode> c_Node = new ArrayList<UseCaseNode>();
+				ArrayList<ClassNode> op_Node = new ArrayList<>();
+				ArrayList<ClassNode> id_Node = new ArrayList<>();
+				ArrayList<ClassNode> m_Node = new ArrayList<>();
+				ArrayList<ClassNode> c_Node = new ArrayList<>();
 
 				ArrayList<ArrayList<String>> id_allname = new ArrayList<>();
 
@@ -164,7 +164,7 @@ public class Activity2046 extends JTabbedPane {
 				}
 
 				for (SystemOperation tmp_op : op) {
-					UseCaseNode tmp_opnode = new UseCaseNode();
+					ClassNode tmp_opnode = new ClassNode();
 					SingleLineText tmp_name = new SingleLineText();
 					tmp_name.setText(tmp_op.getName());
 					tmp_opnode.setName(tmp_name);
@@ -179,11 +179,11 @@ public class Activity2046 extends JTabbedPane {
 					// System.out.println("1");
 					for (String tmp_id : tmp_allid) {
 
-						UseCaseNode tmp_idnode = new UseCaseNode();
+						ClassNode tmp_idnode = new ClassNode();
 						SingleLineText tmp_name = new SingleLineText();
 						tmp_name.setText(tmp_id);
 						tmp_idnode.setName(tmp_name);
-						Point2D tmp_xy = new Point2D.Double(200.0, i * 10.0);
+						Point2D tmp_xy = new Point2D.Double(400.0, i * 10.0);
 						id_Node.add(tmp_idnode);
 						workspace.getGraphFile().getGraph().addNode(tmp_idnode, tmp_xy);
 						i = i + 5;
@@ -205,62 +205,62 @@ public class Activity2046 extends JTabbedPane {
 						while (u.hasMoreTokens()) {
 							temp = temp + " " + u.nextToken();
 						}
-						UseCaseNode tmp_mnode = new UseCaseNode();
+						ClassNode tmp_mnode = new ClassNode();
 						SingleLineText tmp_name = new SingleLineText();
 						tmp_name.setText(temp);
 						tmp_mnode.setName(tmp_name);
-						Point2D tmp_xy = new Point2D.Double(400.0, k * 20.0);
+						Point2D tmp_xy = new Point2D.Double(800.0, k * 10.0);
 						m_Node.add(tmp_mnode);
 						workspace.getGraphFile().getGraph().addNode(tmp_mnode, tmp_xy);
 						k = k + 5;
 						method_name.add(tmp_name.toString());
 					}
 
-					UseCaseNode tmp_cnode = new UseCaseNode();
+					ClassNode tmp_cnode = new ClassNode();
 					SingleLineText tmp_name = new SingleLineText();
 					tmp_name.setText(c.getName());
 					tmp_cnode.setName(tmp_name);
-					Point2D tmp_xy = new Point2D.Double(800.0, i * 10.0);
+					Point2D tmp_xy = new Point2D.Double(1200.0, i * 30.0);
 					c_Node.add(tmp_cnode);
 					workspace.getGraphFile().getGraph().addNode(tmp_cnode, tmp_xy);
 					i = i + 5;
 					class_name.add(method_name);
 				}
 
-				for (UseCaseNode tmp_node : op_Node) {
+				for (ClassNode tmp_node : op_Node) {
 					for (ArrayList<String> tmp_id : id_allname) {
 						for (int j = 0; j < tmp_id.size(); j++) {
 							if (tmp_id.get(j).equals(tmp_node.getName().toString())) {
-								for (UseCaseNode id_nd : id_Node) {
-									InteractionEdge ie_tmp = new InteractionEdge();
-									ge.changeEdge(ie_tmp);
+								for (ClassNode id_nd : id_Node) {
+									AssociationEdge ie_tmp = new AssociationEdge();
+									//ge.changeEdge(ie_tmp);
 									workspace.getGraphFile().getGraph().connect(ie_tmp, tmp_node,
-											tmp_node.getLocation(), id_nd, id_nd.getLocation(), null);
+											tmp_node.getLocationOnGraph(), id_nd, id_nd.getLocationOnGraph(), null);
 								}
 							}
 						}
 					}
 				}
 
-				for (UseCaseNode tmp_node : id_Node) {
-					for (UseCaseNode m_nd : m_Node) {
+				for (ClassNode tmp_node : id_Node) {
+					for (ClassNode m_nd : m_Node) {
 						if (m_nd.getName().toString().equals(tmp_node.getName().toString())) {
-							InteractionEdge ie_tmp = new InteractionEdge();
-							ge.changeEdge(ie_tmp);
+							AssociationEdge ie_tmp = new AssociationEdge();
+							//ge.changeEdge(ie_tmp);
 							workspace.getGraphFile().getGraph().connect(ie_tmp, tmp_node,
-									tmp_node.getLocation(), m_nd, m_nd.getLocation(), null);
+									tmp_node.getLocationOnGraph(), m_nd, m_nd.getLocationOnGraph(), null);
 						}
 					}
 				}
-				for (UseCaseNode tmp_node : m_Node) {
+				for (ClassNode tmp_node : m_Node) {
 					for (ArrayList<String> tmp_c : class_name) {
 						for (int j = 0; j < tmp_c.size(); j++) {
 							if (tmp_c.get(j).equals(tmp_node.getName().toString())) {
-								for (UseCaseNode c_nd : c_Node) {
-									InteractionEdge ie_tmp = new InteractionEdge();
+								for (ClassNode c_nd : c_Node) {
+									AssociationEdge ie_tmp = new AssociationEdge();
 									ge.changeEdge(ie_tmp);
 									workspace.getGraphFile().getGraph().connect(ie_tmp, tmp_node,
-											tmp_node.getLocation(), c_nd, c_nd.getLocation(), null);
+											tmp_node.getLocationOnGraph(), c_nd, c_nd.getLocationOnGraph(), null);
 								}
 							}
 						}

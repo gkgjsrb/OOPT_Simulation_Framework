@@ -19,12 +19,12 @@ import com.horstmann.violet.framework.file.IGraphFile;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.product.diagram.classes.edge.AssociationEdge;
+import com.horstmann.violet.product.diagram.classes.node.ClassNode;
 import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 import com.horstmann.violet.product.diagram.sequence.edge.AsynchronousCallEdge;
 import com.horstmann.violet.product.diagram.sequence.edge.SynchronousCallEdge;
 import com.horstmann.violet.product.diagram.usecase.UseCaseDiagramGraph;
-import com.horstmann.violet.product.diagram.usecase.edge.InteractionEdge;
-import com.horstmann.violet.product.diagram.usecase.node.UseCaseNode;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.Workspace;
 import com.horstmann.violet.workspace.WorkspacePanel;
@@ -110,14 +110,14 @@ public class Activity2039 extends JTabbedPane {
 					workspace.getGraphFile().getGraph().removeEdge(ie);
 				}
 				int i=1;
-				ArrayList<UseCaseNode> req_Node = new ArrayList<UseCaseNode>();
-				ArrayList<UseCaseNode> uc_Node = new ArrayList<UseCaseNode>();
-				ArrayList<UseCaseNode> op_Node = new ArrayList<UseCaseNode>();
+				ArrayList<ClassNode> req_Node = new ArrayList<>();
+				ArrayList<ClassNode> uc_Node = new ArrayList<>();
+				ArrayList<ClassNode> op_Node = new ArrayList<>();
 				ArrayList<String> req_name = new ArrayList<String>(req.getAllName());
 		        ArrayList<String> uName = new ArrayList<String>(req.getAlluName());
 		        
 				for(String tmp_req : req_name) {
-		        	UseCaseNode tmp_reqnode = new UseCaseNode();
+					ClassNode tmp_reqnode = new ClassNode();
 		        	SingleLineText tmp_name = new SingleLineText();
 		        	tmp_name.setText(tmp_req);
 		        	tmp_reqnode.setName(tmp_name);
@@ -128,64 +128,62 @@ public class Activity2039 extends JTabbedPane {
 		        }
 		        i=1;
 				for(UseCase tmp_uc : uc) {
-		        	UseCaseNode tmp_ucnode = new UseCaseNode();
+					ClassNode tmp_ucnode = new ClassNode();
 		        	SingleLineText tmp_name = new SingleLineText();
 		        	tmp_name.setText(tmp_uc.getName());
 		        	tmp_ucnode.setName(tmp_name);
-		        	Point2D tmp_xy = new Point2D.Double(200.0, i*10.0);
+		        	Point2D tmp_xy = new Point2D.Double(400.0, i*10.0);
 		        	uc_Node.add(tmp_ucnode);
 		        	workspace.getGraphFile().getGraph().addNode(tmp_ucnode, tmp_xy);
 		        	i=i+5;
 		        }
 		        i=1;
 		        for(SystemOperation tmp_op : op) {
-		        	UseCaseNode tmp_opnode = new UseCaseNode();
+		        	ClassNode tmp_opnode = new ClassNode();
 		        	SingleLineText tmp_name = new SingleLineText();
 		        	tmp_name.setText(tmp_op.getName());
 		        	tmp_opnode.setName(tmp_name);
-		        	Point2D tmp_xy = new Point2D.Double(380.0, i*10.0);
+		        	Point2D tmp_xy = new Point2D.Double(800.0, i*10.0);
 		        	op_Node.add(tmp_opnode);
 		        	workspace.getGraphFile().getGraph().addNode(tmp_opnode, tmp_xy);
 		        	i=i+5;
 		        }
-		        for(UseCaseNode tmp_node : req_Node) {
+		        for(ClassNode tmp_node : req_Node) {
 		        	for(int index=0; index<req_name.size(); index++) {
 		        		if(req_name.get(index).equals(tmp_node.getName().toString())){
 		        			String related_uc = req.getuName(index);
-		        			for(UseCaseNode uc_nd : uc_Node) {
+		        			for(ClassNode uc_nd : uc_Node) {
 		        				if(uc_nd.getName().toString().equals(related_uc)) {
-		        					InteractionEdge ie_tmp = new InteractionEdge();
-		        					ge.changeEdge(ie_tmp);
-		        					workspace.getGraphFile().getGraph().connect(ie_tmp, tmp_node, tmp_node.getLocation(), uc_nd, uc_nd.getLocation(), null);
-		        					
-		        					
+		        					AssociationEdge ie_tmp = new AssociationEdge();
+		        					//ge.changeEdge(ie_tmp); 
+		        					workspace.getGraphFile().getGraph().connect(ie_tmp, tmp_node, tmp_node.getLocationOnGraph(), uc_nd, uc_nd.getLocationOnGraph(), null);
 		        				}
 		        			}
 		        		}
 		        	}	
 		        }
-		        for(UseCaseNode uc_node : uc_Node) {
+		        for(ClassNode uc_node : uc_Node) {
 		        	for(Graph tmp_graph : sd) {
 		        		if(uc_node.getName().toString().equals(tmp_graph.getName())) {
 		        			Collection<IEdge> tmp_allEdges = tmp_graph.getGraph().getGraph().getAllEdges();
 		        			for(IEdge aEdge : tmp_allEdges) {
 		        				if(aEdge.getClass().equals(SynchronousCallEdge.class)) {
 		        					SynchronousCallEdge a =(SynchronousCallEdge)aEdge;
-		        					for(UseCaseNode op_node : op_Node) {
+		        					for(ClassNode op_node : op_Node) {
 		        						if(a.getCenterLabel().toString().equals(op_node.getName().toString())) {
-		        							InteractionEdge ie_tmp = new InteractionEdge();
-		        							ge.changeEdge(ie_tmp);
-				        					workspace.getGraphFile().getGraph().connect(ie_tmp, uc_node, uc_node.getLocation(), op_node, op_node.getLocation(), null);
+		        							AssociationEdge ie_tmp = new AssociationEdge();
+		        							//ge.changeEdge(ie_tmp);
+				        					workspace.getGraphFile().getGraph().connect(ie_tmp, uc_node, uc_node.getLocationOnGraph(), op_node, op_node.getLocationOnGraph(), null);
 		        						}
 		        					}
 		        				}
 		        				else if(aEdge.getClass().equals(AsynchronousCallEdge.class)) {
 		        					AsynchronousCallEdge a =(AsynchronousCallEdge)aEdge;
-		        					for(UseCaseNode op_node : op_Node) {
+		        					for(ClassNode op_node : op_Node) {
 		        						if(a.getCenterLabel().toString().equals(op_node.getName().toString())) {
-		        							InteractionEdge ie_tmp = new InteractionEdge();
-		        							ge.changeEdge(ie_tmp);
-				        					workspace.getGraphFile().getGraph().connect(ie_tmp, uc_node, uc_node.getLocation(), op_node, op_node.getLocation(), null);
+		        							AssociationEdge ie_tmp = new AssociationEdge();
+		        							//ge.changeEdge(ie_tmp);
+				        					workspace.getGraphFile().getGraph().connect(ie_tmp, uc_node, uc_node.getLocationOnGraph(), op_node, op_node.getLocationOnGraph(), null);
 		        						}
 		        					}
 		        				}

@@ -8,9 +8,11 @@ import java.util.Collection;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.product.diagram.classes.edge.AssociationEdge;
+import com.horstmann.violet.product.diagram.classes.node.ClassNode;
 import com.horstmann.violet.product.diagram.property.ArrowheadChoiceList;
+import com.horstmann.violet.product.diagram.property.BentStyleChoiceList;
 import com.horstmann.violet.product.diagram.usecase.edge.InteractionEdge;
-import com.horstmann.violet.product.diagram.usecase.node.UseCaseNode;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 import com.horstmann.violet.workspace.editorpart.IEditorPartBehaviorManager;
 import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
@@ -32,10 +34,12 @@ public class GraphEditor {
         this.behaviorManager = editorPart.getBehaviorManager();
 	}
 	public void changeEdge(IEdge edge) {
-		InteractionEdge i = (InteractionEdge) edge;
-		ArrowheadChoiceList t = new ArrowheadChoiceList();
+		AssociationEdge i = (AssociationEdge) edge;
+		BentStyleChoiceList t = new BentStyleChoiceList();
+		//ArrowheadChoiceList t = new ArrowheadChoiceList();
 		t.setSelectedIndex(1);
-		i.setEndArrowheadChoiceList(t);
+		//i.setEndArrowheadChoiceList(t);
+		i.setBentStyleChoiceList(t);
 		
 	}
 	public void processSelection(Point2D mouseLocation, boolean isResetSelectionFirst)
@@ -110,9 +114,9 @@ public class GraphEditor {
             for(IEdge q : ea) {
             	//if(q.getStartNode().equals(node)) {
             		//node.setBackgroundColor(Color.white);
-            		UseCaseNode startNode = (UseCaseNode) q.getStartNode();
+            		ClassNode startNode = (ClassNode) q.getStartNode();
             		startNode.setBackgroundColor(Color.white);
-            		UseCaseNode endNode = (UseCaseNode) q.getEndNode();
+            		ClassNode endNode = (ClassNode) q.getEndNode();
             		endNode.setBackgroundColor(Color.white);
             	//}
             }
@@ -123,18 +127,18 @@ public class GraphEditor {
         if (isOnNodeOrEdge)
         {
             processSelection(mousePoint, true);
-            UseCaseNode node = (UseCaseNode) graph.findNode(mousePoint);
+            ClassNode node = (ClassNode) graph.findNode(mousePoint);
             
             Collection<IEdge> ea = graph.getAllEdges();
             for(IEdge q : ea) {
             	if(q.getStartNode().equals(node)) {
             		node.setBackgroundColor(Color.cyan);
-            		UseCaseNode endNode = (UseCaseNode) q.getEndNode();
+            		ClassNode endNode = (ClassNode) q.getEndNode();
             		endNode.setBackgroundColor(Color.GRAY);
             	}
             	else if(q.getEndNode().equals(node)) {
             		node.setBackgroundColor(Color.GRAY);
-            		UseCaseNode startNode = (UseCaseNode) q.getStartNode();
+            		ClassNode startNode = (ClassNode) q.getStartNode();
             		startNode.setBackgroundColor(Color.cyan);
             	}
             }

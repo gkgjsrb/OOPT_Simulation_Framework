@@ -40,6 +40,7 @@ public class Activity1003 extends JTabbedPane {
 	JTextPane textPane_1;
 	JTextPane textPane_2;
 	JTextPane textPane_3;
+	JTextPane textPane_4;
 	
 	DefaultTableModel model;
 	
@@ -112,9 +113,65 @@ public class Activity1003 extends JTabbedPane {
 		popupMenu.add(mntmNewMenuItem_1);
 		this.addTab("Requirements", null,splitPane, null);
 		
+		JSplitPane splitPane_5 = new JSplitPane();
+		JPanel jpanel_5 = new JPanel(new GridBagLayout());
+		GridBagConstraints c = new GridBagConstraints();
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.weightx = 0.5;
+		c.gridx = 3;
+		c.gridy = 0;
+		JButton button_7 = new JButton("Commit");
+		jpanel_5.add(button_7, c);
+		jpanel_5.setBorder(BorderFactory.createEmptyBorder(0 , 0, 0, 5));
+		
+		JScrollPane ScrollPane_4 = new JScrollPane();
+		splitPane_5.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		splitPane_5.disable();
+		splitPane_5.setBottomComponent(ScrollPane_4);
+		splitPane_5.setTopComponent(jpanel_5);
+		this.addTab("Performance Requirements", null, splitPane_5, null);
+		
+		textPane_4 = new JTextPane();
+		ScrollPane_4.setViewportView(textPane_4);
+		textPane_4.addKeyListener(new KeyListener() {
+			@Override
+			public void keyTyped(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void keyPressed(KeyEvent e) {
+				// TODO Auto-generated method stub
+				IconNode node=(IconNode)tree.getLastSelectedPathComponent();
+				if(node.getParent().equals(node.getRoot().getChildAt(0))){
+		        	int index = node.getParent().getIndex(node);
+		        	 if(index == 2) {
+		        	 	node.setIconName("computer");
+		        	 }
+		        	 ((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+				}
+			}
+
+			@Override
+			public void keyReleased(KeyEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		JLabel lblNewLabel_4 = new JLabel("<html>example(Library Management System)<br>"
+	            + "- The average response time for front desk operations should be less than 5 seconds.<br>"
+				+ "- The post-card to notify availability must be printed out immediately after the reserved book becomes available.<br>"
+	            + "</html>");
+		c.fill = GridBagConstraints.HORIZONTAL;
+		c.gridx = 0;
+		c.gridy = 0;
+		c.gridwidth = 3;
+		jpanel_5.add(lblNewLabel_4, c);
+
+		
 		JSplitPane splitPane_1 = new JSplitPane();
 		JPanel jpanel_1 = new JPanel(new GridBagLayout());
-		GridBagConstraints c = new GridBagConstraints();
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.weightx = 0.5;
 		c.gridx = 3;
@@ -429,6 +486,20 @@ public class Activity1003 extends JTabbedPane {
 
 			}
 		});
+		button_7.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				IconNode node=(IconNode)tree.getLastSelectedPathComponent();
+				if(node.getParent().equals(node.getRoot().getChildAt(0))){
+		        	int index = node.getParent().getIndex(node);
+		        	 if(index == 2) {
+		        	 	node.setIconName("floppyDrive");
+		        	 }
+				}
+				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+				data.setText(23, textPane_4.getText());
+
+			}
+		});
 	}
 	private static void addPopup(Component component, final JPopupMenu popup) {
 		component.addMouseListener(new MouseAdapter() {
@@ -472,6 +543,7 @@ public class Activity1003 extends JTabbedPane {
 		data.setText(12, textPane_1.getText());
 		data.setText(13, textPane_2.getText());
 		data.setText(14, textPane_3.getText());
+		data.setText(23, textPane_4.getText());
 		for(int i = 0; i < req.get_length(); i++) {
 			data.setReq(i, req);
 		}
@@ -481,7 +553,7 @@ public class Activity1003 extends JTabbedPane {
 		setDevelop(st);
 		setInterface(st);
 		setOther(st);
-		
+		setPerfor(st);
 		model.setRowCount(0);
 		for(int i = 0; i < req.get_length(); i++) {
 			Object[] add= {req.getRef(i), req.getName(i), req.getCategory(i)};
@@ -500,5 +572,8 @@ public class Activity1003 extends JTabbedPane {
 	}
 	private void setOther(ArrayList<StageText> st) {
 		textPane_3.setText(st.get(14).getText());
+	}
+	private void setPerfor(ArrayList<StageText> st) {
+		textPane_4.setText(st.get(23).getText());
 	}
  }
