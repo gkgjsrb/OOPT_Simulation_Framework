@@ -298,6 +298,36 @@ public class Datainfo {
 		}
 		
 	}
+	public void setTestCase(String type, UnitTestCase req) {
+		try {
+			String sql = "insert or replace into TestCase values(?,?,?,?,?,?,?)";
+			statement = connection.prepareStatement(sql);
+			statement.setString(1, type);
+			statement.setString(2, req.getNumber());
+			statement.setString(3, req.getName());
+			statement.setString(4, req.getDescription());
+			statement.setString(5, req.getInput());
+			statement.setString(6, req.getOutput());
+			statement.setString(7, req.getResult());
+			statement.executeUpdate();
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public void syncmTestCase(String type) {
+		try {
+			String sql = "delete from TestCase where type = ?";
+			statement = connection.prepareStatement(sql);
+			statement.setString(1, type);
+			statement.executeUpdate();
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		
+	}
+
 	public void setGraph(String type, Graph g) {
 		try {
 			String sql = "insert or replace into Graph values(?,?,?)";

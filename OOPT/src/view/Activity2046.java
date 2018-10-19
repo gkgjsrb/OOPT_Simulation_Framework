@@ -26,6 +26,7 @@ import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 import com.horstmann.violet.product.diagram.sequence.edge.AsynchronousCallEdge;
 import com.horstmann.violet.product.diagram.sequence.edge.ReturnEdge;
 import com.horstmann.violet.product.diagram.sequence.edge.SynchronousCallEdge;
+import com.horstmann.violet.product.diagram.sequence.node.ActivationBarNode;
 import com.horstmann.violet.product.diagram.usecase.UseCaseDiagramGraph;
 import com.horstmann.violet.product.diagram.usecase.edge.InteractionEdge;
 import com.horstmann.violet.workspace.IWorkspace;
@@ -115,13 +116,11 @@ public class Activity2046 extends JTabbedPane {
 				ArrayList<ClassNode> m_Node = new ArrayList<>();
 				ArrayList<ClassNode> c_Node = new ArrayList<>();
 
-				ArrayList<ArrayList<String>> id_allname = new ArrayList<>();
-
-				ArrayList<ArrayList<String>> class_name = new ArrayList<>();
+				ArrayList<String> id_name = new ArrayList<>();
 
 				for (Graph tmp_Graph : id) {
 					Collection<IEdge> Edges = tmp_Graph.getGraph().getGraph().getAllEdges();
-					ArrayList<String> id_name = new ArrayList<>();
+					
 					for (IEdge aEdge : Edges) {
 						int exist = 0;
 						if (aEdge.getClass().equals(SynchronousCallEdge.class)) {
@@ -132,8 +131,15 @@ public class Activity2046 extends JTabbedPane {
 								}
 							}
 							if (exist == 0) {
-								String ide = new String(a.getCenterLabel().toString());
-								id_name.add(ide);
+								if(a.getCenterLabel().toString().length() > 0) {
+									if(a.getCenterLabel().toString().charAt(0) == '<') {
+										
+									}
+									else {
+										String ide = new String(a.getCenterLabel().toString());
+										id_name.add(ide);
+									}
+								}
 							}
 						} else if (aEdge.getClass().equals(AsynchronousCallEdge.class)) {
 							AsynchronousCallEdge a = (AsynchronousCallEdge) aEdge;
@@ -143,23 +149,19 @@ public class Activity2046 extends JTabbedPane {
 								}
 							}
 							if (exist == 0) {
-								String ide = new String(a.getCenterLabel().toString());
-								id_name.add(ide);
-							}
-						} else if (aEdge.getClass().equals(ReturnEdge.class)) {
-							ReturnEdge a = (ReturnEdge) aEdge;
-							for (String tmp : id_name) {
-								if (a.getCenterLabel().toString().equals(tmp)) {
-									exist = 1;
+								if(a.getCenterLabel().toString().length() > 0) {
+									if(a.getCenterLabel().toString().charAt(0) == '<') {
+										
+									}
+									else {
+										String ide = new String(a.getCenterLabel().toString());
+										id_name.add(ide);
+									}
 								}
-							}
-							if (exist == 0) {
-								String ide = new String(a.getCenterLabel().toString());
-								id_name.add(ide);
 							}
 						}
 					}
-					id_allname.add(id_name);
+					
 
 				}
 
@@ -175,27 +177,24 @@ public class Activity2046 extends JTabbedPane {
 				}
 				i = 1;
 
-				for (ArrayList<String> tmp_allid : id_allname) {
-					// System.out.println("1");
-					for (String tmp_id : tmp_allid) {
-
-						ClassNode tmp_idnode = new ClassNode();
-						SingleLineText tmp_name = new SingleLineText();
-						tmp_name.setText(tmp_id);
-						tmp_idnode.setName(tmp_name);
-						Point2D tmp_xy = new Point2D.Double(400.0, i * 10.0);
-						id_Node.add(tmp_idnode);
-						workspace.getGraphFile().getGraph().addNode(tmp_idnode, tmp_xy);
-						i = i + 5;
-					}
+				for (String tmp_id : id_name) {
+					ClassNode tmp_idnode = new ClassNode();
+					SingleLineText tmp_name = new SingleLineText();
+					tmp_name.setText(tmp_id);
+					tmp_idnode.setName(tmp_name);
+					Point2D tmp_xy = new Point2D.Double(400.0, i * 10.0);
+					id_Node.add(tmp_idnode);
+					workspace.getGraphFile().getGraph().addNode(tmp_idnode, tmp_xy);
+					i = i + 5;
 				}
+				
 				i = 1;
 				Collection<INode> node = cd.getGraph().getGraph().getAllNodes();
+				int k = 1;
 				for (INode s : node) {
 					ClassNode c = (ClassNode) s;
-					ArrayList<String> method_name = new ArrayList<>();
+					
 					StringTokenizer t = new StringTokenizer(c.getMethods().toString(), "|");
-					int k = 1;
 					for (int j = 0; t.hasMoreTokens(); j++) {
 						StringTokenizer u = new StringTokenizer(t.nextToken(), " ");
 						for (int l = 0; l < 2; l++) {
@@ -209,36 +208,54 @@ public class Activity2046 extends JTabbedPane {
 						SingleLineText tmp_name = new SingleLineText();
 						tmp_name.setText(temp);
 						tmp_mnode.setName(tmp_name);
-						Point2D tmp_xy = new Point2D.Double(800.0, k * 10.0);
+						Point2D tmp_xy = new Point2D.Double(1400.0, k * 10.0);
 						m_Node.add(tmp_mnode);
 						workspace.getGraphFile().getGraph().addNode(tmp_mnode, tmp_xy);
 						k = k + 5;
-						method_name.add(tmp_name.toString());
+						
 					}
 
 					ClassNode tmp_cnode = new ClassNode();
 					SingleLineText tmp_name = new SingleLineText();
 					tmp_name.setText(c.getName());
 					tmp_cnode.setName(tmp_name);
-					Point2D tmp_xy = new Point2D.Double(1200.0, i * 30.0);
+					Point2D tmp_xy = new Point2D.Double(2400.0, i * 30.0);
 					c_Node.add(tmp_cnode);
 					workspace.getGraphFile().getGraph().addNode(tmp_cnode, tmp_xy);
 					i = i + 5;
-					class_name.add(method_name);
 				}
-
+			
 				for (ClassNode tmp_node : op_Node) {
-					for (ArrayList<String> tmp_id : id_allname) {
-						for (int j = 0; j < tmp_id.size(); j++) {
-							if (tmp_id.get(j).equals(tmp_node.getName().toString())) {
-								for (ClassNode id_nd : id_Node) {
-									AssociationEdge ie_tmp = new AssociationEdge();
-									//ge.changeEdge(ie_tmp);
-									workspace.getGraphFile().getGraph().connect(ie_tmp, tmp_node,
-											tmp_node.getLocationOnGraph(), id_nd, id_nd.getLocationOnGraph(), null);
+					for (Graph tmp_id : id) {
+						if(tmp_id.getName().equals(tmp_node.getName().toString())) {
+							Collection<IEdge> Edges = tmp_id.getGraph().getGraph().getAllEdges();
+							for (ClassNode id_nd : id_Node) {
+								for(IEdge e :Edges) {
+									if(e.getClass().equals(SynchronousCallEdge.class)) {
+										SynchronousCallEdge a = (SynchronousCallEdge) e;
+										if(a.getCenterLabel().toString().equals(id_nd.getName().toString())) {
+											AssociationEdge ie_tmp = new AssociationEdge();
+											ge.changeEdge(ie_tmp);
+											workspace.getGraphFile().getGraph().connect(ie_tmp, tmp_node,
+													tmp_node.getLocationOnGraph(), id_nd, id_nd.getLocationOnGraph(), null);
+											break;
+										}
+									}
+									else if(e.getClass().equals(AsynchronousCallEdge.class)) {
+										AsynchronousCallEdge a = (AsynchronousCallEdge) e;
+										if(a.getCenterLabel().toString().equals(id_nd.getName().toString())) {
+											AssociationEdge ie_tmp = new AssociationEdge();
+											ge.changeEdge(ie_tmp);
+											workspace.getGraphFile().getGraph().connect(ie_tmp, tmp_node,
+													tmp_node.getLocationOnGraph(), id_nd, id_nd.getLocationOnGraph(), null);
+											break;
+										}
+									}
+									
 								}
-							}
+							}	
 						}
+						
 					}
 				}
 
@@ -246,21 +263,35 @@ public class Activity2046 extends JTabbedPane {
 					for (ClassNode m_nd : m_Node) {
 						if (m_nd.getName().toString().equals(tmp_node.getName().toString())) {
 							AssociationEdge ie_tmp = new AssociationEdge();
-							//ge.changeEdge(ie_tmp);
+							ge.changeEdge(ie_tmp);
 							workspace.getGraphFile().getGraph().connect(ie_tmp, tmp_node,
 									tmp_node.getLocationOnGraph(), m_nd, m_nd.getLocationOnGraph(), null);
 						}
 					}
 				}
 				for (ClassNode tmp_node : m_Node) {
-					for (ArrayList<String> tmp_c : class_name) {
-						for (int j = 0; j < tmp_c.size(); j++) {
-							if (tmp_c.get(j).equals(tmp_node.getName().toString())) {
+					//Collection<INode> node = cd.getGraph().getGraph().getAllNodes();
+					for (INode s : node) {
+						ClassNode c = (ClassNode) s;
+						
+						StringTokenizer t = new StringTokenizer(c.getMethods().toString(), "|");
+						for (int j = 0; t.hasMoreTokens(); j++) {
+							StringTokenizer u = new StringTokenizer(t.nextToken(), " ");
+							for (int l = 0; l < 2; l++) {
+								u.nextToken();
+							}
+							String temp = u.nextToken();
+							while (u.hasMoreTokens()) {
+								temp = temp + " " + u.nextToken();
+							}
+							if(temp.equals(tmp_node.getName().toString())) {
 								for (ClassNode c_nd : c_Node) {
-									AssociationEdge ie_tmp = new AssociationEdge();
-									ge.changeEdge(ie_tmp);
-									workspace.getGraphFile().getGraph().connect(ie_tmp, tmp_node,
-											tmp_node.getLocationOnGraph(), c_nd, c_nd.getLocationOnGraph(), null);
+									if(c_nd.getName().toString().equals(c.getName().toString())) {
+										AssociationEdge ie_tmp = new AssociationEdge();
+										ge.changeEdge(ie_tmp);
+										workspace.getGraphFile().getGraph().connect(ie_tmp, tmp_node,
+												tmp_node.getLocationOnGraph(), c_nd, c_nd.getLocationOnGraph(), null);
+									}
 								}
 							}
 						}

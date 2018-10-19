@@ -26,6 +26,8 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultTreeModel;
 
 import Model.Datainfo;
+import Model.NonFuncReq;
+import Model.StageText;
 import Model.SystemTestCase;
 import Model.UnitTestCase;
 
@@ -35,10 +37,11 @@ public class Activity2061 extends JTabbedPane {
 	/**
 	 * Create the panel.
 	 */
+	JTextPane textPane;
 	DefaultTableModel model;
 	public Activity2061(JTree tree, ArrayList<UnitTestCase> utc, Datainfo data) {
 		JSplitPane splitPane = new JSplitPane();
-		JTextPane textPane = new JTextPane();
+		textPane = new JTextPane();
 		JScrollPane panel = new JScrollPane();
 		panel.setViewportView(textPane);
 		GridBagConstraints c = new GridBagConstraints();
@@ -155,10 +158,7 @@ public class Activity2061 extends JTabbedPane {
 		        	 }
 				}
 				table.editingStopped(changeEvent);
-//				for(int i = 0; i < model.getRowCount(); i++) {
-//					String text = (String)model.getValueAt(i, 0);
-//					data.setConcept(i, text);
-//				}
+				data.setText(24, textPane.getText());
 				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
 			}
 		});
@@ -174,7 +174,7 @@ public class Activity2061 extends JTabbedPane {
 				int row = table.getSelectedRow();
 				if(row!=-1) {
 					model.removeRow(row);
-//					data.syncConcept(model.getRowCount());
+					//data.syncmTestCase("U");
 					table.editingCanceled(changeEvent);
 				}
 			}
@@ -191,7 +191,8 @@ public class Activity2061 extends JTabbedPane {
 				}
 				table.editingStopped(changeEvent);
 				utc.clear();
-				//data.syncSystemTestCase();
+				data.syncmTestCase("U");
+			
 				for (int i = 0; i < model.getRowCount(); i++) {
 					UnitTestCase r = new UnitTestCase();
 					r.setNumber((String) model.getValueAt(i, 0));
@@ -200,13 +201,34 @@ public class Activity2061 extends JTabbedPane {
 					r.setInput((String) model.getValueAt(i, 3));
 					r.setOutput((String) model.getValueAt(i, 4));
 					r.setResult((String) model.getValueAt(i, 5));
-					//data.setSystemTestCase(i, r);
+					data.setTestCase("U", r);
+					
 					utc.add(r);
 				}
 				((DefaultTreeModel) tree.getModel()).nodeChanged(node);
 			}
 		});
 	}
+	public void save(Datainfo data) {
+		data.setText(24, textPane.getText());
+		
+	}
+	public void open(ArrayList<StageText> st, ArrayList<UnitTestCase> req) {
+		setTextPane(st);
+		model.setRowCount(0);
+		for(UnitTestCase r : req) {
+			Object[] add = { r.getNumber(), r.getName(), r.getDescription(), r.getInput(), r.getOutput(), r.getResult() };
+			model.addRow(add);
+		}
+		if (req.size() == 0) {
+			Object[] add = { "", "", "", "", "" ,"" };
+			model.addRow(add);
+		}
+ 	}
+	private void setTextPane(ArrayList<StageText> st) {
+		textPane.setText(st.get(24).getText());
+	}
+	
 	private static void addPopup(Component component, final JPopupMenu popup) {
 		component.addMouseListener(new MouseAdapter() {
 			public void mousePressed(MouseEvent e) {

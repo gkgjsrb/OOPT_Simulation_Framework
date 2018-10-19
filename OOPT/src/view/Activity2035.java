@@ -110,7 +110,7 @@ public class Activity2035 extends JTabbedPane {
 						else if(aEdge.getClass().equals(AsynchronousCallEdge.class)) {
 							AsynchronousCallEdge a =(AsynchronousCallEdge)aEdge;
 							for(SystemOperation tmp : op) {
-								if(a.getId().equals(tmp.getId()) || a.getCenterLabel().toString().equals(tmp.getName())) {
+								if(a.getId().equals(tmp.getId())|| a.getCenterLabel().toString().equals(tmp.getName())) {
 									tmp.setName(a.getCenterLabel().toString());
 									exist=1;
 								}
@@ -121,7 +121,7 @@ public class Activity2035 extends JTabbedPane {
 								opc.setId(a.getId());
 								op.add(opc);
 							}
-						}	
+						}
 					}
 					for(SystemOperation tmp : op) {
 						for(IEdge aEdge : allEdges) {

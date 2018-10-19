@@ -209,7 +209,7 @@ public class GUI {
 		Activity2055 a2055 = new Activity2055();
 		Activity2061 a2061 = new Activity2061(tree, utc, data);
 		Activity2062 a2062 = new Activity2062();
-		Activity2063 a2063 = new Activity2063(tree, data);
+		Activity2063 a2063 = new Activity2063(tree, stc, data);
 		Activity2064 a2064 = new Activity2064();
 		Activity2065 a2065 = new Activity2065();
 		Activity2066 a2066 = new Activity2066();
@@ -309,6 +309,11 @@ public class GUI {
 				ArrayList<SystemTestCase> stc2 = data.getSearchSystemTC();
 				stc.clear();
 				stc.addAll(stc2);
+				
+				ArrayList<UnitTestCase> tmpUtc = data.getSearchTC("U");
+				utc.clear();
+				utc.addAll(tmpUtc);
+				
 				a1001.open(st);
 				a1002.open(st, risk);
 				a1003.open(st, req);
@@ -325,6 +330,9 @@ public class GUI {
 				a2041.open(ruc);
 				a2043.open(sa);
 				a2045.open(cd);
+				a2061.open(st, utc);
+				a2062.open(st, utc);
+				a2063.open(st, stc);
 			}
 
 		});
@@ -486,12 +494,15 @@ public class GUI {
 					index = node.getParent().getIndex(node);
 					switch (index) {
 					case 0:
+						a2061.save(data);
 						nodes[37].setIconName("floppyDrive");
 						break;
 					case 1:
+						a2062.save(data);
 						nodes[38].setIconName("floppyDrive");
 						break;
 					case 2:
+						a2063.save(data);
 						nodes[39].setIconName("floppyDrive");
 						break;
 					case 3:

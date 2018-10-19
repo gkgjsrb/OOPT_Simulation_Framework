@@ -211,7 +211,7 @@ public class Activity2067 extends JTabbedPane {
 						for (int l = 0; l < 2; l++) {
 							u.nextToken();
 						}
-						String temp = u.nextToken();
+						String temp = c.getName().toString() + " : " + u.nextToken();
 						while (u.hasMoreTokens()) {
 							temp = temp + " " + u.nextToken();
 						}
@@ -231,7 +231,7 @@ public class Activity2067 extends JTabbedPane {
 		        	SingleLineText tmp_name = new SingleLineText();
 		        	tmp_name.setText(tmp_utc.getNumber() + ". " + tmp_utc.getName());
 		        	tmp_utcnode.setName(tmp_name);
-		        	Point2D tmp_xy = new Point2D.Double(400.0, i * 10.0);
+		        	Point2D tmp_xy = new Point2D.Double(1000.0, i * 10.0);
 		        	ut_Node.add(tmp_utcnode);
 		        	workspace.getGraphFile().getGraph().addNode(tmp_utcnode, tmp_xy);
 		        	i=i+5;
@@ -243,7 +243,7 @@ public class Activity2067 extends JTabbedPane {
 		        			for(ClassNode uc_nd : uc_Node) {
 		        				if(uc_nd.getName().toString().equals(related_uc)) {
 		        					AssociationEdge ie_tmp = new AssociationEdge();
-		        					//ge2.changeEdge(ie_tmp);
+		        					ge2.changeEdge(ie_tmp);
 		        					workspace2.getGraphFile().getGraph().connect(ie_tmp, tmp_node, tmp_node.getLocationOnGraph(), uc_nd, uc_nd.getLocationOnGraph(), null);	
 		        				}
 		        			}
@@ -256,11 +256,15 @@ public class Activity2067 extends JTabbedPane {
 						StringTokenizer st = new StringTokenizer(uc, " ");
 						if(st.hasMoreTokens()) {
 							st.nextToken();
-							if(st.nextToken().equals(tmp_node.getName().toString())) {
+							String name = st.nextToken();
+							while(st.hasMoreTokens()) {
+								name = name + " " + st.nextToken();
+							}
+							if(name.equals(tmp_node.getName().toString())) {
 								for(ClassNode st_nd : st_Node) {
 									if(st_nd.getName().toString().equals(temp.getName())) {
 										AssociationEdge ie_tmp = new AssociationEdge();
-			        					//ge2.changeEdge(ie_tmp);
+			        					ge2.changeEdge(ie_tmp);
 			        					workspace2.getGraphFile().getGraph().connect(ie_tmp, tmp_node, tmp_node.getLocationOnGraph(), st_nd, st_nd.getLocationOnGraph(), null);
 									}
 								}
@@ -269,8 +273,16 @@ public class Activity2067 extends JTabbedPane {
 					}
 				}
 				for (ClassNode tmp_node : m_Node) {
+					StringTokenizer a = new StringTokenizer(tmp_node.getName().toString(), " ");
+					for (int l = 0; l < 2; l++) {
+						a.nextToken();
+					}
+					String name = a.nextToken();
+					while (a.hasMoreTokens()) {
+						name = name + " " + a.nextToken();
+					}
 					for (UnitTestCase temp : utc) {
-						if(temp.getName().equals(tmp_node.getName().toString())) {
+						if(temp.getName().equals(name)) {
 							for(ClassNode ut_nd : ut_Node) {
 								if(ut_nd.getName().toString().equals(temp.getNumber() + ". " + temp.getName())) {
 									AssociationEdge ie_tmp = new AssociationEdge();

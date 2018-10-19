@@ -37,7 +37,7 @@ public class GraphEditor {
 		AssociationEdge i = (AssociationEdge) edge;
 		BentStyleChoiceList t = new BentStyleChoiceList();
 		//ArrowheadChoiceList t = new ArrowheadChoiceList();
-		t.setSelectedIndex(1);
+		t.setSelectedIndex(5);
 		//i.setEndArrowheadChoiceList(t);
 		i.setBentStyleChoiceList(t);
 		
