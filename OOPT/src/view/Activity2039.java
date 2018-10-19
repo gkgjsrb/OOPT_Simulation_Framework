@@ -143,7 +143,7 @@ public class Activity2039 extends JTabbedPane {
 		        	SingleLineText tmp_name = new SingleLineText();
 		        	tmp_name.setText(tmp_op.getName());
 		        	tmp_opnode.setName(tmp_name);
-		        	Point2D tmp_xy = new Point2D.Double(800.0, i*10.0);
+		        	Point2D tmp_xy = new Point2D.Double(1200.0, i*10.0);
 		        	op_Node.add(tmp_opnode);
 		        	workspace.getGraphFile().getGraph().addNode(tmp_opnode, tmp_xy);
 		        	i=i+5;
@@ -173,6 +173,7 @@ public class Activity2039 extends JTabbedPane {
 		        						if(a.getCenterLabel().toString().equals(op_node.getName().toString())) {
 		        							AssociationEdge ie_tmp = new AssociationEdge();
 		        							//ge.changeEdge(ie_tmp);
+		        							ge.changeEdge(ie_tmp);
 				        					workspace.getGraphFile().getGraph().connect(ie_tmp, uc_node, uc_node.getLocationOnGraph(), op_node, op_node.getLocationOnGraph(), null);
 		        						}
 		        					}
