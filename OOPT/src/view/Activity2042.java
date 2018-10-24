@@ -9,14 +9,26 @@ import java.awt.event.FocusListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+
+import com.horstmann.violet.workspace.Workspace;
+
+import Model.Button;
+import Model.Graph;
 
 //define ui
 public class Activity2042 extends JPanel {
 
+	private JFrame parent = (JFrame) this.getTopLevelAncestor();
+	private int Objectcnt=1;
+	
 	private JButton button;
 	private JButton button_1;
 	
@@ -26,13 +38,16 @@ public class Activity2042 extends JPanel {
 	private int button_number;
 
 	private Boolean selected;
-	private JButton selectedBtn;
+	private Button selectedBtn;
 	private JTextField selectedField;
 
 	private JPanel panel;
 	private JPanel panel_1;
 
-	public Activity2042() {
+	private ArrayList<Button> bt = new ArrayList<Button>();
+	
+	
+	public Activity2042(ArrayList<Graph> id) {
 		panel = new JPanel();
 		panel.setBackground(Color.DARK_GRAY);
 		panel.setLocation(6, 0);
@@ -65,7 +80,7 @@ public class Activity2042 extends JPanel {
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
 				origin = e.getPoint();
-
+				
 				if (button_selected && button_number == 1) {
 					JTextField tempText = new JTextField("text");
 					tempText.setLocation(origin);
@@ -90,11 +105,12 @@ public class Activity2042 extends JPanel {
 							// TODO Auto-generated method stub
 							int dx = e.getX() - mousePt.x;
 							int dy = e.getY() - mousePt.y;
-
+							
 							if (selectedField != null) {
 								selectedField.setLocation(selectedField.getX() + dx, selectedField.getY() + dy);
 							}
 							// mousePt = e.getPoint();
+							
 							panel_1.repaint();
 						}
 
@@ -155,8 +171,7 @@ public class Activity2042 extends JPanel {
 					button_number = 0;
 				} 
 				else if (button_selected && button_number == 2) {
-					JButton tempButton = new JButton("Button");
-					tempButton.setName("aa");
+					Button tempButton = new Button(Objectcnt);
 					tempButton.setLocation(origin);
 					tempButton.setSize(100, 30);
 					tempButton.addMouseMotionListener(new MouseMotionListener() {
@@ -167,10 +182,15 @@ public class Activity2042 extends JPanel {
 							// e.getPoint().x );
 							int dx = e.getX() - mousePt.x;
 							int dy = e.getY() - mousePt.y;
-
+							
 							if (selectedBtn != null) {
-								selectedBtn.setLocation(selectedBtn.getX() + dx, selectedBtn.getY() + dy);
+								for(Button tmp_bt : bt) {
+									if(tmp_bt.getId()==selectedBtn.getId()) {
+										tmp_bt.setLocation(selectedBtn.getX()+dx, selectedBtn.getY()+dy);
+									}
+								}
 							}
+							
 							// mousePt = e.getPoint();
 							panel_1.repaint();
 						}
@@ -187,6 +207,46 @@ public class Activity2042 extends JPanel {
 							// TODO Auto-generated method stub
 							if (e.getClickCount() == 2) {
 								System.out.println("Double Click");
+								JDialog jd = new JDialog(parent);
+								jd.setLayout(null);
+								jd.setSize(400, 150);
+								jd.setResizable(false);
+								jd.setTitle("Input Operation Name");
+								jd.show();
+								JComboBox<String> cb = new JComboBox<String>();
+								cb.setSize(200, 40);
+								cb.setLocation(100,0);
+								for(Graph tmp_id : id) {
+									cb.addItem(tmp_id.getName());
+								}
+								JButton jb = new JButton("»Æ¿Œ");
+								jb.setSize(80, 40);
+								jb.setLocation(160, 60);
+								jd.add(cb);
+								jd.add(jb);
+								
+								jb.addActionListener(new ActionListener() {
+						
+									@Override
+									public void actionPerformed(ActionEvent arg0) {
+										// TODO Auto-generated method stub
+										if(selectedBtn!=null) {
+											int index = cb.getSelectedIndex();
+											String sel = cb.getItemAt(index);
+											for(Button tmp_bt : bt) {
+												if(tmp_bt.getId()==selectedBtn.getId()) {
+													for(Graph tmp_id : id) {
+														if(tmp_id.getName().equals(sel)) {
+															tmp_bt.setid(tmp_id);
+															tmp_bt.setText(tmp_bt.getid().getName());
+														}
+													}
+												}
+											}
+										}
+										jd.dispose();
+									}
+								});
 							}
 						}
 
@@ -226,6 +286,8 @@ public class Activity2042 extends JPanel {
 					button_1.setEnabled(true);
 					button_selected = false;
 					button_number = 0;
+					Objectcnt++;
+					bt.add(tempButton);
 				}
 				
 				selected = false;
@@ -309,4 +371,6 @@ public class Activity2042 extends JPanel {
 
 	}
 
+	
+	
 }

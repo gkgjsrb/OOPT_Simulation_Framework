@@ -9,6 +9,7 @@ import Model.Graph;
 import Model.Mkdir;
 import Model.Requirement;
 import Model.Risk;
+import Model.Simulation;
 import Model.SystemOperation;
 import Model.UMLEditorApplication;
 import Model.UseCase;
@@ -39,6 +40,7 @@ public class Main {
 		Graph ud = new Graph();
 		Graph cd = new Graph();
 		Graph sa = new Graph();
+		
 		
 		GUI gui = new GUI(req, risk, gl, uc, op, std, sd, id, ud, cd, dm, sa, data);
 		

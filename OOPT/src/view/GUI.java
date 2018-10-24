@@ -26,6 +26,7 @@ import Model.NonFuncReq;
 import Model.Requirement;
 import Model.Risk;
 import Model.Schedule;
+import Model.Simulation;
 import Model.StageText;
 import Model.SystemOperation;
 import Model.SystemTestCase;
@@ -199,7 +200,7 @@ public class GUI {
 		Activity2038 a2038 = new Activity2038(tree, req, uc, stc, data);
 		Activity2039 a2039 = new Activity2039(req, uc, op, sd);
 		Activity2041 a2041 = new Activity2041(tree, ruc, data);
-		Activity2042 a2042 = new Activity2042();
+		Activity2042 a2042 = new Activity2042(id);
 		Activity2043 a2043 = new Activity2043(sa, data);
 		Activity2044 a2044 = new Activity2044(id, data);
 		Activity2045 a2045 = new Activity2045(cd, data);
@@ -217,6 +218,8 @@ public class GUI {
 		Activity2066 a2066 = new Activity2066();
 		Activity2067 a2067 = new Activity2067(req, uc, op, sd, id, cd, stc, utc);
 
+		Simulation sm = new Simulation(a2042);
+		
 		JScrollPane jtree = new JScrollPane(tree);
 		splitPane.setDividerLocation(divSize);
 		splitPane.setLeftComponent(jtree);
@@ -226,7 +229,7 @@ public class GUI {
 
 		JMenu File = new JMenu("File");
 		menuBar_1.add(File);
-
+		
 		JMenuItem mntmNew = new JMenuItem("New");
 		File.add(mntmNew);
 
@@ -802,7 +805,7 @@ public class GUI {
 		});
 		JMenu mnNewMenu_1 = new JMenu("Simulation");
 		menuBar_1.add(mnNewMenu_1);
-
+		
 		tree.addTreeSelectionListener(new TreeSelectionListener() {
 			public void valueChanged(TreeSelectionEvent arg0) {
 				IconNode node = (IconNode) tree.getLastSelectedPathComponent();
