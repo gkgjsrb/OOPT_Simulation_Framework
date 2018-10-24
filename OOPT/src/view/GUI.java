@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTree;
@@ -72,6 +73,7 @@ public class GUI {
 		gl2 = new ArrayList<>();
 		ruc = new ArrayList<>();
 		frame = new JFrame();
+		
 		frame.setBounds(100, 100, 928, 617);
 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -213,7 +215,7 @@ public class GUI {
 		Activity2064 a2064 = new Activity2064();
 		Activity2065 a2065 = new Activity2065();
 		Activity2066 a2066 = new Activity2066();
-		Activity2067 a2067 = new Activity2067(req, uc, cd, stc, utc);
+		Activity2067 a2067 = new Activity2067(req, uc, op, sd, id, cd, stc, utc);
 
 		JScrollPane jtree = new JScrollPane(tree);
 		splitPane.setDividerLocation(divSize);
@@ -232,107 +234,366 @@ public class GUI {
 		File.add(mntmOpen);
 
 		mntmOpen.addActionListener(new ActionListener() {
-
+			
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				ArrayList<StageText> st = data.getSearchText();
-				ArrayList<Risk> r = data.getSearchRisk();
-				risk.clear();
-				risk.addAll(r);
+				int dialogButton = JOptionPane.YES_NO_OPTION;
+				int dialogResult = JOptionPane.showConfirmDialog(null, "Open?", "Warning", dialogButton);
+				if(dialogResult == JOptionPane.YES_OPTION) {
+					ArrayList<StageText> st = new ArrayList<>();
+					Thread thread = new Thread(new Runnable() {
 
-				Requirement temp_req = data.getSearchReq();
-				req.clear();
-				for (int i = 0; i < temp_req.get_length(); i++) {
-					req.add_row();
-					req.setRef(temp_req.getRef(i), i);
-					req.setName(temp_req.getName(i), i);
-					req.setCategory(temp_req.getCategory(i), i);
-					req.setuCategory(temp_req.getuCategory(i), i);
-					req.setuNumber(temp_req.getuNumber(i), i);
-					req.setuName(temp_req.getuName(i), i);
-					req.setRank(temp_req.getRank(i), i);
-					req.setTestcase(temp_req.getTestcase(i), i);
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							ArrayList<StageText> temp = data.getSearchText();
+							st.addAll(temp);
+						}
+						
+					});
+					
+					Thread thread2 = new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							ArrayList<Risk> temp = data.getSearchRisk();
+							risk.clear();
+							risk.addAll(temp);
+						}
+						
+					});
+					
+					Thread thread3 = new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							Requirement temp = data.getSearchReq();
+							req.clear();
+							for (int i = 0; i < temp.get_length(); i++) {
+								req.add_row();
+								req.setRef(temp.getRef(i), i);
+								req.setName(temp.getName(i), i);
+								req.setCategory(temp.getCategory(i), i);
+								req.setuCategory(temp.getuCategory(i), i);
+								req.setuNumber(temp.getuNumber(i), i);
+								req.setuName(temp.getuName(i), i);
+								req.setRank(temp.getRank(i), i);
+								req.setTestcase(temp.getTestcase(i), i);
+							}
+						}
+						
+					});
+					Thread thread4 = new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							ArrayList<Glossary> g = data.getSearchGl("D");
+							gl.clear();
+							gl.addAll(g);
+							
+						}
+						
+					});
+					Thread thread5 = new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							ArrayList<Glossary> g2 = data.getSearchGl("R");
+							gl2.clear();
+							gl2.addAll(g2);
+							
+						}
+						
+					});
+	
+					ArrayList<String> concept = new ArrayList<>();
+					Thread thread6 = new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							ArrayList<String> temp = data.getSearchConcept();
+							concept.addAll(temp);
+							
+						}
+						
+					});
+					ArrayList<String> ausecase = new ArrayList<>();
+					Thread thread7 = new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							ArrayList<String> temp = data.getSearchBUsecase("A");
+							ausecase.addAll(temp);
+							
+						}
+						
+					});
+					ArrayList<String> eusecase = new ArrayList<>();
+					Thread thread8 = new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							ArrayList<String> temp = data.getSearchBUsecase("E");
+							eusecase.addAll(temp);
+							
+						}
+						
+					});
+					ArrayList<UseCase> u = data.getSearchUseCase();
+					Thread thread9 = new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							ArrayList<UseCase> u = data.getSearchUseCase();
+							uc.clear();
+							uc.addAll(u);
+						}
+						
+					});
+	
+					ArrayList<Schedule> sc = new ArrayList<>();
+					Thread thread10 = new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							ArrayList<Schedule> temp = data.getSearchSche();
+							sc.addAll(temp);
+						}
+						
+					});
+					
+					ArrayList<NonFuncReq> nreq = new ArrayList<>();
+					Thread thread11 = new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							ArrayList<NonFuncReq> temp = data.getSearchNonReq("D");
+							nreq.addAll(temp);
+						}
+						
+					});
+					Thread thread12 = new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							Graph tmp_ud = data.getSearchGraph("ud").get(0);
+							ud.setGraph(tmp_ud.getGraph());
+							ud.setId(tmp_ud.getId());
+							ud.setName(tmp_ud.getName());
+						}
+						
+					});
+					Thread thread13 = new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							Graph tmp_dm = data.getSearchGraph("dm").get(0);
+							dm.setGraph(tmp_dm.getGraph());
+							dm.setId(tmp_dm.getId());
+							dm.setName(tmp_dm.getName());
+						}
+						
+					});
+					Thread thread14 = new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							Graph tmp_sa = data.getSearchGraph("sa").get(0);
+							sa.setGraph(tmp_sa.getGraph());
+							sa.setId(tmp_sa.getId());
+							sa.setName(tmp_sa.getName());
+						}
+						
+					});
+					Thread thread15 = new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							Graph tmp_cd = data.getSearchGraph("cd").get(0);
+							cd.setGraph(tmp_cd.getGraph());
+							cd.setId(tmp_cd.getId());
+							cd.setName(tmp_cd.getName());
+						}
+						
+					});
+					
+					Thread thread16 = new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							ArrayList<Graph> tmpSd = data.getSearchGraph("sd");
+							sd.clear();
+							sd.addAll(tmpSd);
+						}
+						
+					});
+					Thread thread17 = new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							ArrayList<Graph> tmpStd = data.getSearchGraph("std");
+							std.clear();
+							std.addAll(tmpStd);
+						}
+						
+					});
+					Thread thread18 = new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							ArrayList<Graph> tmpId = data.getSearchGraph("id");
+							id.clear();
+							id.addAll(tmpId);
+						}
+						
+					});
+					Thread thread19 = new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							ArrayList<UseCase> ructmp = data.getSearchRealUseCase();
+							ruc.clear();
+							ruc.addAll(ructmp);
+						}
+						
+					});
+					Thread thread20 = new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							ArrayList<SystemOperation> s = data.getSearchOperation();
+							op.clear();
+							op.addAll(s);
+						}
+						
+					});
+					ArrayList<NonFuncReq> nreq2 = new ArrayList<>();
+					Thread thread21 = new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							ArrayList<NonFuncReq> temp = data.getSearchNonReq("R");
+							nreq2.addAll(temp);
+						}
+						
+					});
+					Thread thread22 = new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							ArrayList<SystemTestCase> stc2 = data.getSearchSystemTC();
+							stc.clear();
+							stc.addAll(stc2);
+						}
+						
+					});
+					Thread thread23 = new Thread(new Runnable() {
+
+						@Override
+						public void run() {
+							// TODO Auto-generated method stub
+							ArrayList<UnitTestCase> tmpUtc = data.getSearchTC("U");
+							utc.clear();
+							utc.addAll(tmpUtc);
+						}
+						
+					});
+					
+					thread.start();
+					thread2.start();
+					thread3.start();
+					thread4.start();
+					thread5.start();
+					thread6.start();
+					thread7.start();
+					thread8.start();
+					thread9.start();
+					thread10.start();
+					thread11.start();
+					thread12.start();
+					thread13.start();
+					thread14.start();
+					thread15.start();
+					thread16.start();
+					thread17.start();
+					thread18.start();
+					thread19.start();
+					thread20.start();
+					thread21.start();
+					thread22.start();
+					thread23.start();
+					
+					try {
+						thread4.join();
+						a1004.open(gl);
+						thread5.join();
+						a2034.open(gl2);
+						thread6.join();
+						a1007.open(concept);
+						thread7.join();
+						thread8.join();
+						thread9.join();
+						a2031.open(uc);
+						thread10.join();
+						thread12.join();
+						thread13.join();
+						a2033.open(dm);
+						thread14.join();
+						a2043.open(sa);
+						thread15.join();
+						a2045.open(cd);
+						thread16.join();
+						thread17.join();
+						thread18.join();
+						thread19.join();
+						a2041.open(ruc);
+						thread20.join();
+						a2036.open(op);
+						thread.join();
+						a1001.open(st);
+						thread2.join();
+						a1002.open(st, risk);
+						thread3.join();
+						a1003.open(st, req);
+						thread11.join();
+						a1009.open(req, nreq);
+						thread21.join();
+						thread22.join();
+						a2038.open(stc, nreq2);
+						a2063.open(st, stc);
+						a1006.open(st, ausecase, eusecase, ud, uc);
+						a1010.open(st, sc);
+						thread23.join();
+						a2061.open(st, utc);
+						a2062.open(st, utc);
+						
+					} catch (InterruptedException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
-				ArrayList<Glossary> g = data.getSearchGl("D");
-				gl.clear();
-				gl.addAll(g);
-				ArrayList<Glossary> g2 = data.getSearchGl("R");
-				gl2.clear();
-				gl2.addAll(g2);
-
-				ArrayList<String> concept = data.getSearchConcept();
-				ArrayList<String> ausecase = data.getSearchBUsecase("A");
-				ArrayList<String> eusecase = data.getSearchBUsecase("E");
-				ArrayList<UseCase> u = data.getSearchUseCase();
-				uc.clear();
-				uc.addAll(u);
-
-				ArrayList<Schedule> sc = data.getSearchSche();
-				ArrayList<NonFuncReq> nreq = data.getSearchNonReq("D");
-				
-				Graph tmp_ud = data.getSearchGraph("ud").get(0);
-				ud.setGraph(tmp_ud.getGraph());
-				ud.setId(tmp_ud.getId());
-				ud.setName(tmp_ud.getName());
-				Graph tmp_dm = data.getSearchGraph("dm").get(0);
-				dm.setGraph(tmp_dm.getGraph());
-				dm.setId(tmp_dm.getId());
-				dm.setName(tmp_dm.getName());
-				Graph tmp_sa = data.getSearchGraph("sa").get(0);
-				sa.setGraph(tmp_sa.getGraph());
-				sa.setId(tmp_sa.getId());
-				sa.setName(tmp_sa.getName());
-				Graph tmp_cd = data.getSearchGraph("cd").get(0);
-				cd.setGraph(tmp_cd.getGraph());
-				cd.setId(tmp_cd.getId());
-				cd.setName(tmp_cd.getName());
-				ArrayList<Graph> tmpSd = data.getSearchGraph("sd");
-				sd.clear();
-				sd.addAll(tmpSd);
-				ArrayList<Graph> tmpStd = data.getSearchGraph("std");
-				std.clear();
-				std.addAll(tmpStd);
-				ArrayList<Graph> tmpId = data.getSearchGraph("id");
-				id.clear();
-				id.addAll(tmpId);
-
-				ArrayList<UseCase> ructmp = data.getSearchRealUseCase();
-				ruc.clear();
-				ruc.addAll(ructmp);
-
-				ArrayList<SystemOperation> s = data.getSearchOperation();
-				op.clear();
-				op.addAll(s);
-				
-				ArrayList<NonFuncReq> nreq2 = data.getSearchNonReq("R");
-				ArrayList<SystemTestCase> stc2 = data.getSearchSystemTC();
-				stc.clear();
-				stc.addAll(stc2);
-				
-				ArrayList<UnitTestCase> tmpUtc = data.getSearchTC("U");
-				utc.clear();
-				utc.addAll(tmpUtc);
-				
-				a1001.open(st);
-				a1002.open(st, risk);
-				a1003.open(st, req);
-				a1004.open(gl);
-				a1006.open(st, ausecase, eusecase, ud, uc);
-				a1007.open(concept);
-				a1009.open(req, nreq);
-				a1010.open(st, sc);
-				a2031.open(uc);
-				a2033.open(dm);
-				a2034.open(gl2);
-				a2036.open(op);
-				a2038.open(stc, nreq2);
-				a2041.open(ruc);
-				a2043.open(sa);
-				a2045.open(cd);
-				a2061.open(st, utc);
-				a2062.open(st, utc);
-				a2063.open(st, stc);
 			}
 
 		});
@@ -342,189 +603,204 @@ public class GUI {
 		mntmSave.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				IconNode node = (IconNode) tree.getLastSelectedPathComponent();
-				int index;
-				if (node == null) {
-					return;
-				}
-				// 1000
-				else if (node.getParent().equals(node.getRoot().getChildAt(0))) {
-					index = node.getParent().getIndex(node);
-					switch (index) {
-					case 0:
-						a1001.save(data);
-						nodes[2].setIconName("floppyDrive");
-						break;
-					case 1:
-						a1002.save(data, risk);
-						nodes[3].setIconName("floppyDrive");
-						break;
-					case 2:
-						a1003.save(data, req);
-						nodes[4].setIconName("floppyDrive");
-						break;
-					case 3:
-						a1004.save(data, gl);
-						nodes[5].setIconName("floppyDrive");
-						break;
-					case 4:
-						nodes[6].setIconName("floppyDrive");
-						break;
-					case 5:
-						a1006.save(data, req, uc);
-						nodes[7].setIconName("floppyDrive");
-						break;
-					case 6:
-						a1007.save(data);
-						nodes[8].setIconName("floppyDrive");
-						break;
-					case 7:
-						nodes[9].setIconName("floppyDrive");
-						break;
-					case 8:
-						a1009.save(data, req);
-						nodes[10].setIconName("floppyDrive");
-						break;
-					case 9:
-						a1010.save(data);
-						nodes[11].setIconName("floppyDrive");
-						break;
-					default:
-						break;
+				int dialogButton = JOptionPane.YES_NO_OPTION;
+				int dialogResult = JOptionPane.showConfirmDialog(null, "Save?", "Warning", dialogButton);
+				if(dialogResult == JOptionPane.YES_OPTION) {
+					IconNode node = (IconNode) tree.getLastSelectedPathComponent();
+					int index;
+					if (node == null) {
+						return;
 					}
-				}
-				// 2030
-				else if (node.getParent().equals(node.getRoot().getChildAt(1).getChildAt(0))) {
-					index = node.getParent().getIndex(node);
-					switch (index) {
-					case 0:
-						a2031.save(data, uc);
-						nodes[14].setIconName("floppyDrive");
-						break;
-					case 1:
-						nodes[15].setIconName("floppyDrive");
-						break;
-					case 2:
-						a2033.save(data, dm);
-						nodes[16].setIconName("floppyDrive");
-						break;
-					case 3:
-						a2034.save(data, gl2);
-						nodes[17].setIconName("floppyDrive");
-						break;
-					case 4:
-						a2035.save(data, sd);
-						nodes[18].setIconName("floppyDrive");
-						break;
-					case 5:
-						a2036.save(data, op);
-						nodes[19].setIconName("floppyDrive");
-						break;
-					case 6:
-						a2037.save(data, std);
-						nodes[20].setIconName("floppyDrive");
-						break;
-					case 7:
-						nodes[21].setIconName("floppyDrive");
-						break;
-					case 8:
-						nodes[22].setIconName("floppyDrive");
-						break;
-					default:
-						break;
+					// 1000
+					else if (node.getParent().equals(node.getRoot().getChildAt(0))) {
+						index = node.getParent().getIndex(node);
+						switch (index) {
+						case 0:
+							a1001.save(data);
+							nodes[2].setIconName("floppyDrive");
+							break;
+						case 1:
+							a1002.save(data, risk);
+							nodes[3].setIconName("floppyDrive");
+							break;
+						case 2:
+							a1003.save(data, req);
+							nodes[4].setIconName("floppyDrive");
+							break;
+						case 3:
+							a1004.save(data, gl);
+							nodes[5].setIconName("floppyDrive");
+							break;
+						case 4:
+							nodes[6].setIconName("floppyDrive");
+							break;
+						case 5:
+							a1006.save(data, req, uc);
+							nodes[7].setIconName("floppyDrive");
+							break;
+						case 6:
+							a1007.save(data);
+							nodes[8].setIconName("floppyDrive");
+							break;
+						case 7:
+							nodes[9].setIconName("floppyDrive");
+							break;
+						case 8:
+							a1009.save(data, req);
+							nodes[10].setIconName("floppyDrive");
+							break;
+						case 9:
+							a1010.save(data);
+							nodes[11].setIconName("floppyDrive");
+							break;
+						default:
+							break;
+						}
 					}
-				}
-				// 2040
-				else if (node.getParent().equals(node.getRoot().getChildAt(1).getChildAt(1))) {
-					index = node.getParent().getIndex(node);
-					switch (index) {
-					case 0:
-						a2041.save(data, ruc);
-						nodes[24].setIconName("floppyDrive");
-						break;
-					case 1:
-						nodes[25].setIconName("floppyDrive");
-						break;
-					case 2:
-						a2043.save(data, sa);
-						nodes[26].setIconName("floppyDrive");
-						break;
-					case 3:
-						a2044.save(data, id);
-						nodes[27].setIconName("floppyDrive");
-						break;
-					case 4:
-						a2045.save(data, cd);
-						nodes[28].setIconName("floppyDrive");
-						break;
-					case 5:
-						nodes[29].setIconName("floppyDrive");
-						break;
-					// case 6 :splitPane.setRightComponent(a2047);
-					// break;
-					default:
-						break;
+					// 2030
+					else if (node.getParent().equals(node.getRoot().getChildAt(1).getChildAt(0))) {
+						index = node.getParent().getIndex(node);
+						switch (index) {
+						case 0:
+							a2031.save(data, uc);
+							nodes[14].setIconName("floppyDrive");
+							break;
+						case 1:
+							nodes[15].setIconName("floppyDrive");
+							break;
+						case 2:
+							a2033.save(data, dm);
+							nodes[16].setIconName("floppyDrive");
+							break;
+						case 3:
+							a2034.save(data, gl2);
+							nodes[17].setIconName("floppyDrive");
+							break;
+						case 4:
+							a2035.save(data, sd);
+							nodes[18].setIconName("floppyDrive");
+							break;
+						case 5:
+							a2036.save(data, op);
+							nodes[19].setIconName("floppyDrive");
+							break;
+						case 6:
+							a2037.save(data, std);
+							nodes[20].setIconName("floppyDrive");
+							break;
+						case 7:
+							nodes[21].setIconName("floppyDrive");
+							break;
+						case 8:
+							nodes[22].setIconName("floppyDrive");
+							break;
+						default:
+							break;
+						}
 					}
-				}
-				// 2050
-				else if (node.getParent().equals(node.getRoot().getChildAt(1).getChildAt(2))) {
-					index = node.getParent().getIndex(node);
-					switch (index) {
-					case 0:
-						nodes[31].setIconName("floppyDrive");
-						break;
-					case 1:
-						nodes[32].setIconName("floppyDrive");
-						break;
-					case 2:
-						nodes[33].setIconName("floppyDrive");
-						break;
-					case 3:
-						nodes[34].setIconName("floppyDrive");
-						break;
-					case 4:
-						nodes[35].setIconName("floppyDrive");
-						break;
-					default:
-						break;
+					// 2040
+					else if (node.getParent().equals(node.getRoot().getChildAt(1).getChildAt(1))) {
+						index = node.getParent().getIndex(node);
+						switch (index) {
+						case 0:
+							a2041.save(data, ruc);
+							nodes[24].setIconName("floppyDrive");
+							break;
+						case 1:
+							nodes[25].setIconName("floppyDrive");
+							break;
+						case 2:
+							a2043.save(data, sa);
+							nodes[26].setIconName("floppyDrive");
+							break;
+						case 3:
+							a2044.save(data, id);
+							nodes[27].setIconName("floppyDrive");
+							break;
+						case 4:
+							a2045.save(data, cd);
+							nodes[28].setIconName("floppyDrive");
+							break;
+						case 5:
+							nodes[29].setIconName("floppyDrive");
+							break;
+						// case 6 :splitPane.setRightComponent(a2047);
+						// break;
+						default:
+							break;
+						}
 					}
-				}
-				// 2060
-				else if (node.getParent().equals(node.getRoot().getChildAt(1).getChildAt(3))) {
-					index = node.getParent().getIndex(node);
-					switch (index) {
-					case 0:
-						a2061.save(data);
-						nodes[37].setIconName("floppyDrive");
-						break;
-					case 1:
-						a2062.save(data);
-						nodes[38].setIconName("floppyDrive");
-						break;
-					case 2:
-						a2063.save(data);
-						nodes[39].setIconName("floppyDrive");
-						break;
-					case 3:
-						nodes[40].setIconName("floppyDrive");
-						break;
-					case 4:
-						nodes[41].setIconName("floppyDrive");
-						break;
-					case 5:
-						nodes[42].setIconName("floppyDrive");
-						break;
-					case 6:
-						nodes[43].setIconName("floppyDrive");
-						break;
-					default:
-						break;
+					// 2050
+					else if (node.getParent().equals(node.getRoot().getChildAt(1).getChildAt(2))) {
+						index = node.getParent().getIndex(node);
+						switch (index) {
+						case 0:
+							nodes[31].setIconName("floppyDrive");
+							break;
+						case 1:
+							nodes[32].setIconName("floppyDrive");
+							break;
+						case 2:
+							nodes[33].setIconName("floppyDrive");
+							break;
+						case 3:
+							nodes[34].setIconName("floppyDrive");
+							break;
+						case 4:
+							nodes[35].setIconName("floppyDrive");
+							break;
+						default:
+							break;
+						}
 					}
+					// 2060
+					else if (node.getParent().equals(node.getRoot().getChildAt(1).getChildAt(3))) {
+						index = node.getParent().getIndex(node);
+						switch (index) {
+						case 0:
+							a2061.save(data);
+							nodes[37].setIconName("floppyDrive");
+							break;
+						case 1:
+							a2062.save(data);
+							nodes[38].setIconName("floppyDrive");
+							break;
+						case 2:
+							a2063.save(data);
+							nodes[39].setIconName("floppyDrive");
+							break;
+						case 3:
+							nodes[40].setIconName("floppyDrive");
+							break;
+						case 4:
+							nodes[41].setIconName("floppyDrive");
+							break;
+						case 5:
+							nodes[42].setIconName("floppyDrive");
+							break;
+						case 6:
+							nodes[43].setIconName("floppyDrive");
+							break;
+						default:
+							break;
+						}
+					}
+					tree.putClientProperty("JTree.icons", makeIcons());
 				}
-				tree.putClientProperty("JTree.icons", makeIcons());
 			}
 		});
-		JMenu mnNewMenu_1 = new JMenu("Edit");
+		JMenuItem mntmExit = new JMenuItem("Exit");
+		File.add(mntmExit);
+		mntmExit.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				System.exit(0);
+			}
+			
+		});
+		JMenu mnNewMenu_1 = new JMenu("Simulation");
 		menuBar_1.add(mnNewMenu_1);
 
 		tree.addTreeSelectionListener(new TreeSelectionListener() {

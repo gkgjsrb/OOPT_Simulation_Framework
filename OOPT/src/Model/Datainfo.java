@@ -2,7 +2,6 @@ package Model;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -10,6 +9,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import org.sqlite.SQLiteConfig;
 
 import com.horstmann.violet.framework.file.GraphFile;
 import com.horstmann.violet.framework.file.IGraphFile;
@@ -20,9 +21,7 @@ import com.horstmann.violet.framework.file.persistence.JFileReader;
 import com.horstmann.violet.framework.file.persistence.JFileWriter;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjector;
 import com.horstmann.violet.framework.injection.bean.ManiocFramework.InjectedBean;
-import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.Id;
-import com.horstmann.violet.product.diagram.usecase.UseCaseDiagramGraph;
 
 public class Datainfo {
 	
@@ -30,8 +29,9 @@ public class Datainfo {
     private IFilePersistenceService filePersistenceService;
 	
 	private Connection connection;
+	private Connection connection2;
 	private PreparedStatement statement;
-	private ResultSet result;
+	//private ResultSet result;
 	private File graphfile;
 	
 	public Datainfo() {
@@ -52,6 +52,10 @@ public class Datainfo {
 	public boolean open() {
 		try{
 			this.connection = DriverManager.getConnection("jdbc:sqlite:db.sqlite");
+			SQLiteConfig config = new SQLiteConfig();
+			config.setReadOnly(true);
+			this.connection2 = DriverManager.getConnection("jdbc:sqlite:db.sqlite", config.toProperties());
+			
 		} catch(Exception e) {
 			e.printStackTrace();
 			return false;
@@ -470,7 +474,7 @@ public class Datainfo {
 	}
 	public void setOp(int index,SystemOperation op) {
 		try {			
-			String sql = "insert or replace into SystemOperation values(?,?,?,?,?,?,?,?,?,?,?)";
+			String sql = "insert or replace into SystemOperation values(?,?,?,?,?,?,?,?,?,?,?,?)";
 			statement = connection.prepareStatement(sql);
 			statement.setInt(1, index);
 			statement.setString(2, op.getId().toString());
@@ -483,6 +487,7 @@ public class Datainfo {
 			statement.setString(9, op.getOutput());
 			statement.setString(10, op.getPreconditions());
 			statement.setString(11, op.getPostconditions());
+			statement.setString(12, op.getOp_name());
 			statement.executeUpdate();
 			
 			
@@ -506,8 +511,8 @@ public class Datainfo {
 		
 		try {
 			String sql = "SELECT * FROM TextTable";
-			statement = connection.prepareStatement(sql);
-			result = statement.executeQuery();
+			statement = connection2.prepareStatement(sql);
+			ResultSet result = statement.executeQuery();
 			while(result.next()) {
 				StageText text = new StageText();
 				text.setText(result.getString("text"));
@@ -525,8 +530,8 @@ public class Datainfo {
 		
 		try {
 			String sql = "SELECT * FROM Risk";
-			statement = connection.prepareStatement(sql);
-			result = statement.executeQuery();
+			statement = connection2.prepareStatement(sql);
+			ResultSet result = statement.executeQuery();
 			while(result.next()) {
 				Risk risk = new Risk();
 				risk.setName(result.getString("name"));
@@ -548,8 +553,8 @@ public class Datainfo {
 		req.clear();
 		try {
 			String sql = "SELECT * FROM Requirement";
-			statement = connection.prepareStatement(sql);
-			result = statement.executeQuery();
+			statement = connection2.prepareStatement(sql);
+			ResultSet result = statement.executeQuery();
 			while(result.next()) {
 				req.add_row();
 				req.setRef(result.getString("ref"), result.getInt("id"));
@@ -574,9 +579,9 @@ public class Datainfo {
 		
 		try {
 			String sql = "SELECT * FROM NonFuncReq where type = ?";
-			statement = connection.prepareStatement(sql);
+			statement = connection2.prepareStatement(sql);
 			statement.setString(1, type);
-			result = statement.executeQuery();
+			ResultSet result = statement.executeQuery();
 			while(result.next()) {
 				NonFuncReq req = new NonFuncReq();
 				req.setCategory(result.getString("category"));
@@ -596,8 +601,8 @@ public class Datainfo {
 		
 		try {
 			String sql = "SELECT * FROM FuncReq";
-			statement = connection.prepareStatement(sql);
-			result = statement.executeQuery();
+			statement = connection2.prepareStatement(sql);
+			ResultSet result = statement.executeQuery();
 			while(result.next()) {
 				SystemTestCase req = new SystemTestCase();
 				req.setNumber(result.getString("number"));
@@ -619,9 +624,9 @@ public class Datainfo {
 		
 		try {
 			String sql = "SELECT * FROM Glossary where type = ?";
-			statement = connection.prepareStatement(sql);
+			statement = connection2.prepareStatement(sql);
 			statement.setString(1, type);
-			result = statement.executeQuery();
+			ResultSet result = statement.executeQuery();
 			while(result.next()) {
 				Glossary g = new Glossary();
 				g.setTerm(result.getString("term"));
@@ -642,8 +647,8 @@ public class Datainfo {
 		
 		try {
 			String sql = "SELECT * FROM concept";
-			statement = connection.prepareStatement(sql);
-			result = statement.executeQuery();
+			statement = connection2.prepareStatement(sql);
+			ResultSet result = statement.executeQuery();
 			while(result.next()) {
 				String s = result.getString("text");
 				data.add(s);
@@ -666,8 +671,8 @@ public class Datainfo {
 				sql = "SELECT * FROM Eusecase";
 			}
 			
-			statement = connection.prepareStatement(sql);
-			result = statement.executeQuery();
+			statement = connection2.prepareStatement(sql);
+			ResultSet result = statement.executeQuery();
 			while(result.next()) {
 				String s = result.getString("name");
 				data.add(s);
@@ -683,8 +688,8 @@ public class Datainfo {
 		
 		try {
 			String sql = "SELECT * FROM UseCase";
-			statement = connection.prepareStatement(sql);
-			result = statement.executeQuery();
+			statement = connection2.prepareStatement(sql);
+			ResultSet result = statement.executeQuery();
 			while(result.next()) {
 				UseCase uc = new UseCase();
 				Id i = new Id();
@@ -716,8 +721,8 @@ public class Datainfo {
 		
 		try {
 			String sql = "SELECT * FROM RealUseCase";
-			statement = connection.prepareStatement(sql);
-			result = statement.executeQuery();
+			statement = connection2.prepareStatement(sql);
+			ResultSet result = statement.executeQuery();
 			while(result.next()) {
 				UseCase uc = new UseCase();
 				Id i = new Id();
@@ -749,8 +754,8 @@ public class Datainfo {
 		ArrayList<Schedule> data = new ArrayList<>();
 		try {
 			String sql = "SELECT * FROM schedule";
-			statement = connection.prepareStatement(sql);
-			result = statement.executeQuery();
+			statement = connection2.prepareStatement(sql);
+			ResultSet result = statement.executeQuery();
 			while(result.next()) {
 				Schedule s = new Schedule();
 				s.setRow(result.getInt("row"));
@@ -769,9 +774,9 @@ public class Datainfo {
 		
 		try {
 			String sql = "SELECT * FROM Graph where type = ?";
-			statement = connection.prepareStatement(sql);
+			statement = connection2.prepareStatement(sql);
 			statement.setString(1, type);
-			result = statement.executeQuery();
+			ResultSet result = statement.executeQuery();
 			while(result.next()) {
 				Graph g = new Graph();
 				g.setName(result.getString("name"));
@@ -798,8 +803,8 @@ public class Datainfo {
 		
 		try {
 			String sql = "SELECT * FROM SystemOperation";
-			statement = connection.prepareStatement(sql);
-			result = statement.executeQuery();
+			statement = connection2.prepareStatement(sql);
+			ResultSet result = statement.executeQuery();
 			while(result.next()) {
 				SystemOperation op = new SystemOperation();
 				Id i = new Id();
@@ -815,6 +820,7 @@ public class Datainfo {
 				op.setOutput(result.getString("output"));
 				op.setPreconditions(result.getString("pre"));
 				op.setPostconditions(result.getString("post"));
+				op.setOp_name(result.getString("op"));
 				
 				data.add(op);
 			}
@@ -831,8 +837,8 @@ public class Datainfo {
 			ArrayList<UnitTestCase> data = new ArrayList<>();
 			try {
 				String sql = "SELECT * FROM TestCase";
-				statement = connection.prepareStatement(sql);
-				result = statement.executeQuery();
+				statement = connection2.prepareStatement(sql);
+				ResultSet result = statement.executeQuery();
 				while(result.next()) {
 					UnitTestCase req = new UnitTestCase();
 					req.setNumber(result.getString("number"));
@@ -855,8 +861,8 @@ public class Datainfo {
 			ArrayList<UnitTestCase> data = new ArrayList<>();
 			try {
 				String sql = "SELECT * FROM TestCase";
-				statement = connection.prepareStatement(sql);
-				result = statement.executeQuery();
+				statement = connection2.prepareStatement(sql);
+				ResultSet result = statement.executeQuery();
 				while(result.next()) {
 					UnitTestCase req = new UnitTestCase();
 					req.setNumber(result.getString("number"));
@@ -879,8 +885,8 @@ public class Datainfo {
 			ArrayList<UnitTestCase> data = new ArrayList<>();
 			try {
 				String sql = "SELECT * FROM TestCase";
-				statement = connection.prepareStatement(sql);
-				result = statement.executeQuery();
+				statement = connection2.prepareStatement(sql);
+				ResultSet result = statement.executeQuery();
 				while(result.next()) {
 					UnitTestCase req = new UnitTestCase();
 					req.setNumber(result.getString("number"));

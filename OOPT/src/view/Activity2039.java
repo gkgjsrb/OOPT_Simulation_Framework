@@ -172,6 +172,14 @@ public class Activity2039 extends JTabbedPane {
 		        					for(ClassNode op_node : op_Node) {
 		        						if(a.getCenterLabel().toString().equals(op_node.getName().toString())) {
 		        							AssociationEdge ie_tmp = new AssociationEdge();
+		        							for(SystemOperation so : op) {
+		        								if(so.getName().equals(op_node.getName().toString())) {
+		        									SingleLineText tmp_name = new SingleLineText();
+		        									tmp_name.setText(so.getOp_name());
+		        						        	op_node.setName(tmp_name);
+		        								}
+		        							}
+		        							
 		        							ge.changeEdge(ie_tmp);
 				        					workspace.getGraphFile().getGraph().connect(ie_tmp, uc_node, uc_node.getLocationOnGraph(), op_node, op_node.getLocationOnGraph(), null);
 		        						}
@@ -182,6 +190,13 @@ public class Activity2039 extends JTabbedPane {
 		        					for(ClassNode op_node : op_Node) {
 		        						if(a.getCenterLabel().toString().equals(op_node.getName().toString())) {
 		        							AssociationEdge ie_tmp = new AssociationEdge();
+		        							for(SystemOperation so : op) {
+		        								if(so.getName().equals(op_node.getName().toString())) {
+		        									SingleLineText tmp_name = new SingleLineText();
+		        									tmp_name.setText(so.getOp_name());
+		        						        	op_node.setName(tmp_name);
+		        								}
+		        							}
 		        							ge.changeEdge(ie_tmp);
 				        					workspace.getGraphFile().getGraph().connect(ie_tmp, uc_node, uc_node.getLocationOnGraph(), op_node, op_node.getLocationOnGraph(), null);
 		        						}

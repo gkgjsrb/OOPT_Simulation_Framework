@@ -3,16 +3,24 @@ package Model;
 import com.horstmann.violet.product.diagram.abstracts.Id;
 
 public class SystemOperation {
-	Id Id;
-	String Name;
-	String Responsibility;
-	String Type;
-	String Cross;
-	String Notes;
-	String Exception;
-	String Output;
-	String Preconditions;
-	String Postconditions;
+	private Id Id;
+	private String Name;
+	private String Responsibility;
+	private String Type;
+	private String Cross;
+	private String Notes;
+	private String Exception;
+	private String Output;
+	private String Preconditions;
+	private String Postconditions;
+	
+	public String getOp_name() {
+		return op_name;
+	}
+	public void setOp_name(String op_name) {
+		this.op_name = op_name;
+	}
+	String op_name;
 	public Id getId() {
 		return Id;
 	}

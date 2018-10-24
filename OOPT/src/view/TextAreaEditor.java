@@ -273,6 +273,9 @@ public class TextAreaEditor extends DefaultCellEditor {
 					else if(table.getSelectedRow()==8) {
 						op.get(index).setPostconditions((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
 					}
+					else if(table.getSelectedRow()==9) {
+						op.get(index).setOp_name((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
+					}
 				}	
 	    });
 	}

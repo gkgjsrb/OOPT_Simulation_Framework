@@ -71,6 +71,7 @@ public class Activity2036 extends JTabbedPane {
 					op.get(i).setOutput((String)t.getValueAt(6, 1));
 					op.get(i).setPreconditions((String)t.getValueAt(7, 1));
 					op.get(i).setPostconditions((String)t.getValueAt(8, 1));
+					op.get(i).setOp_name((String)t.getValueAt(9, 1));
 					
 					data.setOp(i, op.get(i));
 					
@@ -109,6 +110,7 @@ public class Activity2036 extends JTabbedPane {
 						{"Output", tmp.getOutput()},
 						{"Pre-conditions", tmp.getPreconditions()},
 						{"Post-conditions", tmp.getPostconditions()},
+						{"SystemOperation", tmp.getOp_name()},
 					},
 					new String[] {
 						"", " "
@@ -148,6 +150,7 @@ public class Activity2036 extends JTabbedPane {
 					{"Output", tmp.getOutput()},
 					{"Pre-conditions", tmp.getPreconditions()},
 					{"Post-conditions", tmp.getPostconditions()},
+					{"SystemOperation", tmp.getOp_name()},
 				},
 				new String[] {
 					"", " "
