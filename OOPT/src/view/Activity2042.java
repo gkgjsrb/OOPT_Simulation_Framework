@@ -171,7 +171,7 @@ public class Activity2042 extends JPanel {
 					button_number = 0;
 				} 
 				else if (button_selected && button_number == 2) {
-					Button tempButton = new Button(Objectcnt);
+					Button tempButton = new Button("",Objectcnt);
 					tempButton.setLocation(origin);
 					tempButton.setSize(100, 30);
 					tempButton.addMouseMotionListener(new MouseMotionListener() {
@@ -213,16 +213,21 @@ public class Activity2042 extends JPanel {
 								jd.setResizable(false);
 								jd.setTitle("Input Operation Name");
 								jd.show();
+								JTextField tf = new JTextField();
+								tf.setSize(200,40);
+								tf.setLocation(100, 0);
+								/*
 								JComboBox<String> cb = new JComboBox<String>();
 								cb.setSize(200, 40);
 								cb.setLocation(100,0);
 								for(Graph tmp_id : id) {
 									cb.addItem(tmp_id.getName());
 								}
+								*/
 								JButton jb = new JButton("»Æ¿Œ");
 								jb.setSize(80, 40);
 								jb.setLocation(160, 60);
-								jd.add(cb);
+								jd.add(tf);
 								jd.add(jb);
 								
 								jb.addActionListener(new ActionListener() {
@@ -231,16 +236,24 @@ public class Activity2042 extends JPanel {
 									public void actionPerformed(ActionEvent arg0) {
 										// TODO Auto-generated method stub
 										if(selectedBtn!=null) {
-											int index = cb.getSelectedIndex();
-											String sel = cb.getItemAt(index);
+											//int index = cb.getSelectedIndex();
+											//String sel = cb.getItemAt(index);
+											/*
 											for(Button tmp_bt : bt) {
 												if(tmp_bt.getId()==selectedBtn.getId()) {
+													tmp_bt.setText(tf.getText());
 													for(Graph tmp_id : id) {
 														if(tmp_id.getName().equals(sel)) {
 															tmp_bt.setid(tmp_id);
 															tmp_bt.setText(tmp_bt.getid().getName());
 														}
 													}
+												}
+											}
+											*/
+											for(Button tmp_bt : bt) {
+												if(tmp_bt.getId()==selectedBtn.getId()) {
+													tmp_bt.setText(tf.getText());
 												}
 											}
 										}
