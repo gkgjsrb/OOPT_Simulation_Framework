@@ -148,6 +148,7 @@ public class Activity2035 extends JTabbedPane {
 				combo.addItem(g.getName());
 			}
 		}
+		
 	}
 	
 	public void save(Datainfo data, ArrayList<Graph> sd) {

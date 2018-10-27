@@ -26,7 +26,6 @@ import Model.NonFuncReq;
 import Model.Requirement;
 import Model.Risk;
 import Model.Schedule;
-import Model.Simulation;
 import Model.StageText;
 import Model.SystemOperation;
 import Model.SystemTestCase;
@@ -74,7 +73,7 @@ public class GUI {
 		gl2 = new ArrayList<>();
 		ruc = new ArrayList<>();
 		frame = new JFrame();
-		
+		frame.setTitle("OOPT Framework");
 		frame.setBounds(100, 100, 928, 617);
 
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -217,8 +216,8 @@ public class GUI {
 		Activity2065 a2065 = new Activity2065();
 		Activity2066 a2066 = new Activity2066();
 		Activity2067 a2067 = new Activity2067(req, uc, op, sd, id, cd, stc, utc);
-
-		Simulation sm = new Simulation(a2042);
+		
+		Mapping m = new Mapping();
 		
 		JScrollPane jtree = new JScrollPane(tree);
 		splitPane.setDividerLocation(divSize);
@@ -229,7 +228,7 @@ public class GUI {
 
 		JMenu File = new JMenu("File");
 		menuBar_1.add(File);
-		
+
 		JMenuItem mntmNew = new JMenuItem("New");
 		File.add(mntmNew);
 
@@ -803,9 +802,22 @@ public class GUI {
 			}
 			
 		});
-		JMenu mnNewMenu_1 = new JMenu("Simulation");
-		menuBar_1.add(mnNewMenu_1);
+		JMenu mnSimulation = new JMenu("Simulation");
+		menuBar_1.add(mnSimulation);
 		
+		JMenuItem mntmsNew = new JMenuItem("New");
+		mnSimulation.add(mntmsNew);
+		mntmsNew.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				m.setUI(a2042.getPanel(id));
+				m.setVisible(true);
+			}
+			
+		});
+
 		tree.addTreeSelectionListener(new TreeSelectionListener() {
 			public void valueChanged(TreeSelectionEvent arg0) {
 				IconNode node = (IconNode) tree.getLastSelectedPathComponent();

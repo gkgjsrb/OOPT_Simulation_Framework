@@ -7,6 +7,7 @@ import com.horstmann.violet.framework.file.IGraphFile;
 public class Graph implements Serializable{
 	String name;
 	String id;
+	
 	IGraphFile graph;
 	
 	public Graph() {
