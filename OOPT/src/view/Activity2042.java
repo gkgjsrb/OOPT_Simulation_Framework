@@ -19,13 +19,17 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
+import javax.swing.JTree;
 
 import Model.Button;
+import Model.Datainfo;
 import Model.Graph;
+import Model.UIDesign;
 
 //define ui
 public class Activity2042 extends JTabbedPane {
@@ -49,10 +53,17 @@ public class Activity2042 extends JTabbedPane {
 	private JPanel panel;
 	private JPanel panel_1;
 
-	private ArrayList<Button> bt = new ArrayList<Button>();
+	//private ArrayList<Button> bt = new ArrayList<Button>();
+	private ArrayList<Button> buttonList;
+	private ArrayList<JTextField> textList;
+	private ArrayList<JLabel> labelList;
 	
-	
-	public Activity2042(ArrayList<Graph> id) {
+	public Activity2042(JTree tree, ArrayList<Graph> id, UIDesign ui) {
+		
+		buttonList = new ArrayList<>();
+		textList = new ArrayList<>();
+		labelList = new ArrayList<>();
+		
 		JSplitPane splitPane = new JSplitPane();
 		JPanel jpanel = new JPanel(new FlowLayout(FlowLayout.TRAILING));
 		JButton button_2 = new JButton("Delete");
@@ -189,6 +200,7 @@ public class Activity2042 extends JTabbedPane {
 					button.setEnabled(true);
 					button_selected = false;
 					button_number = 0;
+					textList.add(tempText);
 				} 
 				else if (button_selected && button_number == 2) {
 					Button tempButton = new Button("Button",Objectcnt);
@@ -300,7 +312,7 @@ public class Activity2042 extends JTabbedPane {
 					button_selected = false;
 					button_number = 0;
 					Objectcnt++;
-					bt.add(tempButton);
+					buttonList.add(tempButton);
 				}
 				
 				selected = false;
@@ -390,11 +402,14 @@ public class Activity2042 extends JTabbedPane {
 						panel_1.remove(selectedBtn);
 						panel_1.revalidate();
 						panel_1.repaint();
+						
+						buttonList.remove(selectedBtn);
 					}
 					else if(selectedField != null) {
 						panel_1.remove(selectedField);
 						panel_1.revalidate();
 						panel_1.repaint();
+						textList.remove(selectedField);
 					}
 				}
 			}
@@ -402,11 +417,9 @@ public class Activity2042 extends JTabbedPane {
 		button_3.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
-				if (!button_selected) {
-					button_number = 2;
-					button_1.setEnabled(false);
-					button_selected = true;
-				}
+				ui.setButtonList(buttonList);
+				ui.setTextList(textList);
+				//ui.setLabelList();
 			}
 		});
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
@@ -517,6 +530,207 @@ public class Activity2042 extends JTabbedPane {
 			j.add(c);
 		}
 		return j;
+	}
+	public void save(Datainfo data, UIDesign ui) {
+		data.syncUI();
+		data.setUI(ui);
+		
+	}
+	public void open(UIDesign ui) {
+		buttonList = ui.getButtonList();
+		textList = ui.getTextList();
+		labelList = ui.getLabelList();
+		
+		for(Button tmp : buttonList) {
+			panel_1.add(tmp);
+			tmp.setSize(100, 30);
+			tmp.addMouseMotionListener(new MouseMotionListener() {
+				@Override
+				public void mouseDragged(MouseEvent e) {
+					// TODO Auto-generated method stub
+					// System.out.println(origin.x + " " +
+					// e.getPoint().x );
+					int dx = e.getX() - mousePt.x;
+					int dy = e.getY() - mousePt.y;
+					
+					if (selectedBtn != null) {
+						int x = selectedBtn.getX() + dx;
+						int y = selectedBtn.getY() + dy;
+//						
+						if(x>= 0 && x+tmp.getWidth() <= panel_1.getSize().getWidth() && y>=0 && y+tmp.getHeight() <= panel_1.getSize().getHeight()) {
+							selectedBtn.setLocation(x, y);
+						}
+					}
+					
+						
+						
+					
+					// mousePt = e.getPoint();
+					panel_1.repaint();
+				}
+
+				@Override
+				public void mouseMoved(MouseEvent e) {
+					// TODO Auto-generated method stub
+
+				}
+			});
+			tmp.addMouseListener(new MouseListener() {
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					// TODO Auto-generated method stub
+					if(e.getClickCount() == 2) {
+						JDialog jd = new JDialog(parent);
+						jd.setLayout(null);
+						jd.setSize(400, 150);
+						jd.setResizable(false);
+						jd.setTitle("Input Button Name");
+						jd.show();
+						JTextField tf = new JTextField();
+						tf.setSize(200,40);
+						tf.setLocation(100, 0);
+						
+						JButton jb = new JButton("확인");
+						jb.setSize(80, 40);
+						jb.setLocation(160, 70);
+						jd.add(tf);
+						jd.add(jb);
+						
+						jb.addActionListener(new ActionListener() {
+				
+							@Override
+							public void actionPerformed(ActionEvent arg0) {
+								// TODO Auto-generated method stub
+								tmp.setName(tf.getText());
+								jd.dispose();
+							}
+						});
+						
+					}
+				}
+
+				@Override
+				public void mousePressed(MouseEvent e) {
+					// TODO Auto-generated method stub
+					System.out.println("Click");
+					tmp.setForeground(Color.RED);
+					mousePt = e.getPoint();
+					selectedBtn = tmp;
+					selected = true;
+					selectedField = null;
+				}
+
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void mouseExited(MouseEvent e) {
+					// TODO Auto-generated method stub
+
+				}
+
+			});
+		}
+		for(JTextField tmp : textList) {
+			tmp.setSize(100, 30);
+			tmp.addFocusListener(new FocusListener() {
+				@Override
+				public void focusGained(FocusEvent e) {
+					// TODO Auto-generated method stub
+					System.out.println(tmp.getText());
+				}
+
+				@Override
+				public void focusLost(FocusEvent e) {
+					// TODO Auto-generated method stub
+
+				}
+			});
+			tmp.addMouseMotionListener(new MouseMotionListener() {
+
+				@Override
+				public void mouseDragged(MouseEvent e) {
+					// TODO Auto-generated method stub
+					int dx = e.getX() - mousePt.x;
+					int dy = e.getY() - mousePt.y;
+					
+					if (selectedField != null) {
+						int x = selectedField.getX() + dx;
+						int y = selectedField.getY() + dy;
+						if(x>= 0 && x+tmp.getWidth() <= panel_1.getSize().getWidth() && y>=0 && y+tmp.getHeight() <= panel_1.getSize().getHeight()) {
+							selectedField.setLocation(x, y);
+						}
+						
+					}
+					// mousePt = e.getPoint();
+					
+					panel_1.repaint();
+				}
+
+				@Override
+				public void mouseMoved(MouseEvent e) {
+					// TODO Auto-generated method stub
+
+				}
+
+			});
+			tmp.addMouseListener(new MouseListener() {
+
+				@Override
+				public void mouseClicked(MouseEvent e) {
+					// TODO Auto-generated method stub
+					if (e.getClickCount() == 2) {
+						//System.out.println("Double Click");
+					}
+				}
+
+				@Override
+				public void mousePressed(MouseEvent e) {
+					// TODO Auto-generated method stub
+					//System.out.println("Click");
+					Color a = new Color(51, 143, 252);
+					tmp.setBackground(a);
+					tmp.setForeground(Color.WHITE);
+					mousePt = e.getPoint();
+					selectedField = tmp;
+					selected = true;
+					selectedBtn = null;
+				}
+
+				@Override
+				public void mouseReleased(MouseEvent e) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					// TODO Auto-generated method stub
+
+				}
+
+				@Override
+				public void mouseExited(MouseEvent e) {
+					// TODO Auto-generated method stub
+
+				}
+
+			});
+		}
+		for(JLabel tmp : labelList) {
+			
+		}
+		panel_1.revalidate();
+		panel_1.repaint();
 	}
 	
 }

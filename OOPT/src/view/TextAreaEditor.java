@@ -12,12 +12,12 @@ import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
-import javax.swing.table.DefaultTableModel;
 
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
 import com.horstmann.violet.product.diagram.usecase.node.UseCaseNode;
 import com.horstmann.violet.workspace.IWorkspace;
 
+import Model.MethodDescription;
 import Model.Requirement;
 import Model.Risk;
 import Model.SystemOperation;
@@ -279,7 +279,56 @@ public class TextAreaEditor extends DefaultCellEditor {
 				}	
 	    });
 	}
-	
+	public TextAreaEditor(JTable table, JTabbedPane panel, ArrayList<MethodDescription> md) {
+		super(new JCheckBox());
+		scrollpane = new JScrollPane();
+		textarea = new JTextArea(); 
+		textarea.setLineWrap(true);;
+		textarea.setWrapStyleWord(true);
+	    scrollpane.getViewport().add(textarea);
+	    this.addCellEditorListener(new CellEditorListener() {
+
+			@Override
+			public void editingCanceled(ChangeEvent arg0) {
+				// TODO Auto-generated method stub
+				
+			}
+			//system
+			@Override
+			public void editingStopped(ChangeEvent arg0) {
+				// TODO Auto-generated method stub
+				int index = panel.getSelectedIndex();
+					if(table.getSelectedRow()==0) {
+						md.get(index).setType((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
+					}
+					else if(table.getSelectedRow()==1) {
+						md.get(index).setName((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
+					}
+					else if(table.getSelectedRow()==2) {
+						md.get(index).setPurpose((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
+					}
+					else if(table.getSelectedRow()==3) {
+						md.get(index).setOverview((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
+					}
+					else if(table.getSelectedRow()==4) {
+						md.get(index).setCross((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
+					}
+					else if(table.getSelectedRow()==5) {
+						md.get(index).setInput((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
+					}
+					else if(table.getSelectedRow()==6) {
+						md.get(index).setOutput((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
+					}
+					else if(table.getSelectedRow()==7) {
+						md.get(index).setAbstract((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
+					}
+					else if(table.getSelectedRow()==8) {
+						md.get(index).setException((String)table.getValueAt(table.getSelectedRow(), table.getSelectedColumn()));
+					}
+					
+				}	
+	    });
+	}
 	public TextAreaEditor(JTable table, ArrayList<UseCase> uc, JTabbedPane panel, IWorkspace workspace) {
 		super(new JCheckBox());
 		scrollpane = new JScrollPane();

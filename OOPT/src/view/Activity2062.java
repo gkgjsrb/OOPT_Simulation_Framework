@@ -1,6 +1,7 @@
 package view;
 
 import java.awt.Component;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -20,9 +21,12 @@ import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextPane;
+import javax.swing.JTree;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.tree.DefaultTreeModel;
 
 import Model.Datainfo;
+import Model.IntegrationTestCase;
 import Model.StageText;
 import Model.UnitTestCase;
 
@@ -33,7 +37,7 @@ public class Activity2062 extends JTabbedPane {
 	 */
 	JTextPane textPane;
 	DefaultTableModel model;
-	public Activity2062() {
+	public Activity2062(JTree tree, ArrayList<IntegrationTestCase> itc, Datainfo data) {
 		JSplitPane splitPane = new JSplitPane();
 		textPane = new JTextPane();
 		JScrollPane panel = new JScrollPane();
@@ -54,9 +58,6 @@ public class Activity2062 extends JTabbedPane {
 	            + "- Date : 2018/10/18<br>"
 	            + "- OS : Windows 10 (64 bit)<br>"
 	            + "- Test 제외 항목<br>"
-	            + "&nbsp;&nbsp;&nbsp;GUI 관련 메소드<br>"
-	            + "&nbsp;&nbsp;&nbsp;Listeners (Interface 내 메소드)<br>"
-	            + "&nbsp;&nbsp;&nbsp;Setters, Getters<br>"
 	            + "</html>");
 		c.fill = GridBagConstraints.HORIZONTAL;
 		c.gridx = 0;
@@ -96,19 +97,34 @@ public class Activity2062 extends JTabbedPane {
 	    table.getColumn("Result").setCellRenderer(new TextAreaRenderer());
 	    table.getColumn("Result").setCellEditor(new TextAreaEditor());
 	    
-		JScrollPane scrollPane_1 = new JScrollPane(table);
+	    JSplitPane splitPane_1 = new JSplitPane();
+		JScrollPane panel_1 = new JScrollPane(table);
+		JPanel jpanel_1 = new JPanel(new FlowLayout(FlowLayout.TRAILING));
+		JButton button_1 = new JButton("+");
+		JButton button_2 = new JButton("-");
+		JButton button_3 = new JButton("Commit");
 		
-	    
-		this.addTab("Integration Test Result", null,scrollPane_1, null);
+		jpanel_1.add(button_1);
+		jpanel_1.add(button_2);
+		jpanel_1.add(button_3);
+		jpanel_1.setBorder(BorderFactory.createEmptyBorder(0 , 0, 5, 5));
+		
+		splitPane_1.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		splitPane_1.setBottomComponent(panel_1);
+		splitPane_1.setTopComponent(jpanel_1);
+		splitPane_1.disable();
+		
+		this.addTab("Integration Test Result", null, splitPane_1, null);
+		
 
 		JPopupMenu popupMenu = new JPopupMenu();
-		addPopup(scrollPane_1, popupMenu);
+		addPopup(panel_1, popupMenu);
 		addPopup(table, popupMenu);
 		
 		JMenuItem mntmNewMenuItem = new JMenuItem("add row");
 		mntmNewMenuItem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				Object[] add= {null,null,null};
+				Object[] add= {"","","","",""};
 				model.addRow(add);
 			}
 		});
@@ -124,20 +140,80 @@ public class Activity2062 extends JTabbedPane {
 			}
 		});
 		popupMenu.add(mntmNewMenuItem_1);
+		
+		button.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				IconNode node=(IconNode)tree.getLastSelectedPathComponent();
+				if(node.getParent().equals(node.getRoot().getChildAt(1).getChildAt(3))){
+		        	int index = node.getParent().getIndex(node);
+		        	 if(index == 1) {
+		        	 	node.setIconName("floppyDrive");
+		        	 }
+				}
+				table.editingStopped(changeEvent);
+				data.setText(25, textPane.getText());
+				((DefaultTreeModel)tree.getModel()).nodeChanged(node);
+			}
+		});
+		button_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Object[] add= {"","","","",""};
+				model.addRow(add);
+			}
+		});
+		
+		button_2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int row = table.getSelectedRow();
+				if(row!=-1) {
+					model.removeRow(row);
+					//data.syncTestCase("U");
+					table.editingCanceled(changeEvent);
+				}
+			}
+		});
+		
+		button_3.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				IconNode node=(IconNode)tree.getLastSelectedPathComponent();
+				if(node.getParent().equals(node.getRoot().getChildAt(1).getChildAt(3))){
+		        	int index = node.getParent().getIndex(node);
+		        	 if(index == 1) {
+		        	 	node.setIconName("floppyDrive");
+		        	 }
+				}
+				table.editingStopped(changeEvent);
+				itc.clear();
+				data.syncTestCase("I");
+			
+				for (int i = 0; i < model.getRowCount(); i++) {
+					IntegrationTestCase r = new IntegrationTestCase();
+					r.setNumber((String) model.getValueAt(i, 0));
+					r.setDescription((String) model.getValueAt(i, 1));
+					r.setInput((String) model.getValueAt(i, 2));
+					r.setOutput((String) model.getValueAt(i, 3));
+					r.setResult((String) model.getValueAt(i, 4));
+					data.setTestCase("I", r);
+					
+					itc.add(r);
+				}
+				((DefaultTreeModel) tree.getModel()).nodeChanged(node);
+			}
+		});
 	}
 	public void save(Datainfo data) {
 		data.setText(25, textPane.getText());
 		
 	}
-	public void open(ArrayList<StageText> st, ArrayList<UnitTestCase> req) {
+	public void open(ArrayList<StageText> st, ArrayList<IntegrationTestCase> req) {
 		setTextPane(st);
 		model.setRowCount(0);
-		for(UnitTestCase r : req) {
-			Object[] add = { r.getNumber(), r.getName(), r.getDescription(), r.getInput(), r.getOutput(), r.getResult() };
+		for(IntegrationTestCase r : req) {
+			Object[] add = { r.getNumber(), r.getDescription(), r.getInput(), r.getOutput(), r.getResult() };
 			model.addRow(add);
 		}
 		if (req.size() == 0) {
-			Object[] add = { "", "", "", "", "" ,"" };
+			Object[] add = { "", "", "", "", "" };
 			model.addRow(add);
 		}
  	}

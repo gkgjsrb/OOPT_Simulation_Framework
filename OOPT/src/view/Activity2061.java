@@ -191,7 +191,7 @@ public class Activity2061 extends JTabbedPane {
 				}
 				table.editingStopped(changeEvent);
 				utc.clear();
-				data.syncmTestCase("U");
+				data.syncTestCase("U");
 			
 				for (int i = 0; i < model.getRowCount(); i++) {
 					UnitTestCase r = new UnitTestCase();

@@ -1,5 +1,7 @@
 package Model;
 
+import java.awt.Point;
+import java.awt.geom.Point2D;
 import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -9,6 +11,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+
+import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 import org.sqlite.SQLiteConfig;
 
@@ -319,7 +324,43 @@ public class Datainfo {
 			e.printStackTrace();
 		}
 	}
-	public void syncmTestCase(String type) {
+	public void setTestCase(String type, IntegrationTestCase req) {
+		try {
+			String sql = "insert or replace into TestCase values(?,?,?,?,?,?,?)";
+			statement = connection.prepareStatement(sql);
+			
+			statement.setString(1, type);
+			statement.setString(2, req.getNumber());
+			statement.setString(3, null);
+			statement.setString(4, req.getDescription());
+			statement.setString(5, req.getInput());
+			statement.setString(6, req.getOutput());
+			statement.setString(7, req.getResult());
+			statement.executeUpdate();
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public void setTestCase(String type, TestCase req) {
+		try {
+			String sql = "insert or replace into TestCase values(?,?,?,?,?,?,?)";
+			statement = connection.prepareStatement(sql);
+			
+			statement.setString(1, type);
+			statement.setString(2, req.getNumber());
+			statement.setString(3, req.getName());
+			statement.setString(4, req.getDescription());
+			statement.setString(5, null);
+			statement.setString(6, null);
+			statement.setString(7, req.getResult());
+			statement.executeUpdate();
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public void syncTestCase(String type) {
 		try {
 			String sql = "delete from TestCase where type = ?";
 			statement = connection.prepareStatement(sql);
@@ -499,6 +540,77 @@ public class Datainfo {
 	public void syncOp() {
 		try {
 			String sql = "delete from SystemOperation";
+			statement = connection.prepareStatement(sql);
+			statement.executeUpdate();
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public void setMethod(MethodDescription md) {
+		try {			
+			String sql = "insert or replace into Method values(?,?,?,?,?,?,?,?,?)";
+			statement = connection.prepareStatement(sql);
+			statement.setString(1, md.getType());
+			statement.setString(2, md.getName());
+			statement.setString(3, md.getPurpose());
+			statement.setString(4, md.getOverview());
+			statement.setString(5, md.getCross());
+			statement.setString(6, md.getInput());
+			statement.setString(7, md.getOutput());
+			statement.setString(8, md.getAbstract());
+			statement.setString(9, md.getException());
+			statement.executeUpdate();
+			
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public void syncMethod() {
+		try {
+			String sql = "delete from Method";
+			statement = connection.prepareStatement(sql);
+			statement.executeUpdate();
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public void setUI(UIDesign ui) {
+		try {			
+			String sql = "insert or replace into UI values(?,?,?,?)";
+			statement = connection.prepareStatement(sql);
+			for(Button tmp : ui.getButtonList()) {
+				statement.setString(1, "B");
+				statement.setDouble(2, tmp.getLocation().getX());
+				statement.setDouble(3,tmp.getLocation().getY());
+				statement.setString(4, tmp.getText());
+				statement.executeUpdate();
+			}
+			for(JTextField tmp : ui.getTextList()) {
+				statement.setString(1, "T");
+				statement.setDouble(2, tmp.getLocation().getX());
+				statement.setDouble(3,tmp.getLocation().getY());
+				statement.setString(4, tmp.getText());
+				statement.executeUpdate();
+			}
+			for(JLabel tmp : ui.getLabelList()) {
+				statement.setString(1, "L");
+				statement.setDouble(2, tmp.getLocation().getX());
+				statement.setDouble(3,tmp.getLocation().getY());
+				statement.setString(4, tmp.getText());
+				statement.executeUpdate();
+			}
+			
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	public void syncUI() {
+		try {
+			String sql = "delete from UI";
 			statement = connection.prepareStatement(sql);
 			statement.executeUpdate();
 		}
@@ -836,8 +948,9 @@ public class Datainfo {
 		if(type.equals("U")) {
 			ArrayList<UnitTestCase> data = new ArrayList<>();
 			try {
-				String sql = "SELECT * FROM TestCase";
+				String sql = "SELECT * FROM TestCase where type = ?";
 				statement = connection2.prepareStatement(sql);
+				statement.setString(1, type);
 				ResultSet result = statement.executeQuery();
 				while(result.next()) {
 					UnitTestCase req = new UnitTestCase();
@@ -858,15 +971,15 @@ public class Datainfo {
 		}
 		else if(type.equals("I")) {
 			//integration
-			ArrayList<UnitTestCase> data = new ArrayList<>();
+			ArrayList<IntegrationTestCase> data = new ArrayList<>();
 			try {
-				String sql = "SELECT * FROM TestCase";
+				String sql = "SELECT * FROM TestCase where type = ?";
 				statement = connection2.prepareStatement(sql);
+				statement.setString(1, type);
 				ResultSet result = statement.executeQuery();
 				while(result.next()) {
-					UnitTestCase req = new UnitTestCase();
+					IntegrationTestCase req = new IntegrationTestCase();
 					req.setNumber(result.getString("number"));
-					req.setName(result.getString("name"));
 					req.setDescription(result.getString("description"));
 					req.setInput(result.getString("input"));
 					req.setOutput(result.getString("output"));
@@ -882,18 +995,17 @@ public class Datainfo {
 		}
 		else {
 			//etc testcase
-			ArrayList<UnitTestCase> data = new ArrayList<>();
+			ArrayList<TestCase> data = new ArrayList<>();
 			try {
-				String sql = "SELECT * FROM TestCase";
+				String sql = "SELECT * FROM TestCase where type = ?";
 				statement = connection2.prepareStatement(sql);
+				statement.setString(1, type);
 				ResultSet result = statement.executeQuery();
 				while(result.next()) {
-					UnitTestCase req = new UnitTestCase();
+					TestCase req = new TestCase();
 					req.setNumber(result.getString("number"));
 					req.setName(result.getString("name"));
 					req.setDescription(result.getString("description"));
-					req.setInput(result.getString("input"));
-					req.setOutput(result.getString("output"));
 					req.setResult(result.getString("result"));
 					data.add(req);
 				}
@@ -904,7 +1016,77 @@ public class Datainfo {
 			
 			return data;
 		}
+	}
+	public ArrayList<MethodDescription> getSearchMethod() {
+		ArrayList<MethodDescription> data = new ArrayList<>();
 		
+		try {
+			String sql = "SELECT * FROM Method";
+			statement = connection2.prepareStatement(sql);
+			ResultSet result = statement.executeQuery();
+			while(result.next()) {
+				MethodDescription md = new MethodDescription();
+				
+				md.setType(result.getString("type"));
+				md.setName(result.getString("name"));
+				md.setPurpose(result.getString("purpose"));
+				md.setOverview(result.getString("overview"));
+				md.setCross(result.getString("cross"));
+				md.setInput(result.getString("input"));
+				md.setOutput(result.getString("output"));
+				md.setAbstract(result.getString("abstract"));
+				md.setException(result.getString("exception"));
+				
+				data.add(md);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		
+		return data;
+	}
+	public UIDesign getSearchUI() {
+		UIDesign data = new UIDesign();
+		ArrayList<Button> buttonList = new ArrayList<>();
+		ArrayList<JTextField> textList = new ArrayList<>();
+		ArrayList<JLabel> labelList = new ArrayList<>();
+		try {
+			String sql = "SELECT * FROM UI";
+			statement = connection2.prepareStatement(sql);
+			//statement.setString(1, "B");
+			ResultSet result = statement.executeQuery();
+			while(result.next()) {
+				if(result.getString("type").equals("B")) {
+					Button b = new Button(result.getString("name"),1);
+					Point p = new Point();
+					p.setLocation(result.getDouble("x"), result.getDouble("y"));
+					b.setLocation(p);
+					buttonList.add(b);
+				}
+				else if(result.getString("type").equals("T")) {
+					JTextField t = new JTextField();
+					Point p = new Point();
+					p.setLocation(result.getDouble("x"), result.getDouble("y"));
+					t.setLocation(p);
+					textList.add(t);
+				}
+				else if(result.getString("type").equals("L")) {
+					JLabel l = new JLabel();
+					Point p = new Point();
+					p.setLocation(result.getDouble("x"), result.getDouble("y"));
+					l.setLocation(p);
+					labelList.add(l);
+				}
+			}
+			data.setButtonList(buttonList);
+			data.setTextList(textList);
+			data.setLabelList(labelList);
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return data;
 	}
 }

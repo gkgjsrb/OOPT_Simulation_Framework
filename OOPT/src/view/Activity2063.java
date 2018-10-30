@@ -142,7 +142,7 @@ public class Activity2063 extends JTabbedPane {
 				IconNode node=(IconNode)tree.getLastSelectedPathComponent();
 				if(node.getParent().equals(node.getRoot().getChildAt(1).getChildAt(3))){
 		        	int index = node.getParent().getIndex(node);
-		        	 if(index == 0) {
+		        	 if(index == 2) {
 		        	 	node.setIconName("floppyDrive");
 		        	 }
 				}
@@ -156,7 +156,7 @@ public class Activity2063 extends JTabbedPane {
 				IconNode node=(IconNode)tree.getLastSelectedPathComponent();
 				if(node.getParent().equals(node.getRoot().getChildAt(1).getChildAt(3))){
 		        	int index = node.getParent().getIndex(node);
-		        	 if(index == 0) {
+		        	 if(index == 2) {
 		        	 	node.setIconName("floppyDrive");
 		        	 }
 				}

@@ -3,6 +3,7 @@ package view;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.StringTokenizer;
 
@@ -23,13 +24,14 @@ import com.horstmann.violet.workspace.WorkspacePanel;
 
 import Model.Datainfo;
 import Model.Graph;
+import Model.MethodDescription;
 //define design class diagram
 public class Activity2045 extends JTabbedPane {
 	IWorkspace workspace;
 	WorkspacePanel wp;
 	JSplitPane splitPane;
    
-	public Activity2045(Graph cd, Datainfo data) {
+	public Activity2045(Graph cd, ArrayList<MethodDescription> md, Datainfo data) {
 		//BeanInjector.getInjector().inject(this);
 		Class<? extends IGraph> graphClass = new ClassDiagramGraph().getClass();
         IGraphFile graphFile = new GraphFile(graphClass);
@@ -53,6 +55,25 @@ public class Activity2045 extends JTabbedPane {
 				cd.setName("class");
 				data.syncGraph("cd","");
 				data.setGraph("cd", cd);
+				md.clear();
+				Collection<INode> node = cd.getGraph().getGraph().getAllNodes();
+				for(INode s : node) {
+					ClassNode c = (ClassNode) s;
+					MethodDescription cn = new MethodDescription();
+					cn.setType("Class");
+					cn.setName(c.getName().toString());
+					md.add(cn);
+					StringTokenizer t = new StringTokenizer(c.getMethods().toString(), "|");
+					for(int i = 0; t.hasMoreTokens(); i++) {
+						//System.out.println(t.nextToken());
+						MethodDescription m = new MethodDescription();
+						m.setType("Method");
+						m.setName(t.nextToken());
+						md.add(m);
+					}
+					
+				}
+				
 			}
 		});
        
@@ -68,17 +89,5 @@ public class Activity2045 extends JTabbedPane {
 		workspace = new Workspace(cd.getGraph());
 		wp = workspace.getAWTComponent();
 		splitPane.setBottomComponent(wp);
-		/*
-		Collection<INode> node = cd.getGraph().getGraph().getAllNodes();
-		for(INode s : node) {
-			ClassNode c = (ClassNode) s;
-			
-			StringTokenizer t = new StringTokenizer(c.getMethods().toString(), "|");
-			for(int i = 0; t.hasMoreTokens(); i++) {
-				System.out.println(t.nextToken());
-			}
-			
-		}
-		*/
 	}
 }

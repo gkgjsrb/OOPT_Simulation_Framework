@@ -22,6 +22,8 @@ import javax.swing.plaf.metal.MetalIconFactory;
 import Model.Datainfo;
 import Model.Glossary;
 import Model.Graph;
+import Model.IntegrationTestCase;
+import Model.MethodDescription;
 import Model.NonFuncReq;
 import Model.Requirement;
 import Model.Risk;
@@ -29,6 +31,8 @@ import Model.Schedule;
 import Model.StageText;
 import Model.SystemOperation;
 import Model.SystemTestCase;
+import Model.TestCase;
+import Model.UIDesign;
 import Model.UnitTestCase;
 import Model.UseCase;
 
@@ -37,8 +41,14 @@ public class GUI {
 	private JFrame frame;
 	private ArrayList<Glossary> gl2;
 	private ArrayList<UseCase> ruc;
-	private ArrayList<SystemTestCase> stc = new ArrayList<>();
-	private ArrayList<UnitTestCase> utc = new ArrayList<>();
+	private ArrayList<MethodDescription> md;
+	private ArrayList<SystemTestCase> stc;
+	private ArrayList<UnitTestCase> utc;
+	private ArrayList<IntegrationTestCase> itc;
+	private ArrayList<TestCase> ptc;
+	private ArrayList<TestCase> atc;
+	private ArrayList<TestCase> dtc;
+	private UIDesign ui;
 	/**
 	 * Launch the application.
 	 */
@@ -72,6 +82,15 @@ public class GUI {
 			Graph cd, Graph dm, Graph sa, Datainfo data) {
 		gl2 = new ArrayList<>();
 		ruc = new ArrayList<>();
+		md = new ArrayList<>();
+		stc = new ArrayList<>();
+		utc = new ArrayList<>();
+		itc = new ArrayList<>();
+		ptc = new ArrayList<>();
+		atc = new ArrayList<>();
+		dtc = new ArrayList<>();
+		ui = new UIDesign();
+		
 		frame = new JFrame();
 		frame.setTitle("OOPT Framework");
 		frame.setBounds(100, 100, 928, 617);
@@ -199,22 +218,22 @@ public class GUI {
 		Activity2038 a2038 = new Activity2038(tree, req, uc, stc, data);
 		Activity2039 a2039 = new Activity2039(req, uc, op, sd);
 		Activity2041 a2041 = new Activity2041(tree, ruc, data);
-		Activity2042 a2042 = new Activity2042(id);
+		Activity2042 a2042 = new Activity2042(tree, id, ui);
 		Activity2043 a2043 = new Activity2043(sa, data);
 		Activity2044 a2044 = new Activity2044(id, data);
-		Activity2045 a2045 = new Activity2045(cd, data);
+		Activity2045 a2045 = new Activity2045(cd, md, data);
 		Activity2046 a2046 = new Activity2046(op, id, cd);
-		Activity2051 a2051 = new Activity2051();
+		Activity2051 a2051 = new Activity2051(tree, md, data);
 		Activity2052 a2052 = new Activity2052();
 		Activity2053 a2053 = new Activity2053();
 		Activity2054 a2054 = new Activity2054();
 		Activity2055 a2055 = new Activity2055();
 		Activity2061 a2061 = new Activity2061(tree, utc, data);
-		Activity2062 a2062 = new Activity2062();
+		Activity2062 a2062 = new Activity2062(tree, itc, data);
 		Activity2063 a2063 = new Activity2063(tree, stc, data);
-		Activity2064 a2064 = new Activity2064();
-		Activity2065 a2065 = new Activity2065();
-		Activity2066 a2066 = new Activity2066();
+		Activity2064 a2064 = new Activity2064(tree, ptc, data);
+		Activity2065 a2065 = new Activity2065(tree, atc, data);
+		Activity2066 a2066 = new Activity2066(tree, dtc, data);
 		Activity2067 a2067 = new Activity2067(req, uc, op, sd, id, cd, stc, utc);
 		
 		Mapping m = new Mapping();
@@ -243,358 +262,127 @@ public class GUI {
 				int dialogButton = JOptionPane.YES_NO_OPTION;
 				int dialogResult = JOptionPane.showConfirmDialog(null, "Open?", "Warning", dialogButton);
 				if(dialogResult == JOptionPane.YES_OPTION) {
-					ArrayList<StageText> st = new ArrayList<>();
-					Thread thread = new Thread(new Runnable() {
+					ArrayList<StageText> st = data.getSearchText();
+					ArrayList<Risk> r = data.getSearchRisk();
+					risk.clear();
+					risk.addAll(r);
 
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-							ArrayList<StageText> temp = data.getSearchText();
-							st.addAll(temp);
-						}
-						
-					});
-					
-					Thread thread2 = new Thread(new Runnable() {
-
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-							ArrayList<Risk> temp = data.getSearchRisk();
-							risk.clear();
-							risk.addAll(temp);
-						}
-						
-					});
-					
-					Thread thread3 = new Thread(new Runnable() {
-
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-							Requirement temp = data.getSearchReq();
-							req.clear();
-							for (int i = 0; i < temp.get_length(); i++) {
-								req.add_row();
-								req.setRef(temp.getRef(i), i);
-								req.setName(temp.getName(i), i);
-								req.setCategory(temp.getCategory(i), i);
-								req.setuCategory(temp.getuCategory(i), i);
-								req.setuNumber(temp.getuNumber(i), i);
-								req.setuName(temp.getuName(i), i);
-								req.setRank(temp.getRank(i), i);
-								req.setTestcase(temp.getTestcase(i), i);
-							}
-						}
-						
-					});
-					Thread thread4 = new Thread(new Runnable() {
-
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-							ArrayList<Glossary> g = data.getSearchGl("D");
-							gl.clear();
-							gl.addAll(g);
-							
-						}
-						
-					});
-					Thread thread5 = new Thread(new Runnable() {
-
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-							ArrayList<Glossary> g2 = data.getSearchGl("R");
-							gl2.clear();
-							gl2.addAll(g2);
-							
-						}
-						
-					});
-	
-					ArrayList<String> concept = new ArrayList<>();
-					Thread thread6 = new Thread(new Runnable() {
-
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-							ArrayList<String> temp = data.getSearchConcept();
-							concept.addAll(temp);
-							
-						}
-						
-					});
-					ArrayList<String> ausecase = new ArrayList<>();
-					Thread thread7 = new Thread(new Runnable() {
-
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-							ArrayList<String> temp = data.getSearchBUsecase("A");
-							ausecase.addAll(temp);
-							
-						}
-						
-					});
-					ArrayList<String> eusecase = new ArrayList<>();
-					Thread thread8 = new Thread(new Runnable() {
-
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-							ArrayList<String> temp = data.getSearchBUsecase("E");
-							eusecase.addAll(temp);
-							
-						}
-						
-					});
-					ArrayList<UseCase> u = data.getSearchUseCase();
-					Thread thread9 = new Thread(new Runnable() {
-
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-							ArrayList<UseCase> u = data.getSearchUseCase();
-							uc.clear();
-							uc.addAll(u);
-						}
-						
-					});
-	
-					ArrayList<Schedule> sc = new ArrayList<>();
-					Thread thread10 = new Thread(new Runnable() {
-
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-							ArrayList<Schedule> temp = data.getSearchSche();
-							sc.addAll(temp);
-						}
-						
-					});
-					
-					ArrayList<NonFuncReq> nreq = new ArrayList<>();
-					Thread thread11 = new Thread(new Runnable() {
-
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-							ArrayList<NonFuncReq> temp = data.getSearchNonReq("D");
-							nreq.addAll(temp);
-						}
-						
-					});
-					Thread thread12 = new Thread(new Runnable() {
-
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-							Graph tmp_ud = data.getSearchGraph("ud").get(0);
-							ud.setGraph(tmp_ud.getGraph());
-							ud.setId(tmp_ud.getId());
-							ud.setName(tmp_ud.getName());
-						}
-						
-					});
-					Thread thread13 = new Thread(new Runnable() {
-
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-							Graph tmp_dm = data.getSearchGraph("dm").get(0);
-							dm.setGraph(tmp_dm.getGraph());
-							dm.setId(tmp_dm.getId());
-							dm.setName(tmp_dm.getName());
-						}
-						
-					});
-					Thread thread14 = new Thread(new Runnable() {
-
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-							Graph tmp_sa = data.getSearchGraph("sa").get(0);
-							sa.setGraph(tmp_sa.getGraph());
-							sa.setId(tmp_sa.getId());
-							sa.setName(tmp_sa.getName());
-						}
-						
-					});
-					Thread thread15 = new Thread(new Runnable() {
-
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-							Graph tmp_cd = data.getSearchGraph("cd").get(0);
-							cd.setGraph(tmp_cd.getGraph());
-							cd.setId(tmp_cd.getId());
-							cd.setName(tmp_cd.getName());
-						}
-						
-					});
-					
-					Thread thread16 = new Thread(new Runnable() {
-
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-							ArrayList<Graph> tmpSd = data.getSearchGraph("sd");
-							sd.clear();
-							sd.addAll(tmpSd);
-						}
-						
-					});
-					Thread thread17 = new Thread(new Runnable() {
-
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-							ArrayList<Graph> tmpStd = data.getSearchGraph("std");
-							std.clear();
-							std.addAll(tmpStd);
-						}
-						
-					});
-					Thread thread18 = new Thread(new Runnable() {
-
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-							ArrayList<Graph> tmpId = data.getSearchGraph("id");
-							id.clear();
-							id.addAll(tmpId);
-						}
-						
-					});
-					Thread thread19 = new Thread(new Runnable() {
-
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-							ArrayList<UseCase> ructmp = data.getSearchRealUseCase();
-							ruc.clear();
-							ruc.addAll(ructmp);
-						}
-						
-					});
-					Thread thread20 = new Thread(new Runnable() {
-
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-							ArrayList<SystemOperation> s = data.getSearchOperation();
-							op.clear();
-							op.addAll(s);
-						}
-						
-					});
-					ArrayList<NonFuncReq> nreq2 = new ArrayList<>();
-					Thread thread21 = new Thread(new Runnable() {
-
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-							ArrayList<NonFuncReq> temp = data.getSearchNonReq("R");
-							nreq2.addAll(temp);
-						}
-						
-					});
-					Thread thread22 = new Thread(new Runnable() {
-
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-							ArrayList<SystemTestCase> stc2 = data.getSearchSystemTC();
-							stc.clear();
-							stc.addAll(stc2);
-						}
-						
-					});
-					Thread thread23 = new Thread(new Runnable() {
-
-						@Override
-						public void run() {
-							// TODO Auto-generated method stub
-							ArrayList<UnitTestCase> tmpUtc = data.getSearchTC("U");
-							utc.clear();
-							utc.addAll(tmpUtc);
-						}
-						
-					});
-					
-					thread.start();
-					thread2.start();
-					thread3.start();
-					thread4.start();
-					thread5.start();
-					thread6.start();
-					thread7.start();
-					thread8.start();
-					thread9.start();
-					thread10.start();
-					thread11.start();
-					thread12.start();
-					thread13.start();
-					thread14.start();
-					thread15.start();
-					thread16.start();
-					thread17.start();
-					thread18.start();
-					thread19.start();
-					thread20.start();
-					thread21.start();
-					thread22.start();
-					thread23.start();
-					
-					try {
-						thread4.join();
-						a1004.open(gl);
-						thread5.join();
-						a2034.open(gl2);
-						thread6.join();
-						a1007.open(concept);
-						thread7.join();
-						thread8.join();
-						thread9.join();
-						a2031.open(uc);
-						thread10.join();
-						thread12.join();
-						thread13.join();
-						a2033.open(dm);
-						thread14.join();
-						a2043.open(sa);
-						thread15.join();
-						a2045.open(cd);
-						thread16.join();
-						thread17.join();
-						thread18.join();
-						thread19.join();
-						a2041.open(ruc);
-						thread20.join();
-						a2036.open(op);
-						thread.join();
-						a1001.open(st);
-						thread2.join();
-						a1002.open(st, risk);
-						thread3.join();
-						a1003.open(st, req);
-						thread11.join();
-						a1009.open(req, nreq);
-						thread21.join();
-						thread22.join();
-						a2038.open(stc, nreq2);
-						a2063.open(st, stc);
-						a1006.open(st, ausecase, eusecase, ud, uc);
-						a1010.open(st, sc);
-						thread23.join();
-						a2061.open(st, utc);
-						a2062.open(st, utc);
-						
-					} catch (InterruptedException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
+					Requirement temp_req = data.getSearchReq();
+					req.clear();
+					for (int i = 0; i < temp_req.get_length(); i++) {
+						req.add_row();
+						req.setRef(temp_req.getRef(i), i);
+						req.setName(temp_req.getName(i), i);
+						req.setCategory(temp_req.getCategory(i), i);
+						req.setuCategory(temp_req.getuCategory(i), i);
+						req.setuNumber(temp_req.getuNumber(i), i);
+						req.setuName(temp_req.getuName(i), i);
+						req.setRank(temp_req.getRank(i), i);
+						req.setTestcase(temp_req.getTestcase(i), i);
 					}
+					ArrayList<Glossary> g = data.getSearchGl("D");
+					gl.clear();
+					gl.addAll(g);
+					ArrayList<Glossary> g2 = data.getSearchGl("R");
+					gl2.clear();
+					gl2.addAll(g2);
+
+					ArrayList<String> concept = data.getSearchConcept();
+					ArrayList<String> ausecase = data.getSearchBUsecase("A");
+					ArrayList<String> eusecase = data.getSearchBUsecase("E");
+					ArrayList<UseCase> u = data.getSearchUseCase();
+					uc.clear();
+					uc.addAll(u);
+
+					ArrayList<Schedule> sc = data.getSearchSche();
+					ArrayList<NonFuncReq> nreq = data.getSearchNonReq("D");
+					
+					Graph tmp_ud = data.getSearchGraph("ud").get(0);
+					ud.setGraph(tmp_ud.getGraph());
+					ud.setId(tmp_ud.getId());
+					ud.setName(tmp_ud.getName());
+					Graph tmp_dm = data.getSearchGraph("dm").get(0);
+					dm.setGraph(tmp_dm.getGraph());
+					dm.setId(tmp_dm.getId());
+					dm.setName(tmp_dm.getName());
+					Graph tmp_sa = data.getSearchGraph("sa").get(0);
+					sa.setGraph(tmp_sa.getGraph());
+					sa.setId(tmp_sa.getId());
+					sa.setName(tmp_sa.getName());
+					Graph tmp_cd = data.getSearchGraph("cd").get(0);
+					cd.setGraph(tmp_cd.getGraph());
+					cd.setId(tmp_cd.getId());
+					cd.setName(tmp_cd.getName());
+					ArrayList<Graph> tmpSd = data.getSearchGraph("sd");
+					sd.clear();
+					sd.addAll(tmpSd);
+					ArrayList<Graph> tmpStd = data.getSearchGraph("std");
+					std.clear();
+					std.addAll(tmpStd);
+					ArrayList<Graph> tmpId = data.getSearchGraph("id");
+					id.clear();
+					id.addAll(tmpId);
+
+					ArrayList<UseCase> ructmp = data.getSearchRealUseCase();
+					ruc.clear();
+					ruc.addAll(ructmp);
+
+					ArrayList<SystemOperation> s = data.getSearchOperation();
+					op.clear();
+					op.addAll(s);
+					
+					ArrayList<NonFuncReq> nreq2 = data.getSearchNonReq("R");
+					ArrayList<SystemTestCase> stc2 = data.getSearchSystemTC();
+					stc.clear();
+					stc.addAll(stc2);
+					ArrayList<UnitTestCase> tmpUtc = data.getSearchTC("U");
+					utc.clear();
+					utc.addAll(tmpUtc);
+					ArrayList<IntegrationTestCase> tmpItc = data.getSearchTC("I");
+					itc.clear();
+					itc.addAll(tmpItc);
+					ArrayList<TestCase> tmpPtc = data.getSearchTC("P");
+					ptc.clear();
+					ptc.addAll(tmpPtc);
+					ArrayList<TestCase> tmpAtc = data.getSearchTC("A");
+					atc.clear();
+					atc.addAll(tmpAtc);
+					ArrayList<TestCase> tmpDtc = data.getSearchTC("D");
+					dtc.clear();
+					dtc.addAll(tmpDtc);
+					
+					ArrayList<MethodDescription> tmpMd = data.getSearchMethod();
+					md.clear();
+					md.addAll(tmpMd);
+					
+					UIDesign tmpUI = data.getSearchUI();
+					ui = tmpUI;
+					
+					a1001.open(st);
+					a1002.open(st, risk);
+					a1003.open(st, req);
+					a1004.open(gl);
+					a1006.open(st, ausecase, eusecase, ud, uc);
+					a1007.open(concept);
+					a1009.open(req, nreq);
+					a1010.open(st, sc);
+					a2031.open(uc);
+					a2033.open(dm);
+					a2034.open(gl2);
+					a2036.open(op);
+					a2038.open(stc, nreq2);
+					a2041.open(ruc);
+					a2042.open(ui);
+					a2043.open(sa);
+					a2045.open(cd);
+					a2051.open(md);
+					a2061.open(st, utc);
+					a2062.open(st, itc);
+					a2063.open(st, stc);
+					a2064.open(st, ptc);
+					a2065.open(st, atc);
+					a2066.open(st, dtc);
+					
 				}
 			}
 
@@ -709,6 +497,7 @@ public class GUI {
 							nodes[24].setIconName("floppyDrive");
 							break;
 						case 1:
+							a2042.save(data, ui);
 							nodes[25].setIconName("floppyDrive");
 							break;
 						case 2:
@@ -737,6 +526,7 @@ public class GUI {
 						index = node.getParent().getIndex(node);
 						switch (index) {
 						case 0:
+							a2051.save(data, md);
 							nodes[31].setIconName("floppyDrive");
 							break;
 						case 1:
@@ -772,12 +562,15 @@ public class GUI {
 							nodes[39].setIconName("floppyDrive");
 							break;
 						case 3:
+							a2064.save(data);
 							nodes[40].setIconName("floppyDrive");
 							break;
 						case 4:
+							a2065.save(data);
 							nodes[41].setIconName("floppyDrive");
 							break;
 						case 5:
+							a2066.save(data);
 							nodes[42].setIconName("floppyDrive");
 							break;
 						case 6:
@@ -986,6 +779,7 @@ public class GUI {
 					JComponent c = null;
 					switch (index) {
 					case 0:
+						a2051.syncMethod(md);
 						c = a2051;
 						break;
 					case 1:

@@ -13,6 +13,7 @@ public class SystemOperation {
 	private String Output;
 	private String Preconditions;
 	private String Postconditions;
+	private String op_name;
 	
 	public String getOp_name() {
 		return op_name;
@@ -20,7 +21,7 @@ public class SystemOperation {
 	public void setOp_name(String op_name) {
 		this.op_name = op_name;
 	}
-	String op_name;
+	
 	public Id getId() {
 		return Id;
 	}
