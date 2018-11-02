@@ -21,7 +21,6 @@ import javax.swing.plaf.metal.MetalIconFactory;
 
 import Model.Datainfo;
 import Model.Glossary;
-import Model.Graph;
 import Model.IntegrationTestCase;
 import Model.MethodDescription;
 import Model.NonFuncReq;
@@ -33,6 +32,7 @@ import Model.SystemOperation;
 import Model.SystemTestCase;
 import Model.TestCase;
 import Model.UIDesign;
+import Model.UMLDiagram;
 import Model.UnitTestCase;
 import Model.UseCase;
 
@@ -59,7 +59,7 @@ public class GUI {
 	 * @throws ClassNotFoundException
 	 */
 	public GUI(Requirement req, ArrayList risk, ArrayList gl, ArrayList uc, ArrayList op, ArrayList std, ArrayList sd,
-			ArrayList id, Graph ud, Graph cd, Graph dm, Graph sa, Datainfo data) {
+			ArrayList id, UMLDiagram ud, UMLDiagram cd, UMLDiagram dm, UMLDiagram sa, Datainfo data) {
 		initialize(req, risk, gl, uc, op, std, sd, id, ud, cd, dm, sa, data);
 	}
 
@@ -78,8 +78,8 @@ public class GUI {
 	}
 
 	private void initialize(Requirement req, ArrayList<Risk> risk, ArrayList<Glossary> gl, ArrayList<UseCase> uc,
-			ArrayList<SystemOperation> op, ArrayList<Graph> std, ArrayList<Graph> sd, ArrayList<Graph> id, Graph ud,
-			Graph cd, Graph dm, Graph sa, Datainfo data) {
+			ArrayList<SystemOperation> op, ArrayList<UMLDiagram> std, ArrayList<UMLDiagram> sd, ArrayList<UMLDiagram> id, UMLDiagram ud,
+			UMLDiagram cd, UMLDiagram dm, UMLDiagram sa, Datainfo data) {
 		gl2 = new ArrayList<>();
 		ruc = new ArrayList<>();
 		md = new ArrayList<>();
@@ -297,29 +297,29 @@ public class GUI {
 					ArrayList<Schedule> sc = data.getSearchSche();
 					ArrayList<NonFuncReq> nreq = data.getSearchNonReq("D");
 					
-					Graph tmp_ud = data.getSearchGraph("ud").get(0);
+					UMLDiagram tmp_ud = data.getSearchGraph("ud").get(0);
 					ud.setGraph(tmp_ud.getGraph());
 					ud.setId(tmp_ud.getId());
 					ud.setName(tmp_ud.getName());
-					Graph tmp_dm = data.getSearchGraph("dm").get(0);
+					UMLDiagram tmp_dm = data.getSearchGraph("dm").get(0);
 					dm.setGraph(tmp_dm.getGraph());
 					dm.setId(tmp_dm.getId());
 					dm.setName(tmp_dm.getName());
-					Graph tmp_sa = data.getSearchGraph("sa").get(0);
+					UMLDiagram tmp_sa = data.getSearchGraph("sa").get(0);
 					sa.setGraph(tmp_sa.getGraph());
 					sa.setId(tmp_sa.getId());
 					sa.setName(tmp_sa.getName());
-					Graph tmp_cd = data.getSearchGraph("cd").get(0);
+					UMLDiagram tmp_cd = data.getSearchGraph("cd").get(0);
 					cd.setGraph(tmp_cd.getGraph());
 					cd.setId(tmp_cd.getId());
 					cd.setName(tmp_cd.getName());
-					ArrayList<Graph> tmpSd = data.getSearchGraph("sd");
+					ArrayList<UMLDiagram> tmpSd = data.getSearchGraph("sd");
 					sd.clear();
 					sd.addAll(tmpSd);
-					ArrayList<Graph> tmpStd = data.getSearchGraph("std");
+					ArrayList<UMLDiagram> tmpStd = data.getSearchGraph("std");
 					std.clear();
 					std.addAll(tmpStd);
-					ArrayList<Graph> tmpId = data.getSearchGraph("id");
+					ArrayList<UMLDiagram> tmpId = data.getSearchGraph("id");
 					id.clear();
 					id.addAll(tmpId);
 

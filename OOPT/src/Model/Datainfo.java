@@ -373,7 +373,7 @@ public class Datainfo {
 		
 	}
 
-	public void setGraph(String type, Graph g) {
+	public void setGraph(String type, UMLDiagram g) {
 		try {
 			String sql = "insert or replace into Graph values(?,?,?)";
 			statement = connection.prepareStatement(sql);
@@ -881,8 +881,8 @@ public class Datainfo {
 		
 		return data;
 	}
-	public ArrayList<Graph> getSearchGraph(String type) {
-		ArrayList<Graph> data = new ArrayList<>();
+	public ArrayList<UMLDiagram> getSearchGraph(String type) {
+		ArrayList<UMLDiagram> data = new ArrayList<>();
 		
 		try {
 			String sql = "SELECT * FROM Graph where type = ?";
@@ -890,7 +890,7 @@ public class Datainfo {
 			statement.setString(1, type);
 			ResultSet result = statement.executeQuery();
 			while(result.next()) {
-				Graph g = new Graph();
+				UMLDiagram g = new UMLDiagram();
 				g.setName(result.getString("name"));
 				g.setId(result.getString("id"));
 				String filename = type + "." + g.getName() + "." + "html";

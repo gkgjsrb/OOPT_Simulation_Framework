@@ -2,12 +2,9 @@ package Model;
 
 import com.horstmann.violet.product.diagram.abstracts.Id;
 
-public class SystemOperation {
+public class SystemOperation extends TextualRequirement{
 	private Id Id;
-	private String Name;
 	private String Responsibility;
-	private String Type;
-	private String Cross;
 	private String Notes;
 	private String Exception;
 	private String Output;
@@ -28,29 +25,11 @@ public class SystemOperation {
 	public void setId(Id id) {
 		Id = id;
 	}
-	public String getName() {
-		return Name;
-	}
-	public void setName(String name) {
-		Name = name;
-	}
 	public String getResponsibility() {
 		return Responsibility;
 	}
 	public void setResponsibility(String responsibility) {
 		Responsibility = responsibility;
-	}
-	public String getType() {
-		return Type;
-	}
-	public void setType(String type) {
-		Type = type;
-	}
-	public String getCross() {
-		return Cross;
-	}
-	public void setCross(String cross) {
-		Cross = cross;
 	}
 	public String getNotes() {
 		return Notes;

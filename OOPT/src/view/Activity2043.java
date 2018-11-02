@@ -11,7 +11,6 @@ import javax.swing.JTabbedPane;
 
 import com.horstmann.violet.framework.file.GraphFile;
 import com.horstmann.violet.framework.file.IGraphFile;
-import com.horstmann.violet.framework.injection.bean.ManiocFramework.BeanInjector;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.classes.ClassDiagramGraph;
 import com.horstmann.violet.workspace.IWorkspace;
@@ -19,13 +18,13 @@ import com.horstmann.violet.workspace.Workspace;
 import com.horstmann.violet.workspace.WorkspacePanel;
 
 import Model.Datainfo;
-import Model.Graph;
+import Model.UMLDiagram;
 //refine system architecture
 public class Activity2043 extends JTabbedPane {
 	IWorkspace workspace;
 	WorkspacePanel wp;
 	JSplitPane splitPane;
-	public Activity2043(Graph sa, Datainfo data) {
+	public Activity2043(UMLDiagram sa, Datainfo data) {
 		//BeanInjector.getInjector().inject(this);
 		Class<? extends IGraph> graphClass = new ClassDiagramGraph().getClass();
         IGraphFile graphFile = new GraphFile(graphClass);
@@ -54,12 +53,12 @@ public class Activity2043 extends JTabbedPane {
         addTab("Refine System Architecture", null, splitPane, null);
     }
 	
-	public void save(Datainfo data, Graph sa) {
+	public void save(Datainfo data, UMLDiagram sa) {
 		data.syncGraph("sa","");
 		data.setGraph("sa", sa);
 	}
 	
-	public void open(Graph sa) {
+	public void open(UMLDiagram sa) {
 		workspace = new Workspace(sa.getGraph());
 		wp = workspace.getAWTComponent();
 		splitPane.setBottomComponent(wp);

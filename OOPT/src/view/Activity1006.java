@@ -15,7 +15,6 @@ import javax.swing.BorderFactory;
 import javax.swing.DefaultCellEditor;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -36,7 +35,6 @@ import com.horstmann.violet.framework.file.IGraphFile;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
-import com.horstmann.violet.product.diagram.classes.node.ClassNode;
 import com.horstmann.violet.product.diagram.sequence.SequenceDiagramGraph;
 import com.horstmann.violet.product.diagram.state.StateDiagramGraph;
 import com.horstmann.violet.product.diagram.usecase.UseCaseDiagramGraph;
@@ -44,13 +42,11 @@ import com.horstmann.violet.product.diagram.usecase.node.UseCaseNode;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.Workspace;
 import com.horstmann.violet.workspace.WorkspacePanel;
-import com.horstmann.violet.workspace.sidebar.SideBar;
-import com.horstmann.violet.workspace.sidebar.SideBarUI;
 
 import Model.Datainfo;
-import Model.Graph;
 import Model.Requirement;
 import Model.StageText;
+import Model.UMLDiagram;
 import Model.UseCase;
 
 public class Activity1006 extends JTabbedPane {
@@ -70,8 +66,8 @@ public class Activity1006 extends JTabbedPane {
 
 	private WorkspacePanel wp;
 
-	public Activity1006(JTree tree, Requirement req, ArrayList<UseCase> uc, Graph ud, ArrayList<Graph> sd,
-			ArrayList<Graph> id, ArrayList<Graph> std, Datainfo data) {
+	public Activity1006(JTree tree, Requirement req, ArrayList<UseCase> uc, UMLDiagram ud, ArrayList<UMLDiagram> sd,
+			ArrayList<UMLDiagram> id, ArrayList<UMLDiagram> std, Datainfo data) {
 		// sd.add(new Graph());
 
 		String category[] = { "Primary", "Secondary", "Optional" };
@@ -599,19 +595,19 @@ public class Activity1006 extends JTabbedPane {
 
 				syncId(id, uc);
 
-				ArrayList<Graph> stdTmp = new ArrayList<>();
+				ArrayList<UMLDiagram> stdTmp = new ArrayList<>();
 				stdTmp.addAll(std);
 				std.clear();
 				for (UseCase tmp : uc) {
 					int exist = 0;
-					for (Graph gtmp : stdTmp) {
+					for (UMLDiagram gtmp : stdTmp) {
 						if (gtmp.getId().equals(tmp.getId().toString())) {
 							std.add(gtmp);
 							exist = 1;
 						}
 					}
 					if (exist == 0) {
-						Graph stdtmp = new Graph(tmp.getName());
+						UMLDiagram stdtmp = new UMLDiagram(tmp.getName());
 						Class<? extends IGraph> graphClass = new StateDiagramGraph().getClass();
 						IGraphFile graphFile = new GraphFile(graphClass);
 						stdtmp.setGraph(graphFile);
@@ -757,7 +753,7 @@ public class Activity1006 extends JTabbedPane {
 		}
 	}
 
-	public void open(ArrayList<StageText> st, ArrayList<String> ausecase, ArrayList<String> eusecase, Graph ud,
+	public void open(ArrayList<StageText> st, ArrayList<String> ausecase, ArrayList<String> eusecase, UMLDiagram ud,
 			ArrayList<UseCase> uc) {
 		setActors(st);
 
@@ -802,15 +798,15 @@ public class Activity1006 extends JTabbedPane {
 		textPane.setText(st.get(15).getText());
 	}
 
-	private void syncSd(ArrayList<Graph> sd, ArrayList<UseCase> uc) {
+	private void syncSd(ArrayList<UMLDiagram> sd, ArrayList<UseCase> uc) {
 
-		ArrayList<Graph> sdTmp = new ArrayList<Graph>();
+		ArrayList<UMLDiagram> sdTmp = new ArrayList<>();
 		sdTmp.addAll(sd);
 		sd.clear();
 		// data.syncGraph("sd");
 		for (UseCase tmp : uc) {
 			int exist = 0;
-			for (Graph gtmp : sdTmp) {
+			for (UMLDiagram gtmp : sdTmp) {
 
 				if (gtmp.getId().equals(tmp.getId().toString())) {
 					sd.add(gtmp);
@@ -820,7 +816,7 @@ public class Activity1006 extends JTabbedPane {
 			if (exist == 0) {
 				for (int i = 0; i < model.getRowCount(); i++) {
 					if (tmp.getName().equals(model.getValueAt(i, 0))) {
-						Graph sdtmp = new Graph(tmp.getName());
+						UMLDiagram sdtmp = new UMLDiagram(tmp.getName());
 						Class<? extends IGraph> graphClass = new SequenceDiagramGraph().getClass();
 						IGraphFile graphFile = new GraphFile(graphClass);
 						sdtmp.setGraph(graphFile);
@@ -837,15 +833,15 @@ public class Activity1006 extends JTabbedPane {
 		 */
 	}
 
-	private void syncId(ArrayList<Graph> id, ArrayList<UseCase> uc) {
+	private void syncId(ArrayList<UMLDiagram> id, ArrayList<UseCase> uc) {
 
-		ArrayList<Graph> idTmp = new ArrayList<Graph>();
+		ArrayList<UMLDiagram> idTmp = new ArrayList<>();
 		idTmp.addAll(id);
 		id.clear();
 		// data.syncGraph("id");
 		for (UseCase tmp : uc) {
 			int exist = 0;
-			for (Graph gtmp : idTmp) {
+			for (UMLDiagram gtmp : idTmp) {
 				if (gtmp.getId().equals(tmp.getId().toString())) {
 					id.add(gtmp);
 					exist = 1;
@@ -854,7 +850,7 @@ public class Activity1006 extends JTabbedPane {
 			if (exist == 0) {
 				for (int i = 0; i < model.getRowCount(); i++) {
 					if (tmp.getName().equals(model.getValueAt(i, 0))) {
-						Graph idtmp = new Graph(tmp.getName());
+						UMLDiagram idtmp = new UMLDiagram(tmp.getName());
 						Class<? extends IGraph> graphClass = new SequenceDiagramGraph().getClass();
 						IGraphFile graphFile = new GraphFile(graphClass);
 						idtmp.setGraph(graphFile);

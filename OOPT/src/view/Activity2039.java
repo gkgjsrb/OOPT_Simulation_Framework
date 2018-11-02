@@ -30,9 +30,9 @@ import com.horstmann.violet.workspace.Workspace;
 import com.horstmann.violet.workspace.WorkspacePanel;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 
-import Model.Graph;
 import Model.Requirement;
 import Model.SystemOperation;
+import Model.UMLDiagram;
 import Model.UseCase;
 //traceability
 public class Activity2039 extends JTabbedPane {
@@ -40,7 +40,7 @@ public class Activity2039 extends JTabbedPane {
 	private IEditorPart editorPart;
     private WorkspacePanel wp;
     
-    public Activity2039(Requirement req, ArrayList<UseCase> uc, ArrayList<SystemOperation> op, ArrayList<Graph> sd) {
+    public Activity2039(Requirement req, ArrayList<UseCase> uc, ArrayList<SystemOperation> op, ArrayList<UMLDiagram> sd) {
 					
 		JSplitPane splitPane = new JSplitPane();
 		JPanel jpanel = new JPanel(new FlowLayout(FlowLayout.TRAILING));
@@ -163,7 +163,7 @@ public class Activity2039 extends JTabbedPane {
 		        	}	
 		        }
 		        for(ClassNode uc_node : uc_Node) {
-		        	for(Graph tmp_graph : sd) {
+		        	for(UMLDiagram tmp_graph : sd) {
 		        		if(uc_node.getName().toString().equals(tmp_graph.getName())) {
 		        			Collection<IEdge> tmp_allEdges = tmp_graph.getGraph().getGraph().getAllEdges();
 		        			for(IEdge aEdge : tmp_allEdges) {

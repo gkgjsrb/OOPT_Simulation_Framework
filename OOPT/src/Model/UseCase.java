@@ -2,26 +2,20 @@ package Model;
 
 import com.horstmann.violet.product.diagram.abstracts.Id;
 
-public class UseCase {
-	Id Id;
-	String Name;
-	String Actor;
-	String Description;
-	String Purpose;
-	String Overview;
-	String Type;
-	//String Base;
-	String Cross;
-	//String related_requirement;
-	String PreRequistes;
-	String Typical;
-	String Alternative;
-	String Exceptional;
-	String UI;
+public class UseCase extends TextualRequirement{
+	private Id Id;
+	private String Actor;
+	private String Description;
+	private String Purpose;
+	private String Overview;
+	private String PreRequistes;
+	private String Typical;
+	private String Alternative;
+	private String Exceptional;
+	private String UI;
 	
 	public UseCase() {
-		super();
-		this.Name = " ";
+		this.setName(" ");
 		// TODO Auto-generated constructor stub
 	}
 	public Id getId() {
@@ -31,19 +25,7 @@ public class UseCase {
 	public void setId(Id id) {
 		Id = id;
 	}
-	public String getCross() {
-		return Cross;
-	}
-	public void setCross(String cross) {
-		Cross = cross;
-	}
-	public String getName() {
-		return Name;
-	}
-
-	public void setName(String name) {
-		Name = name;
-	}
+	
 	public String getActor() {
 		return Actor;
 	}
@@ -71,13 +53,6 @@ public class UseCase {
 	public void setOverview(String overview) {
 		Overview = overview;
 	}
-	public String getType() {
-		return Type;
-	}
-	public void setType(String type) {
-		Type = type;
-	}
-	
 	public String getPreRequistes() {
 		return PreRequistes;
 	}

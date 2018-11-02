@@ -31,8 +31,8 @@ import com.horstmann.violet.workspace.Workspace;
 import com.horstmann.violet.workspace.WorkspacePanel;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 
-import Model.Graph;
 import Model.SystemOperation;
+import Model.UMLDiagram;
 
 //traceability
 public class Activity2046 extends JTabbedPane {
@@ -41,7 +41,7 @@ public class Activity2046 extends JTabbedPane {
 
 	private WorkspacePanel wp;
 
-	public Activity2046(ArrayList<SystemOperation> op, ArrayList<Graph> id, Graph cd) {
+	public Activity2046(ArrayList<SystemOperation> op, ArrayList<UMLDiagram> id, UMLDiagram cd) {
 
 		JSplitPane splitPane = new JSplitPane();
 		JPanel jpanel = new JPanel(new FlowLayout(FlowLayout.TRAILING));
@@ -115,7 +115,7 @@ public class Activity2046 extends JTabbedPane {
 
 				ArrayList<String> id_name = new ArrayList<>();
 
-				for (Graph tmp_Graph : id) {
+				for (UMLDiagram tmp_Graph : id) {
 					
 					Collection<IEdge> Edges = tmp_Graph.getGraph().getGraph().getAllEdges();
 					
@@ -224,7 +224,7 @@ public class Activity2046 extends JTabbedPane {
 				}
 			
 				for (ClassNode tmp_node : op_Node) {
-					for (Graph tmp_id : id) {
+					for (UMLDiagram tmp_id : id) {
 						//if(tmp_id.getName().equals(tmp_node.getName().toString())) {
 							Collection<IEdge> Edges = tmp_id.getGraph().getGraph().getAllEdges();
 							for(IEdge e :Edges) {

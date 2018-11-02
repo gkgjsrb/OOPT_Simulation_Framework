@@ -19,15 +19,14 @@ import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.sequence.SequenceDiagramGraph;
 import com.horstmann.violet.product.diagram.sequence.edge.AsynchronousCallEdge;
-import com.horstmann.violet.product.diagram.sequence.edge.ReturnEdge;
 import com.horstmann.violet.product.diagram.sequence.edge.SynchronousCallEdge;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.Workspace;
 import com.horstmann.violet.workspace.WorkspacePanel;
 
 import Model.Datainfo;
-import Model.Graph;
 import Model.SystemOperation;
+import Model.UMLDiagram;
 
 //define system sequence diagram
 public class Activity2035 extends JTabbedPane {
@@ -36,7 +35,7 @@ public class Activity2035 extends JTabbedPane {
     private WorkspacePanel wp;
     private JComboBox<String> combo;
     
-	public Activity2035(JTree tree, ArrayList<SystemOperation> op, ArrayList<Graph> sd, Datainfo data) {
+	public Activity2035(JTree tree, ArrayList<SystemOperation> op, ArrayList<UMLDiagram> sd, Datainfo data) {
 		
 		//BeanInjector.getInjector().inject(this);
 		Class<? extends IGraph> graphClass = new SequenceDiagramGraph().getClass();
@@ -63,7 +62,7 @@ public class Activity2035 extends JTabbedPane {
 				// TODO Auto-generated method stub
 				int index = combo.getSelectedIndex();
 				String sel = combo.getItemAt(index);
-				for(Graph tmp : sd) {
+				for(UMLDiagram tmp : sd) {
 					if(tmp.getName().equals(sel)) {
 						workspace = new Workspace(tmp.getGraph());
 						wp=workspace.getAWTComponent();
@@ -88,7 +87,7 @@ public class Activity2035 extends JTabbedPane {
 				}
 				data.syncGraph("sd", sd.get(combo.getSelectedIndex()).getId());
 				data.setGraph("sd", sd.get(combo.getSelectedIndex()));
-				for(Graph tmp_Graph : sd) {
+				for(UMLDiagram tmp_Graph : sd) {
 					Collection<IEdge> allEdges = tmp_Graph.getGraph().getGraph().getAllEdges();
 					for(IEdge aEdge : allEdges) {
 						int exist=0;
@@ -141,19 +140,19 @@ public class Activity2035 extends JTabbedPane {
         addTab("Define System Sequence Diagrams", null, splitPane, null);
 	}
 	
-	public void syncComboBox(ArrayList<Graph> sd) {
+	public void syncComboBox(ArrayList<UMLDiagram> sd) {
 		if(sd.size() > 0) {
 			combo.removeAllItems();
-			for(Graph g : sd) {
+			for(UMLDiagram g : sd) {
 				combo.addItem(g.getName());
 			}
 		}
 		
 	}
 	
-	public void save(Datainfo data, ArrayList<Graph> sd) {
+	public void save(Datainfo data, ArrayList<UMLDiagram> sd) {
 		
-		for(Graph g : sd) {
+		for(UMLDiagram g : sd) {
 			data.syncGraph("sd", g.getId());
 			data.setGraph("sd", g);
 		}

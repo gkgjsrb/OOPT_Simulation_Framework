@@ -27,7 +27,7 @@ import com.horstmann.violet.product.diagram.sequence.node.LifelineNode;
 import com.horstmann.violet.workspace.Workspace;
 import com.horstmann.violet.workspace.WorkspacePanel;
 
-import Model.Graph;
+import Model.UMLDiagram;
 
 public class Simulation extends JFrame{
 	private Workspace w;
@@ -41,7 +41,7 @@ public class Simulation extends JFrame{
 	private ArrayList<CombinedFragmentNode> fragmentNode;
 	private ArrayList<IEdge> allEdges;
 	
-	public Simulation(Graph graph) {
+	public Simulation(UMLDiagram graph) {
 		setTitle("Simulation");
 		setBounds(100, 100, 1300, 617);
 		setLocationRelativeTo(null);
@@ -249,7 +249,6 @@ public class Simulation extends JFrame{
 			wp.refreshDisplay();
 			this.revalidate();
 			this.repaint();
-			//Thread.sleep(500);
 		}
 	}
 	

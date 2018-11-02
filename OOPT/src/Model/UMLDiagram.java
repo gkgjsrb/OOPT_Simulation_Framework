@@ -4,25 +4,21 @@ import java.io.Serializable;
 
 import com.horstmann.violet.framework.file.IGraphFile;
 
-public class Graph implements Serializable{
-	String name;
-	String id;
+public class UMLDiagram extends DevelopmentArtifact implements Serializable{
+	
+	private String id;
 	
 	IGraphFile graph;
 	
-	public Graph() {
-		super();
+	public UMLDiagram() {
+		
 		// TODO Auto-generated constructor stub
 	}
-	public Graph(String name) {
-		this.name = name;
+	public UMLDiagram(String name) {
+	
+		this.setName(name);
 	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
+	
 	public String getId() {
 		return id;
 	}

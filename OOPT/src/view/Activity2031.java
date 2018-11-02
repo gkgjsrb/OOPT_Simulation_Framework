@@ -23,7 +23,6 @@ import com.horstmann.violet.product.diagram.usecase.node.UseCaseNode;
 import com.horstmann.violet.workspace.Workspace;
 
 import Model.Datainfo;
-import Model.Graph;
 import Model.Requirement;
 import Model.StageText;
 import Model.UseCase;

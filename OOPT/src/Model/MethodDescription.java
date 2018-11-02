@@ -2,31 +2,17 @@ package Model;
 
 import com.horstmann.violet.product.diagram.abstracts.Id;
 
-public class MethodDescription {
+public class MethodDescription extends TextualRequirement{
 	
-	private String Type;
-	private String Name;
 	private String Purpose;
 	private String Overview;
-	private String Cross;
 	private String Input;
 	private String Output;
 	private String Abstract;
 	public MethodDescription() {
 		
 	}
-	public String getType() {
-		return Type;
-	}
-	public void setType(String type) {
-		Type = type;
-	}
-	public String getName() {
-		return Name;
-	}
-	public void setName(String name) {
-		Name = name;
-	}
+	
 	public String getPurpose() {
 		return Purpose;
 	}
@@ -38,12 +24,6 @@ public class MethodDescription {
 	}
 	public void setOverview(String overview) {
 		Overview = overview;
-	}
-	public String getCross() {
-		return Cross;
-	}
-	public void setCross(String cross) {
-		Cross = cross;
 	}
 	public String getInput() {
 		return Input;

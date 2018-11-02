@@ -28,16 +28,15 @@ import com.horstmann.violet.product.diagram.property.text.SingleLineText;
 import com.horstmann.violet.product.diagram.sequence.edge.AsynchronousCallEdge;
 import com.horstmann.violet.product.diagram.sequence.edge.SynchronousCallEdge;
 import com.horstmann.violet.product.diagram.usecase.UseCaseDiagramGraph;
-import com.horstmann.violet.product.diagram.usecase.node.UseCaseNode;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.Workspace;
 import com.horstmann.violet.workspace.WorkspacePanel;
 import com.horstmann.violet.workspace.editorpart.IEditorPart;
 
-import Model.Graph;
 import Model.Requirement;
 import Model.SystemOperation;
 import Model.SystemTestCase;
+import Model.UMLDiagram;
 import Model.UnitTestCase;
 import Model.UseCase;
 
@@ -48,8 +47,8 @@ public class Activity2067 extends JTabbedPane {
 	private IEditorPart editorPart2;
 	private IEditorPart editorPart3;
 	
-	public Activity2067(Requirement req, ArrayList<UseCase> uc, ArrayList<SystemOperation> op, ArrayList<Graph> sd,
-			ArrayList<Graph> id, Graph cd, ArrayList<SystemTestCase> stc, ArrayList<UnitTestCase> utc) {
+	public Activity2067(Requirement req, ArrayList<UseCase> uc, ArrayList<SystemOperation> op, ArrayList<UMLDiagram> sd,
+			ArrayList<UMLDiagram> id, UMLDiagram cd, ArrayList<SystemTestCase> stc, ArrayList<UnitTestCase> utc) {
 		
 		JSplitPane splitPane = new JSplitPane();
 		JPanel jpanel = new JPanel(new FlowLayout(FlowLayout.TRAILING));
@@ -224,7 +223,7 @@ public class Activity2067 extends JTabbedPane {
 		        ArrayList<String> uName = new ArrayList<String>(req.getAlluName());
 		        ArrayList<String> id_name = new ArrayList<>();
 				
-		        for (Graph tmp_Graph : id) {
+		        for (UMLDiagram tmp_Graph : id) {
 					Collection<IEdge> Edges = tmp_Graph.getGraph().getGraph().getAllEdges();
 					for (IEdge aEdge : Edges) {
 						int exist = 0;
@@ -453,7 +452,7 @@ public class Activity2067 extends JTabbedPane {
 					}
 				}
 				for(ClassNode tmp_node : uc_Node2) {
-					for(Graph tmp_graph : sd) {
+					for(UMLDiagram tmp_graph : sd) {
 		        		if(tmp_node.getName().toString().equals(tmp_graph.getName())) {
 		        			Collection<IEdge> tmp_allEdges = tmp_graph.getGraph().getGraph().getAllEdges();
 		        			for(IEdge aEdge : tmp_allEdges) {
@@ -510,29 +509,10 @@ public class Activity2067 extends JTabbedPane {
 						}
 					}
 				}
-				for (ClassNode tmp_node : m_Node2) {
-					StringTokenizer a = new StringTokenizer(tmp_node.getName().toString(), " ");
-					for (int l = 0; l < 2; l++) {
-						a.nextToken();
-					}
-					String name = a.nextToken();
-					while (a.hasMoreTokens()) {
-						name = name + " " + a.nextToken();
-					}
-					for (UnitTestCase temp : utc) {
-						if(temp.getName().equals(name)) {
-							for(ClassNode ut_nd : ut_Node2) {
-								if(ut_nd.getName().toString().equals(temp.getNumber() + ". " + temp.getName())) {
-									AssociationEdge ie_tmp = new AssociationEdge();
-		        					ge3.changeEdge(ie_tmp);
-		        					workspace3.getGraphFile().getGraph().connect(ie_tmp, tmp_node, tmp_node.getLocationOnGraph(), ut_nd, ut_nd.getLocationOnGraph(), null);
-								}
-							}
-						}
-					}
-				}
+				
+
 				for (ClassNode tmp_node : op_Node) {
-					for (Graph tmp_id : id) {
+					for (UMLDiagram tmp_id : id) {
 						Collection<IEdge> Edges = tmp_id.getGraph().getGraph().getAllEdges();
 						for(IEdge e :Edges) {
 							if(e.getClass().equals(SynchronousCallEdge.class)) {
@@ -667,7 +647,29 @@ public class Activity2067 extends JTabbedPane {
 						}
 					}
 				}
-
+				
+				for (ClassNode tmp_node : m_Node2) {
+					StringTokenizer a = new StringTokenizer(tmp_node.getName().toString(), " ");
+					for (int l = 0; l < 2; l++) {
+						a.nextToken();
+					}
+					String name = a.nextToken();
+					while (a.hasMoreTokens()) {
+						name = name + " " + a.nextToken();
+					}
+					for (UnitTestCase temp : utc) {
+						if(temp.getName().equals(name)) {
+							for(ClassNode ut_nd : ut_Node2) {
+								if(ut_nd.getName().toString().equals(temp.getNumber() + ". " + temp.getName())) {
+									AssociationEdge ie_tmp = new AssociationEdge();
+		        					ge3.changeEdge(ie_tmp);
+		        					workspace3.getGraphFile().getGraph().connect(ie_tmp, tmp_node, tmp_node.getLocationOnGraph(), ut_nd, ut_nd.getLocationOnGraph(), null);
+								}
+							}
+						}
+					}
+				}
+				
 				workspace.getAWTComponent().refreshDisplay();
 				workspace2.getAWTComponent().refreshDisplay();
 				workspace3.getAWTComponent().refreshDisplay();

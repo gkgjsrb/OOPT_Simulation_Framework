@@ -23,7 +23,7 @@ import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.sequence.SequenceDiagramGraph;
 
 import Model.Datainfo;
-import Model.Graph;
+
 import Model.Requirement;
 import Model.UseCase;
 

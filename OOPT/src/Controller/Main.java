@@ -5,11 +5,11 @@ import java.util.ArrayList;
 
 import Model.Datainfo;
 import Model.Glossary;
-import Model.Graph;
 import Model.Mkdir;
 import Model.Requirement;
 import Model.Risk;
 import Model.SystemOperation;
+import Model.UMLDiagram;
 import Model.UMLEditorApplication;
 import Model.UseCase;
 import view.GUI;
@@ -32,13 +32,13 @@ public class Main {
 		ArrayList <UseCase> uc = new ArrayList<>();
 		ArrayList <SystemOperation> op = new ArrayList<>();
 		
-		ArrayList <Graph> std = new ArrayList<>();
-		ArrayList <Graph> sd = new ArrayList<>();
-		ArrayList <Graph> id = new ArrayList<>();
-		Graph dm = new Graph();
-		Graph ud = new Graph();
-		Graph cd = new Graph();
-		Graph sa = new Graph();
+		ArrayList <UMLDiagram> std = new ArrayList<>();
+		ArrayList <UMLDiagram> sd = new ArrayList<>();
+		ArrayList <UMLDiagram> id = new ArrayList<>();
+		UMLDiagram dm = new UMLDiagram();
+		UMLDiagram ud = new UMLDiagram();
+		UMLDiagram cd = new UMLDiagram();
+		UMLDiagram sa = new UMLDiagram();
 		
 		GUI gui = new GUI(req, risk, gl, uc, op, std, sd, id, ud, cd, dm, sa, data);
 		

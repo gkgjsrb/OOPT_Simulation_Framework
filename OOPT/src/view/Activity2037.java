@@ -20,7 +20,7 @@ import com.horstmann.violet.workspace.Workspace;
 import com.horstmann.violet.workspace.WorkspacePanel;
 
 import Model.Datainfo;
-import Model.Graph;
+import Model.UMLDiagram;
 //define state diagram
 public class Activity2037 extends JTabbedPane {
 
@@ -28,7 +28,7 @@ public class Activity2037 extends JTabbedPane {
     private WorkspacePanel wp;  
     private JComboBox<String> combo;
     
-	public Activity2037(ArrayList<Graph> std, Datainfo data) {
+	public Activity2037(ArrayList<UMLDiagram> std, Datainfo data) {
 		
 		//BeanInjector.getInjector().inject(this);
 		Class<? extends IGraph> graphClass = new StateDiagramGraph().getClass();
@@ -56,7 +56,7 @@ public class Activity2037 extends JTabbedPane {
 				// TODO Auto-generated method stub
 				int index = combo.getSelectedIndex();
 				String sel = combo.getItemAt(index);
-				for(Graph tmp : std) {
+				for(UMLDiagram tmp : std) {
 					if(tmp.getName().equals(sel)) {
 						workspace = new Workspace(tmp.getGraph());
 						wp=workspace.getAWTComponent();
@@ -80,16 +80,16 @@ public class Activity2037 extends JTabbedPane {
         addTab("Define State Diagrams", null, splitPane, null);
 	}
 
-	public void syncComboBox(ArrayList<Graph> std) {
+	public void syncComboBox(ArrayList<UMLDiagram> std) {
 		combo.removeAllItems();
-		for(Graph tmp : std) {
+		for(UMLDiagram tmp : std) {
 			combo.addItem(tmp.getName());
 		}
 	}
 	
-	public void save(Datainfo data, ArrayList<Graph> std) {
+	public void save(Datainfo data, ArrayList<UMLDiagram> std) {
 		
-		for(Graph g : std) {
+		for(UMLDiagram g : std) {
 			data.syncGraph("std", g.getId());
 			data.setGraph("std", g);
 		}

@@ -4,7 +4,6 @@ import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
-import java.util.Collection;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -15,18 +14,13 @@ import javax.swing.JTabbedPane;
 import com.horstmann.violet.framework.file.GraphFile;
 import com.horstmann.violet.framework.file.IGraphFile;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
-import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.sequence.SequenceDiagramGraph;
-import com.horstmann.violet.product.diagram.sequence.edge.AsynchronousCallEdge;
-import com.horstmann.violet.product.diagram.sequence.edge.ReturnEdge;
-import com.horstmann.violet.product.diagram.sequence.edge.SynchronousCallEdge;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.Workspace;
 import com.horstmann.violet.workspace.WorkspacePanel;
 
 import Model.Datainfo;
-import Model.Graph;
-import Model.SystemOperation;
+import Model.UMLDiagram;
 //define interaction diagram
 public class Activity2044 extends JTabbedPane {
 
@@ -34,7 +28,7 @@ public class Activity2044 extends JTabbedPane {
     private WorkspacePanel wp;  
     private JComboBox<String> combo;
     
-	public Activity2044(ArrayList<Graph> id, Datainfo data) {
+	public Activity2044(ArrayList<UMLDiagram> id, Datainfo data) {
 		
 		//BeanInjector.getInjector().inject(this);
 		Class<? extends IGraph> graphClass = new SequenceDiagramGraph().getClass();
@@ -59,7 +53,7 @@ public class Activity2044 extends JTabbedPane {
 				// TODO Auto-generated method stub
 				int index = combo.getSelectedIndex();
 				String sel = combo.getItemAt(index);
-				for(Graph tmp : id) {
+				for(UMLDiagram tmp : id) {
 					if(tmp.getName().equals(sel)) {
 						workspace = new Workspace(tmp.getGraph());
 						wp=workspace.getAWTComponent();
@@ -84,16 +78,16 @@ public class Activity2044 extends JTabbedPane {
         addTab("Define Interaction Diagrams", null, splitPane, null);
 	}
 	
-	public void syncComboBox(ArrayList<Graph> id) {
+	public void syncComboBox(ArrayList<UMLDiagram> id) {
 		combo.removeAllItems();
-		for(Graph tmp : id) {
+		for(UMLDiagram tmp : id) {
 			combo.addItem(tmp.getName());
 		}
 	}
 	
-	public void save(Datainfo data, ArrayList<Graph> id) {
+	public void save(Datainfo data, ArrayList<UMLDiagram> id) {
 		
-		for(Graph g : id) {
+		for(UMLDiagram g : id) {
 			data.syncGraph("id", g.getId());
 			data.setGraph("id", g);
 		}

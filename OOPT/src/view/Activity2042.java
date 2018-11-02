@@ -28,8 +28,8 @@ import javax.swing.JTree;
 
 import Model.Button;
 import Model.Datainfo;
-import Model.Graph;
 import Model.UIDesign;
+import Model.UMLDiagram;
 
 //define ui
 public class Activity2042 extends JTabbedPane {
@@ -58,7 +58,7 @@ public class Activity2042 extends JTabbedPane {
 	private ArrayList<JTextField> textList;
 	private ArrayList<JLabel> labelList;
 	
-	public Activity2042(JTree tree, ArrayList<Graph> id, UIDesign ui) {
+	public Activity2042(JTree tree, ArrayList<UMLDiagram> id, UIDesign ui) {
 		
 		buttonList = new ArrayList<>();
 		textList = new ArrayList<>();
@@ -429,7 +429,7 @@ public class Activity2042 extends JTabbedPane {
 		addTab("UI Design", null, splitPane, null);
 	}
 
-	public JPanel getPanel(ArrayList<Graph> id) {
+	public JPanel getPanel(ArrayList<UMLDiagram> id) {
 		JPanel j = new JPanel();
 		j.setSize(panel_1.getSize());
 		j.setLayout(null);
@@ -471,7 +471,7 @@ public class Activity2042 extends JTabbedPane {
 							JComboBox<String> cb = new JComboBox<String>();
 							cb.setSize(200, 40);
 							cb.setLocation(100,10);
-							for(Graph tmp_id : id) {
+							for(UMLDiagram tmp_id : id) {
 								cb.addItem(tmp_id.getName());
 							}
 							
@@ -490,7 +490,7 @@ public class Activity2042 extends JTabbedPane {
 									
 									int index = cb.getSelectedIndex();
 									String sel = cb.getItemAt(index);
-									for(Graph tmp_id : id) {
+									for(UMLDiagram tmp_id : id) {
 										if(sel.equals(tmp_id.getName())) {
 											bt.setGraph(tmp_id);
 										}

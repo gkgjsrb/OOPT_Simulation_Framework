@@ -23,15 +23,15 @@ import com.horstmann.violet.workspace.Workspace;
 import com.horstmann.violet.workspace.WorkspacePanel;
 
 import Model.Datainfo;
-import Model.Graph;
 import Model.MethodDescription;
+import Model.UMLDiagram;
 //define design class diagram
 public class Activity2045 extends JTabbedPane {
 	IWorkspace workspace;
 	WorkspacePanel wp;
 	JSplitPane splitPane;
    
-	public Activity2045(Graph cd, ArrayList<MethodDescription> md, Datainfo data) {
+	public Activity2045(UMLDiagram cd, ArrayList<MethodDescription> md, Datainfo data) {
 		//BeanInjector.getInjector().inject(this);
 		Class<? extends IGraph> graphClass = new ClassDiagramGraph().getClass();
         IGraphFile graphFile = new GraphFile(graphClass);
@@ -80,12 +80,12 @@ public class Activity2045 extends JTabbedPane {
         addTab("Define Design Class Diagrams", null, splitPane, null);
     }
 	
-	public void save(Datainfo data, Graph cd) {
+	public void save(Datainfo data, UMLDiagram cd) {
 		data.syncGraph("cd","");
 		data.setGraph("cd", cd);
 	}
 	
-	public void open(Graph cd) {
+	public void open(UMLDiagram cd) {
 		workspace = new Workspace(cd.getGraph());
 		wp = workspace.getAWTComponent();
 		splitPane.setBottomComponent(wp);

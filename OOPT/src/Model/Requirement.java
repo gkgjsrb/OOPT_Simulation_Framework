@@ -2,7 +2,7 @@ package Model;
 
 import java.util.ArrayList;
 
-public class Requirement {
+public class Requirement extends TextualRequirement{
 	enum Category {EVIDENT, HIDDEN};
 	enum uCategory {PRIMARY,SECONDARY, OPTIONAL};
 	enum Rank {HIGH, MEDIUM, LOW};

@@ -5,7 +5,7 @@ import javax.swing.JButton;
 public class Button extends JButton {
 
 	private String Name;
-	private Graph graph;
+	private UMLDiagram graph;
 	private int Id;
 	public Button(String Name,int Objectcnt) {
 		this.Name=Name;
@@ -36,11 +36,11 @@ public class Button extends JButton {
 	}
 
 
-	public void setGraph(Graph graph) {
+	public void setGraph(UMLDiagram graph) {
 		this.graph = graph;
 	}
 	
-	public Graph getGraph() {
+	public UMLDiagram getGraph() {
 		return this.graph;
 	}
 }
