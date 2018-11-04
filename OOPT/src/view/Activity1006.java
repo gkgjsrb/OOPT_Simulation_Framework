@@ -1,5 +1,6 @@
 package view;
 
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -35,6 +36,7 @@ import com.horstmann.violet.framework.file.IGraphFile;
 import com.horstmann.violet.product.diagram.abstracts.IGraph;
 import com.horstmann.violet.product.diagram.abstracts.edge.IEdge;
 import com.horstmann.violet.product.diagram.abstracts.node.INode;
+import com.horstmann.violet.product.diagram.classes.node.ClassNode;
 import com.horstmann.violet.product.diagram.sequence.SequenceDiagramGraph;
 import com.horstmann.violet.product.diagram.state.StateDiagramGraph;
 import com.horstmann.violet.product.diagram.usecase.UseCaseDiagramGraph;
@@ -53,6 +55,7 @@ public class Activity1006 extends JTabbedPane {
 	// private JTable table;
 
 	private JSplitPane splitPane_6;
+	private JSplitPane splitPane_9;
 	private JTabbedPane tpanel;
 	private JTextPane textPane;
 
@@ -63,8 +66,10 @@ public class Activity1006 extends JTabbedPane {
 	DefaultTableModel model5;
 
 	private IWorkspace workspace;
+	private IWorkspace workspace_1;
 
 	private WorkspacePanel wp;
+	private WorkspacePanel wp_1;
 
 	public Activity1006(JTree tree, Requirement req, ArrayList<UseCase> uc, UMLDiagram ud, ArrayList<UMLDiagram> sd,
 			ArrayList<UMLDiagram> id, ArrayList<UMLDiagram> std, Datainfo data) {
@@ -73,8 +78,116 @@ public class Activity1006 extends JTabbedPane {
 		String category[] = { "Primary", "Secondary", "Optional" };
 		String rank[] = { "High", "Medium", "Low" };
 
-		JScrollPane scrollPane = new JScrollPane();
-		addTab("Define System Boundary", null, scrollPane, null);
+		JPanel panelc;
+		JSplitPane splitPane_10 = new JSplitPane();
+		splitPane_9 = new JSplitPane();
+		JPanel jpanelc = new JPanel(new FlowLayout(FlowLayout.TRAILING));
+
+		JButton button_13 = new JButton("+");
+		JButton button_14 = new JButton("-");
+		JButton button_15 = new JButton("Commit");
+		JButton button_16 = new JButton("Box");
+		JButton button_17 = new JButton("Actor");
+		JButton button_18 = new JButton("Edge");
+		JButton button_19 = new JButton("Select");
+		jpanelc.add(button_13);
+		jpanelc.add(button_14);
+		jpanelc.add(button_15);
+
+		Class<? extends IGraph> graphClass = new UseCaseDiagramGraph().getClass();
+		IGraphFile graphFile = new GraphFile(graphClass);
+		workspace_1 = new Workspace(graphFile);
+
+		ClassNode cn = new ClassNode();
+		workspace_1.getSideBar().getGraphToolsBar().addTool(cn, "class");
+
+		wp_1 = workspace_1.getAWTComponent();
+		wp_1.getScrollableSideBar().setVisible(false);
+
+		panelc = new JPanel();
+		panelc.setBackground(Color.DARK_GRAY);
+		panelc.setLayout(null);
+
+		button_16.setLocation(23, 120);
+		button_16.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				workspace_1.getSideBar().getGraphToolsBar()
+						.setSelectedTool(workspace_1.getSideBar().getGraphToolsBar().getNodeTools().get(4));
+			}
+
+		});
+		button_16.setSize(100, 30);
+		panelc.add(button_16);
+
+		button_17.setLocation(23, 180);
+		button_17.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				workspace_1.getSideBar().getGraphToolsBar()
+						.setSelectedTool(workspace_1.getSideBar().getGraphToolsBar().getNodeTools().get(1));
+			}
+		});
+		button_17.setSize(100, 30);
+		panelc.add(button_17);
+
+		button_18.setLocation(23, 240);
+		button_18.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				workspace_1.getSideBar().getGraphToolsBar()
+						.setSelectedTool(workspace_1.getSideBar().getGraphToolsBar().getEdgeTools().get(0));
+			}
+		});
+		button_18.setSize(100, 30);
+		panelc.add(button_18);
+
+		button_19.setLocation(23, 60);
+		button_19.addActionListener(new ActionListener() {
+
+			public void actionPerformed(ActionEvent e) {
+				workspace_1.getSideBar().getGraphToolsBar()
+						.setSelectedTool(workspace_1.getSideBar().getGraphToolsBar().getNodeTools().get(0));
+			}
+		});
+		button_19.setSize(100, 30);
+		panelc.add(button_19);
+
+		button_13.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				workspace_1.getEditorPart().changeZoom(1);
+
+			}
+		});
+
+		button_14.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				workspace_1.getEditorPart().changeZoom(-1);
+
+			}
+		});
+
+		button_15.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				UMLDiagram g = new UMLDiagram();
+				g.setName("System Boundary");
+				g.setGraph(workspace_1.getGraphFile());
+				data.syncGraph("sb", "");
+				data.setGraph("sb", g);
+
+			}
+		});
+		
+		splitPane_10.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		splitPane_9.setOrientation(JSplitPane.HORIZONTAL_SPLIT);
+		splitPane_9.setLeftComponent(panelc);
+		splitPane_9.setRightComponent(wp_1);
+		splitPane_9.setDividerLocation(150);
+		splitPane_10.setBottomComponent(splitPane_9);
+		splitPane_10.setTopComponent(jpanelc);
+		addTab("Define System Boundary", null, splitPane_10, null);
 
 		JSplitPane splitPane_1 = new JSplitPane();
 		JPanel jpanel_1 = new JPanel(new GridBagLayout());
@@ -139,7 +252,7 @@ public class Activity1006 extends JTabbedPane {
 		model = new DefaultTableModel(rowData, colName);
 		JTable table = new JTable(model);
 		table.setCellSelectionEnabled(false);
-		
+
 		panel.setViewportView(table);
 		table.setRowHeight(45);
 
@@ -168,7 +281,7 @@ public class Activity1006 extends JTabbedPane {
 		model2 = new DefaultTableModel(rowData2, colName2);
 		JTable table_1 = new JTable(model2);
 		table_1.setCellSelectionEnabled(false);
-		
+
 		panel2.setViewportView(table_1);
 		table_1.setRowHeight(45);
 
@@ -201,7 +314,7 @@ public class Activity1006 extends JTabbedPane {
 		model3 = new DefaultTableModel(rowData3, colName3);
 		JTable table_2 = new JTable(model3);
 		table_2.setCellSelectionEnabled(false);
-		
+
 		panel3.setViewportView(table_2);
 		table_2.setRowHeight(45);
 
@@ -306,10 +419,10 @@ public class Activity1006 extends JTabbedPane {
 		JButton button_10 = new JButton("Commit");
 		jpanel_6.add(button_10);
 
-		Class<? extends IGraph> graphClass = new UseCaseDiagramGraph().getClass();
-		IGraphFile graphFile = new GraphFile(graphClass);
+		Class<? extends IGraph> graphClass_1 = new UseCaseDiagramGraph().getClass();
+		IGraphFile graphFile_1 = new GraphFile(graphClass_1);
 
-		workspace = new Workspace(graphFile);
+		workspace = new Workspace(graphFile_1);
 		wp = workspace.getAWTComponent();
 
 		splitPane_6.setOrientation(JSplitPane.VERTICAL_SPLIT);
@@ -495,7 +608,7 @@ public class Activity1006 extends JTabbedPane {
 						node.setIconName("floppyDrive");
 					}
 				}
-				table_2.setEditingRow(table_2.getRowCount()-1);
+				table_2.setEditingRow(table_2.getRowCount() - 1);
 				table_2.editingStopped(changeEvent);
 
 				for (int i = 0; i < req.get_length(); i++) {
@@ -726,7 +839,7 @@ public class Activity1006 extends JTabbedPane {
 				model3.setValueAt(req.getuNumber(i) + ". " + req.getuName(i), i, 2);
 				model4.setValueAt(req.getuNumber(i) + ". " + req.getuName(i), i, 0);
 				model4.setValueAt(req.getuCategory(i), i, 1);
-				
+
 				model5.setValueAt(req.getuNumber(i) + ". " + req.getuName(i), i, 0);
 				model5.setValueAt(req.getRank(i), i, 0);
 			}
@@ -735,6 +848,11 @@ public class Activity1006 extends JTabbedPane {
 	}
 
 	public void save(Datainfo data, Requirement req, ArrayList<UseCase> uc) {
+		UMLDiagram g = new UMLDiagram();
+		g.setName("System Boundary");
+		g.setGraph(workspace.getGraphFile());
+		data.syncGraph("sb", "");
+		data.setGraph("sb", g);
 		data.setText(15, textPane.getText());
 		for (int i = 0; i < model.getRowCount(); i++) {
 			String text = (String) model.getValueAt(i, 0);
@@ -754,8 +872,14 @@ public class Activity1006 extends JTabbedPane {
 	}
 
 	public void open(ArrayList<StageText> st, ArrayList<String> ausecase, ArrayList<String> eusecase, UMLDiagram ud,
-			ArrayList<UseCase> uc) {
+			ArrayList<UseCase> uc, UMLDiagram sb) {
 		setActors(st);
+		workspace_1 = new Workspace(sb.getGraph());
+		wp_1 = workspace_1.getAWTComponent();
+		ClassNode cn = new ClassNode();
+		workspace_1.getSideBar().getGraphToolsBar().addTool(cn, "class");
+		wp_1.getScrollableSideBar().setVisible(false);
+		splitPane_9.setRightComponent(wp_1);
 
 		workspace = new Workspace(ud.getGraph());
 		wp = workspace.getAWTComponent();

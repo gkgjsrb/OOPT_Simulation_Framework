@@ -68,7 +68,38 @@ public class Datainfo {
 		
 		return true;
 	}
-	
+	public void setNew() {
+		try{
+			String sql = "delete from ?";
+			ArrayList<String> tableName = new ArrayList<>();
+			statement = connection.prepareStatement(sql);
+			tableName.add("Ausecase");
+			tableName.add("Eusecase");
+			tableName.add("FuncReq");
+			tableName.add("Glossary");
+			tableName.add("Method");
+			tableName.add("NonFuncReq");
+			tableName.add("RealuseCase");
+			tableName.add("Requirement");
+			tableName.add("Risk");
+			tableName.add("SystemOperation");
+			tableName.add("TestCase");
+			tableName.add("UI");
+			tableName.add("UseCase");
+			tableName.add("concept");
+			tableName.add("graph");
+			tableName.add("schedule");
+			tableName.add("texttable");
+			for(int i = 0; i < 17; i++) {
+				statement.setString(1, tableName.get(i));
+				statement.executeUpdate();
+			}
+			
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+	}
 	public void setText(int index, String text) {
 		try {
 			String sql = "insert or replace into TextTable values(?,?)";
