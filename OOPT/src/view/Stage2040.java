@@ -21,7 +21,8 @@ public class Stage2040 extends JPanel {
 	public Stage2040() {
 		
 		try{
-			File sourceimage = new File("./stage2040.png");
+			String FileName = "." + File.separator + "image" + File.separator + "stage2040.png";
+			File sourceimage = new File(FileName);
 			img = ImageIO.read(sourceimage);
 			img2 = img.getScaledInstance(500, 400, Image.SCALE_SMOOTH);
 

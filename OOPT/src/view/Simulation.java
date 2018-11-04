@@ -46,7 +46,7 @@ public class Simulation extends JFrame{
 		setBounds(100, 100, 1300, 617);
 		setLocationRelativeTo(null);
 		
-		setLocation((int)getLocation().getX()+this.getWidth(), (int)getLocation().getY()+this.getHeight());
+		setLocation((int)getLocation().getX()+10, (int)getLocation().getY()+10);
 		
 		addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent e) {

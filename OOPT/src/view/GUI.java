@@ -59,8 +59,8 @@ public class GUI {
 	 * @throws ClassNotFoundException
 	 */
 	public GUI(Requirement req, ArrayList risk, ArrayList gl, ArrayList uc, ArrayList op, ArrayList std, ArrayList sd,
-			ArrayList id, UMLDiagram ud, UMLDiagram cd, UMLDiagram dm, UMLDiagram sa, Datainfo data) {
-		initialize(req, risk, gl, uc, op, std, sd, id, ud, cd, dm, sa, data);
+			ArrayList id, UMLDiagram ud, UMLDiagram cd, UMLDiagram dm, UMLDiagram sa, UMLDiagram dsa, Datainfo data) {
+		initialize(req, risk, gl, uc, op, std, sd, id, ud, cd, dm, sa, dsa, data);
 	}
 
 	/**
@@ -79,7 +79,7 @@ public class GUI {
 
 	private void initialize(Requirement req, ArrayList<Risk> risk, ArrayList<Glossary> gl, ArrayList<UseCase> uc,
 			ArrayList<SystemOperation> op, ArrayList<UMLDiagram> std, ArrayList<UMLDiagram> sd, ArrayList<UMLDiagram> id, UMLDiagram ud,
-			UMLDiagram cd, UMLDiagram dm, UMLDiagram sa, Datainfo data) {
+			UMLDiagram cd, UMLDiagram dm, UMLDiagram sa, UMLDiagram dsa, Datainfo data) {
 		gl2 = new ArrayList<>();
 		ruc = new ArrayList<>();
 		md = new ArrayList<>();
@@ -205,7 +205,7 @@ public class GUI {
 		Activity1005 a1005 = new Activity1005(tree);
 		Activity1006 a1006 = new Activity1006(tree, req, uc, ud, sd, id, std, data);
 		Activity1007 a1007 = new Activity1007(tree, data);
-		Activity1008 a1008 = new Activity1008(tree);
+		Activity1008 a1008 = new Activity1008(tree, data);
 		Activity1009 a1009 = new Activity1009(tree, req, data);
 		Activity1010 a1010 = new Activity1010(tree, req, data);
 		Activity2031 a2031 = new Activity2031(tree, uc, data);
@@ -313,6 +313,10 @@ public class GUI {
 					cd.setGraph(tmp_cd.getGraph());
 					cd.setId(tmp_cd.getId());
 					cd.setName(tmp_cd.getName());
+					UMLDiagram tmp_dsa = data.getSearchGraph("dsa").get(0);
+					dsa.setGraph(tmp_dsa.getGraph());
+					dsa.setId(tmp_dsa.getId());
+					dsa.setName(tmp_dsa.getName());
 					ArrayList<UMLDiagram> tmpSd = data.getSearchGraph("sd");
 					sd.clear();
 					sd.addAll(tmpSd);
@@ -322,7 +326,7 @@ public class GUI {
 					ArrayList<UMLDiagram> tmpId = data.getSearchGraph("id");
 					id.clear();
 					id.addAll(tmpId);
-
+					
 					ArrayList<UseCase> ructmp = data.getSearchRealUseCase();
 					ruc.clear();
 					ruc.addAll(ructmp);
@@ -364,6 +368,7 @@ public class GUI {
 					a1004.open(gl);
 					a1006.open(st, ausecase, eusecase, ud, uc);
 					a1007.open(concept);
+					a1008.open(dsa);
 					a1009.open(req, nreq);
 					a1010.open(st, sc);
 					a2031.open(uc);
@@ -433,6 +438,7 @@ public class GUI {
 							nodes[8].setIconName("floppyDrive");
 							break;
 						case 7:
+							a1008.save(data);
 							nodes[9].setIconName("floppyDrive");
 							break;
 						case 8:

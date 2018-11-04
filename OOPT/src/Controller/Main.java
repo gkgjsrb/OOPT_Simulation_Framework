@@ -39,8 +39,8 @@ public class Main {
 		UMLDiagram ud = new UMLDiagram();
 		UMLDiagram cd = new UMLDiagram();
 		UMLDiagram sa = new UMLDiagram();
-		
-		GUI gui = new GUI(req, risk, gl, uc, op, std, sd, id, ud, cd, dm, sa, data);
+		UMLDiagram dsa = new UMLDiagram();
+		GUI gui = new GUI(req, risk, gl, uc, op, std, sd, id, ud, cd, dm, sa, dsa, data);
 		
 		
 		

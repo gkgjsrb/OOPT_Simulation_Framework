@@ -382,7 +382,7 @@ public class Datainfo {
 			statement.setString(3, g.getId());
 			statement.executeUpdate();
 			
-			String filename = type + "." + g.getName() + "." + "html";
+			String filename = "." + File.separator + "diagram" + File.separator + type + "." + g.getName() + "." + "html";
 			graphfile = new File(filename);
 			IFileWriter j = new JFileWriter(graphfile);
 			OutputStream out = j.getOutputStream();
@@ -893,7 +893,7 @@ public class Datainfo {
 				UMLDiagram g = new UMLDiagram();
 				g.setName(result.getString("name"));
 				g.setId(result.getString("id"));
-				String filename = type + "." + g.getName() + "." + "html";
+				String filename = "." + File.separator + "diagram" + File.separator + type + "." + g.getName() + "." + "html";
 				graphfile = new File(filename);
 				IFileReader r = new JFileReader(graphfile);
 				
