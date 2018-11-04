@@ -16,13 +16,14 @@ import javax.swing.JSplitPane;
 
 import Model.Button;
 import Model.StageText;
+import Model.UMLDiagram;
 
 public class Mapping extends JFrame{
 	private JPanel ui;
 	private JPanel panel;
 	private JSplitPane splitPane;
 	private JButton button;
-	public Mapping() {
+	public Mapping(UMLDiagram cd) {
 		setTitle("System Operation Mapping");
 		setBounds(100, 100, 928, 617);
 		setLocationRelativeTo(null);
@@ -53,7 +54,7 @@ public class Mapping extends JFrame{
 						Button b = (Button) temp;
 						b.addMouseListener(new MouseAdapter() {
 							public void mouseClicked(MouseEvent e) {
-								Simulation sm = new Simulation(b.getGraph());
+								Simulation sm = new Simulation(b.getGraph(),cd);
 								Thread thread = new Thread(new Runnable() {
 									@Override
 									public void run() {

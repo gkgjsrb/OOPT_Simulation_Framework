@@ -236,7 +236,7 @@ public class GUI {
 		Activity2066 a2066 = new Activity2066(tree, dtc, data);
 		Activity2067 a2067 = new Activity2067(req, uc, op, sd, id, cd, stc, utc);
 		
-		Mapping m = new Mapping();
+		Mapping m = new Mapping(cd);
 		
 		JScrollPane jtree = new JScrollPane(tree);
 		splitPane.setDividerLocation(divSize);
