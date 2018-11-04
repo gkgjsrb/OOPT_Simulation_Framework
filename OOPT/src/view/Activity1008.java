@@ -19,14 +19,12 @@ import com.horstmann.violet.product.diagram.usecase.UseCaseDiagramGraph;
 import com.horstmann.violet.workspace.IWorkspace;
 import com.horstmann.violet.workspace.Workspace;
 import com.horstmann.violet.workspace.WorkspacePanel;
-import com.horstmann.violet.workspace.editorpart.IEditorPart;
-import com.horstmann.violet.workspace.editorpart.IEditorPartSelectionHandler;
 
 import Model.Datainfo;
 import Model.UMLDiagram;
 
 public class Activity1008 extends JTabbedPane {
-	//private IEditorPart editorPart;
+	
 	private IWorkspace workspace;
     private WorkspacePanel wp;
     private JPanel panel;
@@ -53,9 +51,6 @@ public class Activity1008 extends JTabbedPane {
         IGraphFile graphFile = new GraphFile(graphClass);
         workspace = new Workspace(graphFile);
         
-        //this.editorPart = workspace.getEditorPart();
-        //GraphEditor ge = new GraphEditor(editorPart);
-        
         ClassNode c = new ClassNode();
         workspace.getSideBar().getGraphToolsBar().addTool(c, "class");
         
@@ -79,7 +74,7 @@ public class Activity1008 extends JTabbedPane {
 		button_3.setSize(100, 30);
 		panel.add(button_3);
 
-		button_4.setLocation(23, 240);
+		button_4.setLocation(23, 180);
 		button_4.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -89,7 +84,7 @@ public class Activity1008 extends JTabbedPane {
 		button_4.setSize(100, 30);
 		panel.add(button_4);
 		
-		button_5.setLocation(23, 360);
+		button_5.setLocation(23, 240);
 		button_5.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent e) {
@@ -153,6 +148,9 @@ public class Activity1008 extends JTabbedPane {
 	public void open(UMLDiagram g) {
 		workspace = new Workspace(g.getGraph());
 		wp = workspace.getAWTComponent();
+		ClassNode c = new ClassNode();
+        workspace.getSideBar().getGraphToolsBar().addTool(c, "class");
+		wp.getScrollableSideBar().setVisible(false);
 		splitPane_1.setRightComponent(wp);
 	}
 

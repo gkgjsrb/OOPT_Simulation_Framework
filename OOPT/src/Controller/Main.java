@@ -40,7 +40,8 @@ public class Main {
 		UMLDiagram cd = new UMLDiagram();
 		UMLDiagram sa = new UMLDiagram();
 		UMLDiagram dsa = new UMLDiagram();
-		GUI gui = new GUI(req, risk, gl, uc, op, std, sd, id, ud, cd, dm, sa, dsa, data);
+		UMLDiagram sb = new UMLDiagram();
+		GUI gui = new GUI(req, risk, gl, uc, op, std, sd, id, sb, ud, cd, dm, sa, dsa, data);
 		
 		
 		

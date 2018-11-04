@@ -8,10 +8,12 @@ import java.util.Hashtable;
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTree;
@@ -59,8 +61,8 @@ public class GUI {
 	 * @throws ClassNotFoundException
 	 */
 	public GUI(Requirement req, ArrayList risk, ArrayList gl, ArrayList uc, ArrayList op, ArrayList std, ArrayList sd,
-			ArrayList id, UMLDiagram ud, UMLDiagram cd, UMLDiagram dm, UMLDiagram sa, UMLDiagram dsa, Datainfo data) {
-		initialize(req, risk, gl, uc, op, std, sd, id, ud, cd, dm, sa, dsa, data);
+			ArrayList id, UMLDiagram sb, UMLDiagram ud, UMLDiagram cd, UMLDiagram dm, UMLDiagram sa, UMLDiagram dsa, Datainfo data) {
+		initialize(req, risk, gl, uc, op, std, sd, id, sb, ud, cd, dm, sa, dsa, data);
 	}
 
 	/**
@@ -78,7 +80,7 @@ public class GUI {
 	}
 
 	private void initialize(Requirement req, ArrayList<Risk> risk, ArrayList<Glossary> gl, ArrayList<UseCase> uc,
-			ArrayList<SystemOperation> op, ArrayList<UMLDiagram> std, ArrayList<UMLDiagram> sd, ArrayList<UMLDiagram> id, UMLDiagram ud,
+			ArrayList<SystemOperation> op, ArrayList<UMLDiagram> std, ArrayList<UMLDiagram> sd, ArrayList<UMLDiagram> id, UMLDiagram sb, UMLDiagram ud,
 			UMLDiagram cd, UMLDiagram dm, UMLDiagram sa, UMLDiagram dsa, Datainfo data) {
 		gl2 = new ArrayList<>();
 		ruc = new ArrayList<>();
@@ -241,7 +243,11 @@ public class GUI {
 		JScrollPane jtree = new JScrollPane(tree);
 		splitPane.setDividerLocation(divSize);
 		splitPane.setLeftComponent(jtree);
-
+		
+		JPanel jpanel = new JPanel();
+		jpanel.add(new JLabel("OOPT Framework"));
+		splitPane.setRightComponent(jpanel);
+		
 		JMenuBar menuBar_1 = new JMenuBar();
 		frame.setJMenuBar(menuBar_1);
 
@@ -250,6 +256,19 @@ public class GUI {
 
 		JMenuItem mntmNew = new JMenuItem("New");
 		File.add(mntmNew);
+		mntmNew.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				int dialogButton = JOptionPane.YES_NO_OPTION;
+				int dialogResult = JOptionPane.showConfirmDialog(null, "New?", "Warning", dialogButton);
+				if(dialogResult == JOptionPane.YES_OPTION) {
+					data.setNew();
+				}
+			}
+			
+		});
 
 		JMenuItem mntmOpen = new JMenuItem("Open");
 		File.add(mntmOpen);
@@ -317,6 +336,10 @@ public class GUI {
 					dsa.setGraph(tmp_dsa.getGraph());
 					dsa.setId(tmp_dsa.getId());
 					dsa.setName(tmp_dsa.getName());
+					UMLDiagram tmp_sb = data.getSearchGraph("sb").get(0);
+					sb.setGraph(tmp_sb.getGraph());
+					sb.setId(tmp_sb.getId());
+					sb.setName(tmp_sb.getName());
 					ArrayList<UMLDiagram> tmpSd = data.getSearchGraph("sd");
 					sd.clear();
 					sd.addAll(tmpSd);
@@ -366,7 +389,7 @@ public class GUI {
 					a1002.open(st, risk);
 					a1003.open(st, req);
 					a1004.open(gl);
-					a1006.open(st, ausecase, eusecase, ud, uc);
+					a1006.open(st, ausecase, eusecase, ud, uc, sb);
 					a1007.open(concept);
 					a1008.open(dsa);
 					a1009.open(req, nreq);

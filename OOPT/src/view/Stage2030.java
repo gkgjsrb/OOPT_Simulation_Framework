@@ -2,6 +2,7 @@ package view;
 
 import javax.swing.JPanel;
 
+import java.awt.BorderLayout;
 import java.awt.Image;
 import java.io.File;
 import java.io.IOException;
@@ -29,6 +30,7 @@ public class Stage2030 extends JPanel {
 			System.out.println("Do not exist image file ");
 		}
 		JLabel lblNewLabel = new JLabel(new ImageIcon(img2));
+		this.setLayout(new BorderLayout());
 		add(lblNewLabel);
 
 	}
