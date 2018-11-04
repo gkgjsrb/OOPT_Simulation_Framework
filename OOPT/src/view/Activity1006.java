@@ -850,7 +850,7 @@ public class Activity1006 extends JTabbedPane {
 	public void save(Datainfo data, Requirement req, ArrayList<UseCase> uc) {
 		UMLDiagram g = new UMLDiagram();
 		g.setName("System Boundary");
-		g.setGraph(workspace.getGraphFile());
+		g.setGraph(workspace_1.getGraphFile());
 		data.syncGraph("sb", "");
 		data.setGraph("sb", g);
 		data.setText(15, textPane.getText());

@@ -31,6 +31,7 @@ import com.horstmann.violet.workspace.Workspace;
 import com.horstmann.violet.workspace.WorkspacePanel;
 
 import Model.Edgepair;
+import Model.FragmentEdge;
 import Model.UMLDiagram;
 
 public class Simulation extends JFrame{
@@ -51,6 +52,7 @@ public class Simulation extends JFrame{
 	private ArrayList<ReturnEdge> rtEdge;
 	private ArrayList<Edgepair> ep;
 	private ArrayList<String> allMethod;
+	private ArrayList<FragmentEdge> fragmentEdges;
 	
 	public Simulation(UMLDiagram graph, UMLDiagram cd) {
 		setTitle("Simulation");
@@ -93,7 +95,7 @@ public class Simulation extends JFrame{
 		for(INode tmp : allClass) {
 			if(tmp.getClass().equals(ClassNode.class)) {
 				ClassNode c = (ClassNode) tmp;
-				System.out.println(c.getMethods().toString());
+				//System.out.println(c.getMethods().toString());
 				StringTokenizer t = new StringTokenizer(c.getMethods().toString(), "|");
 				for (int j = 0;t.hasMoreTokens(); j++) {
 					String tk = t.nextToken();
@@ -128,9 +130,9 @@ public class Simulation extends JFrame{
 			}
 			
 		});
-		for(LifelineNode b : lifeNode) {
-			System.out.println(b.getType() + " " + b.getId() + " " + b.getLocationOnGraph()+ " " + b.getLocation());
-		}
+//		for(LifelineNode b : lifeNode) {
+//			System.out.println(b.getType() + " " + b.getId() + " " + b.getLocationOnGraph()+ " " + b.getLocation());
+//		}
 		Collections.sort(activeNode, new Comparator<ActivationBarNode>() {
 
 			@Override
@@ -165,6 +167,15 @@ public class Simulation extends JFrame{
 //		for(ActivationBarNode a : activeNode) {
 //			System.out.println("parent : " + a.getParent().getId() +" "+ a.getLocationOnGraph().getX() + " " + a.getLocationOnGraph().getY());
 //		}
+		Collections.sort(fragmentNode, new Comparator<CombinedFragmentNode>() {
+
+			@Override
+			public int compare(CombinedFragmentNode o1, CombinedFragmentNode o2) {
+				// TODO Auto-generated method stub
+				return o1.getLocation().getX() > o2.getLocation().getX() ? 1 : (o1.getLocation().getX() < o2.getLocation().getX() ? -1 : 0);
+			}
+			
+		});
 		Collection<IEdge> Edges = g.getAllEdges();
 		allEdges = new ArrayList<>();
 		allEdges.addAll(Edges);
@@ -181,17 +192,17 @@ public class Simulation extends JFrame{
 //			if(e.getClass().equals(SynchronousCallEdge.class)) {
 //				SynchronousCallEdge s = (SynchronousCallEdge) e;
 //				System.out.println("start : " +s.getStartNode().getParent().getId() + " end : "
-//						+ s.getEndNode().getParent().getId() + " " + s.getCenterLabel() + " " + s.getStartLocationOnGraph().getY());
+//						+ s.getEndNode().getParent().getId() + " " + s.getCenterLabel() + " " + s.getStartLocationOnGraph() + " " +s.getEndNode().getLocationOnGraph().getY());
 //			}
 //			else if(e.getClass().equals(AsynchronousCallEdge.class)) {
 //				AsynchronousCallEdge s = (AsynchronousCallEdge) e;
 //				System.out.println("start : " +s.getStartNode().getParent().getId() + " end : "
-//						+ s.getEndNode().getParent().getId()+ " " + s.getCenterLabel() + " " + s.getStartLocationOnGraph().getY());
+//						+ s.getEndNode().getParent().getId()+ " " + s.getCenterLabel() + " " + s.getStartLocationOnGraph() + " " +s.getEndNode().getLocationOnGraph().getY());
 //			}
 //			else if(e.getClass().equals(ReturnEdge.class)) {
 //				ReturnEdge s = (ReturnEdge) e;
 //				System.out.println("start : " +s.getStartNode().getParent().getId() + " end : "
-//						+ s.getEndNode().getParent().getId()+ " " + s.getCenterLabel() + " " + s.getStartLocationOnGraph().getY());
+//						+ s.getEndNode().getParent().getId()+ " " + s.getCenterLabel() + " " + s.getStartLocationOnGraph() + " " +s.getEndLocationOnGraph());
 //			}
 //		}
 		ep= new ArrayList<Edgepair>();
@@ -219,18 +230,109 @@ public class Simulation extends JFrame{
 				rtEdge.add(s);
 			}
 		}
-		
-		int i = 1;
-		
-		for(IEdge e : allEdges) {
-			label = new JLabel();
-			//label.setAlignmentX(Component.CENTER_ALIGNMENT);
-			if(e.getClass().equals(SynchronousCallEdge.class)) {
+		fragmentEdges = new ArrayList<>();
+		for(CombinedFragmentNode c : fragmentNode) {
+			ArrayList<IEdge> temp = new ArrayList<>();
+			Point2D leftTop = c.getLocationOnGraph();
+			Point2D leftBottom = new Point2D.Double();
+			leftBottom.setLocation(leftTop.getX(), leftTop.getY()+c.getBounds().getHeight());
+			Point2D rightTop = new Point2D.Double();
+			rightTop.setLocation(leftTop.getX() + c.getBounds().getWidth(), leftTop.getY());
+			Point2D rightBottom = new Point2D.Double();
+			rightBottom.setLocation(leftTop.getX() + c.getBounds().getWidth(), leftTop.getY() + c.getBounds().getHeight());
+			
+			for(IEdge e : allEdges) {
+				if(e.getClass().equals(SynchronousCallEdge.class)) {
+					SynchronousCallEdge s = (SynchronousCallEdge) e;
+					if((e.getStartLocationOnGraph().getX() >= leftTop.getX()) && (e.getStartLocationOnGraph().getY() >= leftTop.getY() )&&
+							(e.getEndNode().getLocationOnGraph().getX() <= rightTop.getX()) && (e.getStartLocationOnGraph().getY() >= rightTop.getY())
+							&& (e.getStartLocationOnGraph().getX() >= leftBottom.getX()) && (e.getStartLocationOnGraph().getY() <= leftBottom.getY()) &&
+							(e.getEndNode().getLocationOnGraph().getX() <= rightBottom.getX()) && (e.getStartLocationOnGraph().getY() <= rightBottom.getY())) {
+						temp.add(s);
+						System.out.println(s.getCenterLabel());
+					}
+				}
+				else if(e.getClass().equals(AsynchronousCallEdge.class)) {
+					AsynchronousCallEdge s = (AsynchronousCallEdge) e;
+					if((e.getStartLocationOnGraph().getX() >= leftTop.getX()) && (e.getStartLocationOnGraph().getY() >= leftTop.getY() )&&
+							(e.getEndNode().getLocationOnGraph().getX() <= rightTop.getX()) && (e.getStartLocationOnGraph().getY() >= rightTop.getY())
+							&& (e.getStartLocationOnGraph().getX() >= leftBottom.getX()) && (e.getStartLocationOnGraph().getY() <= leftBottom.getY()) &&
+							(e.getEndNode().getLocationOnGraph().getX() <= rightBottom.getX()) && (e.getStartLocationOnGraph().getY() <= rightBottom.getY())) {
+						temp.add(s);
+						System.out.println(s.getCenterLabel());
+					}
+				}
+				else if(e.getClass().equals(ReturnEdge.class)) {
+					ReturnEdge s = (ReturnEdge) e;
+					if((e.getStartLocationOnGraph().getX() <= rightTop.getX()) && (e.getStartLocationOnGraph().getY() >= rightTop.getY() )&&
+							(e.getEndNode().getLocationOnGraph().getX() >= leftTop.getX()) && (e.getStartLocationOnGraph().getY() >= leftTop.getY())
+							&& (e.getStartLocationOnGraph().getX() <= rightBottom.getX()) && (e.getStartLocationOnGraph().getY() <= rightBottom.getY()) &&
+							(e.getEndNode().getLocationOnGraph().getX() >= leftBottom.getX()) && (e.getStartLocationOnGraph().getY() <= leftBottom.getY())) {
+						temp.add(s);
+						System.out.println(s.getCenterLabel());
+					}
+					
+				}
 				
+			}
+			FragmentEdge fe = new FragmentEdge();
+			fe.setList(temp);
+			fe.setType(c.getOperator().getSelectedValue().toString());
+			fe.setContents(c.getFrameContent().toString());
+			fragmentEdges.add(fe);
+			//System.out.println(c.getOperator().getSelectedValue().toString());
+			//System.out.println(c.getFrameContent());
+			//System.out.println(leftTop + " " + leftBottom + " " +rightTop + " " + rightBottom);
+//			for(IEdge e: fragmentEdges) {
+//				
+//				if(e.getClass().equals(SynchronousCallEdge.class)) {
+//					SynchronousCallEdge s = (SynchronousCallEdge) e;
+//					System.out.println(s.getCenterLabel());
+//				}
+//				else if(e.getClass().equals(AsynchronousCallEdge.class)) {
+//					AsynchronousCallEdge s = (AsynchronousCallEdge) e;
+//					System.out.println(s.getCenterLabel());
+//				}
+//				else if(e.getClass().equals(ReturnEdge.class)) {
+//					ReturnEdge s = (ReturnEdge) e;
+//					System.out.println(s.getCenterLabel());
+//				}
+//			}
+			
+		}
+		int i = 1;
+		int already = 0;
+		int already2 = 0;
+		for(IEdge e : allEdges) {
+			
+				
+			//label.setAlignmentX(Component.CENTER_ALIGNMENT);
+			for(FragmentEdge fe : fragmentEdges) {
+				
+				ArrayList<IEdge> temp = fe.getList();
+				for(IEdge tempedge : temp) {
+					if(tempedge.equals(e)) {
+						if(tempedge.equals(temp.get(0))) {
+							label = new JLabel();
+							label.setText(fe.getType() + " " + fe.getContents() + ": start");
+							label.setForeground(Color.BLUE);
+							panel.add(label);
+							panel.revalidate();
+							panel.repaint();
+						}
+					}
+				}
+				
+				
+			}
+			label = new JLabel();
+			if(e.getClass().equals(SynchronousCallEdge.class)) {
+					
 				SynchronousCallEdge s = (SynchronousCallEdge) e;
 				for(Edgepair tmp : ep) {
 					if(tmp.getSync().equals(s)) {
 						if(tmp.getRt()==null) {
+							
 							label.setText(i + " : " + s.getCenterLabel() + "(Sync with nothing)");
 							label.setForeground(Color.RED);
 						}
@@ -251,7 +353,7 @@ public class Simulation extends JFrame{
 				ReturnEdge s = (ReturnEdge) e;
 				for(Edgepair tmp : ep) {
 					if(tmp.getRt() == null) {
-						
+					
 					}
 					else if(tmp.getRt().equals(s)) {
 						label.setText(i + " : " + s.getCenterLabel()+"(Sync with " + tmp.getSync().getCenterLabel() + ")");
@@ -261,26 +363,34 @@ public class Simulation extends JFrame{
 				if(exist==0) {
 					label.setText(i + " : " + s.getCenterLabel());
 				}
-				
+					
 			}
 			i++;
 			panel.add(label);
 			panel.revalidate();
 			panel.repaint();
-		}
-		
-		for(CombinedFragmentNode c : fragmentNode) {
-			Point2D leftTop = c.getLocationOnGraph();
-			Point2D leftBottom = new Point2D.Double();
-			leftBottom.setLocation(leftTop.getX(), leftTop.getY()+c.getBounds().getHeight());
-			Point2D rightTop = new Point2D.Double();
-			rightTop.setLocation(leftTop.getX() + c.getBounds().getWidth(), leftTop.getY());
-			Point2D rightBottom = new Point2D.Double();
-			rightBottom.setLocation(leftTop.getX() + c.getBounds().getWidth(), leftTop.getY() + c.getBounds().getHeight());
 			
-			System.out.println(leftTop + " " + leftBottom + " " +rightTop + " " + rightBottom);
+			
+			for(FragmentEdge fe : fragmentEdges) {
+				ArrayList<IEdge> temp = fe.getList();
+				for(IEdge tempedge : temp) {
+					if(tempedge.equals(e)) {
+						if(tempedge.equals(temp.get(temp.size()-1))) {
+							label = new JLabel();
+							label.setText(fe.getType() + " " + fe.getContents() + ": end" );
+							label.setForeground(Color.BLUE);
+							panel.add(label);
+							panel.revalidate();
+							panel.repaint();
+						}
+					}
+				}
+			}
 		}
+			
 	}
+		
+
 	
 	public boolean isExist(String s) {
 		

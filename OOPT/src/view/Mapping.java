@@ -7,7 +7,6 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -15,7 +14,6 @@ import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 
 import Model.Button;
-import Model.StageText;
 import Model.UMLDiagram;
 
 public class Mapping extends JFrame{
@@ -54,7 +52,7 @@ public class Mapping extends JFrame{
 						Button b = (Button) temp;
 						b.addMouseListener(new MouseAdapter() {
 							public void mouseClicked(MouseEvent e) {
-								Simulation sm = new Simulation(b.getGraph(),cd);
+								Simulation sm = new Simulation(b.getGraph(), cd);
 								Thread thread = new Thread(new Runnable() {
 									@Override
 									public void run() {
