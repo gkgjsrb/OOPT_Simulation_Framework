@@ -19,10 +19,10 @@
 	<SCRIPT id="content" type="text/xml"><![CDATA[<com.horstmann.violet.product.diagram.usecase.UseCaseDiagramGraph id="1">
   <nodes id="2">
     <com.horstmann.violet.product.diagram.classes.node.ClassNode id="3">
-      <id id="4" value="927b3f15-ce52-46ee-ba76-82548f225bdd"/>
+      <id id="4" value="38f07c59-a533-4743-a9fb-dadc194a1009"/>
       <revision>1</revision>
       <children id="5"/>
-      <location class="Point2D.Double" id="6" x="300.0" y="160.0"/>
+      <location class="Point2D.Double" id="6" x="440.0" y="250.0"/>
       <textColor id="7">
         <red>51</red>
         <green>51</green>
@@ -30,7 +30,7 @@
         <alpha>255</alpha>
       </textColor>
       <name id="8">
-        <text></text>
+        <text>System</text>
       </name>
       <attributes id="9">
         <text></text>
@@ -40,32 +40,136 @@
       </methods>
     </com.horstmann.violet.product.diagram.classes.node.ClassNode>
     <com.horstmann.violet.product.diagram.usecase.node.ActorNode id="11">
-      <id id="12" value="45c98dbc-2f0d-45ff-8bd8-1d77e40f4fd8"/>
+      <id id="12" value="00f5bcc0-f37f-4c55-bad1-0897dcd53a88"/>
       <revision>1</revision>
       <children id="13"/>
-      <location class="Point2D.Double" id="14" x="160.0" y="180.0"/>
+      <location class="Point2D.Double" id="14" x="50.0" y="230.0"/>
       <textColor reference="7"/>
       <name id="15">
-        <text></text>
+        <text>Programmer</text>
+      </name>
+    </com.horstmann.violet.product.diagram.usecase.node.ActorNode>
+    <com.horstmann.violet.product.diagram.usecase.node.ActorNode id="16">
+      <id id="17" value="63e4d926-9a78-4c5c-ae30-a0a379812ef1"/>
+      <revision>1</revision>
+      <children id="18"/>
+      <location class="Point2D.Double" id="19" x="240.0" y="230.0"/>
+      <textColor reference="7"/>
+      <name id="20">
+        <text>Tester</text>
       </name>
     </com.horstmann.violet.product.diagram.usecase.node.ActorNode>
   </nodes>
-  <edges id="16"/>
+  <edges id="21">
+    <com.horstmann.violet.product.diagram.usecase.edge.InteractionEdge id="22">
+      <id id="23" value="adcdf3fd-a241-45fc-83c3-8fc423f4db20"/>
+      <revision>1</revision>
+      <startNode class="com.horstmann.violet.product.diagram.usecase.node.ActorNode" reference="16"/>
+      <startLocation class="Point2D.Double" id="24" x="20.0" y="30.0"/>
+      <endNode class="com.horstmann.violet.product.diagram.usecase.node.ActorNode" reference="11"/>
+      <endLocation class="Point2D.Double" id="25" x="40.0" y="30.0"/>
+      <transitionPoints id="26"/>
+      <selectedBentStyle>1</selectedBentStyle>
+      <selectedLineStyle>0</selectedLineStyle>
+      <selectedStartArrowhead>1</selectedStartArrowhead>
+      <selectedEndArrowhead>1</selectedEndArrowhead>
+      <startLabel id="27">
+        <text></text>
+      </startLabel>
+      <centerLabel id="28">
+        <text></text>
+      </centerLabel>
+      <endLabel id="29">
+        <text></text>
+      </endLabel>
+    </com.horstmann.violet.product.diagram.usecase.edge.InteractionEdge>
+    <com.horstmann.violet.product.diagram.usecase.edge.InteractionEdge id="30">
+      <id id="31" value="9208c8c2-d345-4b45-9166-324ea7068fb4"/>
+      <revision>1</revision>
+      <startNode class="com.horstmann.violet.product.diagram.usecase.node.ActorNode" reference="16"/>
+      <startLocation class="Point2D.Double" id="32" x="20.0" y="30.0"/>
+      <endNode class="com.horstmann.violet.product.diagram.classes.node.ClassNode" reference="3"/>
+      <endLocation class="Point2D.Double" id="33" x="30.0" y="20.0"/>
+      <transitionPoints id="34"/>
+      <selectedBentStyle>1</selectedBentStyle>
+      <selectedLineStyle>0</selectedLineStyle>
+      <selectedStartArrowhead>1</selectedStartArrowhead>
+      <selectedEndArrowhead>1</selectedEndArrowhead>
+      <startLabel id="35">
+        <text></text>
+      </startLabel>
+      <centerLabel id="36">
+        <text></text>
+      </centerLabel>
+      <endLabel id="37">
+        <text></text>
+      </endLabel>
+    </com.horstmann.violet.product.diagram.usecase.edge.InteractionEdge>
+  </edges>
 </com.horstmann.violet.product.diagram.usecase.UseCaseDiagramGraph>]]></SCRIPT>
 	<BR />
 	<BR />
-	<IMG alt="embedded diagram image" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAPEAAABJCAIAAABjMFdGAAACkklEQVR42u3d22riUBiGYe//poYQ
-1IgJkRjPRNzHHaKg0QST9IPSMkwZZ5Vh2qzM+x5Iaxc9+H0IKzFoq6La94M+UwsxVphmCOazwjSm
-MU2YxjRhGtOEaUxjmjCNaUwTpjFNmMY0YRrTmCZMYxrThGlME6YxTZjGNKYJ05jGNGEa04RpTBOm
-MY1pwjSmMU2Y/l9Nl2WZJEkcx71ez3Ec/S896ucoilarVVEUzBfTNpk+n8/i6/v+fD6/Xq+Px0NP
-6jFN0/V6HYah53mn04kRY9oO0wLtuu5ut3uyZr/faw2sMW2BaW05dIR+DvqdtVayCcF03U1rDx0E
-geHiwWCgvTWDxnStTeukcLFYGC7W3lqnjAwa07U2re2ETgoNF+uUUesZNKZrbdpxnNerHCZppdYz
-aEzX2vRn58vrgWmO04Rp9tOYpr8xzXUPTDfNNNenMd0007yPiOmmma643wPTzTNdvd2Xp02I9tYf
-78vTlkN/BTSmbTJdcf80pptnmrljGtPEbDFNzBbTmGZWmLbjdSLzWl88U4DSv47jNGEa04RpIkwT
-YZoI04RpTBOmiTBNhGkiTBOmMU2YJrLfdJZlMm3++UxEdTc9Go2CIIjjmIFSE0xvNpsoioqi6Pf7
-h8OBmZLdpvM8b7fbt9utevvQj7IsGStZbFq7jtls9v6rth/L5ZKxkq2mt9ut7/s/H5jv97sO23pk
-smSf6SzLxPdyufzy/HQ65WSRrDQ9HA6TJPn4vA7bOlk0+eBTohqZFlntpH/31+Px6Hme+VdkEH2z
-6TzPO53O802zxI/HY+ZLdpiW1z9e3EjT1HVdThbJAtPadYRhaHIRejKZ8GUuVHfTWZZ1u10dg00W
-az+tLQrvLNIX9wLFJzIIobIEDgAAAABJRU5ErkJg" />
+	<IMG alt="embedded diagram image" src="data:image/png;base64,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
+AAAAAElFTkSuQmCC" />
 </BODY>
 </HTML>
