@@ -29,7 +29,7 @@ import Model.Requirement;
 
 public class Activity1009 extends JTabbedPane {
 
-	JComboBox<String> comboBox = new JComboBox<String>();
+	//JComboBox<String> comboBox = new JComboBox<String>();
 	DefaultTableModel model;
 	DefaultTableModel model2;
 
@@ -53,8 +53,8 @@ public class Activity1009 extends JTabbedPane {
 		table.setRowHeight(70);
 		table2.setRowHeight(70);
 
-		table.getColumn("Ref").setCellRenderer(new TextAreaRenderer());
-		table.getColumn("Ref").setCellEditor(new TextAreaEditor());
+//		table.getColumn("Ref").setCellRenderer(new TextAreaRenderer());
+//		table.getColumn("Ref").setCellEditor(new TextAreaEditor());
 
 		table.getColumn("Test Case").setCellRenderer(new TextAreaRenderer());
 		table.getColumn("Test Case").setCellEditor(new TextAreaEditor());
@@ -65,12 +65,12 @@ public class Activity1009 extends JTabbedPane {
 		table2.getColumn("Test Case").setCellRenderer(new TextAreaRenderer());
 		table2.getColumn("Test Case").setCellEditor(new TextAreaEditor());
 
-		for (int i = 0; i < req.get_length(); i++) {
-			comboBox.addItem(req.getName(i));
-		}
+//		for (int i = 0; i < req.get_length(); i++) {
+//			comboBox.addItem(req.getName(i));
+//		}
 
-		TableCellEditor Comboeditor = new DefaultCellEditor(comboBox);
-		table.getColumnModel().getColumn(1).setCellEditor(Comboeditor);
+//		TableCellEditor Comboeditor = new DefaultCellEditor(comboBox);
+//		table.getColumnModel().getColumn(1).setCellEditor(Comboeditor);
 
 		JScrollPane panel = new JScrollPane(table);
 		JScrollPane panel2 = new JScrollPane(table2);
@@ -191,11 +191,11 @@ public class Activity1009 extends JTabbedPane {
 			}
 		});
 	}
-
-	public void syncComboBox(ArrayList array) {
-		comboBox.removeAllItems();
-		for (int i = 0; i < array.size(); i++) {
-			comboBox.addItem((String) array.get(i));
+	public void syncReq(Requirement req) {
+		model.setRowCount(0);
+		for (int i = 0; i < req.get_length(); i++) {
+			Object[] add = { req.getRef(i), req.getName(i), req.getTestcase(i) };
+			model.addRow(add);
 		}
 	}
 

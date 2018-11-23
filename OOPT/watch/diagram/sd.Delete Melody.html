@@ -1,0 +1,264 @@
+<HTML>
+<HEAD>
+<META name="description"
+	content="Violet UML Editor cross format document" />
+<META name="keywords" content="Violet, UML" />
+<META charset="UTF-8" />
+<SCRIPT type="text/javascript">
+	function switchVisibility() {
+		var obj = document.getElementById("content");
+		obj.style.display = (obj.style.display == "block") ? "none" : "block";
+	}
+</SCRIPT>
+</HEAD>
+<BODY>
+	This file was generated with Violet UML Editor 2.5.3.
+	&nbsp;&nbsp;(&nbsp;<A href=# onclick="switchVisibility()">View Source</A>&nbsp;/&nbsp;<A href="http://sourceforge.net/projects/violet/files/violetumleditor/" target="_blank">Download Violet</A>&nbsp;)
+	<BR />
+	<BR />
+	<SCRIPT id="content" type="text/xml"><![CDATA[<com.horstmann.violet.product.diagram.sequence.SequenceDiagramGraph id="1">
+  <nodes id="2">
+    <com.horstmann.violet.product.diagram.sequence.node.LifelineNode id="3">
+      <id id="4" value="eb319fb5-f928-4c8f-90c6-3a5c831ecd08"/>
+      <revision>1</revision>
+      <children id="5">
+        <com.horstmann.violet.product.diagram.sequence.node.ActivationBarNode id="6">
+          <id id="7" value="f7393661-7bd5-4931-84bd-f5b947644ddc"/>
+          <revision>1</revision>
+          <children id="8"/>
+          <parent class="com.horstmann.violet.product.diagram.sequence.node.LifelineNode" reference="3"/>
+          <location class="Point2D.Double" id="9" x="42.0" y="105.0"/>
+          <backgroundColor id="10">
+            <red>255</red>
+            <green>255</green>
+            <blue>255</blue>
+            <alpha>255</alpha>
+          </backgroundColor>
+          <borderColor id="11">
+            <red>191</red>
+            <green>191</green>
+            <blue>191</blue>
+            <alpha>255</alpha>
+          </borderColor>
+          <textColor id="12">
+            <red>51</red>
+            <green>51</green>
+            <blue>51</blue>
+            <alpha>255</alpha>
+          </textColor>
+        </com.horstmann.violet.product.diagram.sequence.node.ActivationBarNode>
+        <com.horstmann.violet.product.diagram.sequence.node.ActivationBarNode id="13">
+          <id id="14" value="96f1cacd-1df4-446b-8da6-d036d78fe601"/>
+          <revision>1</revision>
+          <children id="15"/>
+          <parent class="com.horstmann.violet.product.diagram.sequence.node.LifelineNode" reference="3"/>
+          <location class="Point2D.Double" id="16" x="42.0" y="185.0"/>
+          <backgroundColor reference="10"/>
+          <borderColor reference="11"/>
+          <textColor reference="12"/>
+        </com.horstmann.violet.product.diagram.sequence.node.ActivationBarNode>
+      </children>
+      <location class="Point2D.Double" id="17" x="170.0" y="30.0"/>
+      <textColor reference="12"/>
+      <name id="18">
+        <text></text>
+      </name>
+      <type id="19">
+        <text>User</text>
+      </type>
+      <endOfLife>false</endOfLife>
+    </com.horstmann.violet.product.diagram.sequence.node.LifelineNode>
+    <com.horstmann.violet.product.diagram.sequence.node.LifelineNode id="20">
+      <id id="21" value="f48a194d-4cd4-43e0-9b9c-318d1a113a7d"/>
+      <revision>1</revision>
+      <children id="22">
+        <com.horstmann.violet.product.diagram.sequence.node.ActivationBarNode id="23">
+          <id id="24" value="b107c300-ed0f-40e4-9ba3-fa8f262526d9"/>
+          <revision>0</revision>
+          <children id="25"/>
+          <parent class="com.horstmann.violet.product.diagram.sequence.node.LifelineNode" reference="20"/>
+          <location class="Point2D.Double" id="26" x="42.0" y="110.0"/>
+          <backgroundColor reference="10"/>
+          <borderColor reference="11"/>
+          <textColor reference="12"/>
+        </com.horstmann.violet.product.diagram.sequence.node.ActivationBarNode>
+        <com.horstmann.violet.product.diagram.sequence.node.ActivationBarNode id="27">
+          <id id="28" value="5ecb46a6-90da-40e3-bec0-c90a3646a470"/>
+          <revision>0</revision>
+          <children id="29"/>
+          <parent class="com.horstmann.violet.product.diagram.sequence.node.LifelineNode" reference="20"/>
+          <location class="Point2D.Double" id="30" x="42.0" y="190.0"/>
+          <backgroundColor reference="10"/>
+          <borderColor reference="11"/>
+          <textColor reference="12"/>
+        </com.horstmann.violet.product.diagram.sequence.node.ActivationBarNode>
+      </children>
+      <location class="Point2D.Double" id="31" x="460.0" y="20.0"/>
+      <textColor reference="12"/>
+      <name id="32">
+        <text></text>
+      </name>
+      <type id="33">
+        <text>System</text>
+      </type>
+      <endOfLife>false</endOfLife>
+    </com.horstmann.violet.product.diagram.sequence.node.LifelineNode>
+  </nodes>
+  <edges id="34">
+    <com.horstmann.violet.product.diagram.sequence.edge.SynchronousCallEdge id="35">
+      <id id="36" value="d265d1d3-28d4-43a2-bab0-67f911089d6b"/>
+      <revision>1</revision>
+      <startNode class="com.horstmann.violet.product.diagram.sequence.node.ActivationBarNode" reference="6"/>
+      <startLocation class="Point2D.Double" id="37" x="8.0" y="10.0"/>
+      <endNode class="com.horstmann.violet.product.diagram.sequence.node.ActivationBarNode" reference="23"/>
+      <endLocation class="Point2D.Double" id="38" x="60.0" y="110.0"/>
+      <transitionPoints id="39"/>
+      <selectedBentStyle>1</selectedBentStyle>
+      <selectedLineStyle>0</selectedLineStyle>
+      <selectedStartArrowhead>0</selectedStartArrowhead>
+      <selectedEndArrowhead>3</selectedEndArrowhead>
+      <startLabel id="40">
+        <text></text>
+      </startLabel>
+      <centerLabel id="41">
+        <text>Request Delete Melody</text>
+      </centerLabel>
+      <endLabel id="42">
+        <text></text>
+      </endLabel>
+    </com.horstmann.violet.product.diagram.sequence.edge.SynchronousCallEdge>
+    <com.horstmann.violet.product.diagram.sequence.edge.ReturnEdge id="43">
+      <id id="44" value="5445cfe6-7093-4a12-93b5-79aff8dc07c9"/>
+      <revision>1</revision>
+      <startNode class="com.horstmann.violet.product.diagram.sequence.node.ActivationBarNode" reference="23"/>
+      <startLocation class="Point2D.Double" id="45" x="8.0" y="20.0"/>
+      <endNode class="com.horstmann.violet.product.diagram.sequence.node.ActivationBarNode" reference="6"/>
+      <endLocation class="Point2D.Double" id="46" x="8.0" y="45.0"/>
+      <transitionPoints id="47"/>
+      <selectedBentStyle>1</selectedBentStyle>
+      <selectedLineStyle>1</selectedLineStyle>
+      <selectedStartArrowhead>0</selectedStartArrowhead>
+      <selectedEndArrowhead>1</selectedEndArrowhead>
+      <startLabel id="48">
+        <text></text>
+      </startLabel>
+      <centerLabel id="49">
+        <text>Display Melody List</text>
+      </centerLabel>
+      <endLabel id="50">
+        <text></text>
+      </endLabel>
+    </com.horstmann.violet.product.diagram.sequence.edge.ReturnEdge>
+    <com.horstmann.violet.product.diagram.sequence.edge.AsynchronousCallEdge id="51">
+      <id id="52" value="f270ed2b-2ed0-40ea-ab0c-56830b3102cb"/>
+      <revision>1</revision>
+      <startNode class="com.horstmann.violet.product.diagram.sequence.node.ActivationBarNode" reference="13"/>
+      <startLocation class="Point2D.Double" id="53" x="8.0" y="20.0"/>
+      <endNode class="com.horstmann.violet.product.diagram.sequence.node.ActivationBarNode" reference="27"/>
+      <endLocation class="Point2D.Double" id="54" x="60.0" y="190.0"/>
+      <transitionPoints id="55"/>
+      <selectedBentStyle>1</selectedBentStyle>
+      <selectedLineStyle>0</selectedLineStyle>
+      <selectedStartArrowhead>0</selectedStartArrowhead>
+      <selectedEndArrowhead>1</selectedEndArrowhead>
+      <startLabel id="56">
+        <text></text>
+      </startLabel>
+      <centerLabel id="57">
+        <text>Select Melody</text>
+      </centerLabel>
+      <endLabel id="58">
+        <text></text>
+      </endLabel>
+    </com.horstmann.violet.product.diagram.sequence.edge.AsynchronousCallEdge>
+  </edges>
+</com.horstmann.violet.product.diagram.sequence.SequenceDiagramGraph>]]></SCRIPT>
+	<BR />
+	<BR />
+	<IMG alt="embedded diagram image" src="data:image/png;base64,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" />
+</BODY>
+</HTML>

@@ -54,7 +54,7 @@ public class Activity2067 extends JTabbedPane {
 		JPanel jpanel = new JPanel(new FlowLayout(FlowLayout.TRAILING));
 		JButton button_1 = new JButton("+");
 		JButton button_2 = new JButton("-");
-		JButton button_3 = new JButton("Commit");
+		JButton button_3 = new JButton("Refresh");
 		jpanel.add(button_1);
 		jpanel.add(button_2);
 		jpanel.add(button_3);

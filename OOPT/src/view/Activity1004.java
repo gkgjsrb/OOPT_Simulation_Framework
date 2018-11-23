@@ -171,6 +171,12 @@ public class Activity1004 extends JTabbedPane {
 		}	
 		
 	}
+	public void newActivity() {
+		model.setRowCount(0);
+		Object[] add= {"", "", ""};
+		model.addRow(add);
+		
+	}
 	
 
 }

@@ -576,4 +576,15 @@ public class Activity1003 extends JTabbedPane {
 	private void setPerfor(ArrayList<StageText> st) {
 		textPane_4.setText(st.get(23).getText());
 	}
+	public void newActivity() {
+		textPane.setText("");
+		textPane_1.setText("");
+		textPane_2.setText("");
+		textPane_3.setText("");
+		textPane_4.setText("");
+		model.setRowCount(0);
+		Object[] add= {"", "", ""};
+		model.addRow(add);
+		
+	}
  }

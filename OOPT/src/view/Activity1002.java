@@ -591,6 +591,19 @@ public class Activity1002 extends JTabbedPane {
 	private void setIssue(ArrayList<StageText> st) {
 		textPane_3.setText(st.get(10).getText());
 	}
+	public void newActivity() {
+		textPane.setText("");
+		textPane_1.setText("");
+		textPane_2.setText("");
+		textPane_3.setText("");
+		model.setRowCount(0);
+		model2.setRowCount(0);
+		Object[] add= {"", 1, 1 ,1};
+		Object[] add2= {"", ""};
+		model.addRow(add);
+		model2.addRow(add2);
+		
+	}
 }
 
 

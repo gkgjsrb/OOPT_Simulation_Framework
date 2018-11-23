@@ -593,5 +593,13 @@ public class Activity1001 extends JTabbedPane {
 	private void setOther(ArrayList<StageText> st) {
 		OtherInfoPane.setText(st.get(6).getText());
 	}
-
+	public void newActivity() {
+		MotivationPane.setText("");
+		ProjectObjectivePane.setText("");
+		ScopePane.setText("");
+		FuncReqPane.setText("");
+		NonFuncReqPane.setText("");
+		ResourceEstPane.setText("");
+		OtherInfoPane.setText("");
+	}
 }

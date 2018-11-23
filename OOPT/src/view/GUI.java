@@ -2,11 +2,15 @@ package view;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.Hashtable;
 
 import javax.swing.BoxLayout;
 import javax.swing.JComponent;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
@@ -19,12 +23,14 @@ import javax.swing.JSplitPane;
 import javax.swing.JTree;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.plaf.metal.MetalIconFactory;
 
 import Model.Datainfo;
 import Model.Glossary;
 import Model.IntegrationTestCase;
 import Model.MethodDescription;
+import Model.Mkdir;
 import Model.NonFuncReq;
 import Model.Requirement;
 import Model.Risk;
@@ -41,6 +47,7 @@ import Model.UseCase;
 public class GUI {
 	private int divSize = 400;
 	private JFrame frame;
+	private JFileChooser fileChooser;
 	private ArrayList<Glossary> gl2;
 	private ArrayList<UseCase> ruc;
 	private ArrayList<MethodDescription> md;
@@ -51,6 +58,7 @@ public class GUI {
 	private ArrayList<TestCase> atc;
 	private ArrayList<TestCase> dtc;
 	private UIDesign ui;
+	private Boolean isSaved = false;
 	/**
 	 * Launch the application.
 	 */
@@ -82,6 +90,8 @@ public class GUI {
 	private void initialize(Requirement req, ArrayList<Risk> risk, ArrayList<Glossary> gl, ArrayList<UseCase> uc,
 			ArrayList<SystemOperation> op, ArrayList<UMLDiagram> std, ArrayList<UMLDiagram> sd, ArrayList<UMLDiagram> id, UMLDiagram sb, UMLDiagram ud,
 			UMLDiagram cd, UMLDiagram dm, UMLDiagram sa, UMLDiagram dsa, Datainfo data) {
+		fileChooser = new JFileChooser();
+		
 		gl2 = new ArrayList<>();
 		ruc = new ArrayList<>();
 		md = new ArrayList<>();
@@ -251,11 +261,11 @@ public class GUI {
 		JMenuBar menuBar_1 = new JMenuBar();
 		frame.setJMenuBar(menuBar_1);
 
-		JMenu File = new JMenu("File");
-		menuBar_1.add(File);
+		JMenu mFile = new JMenu("File");
+		menuBar_1.add(mFile);
 
 		JMenuItem mntmNew = new JMenuItem("New");
-		File.add(mntmNew);
+		mFile.add(mntmNew);
 		mntmNew.addActionListener(new ActionListener() {
 
 			@Override
@@ -264,14 +274,71 @@ public class GUI {
 				int dialogButton = JOptionPane.YES_NO_OPTION;
 				int dialogResult = JOptionPane.showConfirmDialog(null, "New?", "Warning", dialogButton);
 				if(dialogResult == JOptionPane.YES_OPTION) {
-					data.setNew();
+					Mkdir d = new Mkdir();
+					d.initalDirectory();
+					String initdb = "." + File.separator + "clean db" + File.separator + "db.sqlite";
+					String newdb = "." + File.separator + "init" + File.separator + "db.sqlite";
+					try {
+						Files.copy(new File(initdb).toPath(), new File(newdb).toPath());
+					} catch (IOException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
+					data.open(newdb);
+					isSaved = false;
+					req.clear();
+					req.add_row();
+					risk.clear();
+					risk.add(new Risk());
+					gl.clear();
+					gl.add(new Glossary());
+					uc.clear();					
+					op.clear();
+					
+					a1001.newActivity();
+					a1002.newActivity();
+					a1003.newActivity();
+					a1004.newActivity();
+					a1006.newActivity();
+					
+//					a1007.newActivity();
+//					a1008.newActivity();
+//					a1009.newActivity();
+//					a1010.newActivity();
+//					a2031.newActivity();
+//					a2032.newActivity();
+//					a2033.newActivity();
+//					a2034.newActivity();
+//					a2035.newActivity();
+//					a2036.newActivity();
+//					a2037.newActivity();
+//					a2038.newActivity();
+//					a2039.newActivity();
+//					a2041.newActivity();
+//					a2042.newActivity();
+//					a2043.newActivity();
+//					a2044.newActivity();
+//					a2045.newActivity();
+//					a2046.newActivity();
+//					a2051.newActivity();
+//					a2052.newActivity();
+//					a2053.newActivity();
+//					a2054.newActivity();
+//					a2055.newActivity();
+//					a2061.newActivity();
+//					a2062.newActivity();
+//					a2063.newActivity();
+//					a2064.newActivity();
+//					a2065.newActivity();
+//					a2066.newActivity();
+//					a2067.newActivity();
 				}
 			}
 			
 		});
 
 		JMenuItem mntmOpen = new JMenuItem("Open");
-		File.add(mntmOpen);
+		mFile.add(mntmOpen);
 
 		mntmOpen.addActionListener(new ActionListener() {
 			
@@ -281,149 +348,211 @@ public class GUI {
 				int dialogButton = JOptionPane.YES_NO_OPTION;
 				int dialogResult = JOptionPane.showConfirmDialog(null, "Open?", "Warning", dialogButton);
 				if(dialogResult == JOptionPane.YES_OPTION) {
-					ArrayList<StageText> st = data.getSearchText();
-					ArrayList<Risk> r = data.getSearchRisk();
-					risk.clear();
-					risk.addAll(r);
-
-					Requirement temp_req = data.getSearchReq();
-					req.clear();
-					for (int i = 0; i < temp_req.get_length(); i++) {
-						req.add_row();
-						req.setRef(temp_req.getRef(i), i);
-						req.setName(temp_req.getName(i), i);
-						req.setCategory(temp_req.getCategory(i), i);
-						req.setuCategory(temp_req.getuCategory(i), i);
-						req.setuNumber(temp_req.getuNumber(i), i);
-						req.setuName(temp_req.getuName(i), i);
-						req.setRank(temp_req.getRank(i), i);
-						req.setTestcase(temp_req.getTestcase(i), i);
+					fileChooser.setCurrentDirectory(new File("."));
+					FileNameExtensionFilter filter = new FileNameExtensionFilter("File(db.sqlite)", "sqlite");
+					fileChooser.removeChoosableFileFilter(fileChooser.getFileFilter());
+					fileChooser.setFileFilter(filter);
+					
+					int result = fileChooser.showOpenDialog(frame);
+					Boolean check = false;
+					if(result == JFileChooser.APPROVE_OPTION) {
+						File selectedFile = fileChooser.getSelectedFile();
+						//System.out.println(selectedFile.getPath());
+						check = data.open(selectedFile.toString());
 					}
-					ArrayList<Glossary> g = data.getSearchGl("D");
-					gl.clear();
-					gl.addAll(g);
-					ArrayList<Glossary> g2 = data.getSearchGl("R");
-					gl2.clear();
-					gl2.addAll(g2);
+					if(check == true) {
+						isSaved = true;
+						ArrayList<StageText> st = data.getSearchText();
+						ArrayList<Risk> r = data.getSearchRisk();
+						risk.clear();
+						risk.addAll(r);
 
-					ArrayList<String> concept = data.getSearchConcept();
-					ArrayList<String> ausecase = data.getSearchBUsecase("A");
-					ArrayList<String> eusecase = data.getSearchBUsecase("E");
-					ArrayList<UseCase> u = data.getSearchUseCase();
-					uc.clear();
-					uc.addAll(u);
+						Requirement temp_req = data.getSearchReq();
+						req.clear();
+						for (int i = 0; i < temp_req.get_length(); i++) {
+							req.add_row();
+							req.setRef(temp_req.getRef(i), i);
+							req.setName(temp_req.getName(i), i);
+							req.setCategory(temp_req.getCategory(i), i);
+							req.setuCategory(temp_req.getuCategory(i), i);
+							req.setuNumber(temp_req.getuNumber(i), i);
+							req.setuName(temp_req.getuName(i), i);
+							req.setRank(temp_req.getRank(i), i);
+							req.setTestcase(temp_req.getTestcase(i), i);
+						}
+						ArrayList<Glossary> g = data.getSearchGl("D");
+						gl.clear();
+						gl.addAll(g);
+						ArrayList<Glossary> g2 = data.getSearchGl("R");
+						gl2.clear();
+						gl2.addAll(g2);
 
-					ArrayList<Schedule> sc = data.getSearchSche();
-					ArrayList<NonFuncReq> nreq = data.getSearchNonReq("D");
-					
-					UMLDiagram tmp_ud = data.getSearchGraph("ud").get(0);
-					ud.setGraph(tmp_ud.getGraph());
-					ud.setId(tmp_ud.getId());
-					ud.setName(tmp_ud.getName());
-					UMLDiagram tmp_dm = data.getSearchGraph("dm").get(0);
-					dm.setGraph(tmp_dm.getGraph());
-					dm.setId(tmp_dm.getId());
-					dm.setName(tmp_dm.getName());
-					UMLDiagram tmp_sa = data.getSearchGraph("sa").get(0);
-					sa.setGraph(tmp_sa.getGraph());
-					sa.setId(tmp_sa.getId());
-					sa.setName(tmp_sa.getName());
-					UMLDiagram tmp_cd = data.getSearchGraph("cd").get(0);
-					cd.setGraph(tmp_cd.getGraph());
-					cd.setId(tmp_cd.getId());
-					cd.setName(tmp_cd.getName());
-					UMLDiagram tmp_dsa = data.getSearchGraph("dsa").get(0);
-					dsa.setGraph(tmp_dsa.getGraph());
-					dsa.setId(tmp_dsa.getId());
-					dsa.setName(tmp_dsa.getName());
-					UMLDiagram tmp_sb = data.getSearchGraph("sb").get(0);
-					sb.setGraph(tmp_sb.getGraph());
-					sb.setId(tmp_sb.getId());
-					sb.setName(tmp_sb.getName());
-					ArrayList<UMLDiagram> tmpSd = data.getSearchGraph("sd");
-					sd.clear();
-					sd.addAll(tmpSd);
-					ArrayList<UMLDiagram> tmpStd = data.getSearchGraph("std");
-					std.clear();
-					std.addAll(tmpStd);
-					ArrayList<UMLDiagram> tmpId = data.getSearchGraph("id");
-					id.clear();
-					id.addAll(tmpId);
-					
-					ArrayList<UseCase> ructmp = data.getSearchRealUseCase();
-					ruc.clear();
-					ruc.addAll(ructmp);
+						ArrayList<String> concept = data.getSearchConcept();
+						ArrayList<String> ausecase = data.getSearchBUsecase("A");
+						ArrayList<String> eusecase = data.getSearchBUsecase("E");
+						ArrayList<UseCase> u = data.getSearchUseCase();
+						uc.clear();
+						uc.addAll(u);
 
-					ArrayList<SystemOperation> s = data.getSearchOperation();
-					op.clear();
-					op.addAll(s);
+						ArrayList<Schedule> sc = data.getSearchSche();
+						ArrayList<NonFuncReq> nreq = data.getSearchNonReq("D");
+						
+						UMLDiagram tmp_ud = data.getSearchGraph("ud").get(0);
+						if(tmp_ud.getGraph()!=null) {
+							ud.setGraph(tmp_ud.getGraph());
+							ud.setId(tmp_ud.getId());
+							ud.setName(tmp_ud.getName());
+						}
+						
+						UMLDiagram tmp_dm = data.getSearchGraph("dm").get(0);
+						if(tmp_dm.getGraph()!=null) {
+							dm.setGraph(tmp_dm.getGraph());
+							dm.setId(tmp_dm.getId());
+							dm.setName(tmp_dm.getName());
+						}
+						
+						UMLDiagram tmp_sa = data.getSearchGraph("sa").get(0);
+						if(tmp_sa.getGraph()!=null) {
+							sa.setGraph(tmp_sa.getGraph());
+							sa.setId(tmp_sa.getId());
+							sa.setName(tmp_sa.getName());
+						}
+						
+						UMLDiagram tmp_cd = data.getSearchGraph("cd").get(0);
+						if(tmp_cd.getGraph()!=null) {
+							cd.setGraph(tmp_cd.getGraph());
+							cd.setId(tmp_cd.getId());
+							cd.setName(tmp_cd.getName());
+						}
+						
+						UMLDiagram tmp_dsa = data.getSearchGraph("dsa").get(0);
+						if(tmp_dsa.getGraph()!=null) {
+							dsa.setGraph(tmp_dsa.getGraph());
+							dsa.setId(tmp_dsa.getId());
+							dsa.setName(tmp_dsa.getName());
+						}
+						
+						UMLDiagram tmp_sb = data.getSearchGraph("sb").get(0);
+						if(tmp_sb.getGraph()!=null) {
+							sb.setGraph(tmp_sb.getGraph());
+							sb.setId(tmp_sb.getId());
+							sb.setName(tmp_sb.getName());
+						}
+						
+						ArrayList<UMLDiagram> tmpSd = data.getSearchGraph("sd");
+						sd.clear();
+						sd.addAll(tmpSd);
+						ArrayList<UMLDiagram> tmpStd = data.getSearchGraph("std");
+						std.clear();
+						std.addAll(tmpStd);
+						ArrayList<UMLDiagram> tmpId = data.getSearchGraph("id");
+						id.clear();
+						id.addAll(tmpId);
+						
+						ArrayList<UseCase> ructmp = data.getSearchRealUseCase();
+						ruc.clear();
+						ruc.addAll(ructmp);
+
+						ArrayList<SystemOperation> s = data.getSearchOperation();
+						op.clear();
+						op.addAll(s);
+						
+						ArrayList<NonFuncReq> nreq2 = data.getSearchNonReq("R");
+						ArrayList<SystemTestCase> stc2 = data.getSearchSystemTC();
+						stc.clear();
+						stc.addAll(stc2);
+						ArrayList<UnitTestCase> tmpUtc = data.getSearchTC("U");
+						utc.clear();
+						utc.addAll(tmpUtc);
+						ArrayList<IntegrationTestCase> tmpItc = data.getSearchTC("I");
+						itc.clear();
+						itc.addAll(tmpItc);
+						ArrayList<TestCase> tmpPtc = data.getSearchTC("P");
+						ptc.clear();
+						ptc.addAll(tmpPtc);
+						ArrayList<TestCase> tmpAtc = data.getSearchTC("A");
+						atc.clear();
+						atc.addAll(tmpAtc);
+						ArrayList<TestCase> tmpDtc = data.getSearchTC("D");
+						dtc.clear();
+						dtc.addAll(tmpDtc);
+						
+						ArrayList<MethodDescription> tmpMd = data.getSearchMethod();
+						md.clear();
+						md.addAll(tmpMd);
+						
+						UIDesign tmpUI = data.getSearchUI();
+						ui = tmpUI;
+						
+						a1001.open(st);
+						a1002.open(st, risk);
+						a1003.open(st, req);
+						a1004.open(gl);
+						a1006.open(st, ausecase, eusecase, ud, uc, sb);
+						a1007.open(concept);
+						a1008.open(dsa);
+						a1009.open(req, nreq);
+						a1010.open(st, sc);
+						a2031.open(uc);
+						a2033.open(dm);
+						a2034.open(gl2);
+						a2036.open(op);
+						a2038.open(stc, nreq2);
+						a2041.open(ruc);
+						a2042.open(ui);
+						a2043.open(sa);
+						a2045.open(cd);
+						a2051.open(md);
+						a2061.open(st, utc);
+						a2062.open(st, itc);
+						a2063.open(st, stc);
+						a2064.open(st, ptc);
+						a2065.open(st, atc);
+						a2066.open(st, dtc);
+					}
 					
-					ArrayList<NonFuncReq> nreq2 = data.getSearchNonReq("R");
-					ArrayList<SystemTestCase> stc2 = data.getSearchSystemTC();
-					stc.clear();
-					stc.addAll(stc2);
-					ArrayList<UnitTestCase> tmpUtc = data.getSearchTC("U");
-					utc.clear();
-					utc.addAll(tmpUtc);
-					ArrayList<IntegrationTestCase> tmpItc = data.getSearchTC("I");
-					itc.clear();
-					itc.addAll(tmpItc);
-					ArrayList<TestCase> tmpPtc = data.getSearchTC("P");
-					ptc.clear();
-					ptc.addAll(tmpPtc);
-					ArrayList<TestCase> tmpAtc = data.getSearchTC("A");
-					atc.clear();
-					atc.addAll(tmpAtc);
-					ArrayList<TestCase> tmpDtc = data.getSearchTC("D");
-					dtc.clear();
-					dtc.addAll(tmpDtc);
-					
-					ArrayList<MethodDescription> tmpMd = data.getSearchMethod();
-					md.clear();
-					md.addAll(tmpMd);
-					
-					UIDesign tmpUI = data.getSearchUI();
-					ui = tmpUI;
-					
-					a1001.open(st);
-					a1002.open(st, risk);
-					a1003.open(st, req);
-					a1004.open(gl);
-					a1006.open(st, ausecase, eusecase, ud, uc, sb);
-					a1007.open(concept);
-					a1008.open(dsa);
-					a1009.open(req, nreq);
-					a1010.open(st, sc);
-					a2031.open(uc);
-					a2033.open(dm);
-					a2034.open(gl2);
-					a2036.open(op);
-					a2038.open(stc, nreq2);
-					a2041.open(ruc);
-					a2042.open(ui);
-					a2043.open(sa);
-					a2045.open(cd);
-					a2051.open(md);
-					a2061.open(st, utc);
-					a2062.open(st, itc);
-					a2063.open(st, stc);
-					a2064.open(st, ptc);
-					a2065.open(st, atc);
-					a2066.open(st, dtc);
 					
 				}
 			}
 
 		});
 		JMenuItem mntmSave = new JMenuItem("Save");
-		File.add(mntmSave);
+		mFile.add(mntmSave);
 
 		mntmSave.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
+				Mkdir d = new Mkdir();
 				int dialogButton = JOptionPane.YES_NO_OPTION;
 				int dialogResult = JOptionPane.showConfirmDialog(null, "Save?", "Warning", dialogButton);
 				if(dialogResult == JOptionPane.YES_OPTION) {
+					if(isSaved) {
+						
+					}
+					else {
+						fileChooser.setCurrentDirectory(new File("."));
+						int result = fileChooser.showSaveDialog(frame);
+		
+						if(result == JFileChooser.APPROVE_OPTION) {
+							isSaved = true;
+							File selectedFile = fileChooser.getSelectedFile();
+							
+							//System.out.println(selectedFile.getPath());
+							d.createProjectDirectory(selectedFile.getName());
+							
+							String initdb = "." + File.separator + "clean db" + File.separator + "db.sqlite";
+							String newdb = "." + File.separator + selectedFile.getName() + File.separator + "db.sqlite";
+							try {
+								Files.copy(new File(initdb).toPath(), new File(newdb).toPath());
+								data.open(newdb);
+							} catch (IOException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							//data.open(selectedFile.getPath() + File.separator + "db.sqlite");
+						}
+					}
+					
 					IconNode node = (IconNode) tree.getLastSelectedPathComponent();
 					int index;
 					if (node == null) {
@@ -614,7 +743,7 @@ public class GUI {
 			}
 		});
 		JMenuItem mntmExit = new JMenuItem("Exit");
-		File.add(mntmExit);
+		mFile.add(mntmExit);
 		mntmExit.addActionListener(new ActionListener() {
 
 			@Override
@@ -697,7 +826,8 @@ public class GUI {
 						c = a1008;
 						break;
 					case 8:
-						a1009.syncComboBox(req.getAllName());
+						a1009.syncReq(req);
+						//a1009.syncComboBox(req.getAllName());
 						c = a1009;
 						break;
 					case 9:

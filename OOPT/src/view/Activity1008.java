@@ -146,12 +146,14 @@ public class Activity1008 extends JTabbedPane {
 		data.setGraph("dsa", g);
 	}
 	public void open(UMLDiagram g) {
-		workspace = new Workspace(g.getGraph());
-		wp = workspace.getAWTComponent();
-		ClassNode c = new ClassNode();
-        workspace.getSideBar().getGraphToolsBar().addTool(c, "class");
-		wp.getScrollableSideBar().setVisible(false);
-		splitPane_1.setRightComponent(wp);
+		if(g.getGraph() != null) {
+			workspace = new Workspace(g.getGraph());
+			wp = workspace.getAWTComponent();
+			ClassNode c = new ClassNode();
+	        workspace.getSideBar().getGraphToolsBar().addTool(c, "class");
+			wp.getScrollableSideBar().setVisible(false);
+			splitPane_1.setRightComponent(wp);
+		}
 	}
 
 }

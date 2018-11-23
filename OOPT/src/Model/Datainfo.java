@@ -38,7 +38,7 @@ public class Datainfo {
 	private PreparedStatement statement;
 	//private ResultSet result;
 	private File graphfile;
-	
+	private String projectName;
 	public Datainfo() {
 		
         BeanInjector.getInjector().inject(this);
@@ -54,12 +54,16 @@ public class Datainfo {
 		}
 	}
 
-	public boolean open() {
+	public boolean open(String path) {
+		String name = "jdbc:sqlite:";
+		name = name + path;
+		projectName = path;
+
 		try{
-			this.connection = DriverManager.getConnection("jdbc:sqlite:db.sqlite");
+			this.connection = DriverManager.getConnection(name);
 			SQLiteConfig config = new SQLiteConfig();
 			config.setReadOnly(true);
-			this.connection2 = DriverManager.getConnection("jdbc:sqlite:db.sqlite", config.toProperties());
+			this.connection2 = DriverManager.getConnection(name, config.toProperties());
 			
 		} catch(Exception e) {
 			e.printStackTrace();
@@ -413,7 +417,7 @@ public class Datainfo {
 			statement.setString(3, g.getId());
 			statement.executeUpdate();
 			
-			String filename = "." + File.separator + "diagram" + File.separator + type + "." + g.getName() + "." + "html";
+			String filename = projectName.substring(0, projectName.length()-10) + File.separator + "diagram" + File.separator + type + "." + g.getName() + "." + "html";
 			graphfile = new File(filename);
 			IFileWriter j = new JFileWriter(graphfile);
 			OutputStream out = j.getOutputStream();
@@ -924,13 +928,17 @@ public class Datainfo {
 				UMLDiagram g = new UMLDiagram();
 				g.setName(result.getString("name"));
 				g.setId(result.getString("id"));
-				String filename = "." + File.separator + "diagram" + File.separator + type + "." + g.getName() + "." + "html";
+				String filename = projectName.substring(0, projectName.length()-10) + File.separator + "diagram" + File.separator + type + "." + g.getName() + "." + "html";
 				graphfile = new File(filename);
 				IFileReader r = new JFileReader(graphfile);
 				
 				IGraphFile igf = new GraphFile(r.getFileDefinition());
 				
 				g.setGraph(igf);
+				data.add(g);
+			}
+			if(data.isEmpty()) {
+				UMLDiagram g = new UMLDiagram();
 				data.add(g);
 			}
 			

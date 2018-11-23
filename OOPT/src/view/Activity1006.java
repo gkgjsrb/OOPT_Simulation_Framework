@@ -874,16 +874,21 @@ public class Activity1006 extends JTabbedPane {
 	public void open(ArrayList<StageText> st, ArrayList<String> ausecase, ArrayList<String> eusecase, UMLDiagram ud,
 			ArrayList<UseCase> uc, UMLDiagram sb) {
 		setActors(st);
-		workspace_1 = new Workspace(sb.getGraph());
-		wp_1 = workspace_1.getAWTComponent();
-		ClassNode cn = new ClassNode();
-		workspace_1.getSideBar().getGraphToolsBar().addTool(cn, "class");
-		wp_1.getScrollableSideBar().setVisible(false);
-		splitPane_9.setRightComponent(wp_1);
-
-		workspace = new Workspace(ud.getGraph());
-		wp = workspace.getAWTComponent();
-		splitPane_6.setBottomComponent(wp);
+		if(sb.getGraph() != null) {
+			workspace_1 = new Workspace(sb.getGraph());
+			wp_1 = workspace_1.getAWTComponent();
+			ClassNode cn = new ClassNode();
+			workspace_1.getSideBar().getGraphToolsBar().addTool(cn, "class");
+			wp_1.getScrollableSideBar().setVisible(false);
+			splitPane_9.setRightComponent(wp_1);
+		}
+		
+		if(ud.getGraph() != null) {
+			workspace = new Workspace(ud.getGraph());
+			wp = workspace.getAWTComponent();
+			splitPane_6.setBottomComponent(wp);
+		}
+		
 
 		model.setRowCount(0);
 		model2.setRowCount(0);
@@ -988,5 +993,47 @@ public class Activity1006 extends JTabbedPane {
 		/*
 		 * for(Graph g : id) { data.setGraph("id", g); }
 		 */
+	}
+	public void newActivity() {
+		textPane.setText("");
+		model.setRowCount(0);
+		Object[] add= {""};
+		model.addRow(add);
+		
+		model2.setRowCount(0);
+		Object[] add2= {""};
+		model2.addRow(add2);
+		
+		model3.setRowCount(0);
+		Object[] add3= {"","",""};
+		model3.addRow(add3);
+		
+		model4.setRowCount(0);
+		Object[] add4= {"",""};
+		model4.addRow(add4);
+		
+		model5.setRowCount(0);
+		Object[] add5= {"", ""};
+		model5.addRow(add5);
+		
+		tpanel.removeAll();
+		Class<? extends IGraph> graphClass_1 = new UseCaseDiagramGraph().getClass();
+		IGraphFile graphFile_1 = new GraphFile(graphClass_1);
+		
+		workspace_1 = new Workspace(graphFile_1);
+		wp_1 = workspace_1.getAWTComponent();
+		ClassNode cn = new ClassNode();
+		workspace_1.getSideBar().getGraphToolsBar().addTool(cn, "class");
+		wp_1.getScrollableSideBar().setVisible(false);
+		splitPane_9.setRightComponent(wp_1);
+		splitPane_9.setDividerLocation(150);
+	
+		Class<? extends IGraph> graphClass = new UseCaseDiagramGraph().getClass();
+		IGraphFile graphFile = new GraphFile(graphClass);
+		
+		workspace = new Workspace(graphFile);
+		wp = workspace.getAWTComponent();
+		splitPane_6.setBottomComponent(wp);
+		
 	}
 }
